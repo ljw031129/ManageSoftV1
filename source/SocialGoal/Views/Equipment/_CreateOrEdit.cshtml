@@ -1,0 +1,36 @@
+@model SocialGoal.Model.Models.Equipment
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.EquipmentNum)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.EquipmentNum)
+    @Html.ValidationMessageFor(model => model.EquipmentNum)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.EquipmentName)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.EquipmentName)
+    @Html.ValidationMessageFor(model => model.EquipmentName)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.EquipmentCreatTime)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.EquipmentCreatTime)
+    @Html.ValidationMessageFor(model => model.EquipmentCreatTime)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.EquipmentUpDateTime)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.EquipmentUpDateTime)
+    @Html.ValidationMessageFor(model => model.EquipmentUpDateTime)
+</div>
+

@@ -1,0 +1,29 @@
+﻿@model IEnumerable<SocialGoal.Web.ViewModels.MemberViewModel>
+@{
+    ViewBag.Title = "Members";
+}
+
+
+<div class="span5 well"  style="margin-left:8px;"> 
+        <strong>Members</strong><hr />       
+        <div style="max-height:270px;overflow-y:auto;" id="memberlistcontainer">
+        @foreach (var item in Model)
+        { 
+            <div style="margin-bottom:10px;">
+            <div>
+                <a href="Javascript:void(0);" onclick ="AssigningUser('@item.GroupUserId','@item.UserId','@item.UserName');" >
+                    @Html.User().Avatar(item.User.ProfilePicUrl, new { @class = "span2" })
+                </a>
+            </div>
+            
+            <div style="margin-left:50px;">
+               <a href="Javascript:void(0);" onclick ="AssigningUser('@item.GroupUserId','@item.UserId','@item.UserName');">@item.UserName</a>                
+            </div>
+           
+            </div>
+          		<hr style="margin:35px 0px 0px 0px;" />
+        }
+        </div>
+
+</div>
+

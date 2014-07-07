@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/CSS")
+    @Scripts.Render("~/Scripts/Layout")
+
+</head>
+<body>
+    @RenderBody()
+</body>
+</html>
+<script type="text/javascript">
+    
+    function EnableBtn() {
+        $("#forgotPasswordEmail").empty();
+        $("#sendBtn").removeAttr("disabled");
+    }
+    
+    function DisableBtn() {
+        if ($("#forgotPasswordEmail").val() == "") {
+            $("#sendBtn").attr("disabled", "disabled");
+        }
+    }
+
+    function SentEmail() {
+        if ($("#forgotPasswordEmail").val() != "") {
+
+            $("#sendBtn").attr("disabled", "true");
+            var email = $("#forgotPasswordEmail").val();
+            var url = "/Account/ForgotPassword";
+            var postData = { 'Email': email}
+            $.post(url, postData, function (result) {
+                $("#msgReset").css({ 'display': 'block' });
+                $("#msgReset").text(result);
+                $("#msgReset").fadeOut(5000);
+                $("#forgotPasswordEmail").val('');
+                $("#sendBtn").removeAttr("disabled");
+            });
+        }
+    }
+
+  
+</script>

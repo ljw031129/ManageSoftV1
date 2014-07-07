@@ -1,0 +1,17 @@
+﻿@using SocialGoal.Web.Core.Extensions
+@model IEnumerable<SocialGoal.Web.ViewModels.FollowersViewModel>
+@foreach (var item in Model)
+{
+    <table class="table">
+        <tr class="span12">
+            <td class="span1">
+                <a href="@Url.Action("UserProfile", "Account", new { id = item.UserId }, null)" >
+                    @Html.User().Avatar(item.ProfilePicUrl)
+                </a>
+            </td>
+            <td class="span5">
+                @Html.ActionLink(@item.UserName, "UserProfile", "Account", new { id = item.UserId }, null)
+            </td>
+        </tr>
+    </table>
+}

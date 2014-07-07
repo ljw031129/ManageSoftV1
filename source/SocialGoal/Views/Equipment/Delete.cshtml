@@ -1,0 +1,32 @@
+@model SocialGoal.Model.Models.Equipment
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Equipment</legend>
+
+    <div class="display-label">EquipmentNum</div>
+    <div class="display-field">@Model.EquipmentNum</div>
+
+    <div class="display-label">EquipmentName</div>
+    <div class="display-field">@Model.EquipmentName</div>
+
+    <div class="display-label">EquipmentCreatTime</div>
+    <div class="display-field">@String.Format("{0:g}", Model.EquipmentCreatTime)</div>
+
+    <div class="display-label">EquipmentUpDateTime</div>
+    <div class="display-field">@String.Format("{0:g}", Model.EquipmentUpDateTime)</div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
+
+

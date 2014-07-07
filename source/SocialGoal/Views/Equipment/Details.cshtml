@@ -1,0 +1,29 @@
+@model SocialGoal.Model.Models.Equipment
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Equipment</legend>
+
+    <div class="display-label">EquipmentNum</div>
+    <div class="display-field">@Model.EquipmentNum</div>
+
+    <div class="display-label">EquipmentName</div>
+    <div class="display-field">@Model.EquipmentName</div>
+
+    <div class="display-label">EquipmentCreatTime</div>
+    <div class="display-field">@String.Format("{0:g}", Model.EquipmentCreatTime)</div>
+
+    <div class="display-label">EquipmentUpDateTime</div>
+    <div class="display-field">@String.Format("{0:g}", Model.EquipmentUpDateTime)</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.EquipmentId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+

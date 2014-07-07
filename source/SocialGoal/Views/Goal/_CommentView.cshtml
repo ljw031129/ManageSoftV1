@@ -1,0 +1,18 @@
+﻿@model IEnumerable<SocialGoal.Web.ViewModels.CommentsViewModel>
+
+    @foreach (var item in Model)
+    {
+        <div class="span12" style="margin-left:1px;font-size:12px;">
+            <div class ="span2">
+                <a href="@Url.Action("UserProfile", "Account", new { id = item.UserId }, null)" >
+                @Html.User().Avatar(item.User.ProfilePicUrl, new { @class = "span10" })
+                </a>
+            </div>
+            <div class="span10" >              
+                    <font color="green"> @Html.ActionLink(item.User.UserName, "UserProfile", "Account", new { id = item.UserId }, null) </font> commented "@item.CommentText"                    
+                    <div>on @item.CommentDate</div>             
+            </div>
+        </div> 
+        <hr />
+    }
+

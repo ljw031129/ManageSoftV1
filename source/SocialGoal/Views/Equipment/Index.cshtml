@@ -1,0 +1,53 @@
+@model IEnumerable<SocialGoal.Model.Models.Equipment>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            EquipmentNum
+        </th>
+        <th>
+            EquipmentName
+        </th>
+        <th>
+            EquipmentCreatTime
+        </th>
+        <th>
+            EquipmentUpDateTime
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.EquipmentId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.EquipmentId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.EquipmentId })
+        </td>
+        <td>
+			@item.EquipmentNum
+        </td>
+        <td>
+			@item.EquipmentName
+        </td>
+        <td>
+			@String.Format("{0:g}", item.EquipmentCreatTime)
+        </td>
+        <td>
+			@String.Format("{0:g}", item.EquipmentUpDateTime)
+        </td>
+    </tr>
+}
+
+</table>
+
+
