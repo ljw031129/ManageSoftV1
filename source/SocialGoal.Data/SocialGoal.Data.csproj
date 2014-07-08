@@ -118,6 +118,10 @@
     <Compile Include="Migrations\201407070345598_UpdateIdentity.Designer.cs">
       <DependentUpon>201407070345598_UpdateIdentity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201407080242464_UpdateEquipmentId.cs" />
+    <Compile Include="Migrations\201407080242464_UpdateEquipmentId.Designer.cs">
+      <DependentUpon>201407080242464_UpdateEquipmentId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CommentRepository.cs" />
@@ -179,6 +183,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201407070345598_UpdateIdentity.resx">
       <DependentUpon>201407070345598_UpdateIdentity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201407080242464_UpdateEquipmentId.resx">
+      <DependentUpon>201407080242464_UpdateEquipmentId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

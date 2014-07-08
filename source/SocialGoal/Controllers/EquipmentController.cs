@@ -3,114 +3,61 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
+using Newtonsoft.Json;
 using SocialGoal.Model.Models;
 using SocialGoal.Models;
+using SocialGoal.Service;
+using SocialGoal.Web.Core.Extensions;
+using SocialGoal.Web.ViewModels;
 
 namespace SocialGoal.Controllers
 {   
     public class EquipmentController : Controller
     {
-		private readonly IEquipmentRepository equipmentRepository;
+        private readonly IEquipmentService _equipmentService;
+		
 
 		// If you are using Dependency Injection, you can delete the following constructor
-        public EquipmentController() : this(new EquipmentRepository())
+        public EquipmentController(IEquipmentService equipmentService)
         {
+            this._equipmentService = equipmentService;
         }
-
-        public EquipmentController(IEquipmentRepository equipmentRepository)
-        {
-			this.equipmentRepository = equipmentRepository;
-        }
-
         //
         // GET: /Equipment/
 
         public ViewResult Index()
         {
-            return View(equipmentRepository.All);
+            var allEquipments = _equipmentService.GetEquipments();
+            ViewBag.JsonData = JsonConvert.SerializeObject(allEquipments);
+            return View(allEquipments);
         }
 
-        //
-        // GET: /Equipment/Details/5
-
-        public ViewResult Details(string id)
+        public PartialViewResult Create()
         {
-            return View(equipmentRepository.Find(id));
+            var euipmentViewModel = new EquipmentViewModel();
+            return PartialView(euipmentViewModel);
         }
-
-        //
-        // GET: /Equipment/Create
-
-        public ActionResult Create()
-        {
-            return View();
-        } 
-
-        //
-        // POST: /Equipment/Create
-
         [HttpPost]
-        public ActionResult Create(Equipment equipment)
+        public ActionResult Create(EquipmentViewModel newEquipment)
         {
-            if (ModelState.IsValid) {
-                equipmentRepository.InsertOrUpdate(equipment);
-                equipmentRepository.Save();
+
+            Equipment equipment = Mapper.Map<EquipmentViewModel, Equipment>(newEquipment);
+            var errors = _equipmentService.CanAddEquipment(equipment).ToList();
+            ModelState.AddModelErrors(errors);
+            if (ModelState.IsValid)
+            {
+                //group.UserId = ((SocialGoalUser)(User.Identity)).UserId;
+                var createdGroup = _equipmentService.CreateEquipment(equipment, "");
+                //var createdGroup = groupService.GetGroup(newGroup.GroupName);
+                //var groupAdmin = new GroupUser { GroupId = createdGroup.GroupId, UserId = ((SocialGoalUser)(User.Identity)).UserId, Admin = true };
+                //groupUserService.CreateGroupUser(groupAdmin, groupInvitationService);
                 return RedirectToAction("Index");
-            } else {
-				return View();
-			}
-        }
-        
-        //
-        // GET: /Equipment/Edit/5
- 
-        public ActionResult Edit(string id)
-        {
-             return View(equipmentRepository.Find(id));
-        }
-
-        //
-        // POST: /Equipment/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(Equipment equipment)
-        {
-            if (ModelState.IsValid) {
-                equipmentRepository.InsertOrUpdate(equipment);
-                equipmentRepository.Save();
-                return RedirectToAction("Index");
-            } else {
-				return View();
-			}
-        }
-
-        //
-        // GET: /Equipment/Delete/5
- 
-        public ActionResult Delete(string id)
-        {
-            return View(equipmentRepository.Find(id));
-        }
-
-        //
-        // POST: /Equipment/Delete/5
-
-        [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(string id)
-        {
-            equipmentRepository.Delete(id);
-            equipmentRepository.Save();
-
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing) {
-                equipmentRepository.Dispose();
             }
-            base.Dispose(disposing);
+            return View("Create", newEquipment);
         }
+
+       
     }
 }
 

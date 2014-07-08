@@ -12,5 +12,11 @@ namespace SocialGoal.Web.ViewModels
         public string EquipmentName { get; set; }
         public DateTime EquipmentCreatTime { get; set; }
         public DateTime EquipmentUpDateTime { get; set; }
+        public EquipmentViewModel()
+        {
+            EquipmentUpDateTime = DateTime.Now;
+            EquipmentCreatTime = DateTime.Now;
+            EquipmentId = Guid.NewGuid().ToString();
+        }
     }
 }

@@ -1,26 +1,52 @@
-@model SocialGoal.Model.Models.Equipment
-
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "CreateEquipment";
+    //Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
+@model SocialGoal.Web.ViewModels.EquipmentViewModel
+<div class="span5 ">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <table>
+            <tr>
+                <td>
+                    @Html.TextBoxFor(m => m.EquipmentName, new { @class = "span5", id = "InputGroup", style = "display:block;", placeholder = "Group Name" }) @Html.ValidationMessageFor(m => m.EquipmentName)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.TextAreaFor(m => m.EquipmentNum, new { @class = "span5", id = "InputGroupDesc", placeholder = "Description for new group", style = "display:block;" }) @Html.ValidationMessageFor(m => m.EquipmentNum)
+                </td>
 
-<h2>Create</h2>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" class="btn btn-primary pull-left" value="Create" id="CreateGroup" style="margin-right:5px;" />
+                    <input type="button" class="btn" value="Cancel" id="cancel" style="margin-right:5px;" onclick="window.location.href='@Url.Action("Index", "Home")'" />
 
-@using (Html.BeginForm()) {
-    @Html.ValidationSummary(true)
-    <fieldset>
-        <legend>Equipment</legend>
+                </td>
+            </tr>
+        </table>
 
-		@Html.Partial("_CreateOrEdit", Model)
 
-        <p>
-            <input type="submit" value="Create" />
-        </p>
-    </fieldset>
-}
+    }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+
 </div>
+@*<style type="text/css">
+        table
+        {
+            border-collapse: collapse;
 
-
+        }
+        table,td
+        {
+           @* border: 1px solid black;
+        }
+        input
+        {
+            border-radius:5px;
+        }
+    </style>
+*@

@@ -1,53 +1,156 @@
 @model IEnumerable<SocialGoal.Model.Models.Equipment>
 
 @{
-    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAngular.cshtml";
+ }
+@section styles{
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/angular-xeditable/css/xeditable.css" rel="stylesheet" />
+
+    <style type="text/css">
+    div[ng-app] {
+        margin: 10px;
+    }
+
+    .table {
+        width: 100%;
+    }
+
+    form[editable-form] > div {
+        margin: 10px 0;
+    }
+</style>
+
 }
-
-<h2>Index</h2>
-
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table>
-    <tr>
-        <th></th>
-        <th>
-            EquipmentNum
-        </th>
-        <th>
-            EquipmentName
-        </th>
-        <th>
-            EquipmentCreatTime
-        </th>
-        <th>
-            EquipmentUpDateTime
-        </th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.EquipmentId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.EquipmentId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.EquipmentId })
-        </td>
-        <td>
-			@item.EquipmentNum
-        </td>
-        <td>
-			@item.EquipmentName
-        </td>
-        <td>
-			@String.Format("{0:g}", item.EquipmentCreatTime)
-        </td>
-        <td>
-			@String.Format("{0:g}", item.EquipmentUpDateTime)
-        </td>
-    </tr>
+<div ng-app="app" ng-controller="Ctrl">
+    <table class="table table-bordered table-hover table-condensed">
+        <tr style="font-weight: bold">
+            <th>EquipmentId</th>
+            <th>
+                EquipmentNum
+            </th>
+            <th>
+                EquipmentName
+            </th>
+            
+            <th>Edit</th>
+        </tr>
+        <tr ng-repeat="equipment in Equipments">
+            <td>
+                <!-- editable username (text with validation) -->
+                <span editable-text="equipment.EquipmentId" e-name="EquipmentId" e-form="rowform"  e-required>
+                    {{ equipment.EquipmentId || 'empty' }}
+                </span>
+            </td>
+            <td>
+                <!-- editable status (select-local) -->
+                <span editable-text="equipment.EquipmentNum" e-name="EquipmentNum" e-form="rowform">
+                    {{ equipment.EquipmentNum || 'empty' }}
+                </span>
+            </td>
+            <td>
+                <!-- editable group (select-remote) -->
+                <span editable-text="equipment.EquipmentName" e-name="EquipmentName" e-form="rowform">
+                    {{ equipment.EquipmentName || 'empty' }}
+                </span>
+            </td>
+            <td style="white-space: nowrap">
+                <!-- form -->
+                <form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == equipment">
+                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                        save
+                    </button>
+                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+                        cancel
+                    </button>
+                </form>
+                <div class="buttons" ng-show="!rowform.$visible">
+                    <button  class="btn btn-primary"  ng-click="rowform.$show()">edit</button>
+                    <button class="btn btn-danger" ng-click="removeUser($index)">del</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <button class="btn btn-default" ng-click="addEquipment()">Add row</button>
+</div>
+@section scripts{
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Content/angular-xeditable/js/xeditable.js"></script>
+    <script type="text/javascript">
+        var app = angular.module("app", ["xeditable"]);
+        app.run(function (editableOptions) {
+            editableOptions.theme = 'bs3';
+        });
+        app.controller('Ctrl', function ($scope, $filter, $http) {
+            //$scope.users = [
+            //   { id: 1, name: 'awesome user1', status: 2, group: 4, groupName: 'admin' },
+            //   { id: 2, name: 'awesome user2', status: undefined, group: 3, groupName: 'vip' },
+            //   { id: 3, name: 'awesome user3', status: 2, group: null }
+            //];
+            $scope.Equipments=@Html.Raw(ViewBag.JsonData);
+            //$scope.statuses = [
+            //  { value: 1, text: 'status1' },
+            //  { value: 2, text: 'status2' },
+            //  { value: 3, text: 'status3' },
+            //  { value: 4, text: 'status4' }
+            //];
+
+            //$scope.groups = [];
+            //$scope.loadGroups = function () {
+            //    return $scope.groups.length ? null : $http.get('/groups').success(function (data) {
+            //        $scope.groups = data;
+            //    });
+            //};
+
+            //$scope.showGroup = function (user) {
+            //    if (user.group && $scope.groups.length) {
+            //        var selected = $filter('filter')($scope.groups, { id: user.group });
+            //        return selected.length ? selected[0].text : 'Not set';
+            //    } else {
+            //        return user.groupName || 'Not set';
+            //    }
+            //};
+
+            //$scope.showStatus = function (user) {
+            //    var selected = [];
+            //    if (user.status) {
+            //        selected = $filter('filter')($scope.statuses, { value: user.status });
+            //    }
+            //    return selected.length ? selected[0].text : 'Not set';
+            //};
+
+            //$scope.checkName = function (data, id) {
+            //    if (id === 2 && data !== 'awesome') {
+            //        return "Username 2 should be `awesome`";
+            //    }
+            //};
+
+            $scope.saveUser = function (data, id) {
+                //$scope.user not updated yet
+                angular.extend(data, { id: id });
+                return $http.post('/saveUser', data);
+            };
+
+            // remove user
+            $scope.removeUser = function (index) {
+                $scope.users.splice(index, 1);
+            };
+
+            // add Equipment
+            $scope.addEquipment = function () {
+                $scope.inserted = {
+                    id: $scope.Equipments.length + 1,
+                    EquipmentId: '',
+                    EquipmentNum: '',
+                    EquipmentName: ''
+                };
+                $scope.Equipments.push($scope.inserted);
+            };
+        });
+    </script>
 }
-
-</table>
-
-
