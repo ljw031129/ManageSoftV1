@@ -92,7 +92,11 @@
             //   { id: 2, name: 'awesome user2', status: undefined, group: 3, groupName: 'vip' },
             //   { id: 3, name: 'awesome user3', status: 2, group: null }
             //];
-            $scope.Equipments=@Html.Raw(ViewBag.JsonData);
+            
+            $http.get('/Equipment/Get').success(function (data) {
+                $scope.Equipments = data;
+            });
+           
             //$scope.statuses = [
             //  { value: 1, text: 'status1' },
             //  { value: 2, text: 'status2' },
@@ -133,12 +137,12 @@
             $scope.saveUser = function (data, id) {
                 //$scope.user not updated yet
                 angular.extend(data, { id: id });
-                return $http.post('/saveUser', data);
+                return $http.post('/Equipment/Create', data);
             };
 
             // remove user
             $scope.removeUser = function (index) {
-                $scope.users.splice(index, 1);
+                $scope.Equipments.splice(index, 1);
             };
 
             // add Equipment

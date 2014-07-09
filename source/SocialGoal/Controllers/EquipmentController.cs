@@ -33,6 +33,12 @@ namespace SocialGoal.Controllers
             return View(allEquipments);
         }
 
+        public string Get()
+        {
+            var allEquipments = _equipmentService.GetEquipments();
+            return JsonConvert.SerializeObject(allEquipments);
+        }
+
         public PartialViewResult Create()
         {
             var euipmentViewModel = new EquipmentViewModel();
