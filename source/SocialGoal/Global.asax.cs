@@ -1,8 +1,10 @@
-﻿using SocialGoal.Data;
+﻿using SocialGoal.App_Start;
+using SocialGoal.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -16,6 +18,7 @@ namespace SocialGoal
 
            System.Data.Entity.Database.SetInitializer(new GoalsSampleData());
             AreaRegistration.RegisterAllAreas();
+            GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);

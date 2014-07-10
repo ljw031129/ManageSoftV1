@@ -18,13 +18,21 @@ namespace SocialGoal.Service
         IEnumerable<Equipment> GetEquipments(IEnumerable<int> id);
         IEnumerable<Equipment> SearchEquipment(string equipment);
         Equipment GetEquipment(string id);
+
         Equipment CreateEquipment(Equipment equipment, string userId);
+       Task<Equipment>  CreateEquipmentAsync(Equipment equipment, string userId);
         void UpdateEquipment(Equipment equipment);
         void DeleteEquipment(string id);
         void SaveEquipment();
         IEnumerable<ValidationResult> CanAddEquipment(Equipment equipment);
         IPagedList<Equipment> GetEquipments(string userId, GroupFilter filter, Page page);
 
+
+        Task<bool> DeleteEquipmentAsync(string equipmentId);
+
+        Task<bool> UpdateEquipmentAsync(Equipment equipment);
+
+        Task<IPagedList<Equipment>> GetEquipmentsAsync(Page page);
     }
 
     public class EquipmentService : IEquipmentService
@@ -69,7 +77,7 @@ namespace SocialGoal.Service
             return equipment;
         }
 
-        public Equipment CreateEquipment(Equipment equipment, string userId)
+        public  Equipment CreateEquipment(Equipment equipment, string userId)
         {
             try
             {
@@ -94,7 +102,7 @@ namespace SocialGoal.Service
             //    equipmentRepository.Delete(group);
             //    SaveGroup();
             //}
-            return equipment;
+            return  equipment;
         }
 
         public void UpdateEquipment(Equipment equipment)
@@ -139,12 +147,42 @@ namespace SocialGoal.Service
             throw new NotImplementedException();
         }
 
+        public Task<bool> DeleteEquipmentAsync(string id)
+        {
+            var equipment = _equipmentRepository.GetById(id);
+            _equipmentRepository.Delete(equipment);
+            _equipmentRepository.Delete(gu => gu.EquipmentId == id);
+            SaveEquipment();
+            return Task.FromResult(true);
+        }
+
+        public Task<bool> UpdateEquipmentAsync(Equipment equipment)
+        {
+            _equipmentRepository.Update(equipment);
+            SaveEquipment();
+            return Task.FromResult(true);
+        }
+
+        public Task<IPagedList<Equipment>> GetEquipmentsAsync(Page page)
+        {
+            IPagedList<Equipment> ipagPagedList = _equipmentRepository.GetPage(page, x => true, order => order.EquipmentUpDateTime);
+            return Task.FromResult(ipagPagedList);
+        }
+
 
         public IEnumerable<Equipment> GetEquipments(IEnumerable<int> id)
         {
             throw new NotImplementedException();
         }
 
-       
+
+
+
+        public Task<Equipment> CreateEquipmentAsync(Equipment equipment, string userId)
+        {
+            _equipmentRepository.Add(equipment);
+            SaveEquipment();
+            return Task.FromResult(equipment);
+        }
     }
 }

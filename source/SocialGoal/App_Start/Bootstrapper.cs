@@ -1,7 +1,9 @@
-﻿using System.Web.Mvc;
+﻿using System.Web.Http;
+using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using System.Reflection;
+using Autofac.Integration.WebApi;
 using SocialGoal.Data.Repository;
 using SocialGoal.Data.Infrastructure;
 using SocialGoal.Service;
@@ -26,6 +28,9 @@ namespace SocialGoal
         {
             var builder = new ContainerBuilder();
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
+            //注入API
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
             builder.RegisterType<DatabaseFactory>().As<IDatabaseFactory>().InstancePerRequest();
             builder.RegisterAssemblyTypes(typeof(FocusRepository).Assembly)
@@ -44,7 +49,9 @@ namespace SocialGoal
 
             builder.RegisterFilterProvider();
             IContainer container = builder.Build();
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));            
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+
+            GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);//ApiController　WebApi注入 
         }
     }
 }

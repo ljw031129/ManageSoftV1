@@ -29,26 +29,32 @@
 <div ng-app="app" ng-controller="Ctrl">
     <table class="table table-bordered table-hover table-condensed">
         <tr style="font-weight: bold">
-            <th>EquipmentId</th>
+          
             <th>
                 EquipmentNum
             </th>
             <th>
                 EquipmentName
             </th>
+            <th>
+                录入时间
+            </th>
+            <th>
+                更新时间
+            </th>
             
             <th>Edit</th>
         </tr>
         <tr ng-repeat="equipment in Equipments">
-            <td>
+            <td ng-show="$visible">
                 <!-- editable username (text with validation) -->
-                <span editable-text="equipment.EquipmentId" e-name="EquipmentId" e-form="rowform"  e-required>
+                <span editable-text="equipment.EquipmentId" e-name="EquipmentId" e-form="rowform" >
                     {{ equipment.EquipmentId || 'empty' }}
                 </span>
             </td>
             <td>
                 <!-- editable status (select-local) -->
-                <span editable-text="equipment.EquipmentNum" e-name="EquipmentNum" e-form="rowform">
+                <span editable-text="equipment.EquipmentNum" e-name="EquipmentNum" e-form="rowform" onbeforesave="checkEquipmentNum($data, equipment.EquipmentId)" e-required>
                     {{ equipment.EquipmentNum || 'empty' }}
                 </span>
             </td>
@@ -58,9 +64,21 @@
                     {{ equipment.EquipmentName || 'empty' }}
                 </span>
             </td>
+            <td>
+                <!-- editable group (select-remote) -->
+                <span editable-text="equipment.EquipmentCreatTime" e-name="EquipmentCreatTime" e-form="rowform">
+                    {{ equipment.EquipmentCreatTime || 'empty' }}
+                </span>
+            </td>
+            <td>
+                <!-- editable group (select-remote) -->
+                <span editable-text="equipment.EquipmentCreatTime" e-name="EquipmentUpDateTime" e-form="rowform">
+                    {{ equipment.EquipmentUpDateTime || 'empty' }}
+                </span>
+            </td>
             <td style="white-space: nowrap">
                 <!-- form -->
-                <form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == equipment">
+                <form editable-form name="rowform" onbeforesave="saveEquipment($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == equipment">
                     <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
                         save
                     </button>
@@ -68,93 +86,97 @@
                         cancel
                     </button>
                 </form>
-                <div class="buttons" ng-show="!rowform.$visible">
+                <div class="buttons"  ng-show="!rowform.$visible">
                     <button  class="btn btn-primary"  ng-click="rowform.$show()">edit</button>
-                    <button class="btn btn-danger" ng-click="removeUser($index)">del</button>
+                    <button class="btn btn-danger" ng-click="removeEquipment($index)">del</button>
                 </div>
             </td>
         </tr>
     </table>
-
+    <ul class="pagination">
+        <li ng-class="{true: 'disabled', false: ''}[Paper.IsFirstPage]" ng-click="UpdateEquipments(1)"><a href="#">&laquo;</a></li>
+        <li ng-class="{true: '', false: 'disabled'}[Paper.HasPreviousPage]" ng-click="UpdateEquipments(Paper.PageNumber-1)"><a href="#">上一页</a></li>
+        <li ng-repeat="pageNum in pageNums" ng-class="{true: 'active', false: ''}[pageNum.PageCount==Paper.PageNumber]" ><a href="#" ng-click="UpdateEquipments(pageNum.PageCount)">{{pageNum.PageCount}}</a></li>
+        <li ng-class="{true: '', false: 'disabled'}[Paper.HasNextPage]" ng-click="UpdateEquipments(Paper.PageNumber+1)"><a href="#">下一页</a></li>
+        <li ng-class="{true: 'disabled', false: ''}[Paper.IsLastPage]" ng-click="UpdateEquipments(Paper.PageCount)"><a href="#">&raquo;</a></li>
+    </ul>
     <button class="btn btn-default" ng-click="addEquipment()">Add row</button>
 </div>
 @section scripts{
-<script src="~/Scripts/angular.min.js"></script>
-<script src="~/Content/angular-xeditable/js/xeditable.js"></script>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Content/angular-xeditable/js/xeditable.js"></script>
     <script type="text/javascript">
-        var app = angular.module("app", ["xeditable"]);
-        app.run(function (editableOptions) {
-            editableOptions.theme = 'bs3';
-        });
-        app.controller('Ctrl', function ($scope, $filter, $http) {
-            //$scope.users = [
-            //   { id: 1, name: 'awesome user1', status: 2, group: 4, groupName: 'admin' },
-            //   { id: 2, name: 'awesome user2', status: undefined, group: 3, groupName: 'vip' },
-            //   { id: 3, name: 'awesome user3', status: 2, group: null }
-            //];
-            
-            $http.get('/Equipment/Get').success(function (data) {
-                $scope.Equipments = data;
+            var app = angular.module("app", ["xeditable"]);
+            app.run(function(editableOptions) {
+                editableOptions.theme = 'bs3';
             });
-           
-            //$scope.statuses = [
-            //  { value: 1, text: 'status1' },
-            //  { value: 2, text: 'status2' },
-            //  { value: 3, text: 'status3' },
-            //  { value: 4, text: 'status4' }
-            //];
+            app.controller('Ctrl', function($scope, $filter, $http) {
+                //$scope.users = [
+                //   { id: 1, name: 'awesome user1', status: 2, group: 4, groupName: 'admin' },
+                //   { id: 2, name: 'awesome user2', status: undefined, group: 3, groupName: 'vip' },
+                //   { id: 3, name: 'awesome user3', status: 2, group: null }
+                //];
 
-            //$scope.groups = [];
-            //$scope.loadGroups = function () {
-            //    return $scope.groups.length ? null : $http.get('/groups').success(function (data) {
-            //        $scope.groups = data;
-            //    });
-            //};
+                $http.get('/api/ApiEquipment', { params: { page: 1, search: '123' } }).success(function(data) {
+                   
+                    $scope.Equipments = data.pageModel;
+                    $scope.Paper = data.pager;
+                    $scope.pageNums = data.pageNums;
+                });
+                
+                $scope.checkEquipmentNum = function(data, id) {
 
-            //$scope.showGroup = function (user) {
-            //    if (user.group && $scope.groups.length) {
-            //        var selected = $filter('filter')($scope.groups, { id: user.group });
-            //        return selected.length ? selected[0].text : 'Not set';
-            //    } else {
-            //        return user.groupName || 'Not set';
-            //    }
-            //};
-
-            //$scope.showStatus = function (user) {
-            //    var selected = [];
-            //    if (user.status) {
-            //        selected = $filter('filter')($scope.statuses, { value: user.status });
-            //    }
-            //    return selected.length ? selected[0].text : 'Not set';
-            //};
-
-            //$scope.checkName = function (data, id) {
-            //    if (id === 2 && data !== 'awesome') {
-            //        return "Username 2 should be `awesome`";
-            //    }
-            //};
-
-            $scope.saveUser = function (data, id) {
-                //$scope.user not updated yet
-                angular.extend(data, { id: id });
-                return $http.post('/Equipment/Create', data);
-            };
-
-            // remove user
-            $scope.removeUser = function (index) {
-                $scope.Equipments.splice(index, 1);
-            };
-
-            // add Equipment
-            $scope.addEquipment = function () {
-                $scope.inserted = {
-                    id: $scope.Equipments.length + 1,
-                    EquipmentId: '',
-                    EquipmentNum: '',
-                    EquipmentName: ''
+                    if (data == "454545") {
+                        return "设备编号不能为空！";
+                    }
+                    return true;
                 };
-                $scope.Equipments.push($scope.inserted);
-            };
-        });
+
+                $scope.saveEquipment = function(data, id) {
+
+                    return $http.post("/api/ApiEquipment", data).success(function(revData) {
+                        angular.extend(data, { id: id });
+                    }).error(function(revData) {
+                        alert(revData.Message);
+                    });
+                };
+
+                // remove user
+                $scope.removeEquipment = function(index) {
+                    $http.delete("/api/ApiEquipment", { params: { equipmentId: $scope.Equipments[index].EquipmentId } }).success(function(data, status) {
+                        alert("删除成功");
+                    }).error(function(data) {
+                        alert(data.ModelState.error);
+                    });
+
+                    $scope.Equipments.splice(index, 1);
+                };
+
+                // add Equipment
+                $scope.addEquipment = function() {
+                    $scope.inserted = {
+                        id: $scope.Equipments.length + 1,
+                        EquipmentId: '',
+                        EquipmentNum: '',
+                        EquipmentName: ''
+                    };
+                    $scope.Equipments.push($scope.inserted);
+
+                };
+                //更新分页数据
+                $scope.UpdateEquipments = function (pageNum) {
+                    $http.get('/api/ApiEquipment', { params: { page: pageNum, search: '123' } }).success(function (data) {
+
+                        $scope.Equipments = data.pageModel;
+                        $scope.Paper = data.pager;
+                        $scope.pageNums = data.pageNums;
+                    });
+                };
+
+
+
+            });
+
+      
     </script>
 }

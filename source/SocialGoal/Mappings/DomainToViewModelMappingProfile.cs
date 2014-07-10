@@ -2,6 +2,7 @@
 using PagedList;
 using SocialGoal.Model.Models;
 using SocialGoal.Web.Core.AutoMapperConverters;
+using SocialGoal.Web.Core.Models;
 using SocialGoal.Web.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -44,6 +45,8 @@ namespace SocialGoal.Mappings
 
             //测试
             Mapper.CreateMap<Equipment, EquipmentViewModel>();
+            //分页数据
+            Mapper.CreateMap<IPagedList, PagedListData>();
 
             //Mapper.CreateMap<X, XViewModel>()
             //    .ForMember(x => x.Property1, opt => opt.MapFrom(source => source.PropertyXYZ));
@@ -53,7 +56,10 @@ namespace SocialGoal.Mappings
                                                       .ForMember(x => x.EndDate, opt => opt.MapFrom(source => source.EndDate.ToString("dd MMM yyyy")));
             Mapper.CreateMap<Group, GroupsItemViewModel>().ForMember(x => x.CreatedDate, opt => opt.MapFrom(source => source.CreatedDate.ToString("dd MMM yyyy")));
 
-            Mapper.CreateMap<IPagedList<Group>, IPagedList<GroupsItemViewModel>>().ConvertUsing<PagedListConverter<Group, GroupsItemViewModel>>();
+            Mapper.CreateMap<IPagedList<Equipment>, IPagedList<EquipmentViewModel>>().ConvertUsing<PagedListConverter<Equipment, EquipmentViewModel>>();
+
+
+            //添加映射关系
            
 
         }
