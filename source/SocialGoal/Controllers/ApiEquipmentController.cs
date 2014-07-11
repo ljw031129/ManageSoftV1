@@ -32,41 +32,41 @@ namespace SocialGoal.Controllers
         public IEnumerable<Equipment> Get()
         {
             var allEquipments = _equipmentService.GetEquipments();
-            if (allEquipments==null)
+            if (allEquipments == null)
             {
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
             }
             return allEquipments;
         }
-        public async Task<Object> Get(int? page, string search)
+
+        public async Task<Object> Get(string page, string sort, string serach)
         {
-            int pageIndex = page ?? 1;
+            int currentPage = Convert.ToInt32(page.Split(':')[0]);
+            int pageSize = Convert.ToInt32(page.Split(':')[1]);
             // Get a paged list of groups
-            IPagedList<Equipment> equipments = await _equipmentService.GetEquipmentsAsync(new Page(pageIndex, 3));
+            IPagedList<Equipment> equipments = await _equipmentService.GetEquipmentsAsync(new Page(currentPage, pageSize));
 
             // map it to a paged list of models.
             var equipmentsViewModel = Mapper.Map<IPagedList<Equipment>, IPagedList<EquipmentViewModel>>(equipments);
 
-            if (equipmentsViewModel.Count==0)
+            if (equipmentsViewModel.Count == 0)
             {
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
             }
 
             PagedListData pagedListMetaData = Mapper.Map<IPagedList, PagedListData>(equipmentsViewModel.GetMetaData());
-           //处理分页对象
-            List<PageNum> pageNumsList=new List<PageNum>();
+            //处理分页对象
+            List<PageNum> pageNumsList = new List<PageNum>();
             for (int i = 1; i <= pagedListMetaData.PageCount; i++)
             {
-                var pageNum=new PageNum {PageCount = i};
+                var pageNum = new PageNum { PageCount = i };
                 pageNumsList.Add(pageNum);
 
             }
-
             return new { pageModel = equipmentsViewModel, pager = pagedListMetaData, pageNums = pageNumsList };
-
         }
 
-       
+
 
         // POST api/<controller>
         [HttpPost]
@@ -99,9 +99,9 @@ namespace SocialGoal.Controllers
         // PUT api/<controller>/5 UPDATE
         public async Task<IHttpActionResult> Put(EquipmentViewModel newEquipment)
         {
-        Equipment equipment = Mapper.Map<EquipmentViewModel, Equipment>(newEquipment);
+            Equipment equipment = Mapper.Map<EquipmentViewModel, Equipment>(newEquipment);
             var errors = _equipmentService.CanAddEquipment(equipment).ToList();
-            
+
             if (ModelState.IsValid)
             {
                 //group.UserId = ((SocialGoalUser)(User.Identity)).UserId;
@@ -111,18 +111,18 @@ namespace SocialGoal.Controllers
                 //groupUserService.CreateGroupUser(groupAdmin, groupInvitationService);
                 return Ok();
             }
-            ModelState.AddModelError("error","发生异常");
+            ModelState.AddModelError("error", "发生异常");
             return BadRequest(ModelState);
         }
 
         // DELETE api/<controller>/5
         public async Task<IHttpActionResult> Delete(string equipmentId)
         {
-          bool rec=  await _equipmentService.DeleteEquipmentAsync(equipmentId);
-          if (rec)
-          {
-              return Ok();
-          }
+            bool rec = await _equipmentService.DeleteEquipmentAsync(equipmentId);
+            if (rec)
+            {
+                return Ok();
+            }
             ModelState.AddModelError("error", "发生异常");
             return BadRequest(ModelState);
         }

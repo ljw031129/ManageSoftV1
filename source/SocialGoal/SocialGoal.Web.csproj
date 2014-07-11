@@ -342,9 +342,14 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\calendar.gif" />
     <Content Include="Content\CustomStyles.css" />
+    <Content Include="Content\dataTables.bootstrap.css" />
     <Content Include="Content\HomePage.css" />
     <Content Include="Content\images\facebook-avatar.png" />
     <Content Include="Content\images\SonataCoveSoftwareLong.png" />
+    <Content Include="Content\images\sort_asc.png" />
+    <Content Include="Content\images\sort_asc_disabled.png" />
+    <Content Include="Content\images\sort_both.png" />
+    <Content Include="Content\images\sort_desc.png" />
     <Content Include="Content\images\ui-bg_flat_55_999999_40x100.png" />
     <Content Include="Content\images\ui-bg_flat_75_aaaaaa_40x100.png" />
     <Content Include="Content\images\ui-bg_glass_45_0078ae_1x400.png" />
@@ -372,6 +377,7 @@
     <Content Include="Content\ProfilePics\f6e2bce8-7b5c-4cd7-a2ac-104f2fc75f83.png" />
     <Content Include="Content\ProfilePics\facebook-avatar.png" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\siteDateTable.css" />
     <Content Include="Content\templatemo_329_blue_urban\about.html" />
     <Content Include="Content\templatemo_329_blue_urban\images\facebook-avatar.png" />
     <Content Include="Content\templatemo_329_blue_urban\images\goal-setting-target.jpg" />

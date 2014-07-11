@@ -18,16 +18,13 @@ namespace SocialGoal.Service
         IEnumerable<Equipment> GetEquipments(IEnumerable<int> id);
         IEnumerable<Equipment> SearchEquipment(string equipment);
         Equipment GetEquipment(string id);
-
         Equipment CreateEquipment(Equipment equipment, string userId);
-       Task<Equipment>  CreateEquipmentAsync(Equipment equipment, string userId);
+        Task<Equipment> CreateEquipmentAsync(Equipment equipment, string userId);
         void UpdateEquipment(Equipment equipment);
         void DeleteEquipment(string id);
         void SaveEquipment();
         IEnumerable<ValidationResult> CanAddEquipment(Equipment equipment);
         IPagedList<Equipment> GetEquipments(string userId, GroupFilter filter, Page page);
-
-
         Task<bool> DeleteEquipmentAsync(string equipmentId);
 
         Task<bool> UpdateEquipmentAsync(Equipment equipment);
@@ -40,7 +37,7 @@ namespace SocialGoal.Service
         private readonly IEquipmentRepository _equipmentRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public EquipmentService(IEquipmentRepository equipmentRepository,IUnitOfWork unitOfWork)
+        public EquipmentService(IEquipmentRepository equipmentRepository, IUnitOfWork unitOfWork)
         {
             this._equipmentRepository = equipmentRepository;
             this._unitOfWork = unitOfWork;
@@ -77,7 +74,7 @@ namespace SocialGoal.Service
             return equipment;
         }
 
-        public  Equipment CreateEquipment(Equipment equipment, string userId)
+        public Equipment CreateEquipment(Equipment equipment, string userId)
         {
             try
             {
@@ -86,10 +83,10 @@ namespace SocialGoal.Service
             }
             catch (Exception exception)
             {
-                
+
                 throw;
             }
-           
+
 
             //var groupUser = new GroupUser { GroupId = group.GroupId, UserId = userId, Admin = true };
             //try
@@ -102,7 +99,7 @@ namespace SocialGoal.Service
             //    equipmentRepository.Delete(group);
             //    SaveGroup();
             //}
-            return  equipment;
+            return equipment;
         }
 
         public void UpdateEquipment(Equipment equipment)
@@ -163,7 +160,7 @@ namespace SocialGoal.Service
             return Task.FromResult(true);
         }
 
-        public Task<IPagedList<Equipment>> GetEquipmentsAsync(Page page)
+        public Task<IPagedList<Equipment>> GetEquipmentsAsync(Page page,string ser)
         {
             IPagedList<Equipment> ipagPagedList = _equipmentRepository.GetPage(page, x => true, order => order.EquipmentUpDateTime);
             return Task.FromResult(ipagPagedList);
