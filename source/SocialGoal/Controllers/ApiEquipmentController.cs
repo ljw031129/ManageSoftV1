@@ -18,6 +18,8 @@ using SocialGoal.Service;
 using SocialGoal.Web.Core.Extensions;
 using SocialGoal.Web.Core.Models;
 using SocialGoal.Web.ViewModels;
+using xFilter.Expressions;
+using Newtonsoft.Json.Linq;
 
 namespace SocialGoal.Controllers
 {
@@ -39,12 +41,16 @@ namespace SocialGoal.Controllers
             return allEquipments;
         }
 
-        public async Task<Object> Get(string page, string sort, string serach)
+        public async Task<Object> Get(string page, string sort, string gridSettings)
         {
+            JObject container = JObject.Parse(gridSettings);
+            //JSON字符串转化
+            xFilter.Expressions.Group gridSetingGroup = WebHelper.DeserializeGroupFromJSON(container["Where"]);
+           
             int currentPage = Convert.ToInt32(page.Split(':')[0]);
             int pageSize = Convert.ToInt32(page.Split(':')[1]);
             // Get a paged list of groups
-            IPagedList<Equipment> equipments = await _equipmentService.GetEquipmentsAsync(new Page(currentPage, pageSize));
+            IPagedList<Equipment> equipments = await _equipmentService.GetEquipmentsAsync(new Page(currentPage, pageSize), gridSetingGroup);
 
             // map it to a paged list of models.
             var equipmentsViewModel = Mapper.Map<IPagedList<Equipment>, IPagedList<EquipmentViewModel>>(equipments);

@@ -29,7 +29,7 @@ namespace SocialGoal.Service
 
         Task<bool> UpdateEquipmentAsync(Equipment equipment);
 
-        Task<IPagedList<Equipment>> GetEquipmentsAsync(Page page);
+        Task<IPagedList<Equipment>> GetEquipmentsAsync(Page page,xFilter.Expressions.Group gg);
     }
 
     public class EquipmentService : IEquipmentService
@@ -160,9 +160,9 @@ namespace SocialGoal.Service
             return Task.FromResult(true);
         }
 
-        public Task<IPagedList<Equipment>> GetEquipmentsAsync(Page page,string ser)
+        public Task<IPagedList<Equipment>> GetEquipmentsAsync(Page page,xFilter.Expressions.Group gg)
         {
-            IPagedList<Equipment> ipagPagedList = _equipmentRepository.GetPage(page, x => true, order => order.EquipmentUpDateTime);
+            IPagedList<Equipment> ipagPagedList = _equipmentRepository.GetPageExpressionTree(page, gg, order => order.EquipmentUpDateTime);
             return Task.FromResult(ipagPagedList);
         }
 

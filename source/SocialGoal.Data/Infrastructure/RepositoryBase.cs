@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using PagedList;
 using SocialGoal.Data.Models;
+using xFilter.Expressions;
 
 namespace SocialGoal.Data.Infrastructure
 {
@@ -78,6 +79,14 @@ namespace SocialGoal.Data.Infrastructure
         {
             var results = dbset.OrderBy(order).Where(where).GetPage(page).ToList();
             var total = dbset.Count(where);
+            return new StaticPagedList<T>(results, page.PageNumber, page.PageSize, total);
+        }
+
+
+        public virtual IPagedList<T> GetPageExpressionTree<TOrder>(Page page, xFilter.Expressions.Group g, Expression<Func<T, TOrder>> order)
+        {   
+            var results = dbset.OrderBy(order).Where<T>(g.ToExpressionTree<T>().Compile()).Skip(page.Skip).Take(page.PageSize).ToList();
+            var total = dbset.Where<T>(g.ToExpressionTree<T>().Compile()).Count();
             return new StaticPagedList<T>(results, page.PageNumber, page.PageSize, total);
         }
 

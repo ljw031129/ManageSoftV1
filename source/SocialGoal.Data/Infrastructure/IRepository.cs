@@ -18,6 +18,8 @@ namespace SocialGoal.Data.Infrastructure
         IEnumerable<T> GetAll();
         IEnumerable<T> GetMany(Expression<Func<T, bool>> where);
         IPagedList<T> GetPage<TOrder>(Page page, Expression<Func<T, bool>> where, Expression<Func<T, TOrder>> order);
+
+        IPagedList<T> GetPageExpressionTree<TOrder>(Page page, xFilter.Expressions.Group where, Expression<Func<T, TOrder>> order);
        
     }
 }

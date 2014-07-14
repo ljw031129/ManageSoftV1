@@ -114,21 +114,36 @@
 
 
     </div>
+
+    <div id="fil"></div>
+    <div id="message"></div>
+   
 </div>
 @section scripts{
     <script src="~/Scripts/angular.js"></script>
     <script src="~/Content/angular-xeditable/js/xeditable.js"></script>
+    <script src="~/Scripts/xFilter.js"></script>
     <script type="text/javascript">
+
+        var colModel = [
+	        { "name": "EquipmentNum", "lable": "设备编号" },
+	        { "name": "EquipmentName ", "lable": "设备名称 " }	       
+        ];
+
+
         var app = angular.module("app", ["xeditable"]);
         app.run(function (editableOptions) {
             editableOptions.theme = 'bs3';
         });
         app.controller('Ctrl', function ($scope, $filter, $http) {
+            // $scope.gridSettings = "";
+            //表格数据设置项
+            $scope.gridSettings = { IsSearch: true, PageSize: 8, PageIndex: 1, SortColumn: 'createTime', SortOrder: 'asc', Where: '' };
             //分页数据模型
-            $scope.pageModel = {pageNum:1,pageSzie:8,orderBy:'aa',sorting:'asc',serachField:'ssss',serachValue:'xx'};
+            $scope.pageModel = { pageNum: 1, pageSzie: 8, orderBy: 'aa', sorting: 'asc', serachField: 'ssss', serachValue: 'xx' };
 
-            //        page: pageNum + ":" + pageSzie,                            
-            //        sort: orderBy + ":" + sorting,                            
+            //        page: pageNum + ":" + pageSzie,
+            //        sort: orderBy + ":" + sorting,
             //        serach: serachField + ":" + serachValue
 
             //定义分页数据
@@ -141,8 +156,9 @@
             $scope.sorting = "asc";
             //默认排序字段
             $scope.orderBy = "EquipmentUpDateTime";
-            
-           
+
+
+
             //加载数据
             getDate(1, $scope.currentSize.size, $scope.orderBy, $scope.sorting, $scope.serachField, $scope.serachValue);
             //table行点击时间
@@ -198,26 +214,43 @@
             $scope.UpdateEquipments = function (pageNums) {
 
                 getDate(pageNums, $scope.currentSize.size, $scope.orderBy, $scope.sorting, $scope.serachField, $scope.serachValue);
-                
+
             };
             //获取数据
-            function getDate(pageNum, pageSzie,orderBy,sorting, serachField, serachValue) {
-                $http.get('/api/ApiEquipment', 
+            function getDate(pageNum, pageSzie, orderBy, sorting, serachField, serachValue) {
+                var ss = { pageNum: 1, pageSzie: 8, orderBy: 'aa', sorting: 'asc', serachField: 'ssss', serachValue: 'xx' };
+                $http.get('/api/ApiEquipment',
                     {
                         params: {
-                            page: pageNum + ":" + pageSzie,                            
-                            sort: orderBy + ":" + sorting,                            
-                            serach: serachField + ":" + serachValue
+                            page: pageNum + ":" + pageSzie,
+                            sort: orderBy + ":" + sorting,
+                            gridSettings: $scope.gridSettings
                         }
                     }
                     ).success(function (data) {
-                    $scope.Equipments = data.pageModel;
-                    $scope.Paper = data.pager;
-                    $scope.pageNums = data.pageNums;                    
-                });
+                        $scope.Equipments = data.pageModel;
+                        $scope.Paper = data.pager;
+                        $scope.pageNums = data.pageNums;
+                    });
 
             }
+            var f = new xFilter(document.getElementById("fil"),
+       {
+           /*filter: filt,*/
+           columns: colModel,
+           onchange: function () {
+               document.getElementById("message").innerHTML =
+                       this.toString();
 
+               $scope.gridSettings.Where = this.filter;
+               var fi = f.Apply(items);
+               var it = "";
+               for (var i = 0; i < fi.length; i++) {
+                   it += "," + fi[i].name;
+               }
+               // document.getElementById("message").innerHTML = it;
+           }
+       });
 
 
         });

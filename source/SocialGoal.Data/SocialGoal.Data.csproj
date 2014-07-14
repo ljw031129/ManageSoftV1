@@ -153,6 +153,10 @@
     <Compile Include="SocialGoalEntities.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SocialGoal.Core\SocialGoal.Core.csproj">
+      <Project>{b1053a2d-a1ea-412f-ba95-19ce794f8891}</Project>
+      <Name>SocialGoal.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SocialGoal.Model\SocialGoal.Model.csproj">
       <Project>{4d4923f5-548c-4d13-859d-7f5e9699facd}</Project>
       <Name>SocialGoal.Model</Name>
