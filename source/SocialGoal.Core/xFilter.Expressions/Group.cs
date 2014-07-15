@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace xFilter.Expressions
 {
@@ -34,14 +35,42 @@ namespace xFilter.Expressions
 
             // get the expression body. This consists of all subgroups and rules
             Expression body = GetExpressionFromSubgroup(this, t, param);
-
+            
             if (body == null)
                 return null;
-            else 
+            else
                 return Expression.Lambda<Func<T, bool>>(
                                 body,
                                 new ParameterExpression[] { param }
                            );
+
+               
+
+        }
+
+
+        public Expression<Func<T, string>> ToExpressionTreeOrder<T>()
+        {
+            Type t = typeof(T);
+            // create a parameter expression that can be passed to the rules
+            ParameterExpression param = Expression.Parameter(t, "p");
+            // get the expression body. This consists of all subgroups and rules  
+            Expression body = Expression.PropertyOrField(param, "EquipmentCreatTime");
+            try
+            {
+                if (body == null)
+                    return null;
+                else                   
+                    return Expression.Lambda<Func<T, string>>(
+                                   body,
+                                   new ParameterExpression[] { param }
+                              );
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
 
         }
 

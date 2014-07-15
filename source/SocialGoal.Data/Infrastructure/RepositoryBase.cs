@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using PagedList;
 using SocialGoal.Data.Models;
 using xFilter.Expressions;
+using Newtonsoft.Json.Linq;
 
 namespace SocialGoal.Data.Infrastructure
 {
@@ -83,11 +84,40 @@ namespace SocialGoal.Data.Infrastructure
         }
 
 
-        public virtual IPagedList<T> GetPageExpressionTree<TOrder>(Page page, xFilter.Expressions.Group g, Expression<Func<T, TOrder>> order)
-        {   
-            var results = dbset.OrderBy(order).Where<T>(g.ToExpressionTree<T>().Compile()).Skip(page.Skip).Take(page.PageSize).ToList();
-            var total = dbset.Where<T>(g.ToExpressionTree<T>().Compile()).Count();
-            return new StaticPagedList<T>(results, page.PageNumber, page.PageSize, total);
+        public virtual IPagedList<T> GetPage<TOrder>(string gridSettings)
+        {
+            JObject container = JObject.Parse(gridSettings);
+            //JSON字符串转化        
+
+            int currentPage = Convert.ToInt32(container["PageIndex"]);
+            int pageSize = Convert.ToInt32(container["PageSize"]);
+            string sortColumn = container["SortColumn"].ToString();
+            bool sortOrder = true;
+            switch (container["SortOrder"].ToString())
+            {
+                case "asc":
+                    sortOrder = true;
+                    break;
+                case "desc":
+                    sortOrder = false;
+                    break;
+                default:
+                    break;
+            }
+            if (container["Where"].ToString()!= "")
+            {
+                xFilter.Expressions.Group g = WebHelper.DeserializeGroupFromJSON(container["Where"]);
+                var results = dbset.OrderByExtensions(sortColumn, sortOrder).Where<T>(g.ToExpressionTree<T>().Compile()).Skip(currentPage).Take(pageSize).ToList();
+                var total = dbset.Where<T>(g.ToExpressionTree<T>().Compile()).Count();
+                return new StaticPagedList<T>(results, currentPage, pageSize, total);
+            }
+            else
+            {
+                var results = dbset.OrderByExtensions(sortColumn, sortOrder).Skip(currentPage).Take(pageSize).ToList();
+                var total = dbset.Count();
+                return new StaticPagedList<T>(results, currentPage, pageSize, total);
+
+            }
         }
 
 

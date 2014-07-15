@@ -138,7 +138,7 @@
         app.controller('Ctrl', function ($scope, $filter, $http) {
             // $scope.gridSettings = "";
             //表格数据设置项
-            $scope.gridSettings = { IsSearch: true, PageSize: 8, PageIndex: 1, SortColumn: 'createTime', SortOrder: 'asc', Where: '' };
+            $scope.gridSettings = { IsSearch: true, PageSize: 8, PageIndex: 1, SortColumn: 'EquipmentUpDateTime', SortOrder: 'asc', Where: '' };
             //分页数据模型
             $scope.pageModel = { pageNum: 1, pageSzie: 8, orderBy: 'aa', sorting: 'asc', serachField: 'ssss', serachValue: 'xx' };
 
@@ -222,8 +222,8 @@
                 $http.get('/api/ApiEquipment',
                     {
                         params: {
-                            page: pageNum + ":" + pageSzie,
-                            sort: orderBy + ":" + sorting,
+                            //page: pageNum + ":" + pageSzie,
+                            //sort: orderBy + ":" + sorting,
                             gridSettings: $scope.gridSettings
                         }
                     }

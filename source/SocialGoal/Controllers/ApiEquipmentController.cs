@@ -41,16 +41,14 @@ namespace SocialGoal.Controllers
             return allEquipments;
         }
 
-        public async Task<Object> Get(string page, string sort, string gridSettings)
+        public async Task<Object> Get(string gridSettings)
         {
-            JObject container = JObject.Parse(gridSettings);
-            //JSON字符串转化
-            xFilter.Expressions.Group gridSetingGroup = WebHelper.DeserializeGroupFromJSON(container["Where"]);
-           
-            int currentPage = Convert.ToInt32(page.Split(':')[0]);
-            int pageSize = Convert.ToInt32(page.Split(':')[1]);
+            //可后台自动添加查询条件
+            //xFilter.Expressions.Group g = new xFilter.Expressions.Group() { Operator = GroupOperator.And };
+            //g.Rules.Add(new Rule() { Field = "Continent.Name", Operator = RuleOperator.Equals, Data = "E" });
+            
             // Get a paged list of groups
-            IPagedList<Equipment> equipments = await _equipmentService.GetEquipmentsAsync(new Page(currentPage, pageSize), gridSetingGroup);
+            IPagedList<Equipment> equipments = await _equipmentService.GetEquipmentsAsync(gridSettings);
 
             // map it to a paged list of models.
             var equipmentsViewModel = Mapper.Map<IPagedList<Equipment>, IPagedList<EquipmentViewModel>>(equipments);

@@ -29,7 +29,7 @@ namespace SocialGoal.Service
 
         Task<bool> UpdateEquipmentAsync(Equipment equipment);
 
-        Task<IPagedList<Equipment>> GetEquipmentsAsync(Page page,xFilter.Expressions.Group gg);
+        Task<IPagedList<Equipment>> GetEquipmentsAsync(string gridSettings);
     }
 
     public class EquipmentService : IEquipmentService
@@ -76,29 +76,8 @@ namespace SocialGoal.Service
 
         public Equipment CreateEquipment(Equipment equipment, string userId)
         {
-            try
-            {
-                _equipmentRepository.Add(equipment);
-                SaveEquipment();
-            }
-            catch (Exception exception)
-            {
-
-                throw;
-            }
-
-
-            //var groupUser = new GroupUser { GroupId = group.GroupId, UserId = userId, Admin = true };
-            //try
-            //{
-            //    equipmentRepository.Add(groupUser);
-            //    SaveGroup();
-            //}
-            //catch
-            //{
-            //    equipmentRepository.Delete(group);
-            //    SaveGroup();
-            //}
+            _equipmentRepository.Add(equipment);
+            SaveEquipment();
             return equipment;
         }
 
@@ -160,9 +139,9 @@ namespace SocialGoal.Service
             return Task.FromResult(true);
         }
 
-        public Task<IPagedList<Equipment>> GetEquipmentsAsync(Page page,xFilter.Expressions.Group gg)
+        public Task<IPagedList<Equipment>> GetEquipmentsAsync(string gridSettings)
         {
-            IPagedList<Equipment> ipagPagedList = _equipmentRepository.GetPageExpressionTree(page, gg, order => order.EquipmentUpDateTime);
+            IPagedList<Equipment> ipagPagedList = _equipmentRepository.GetPage<Equipment>(gridSettings);
             return Task.FromResult(ipagPagedList);
         }
 

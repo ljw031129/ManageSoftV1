@@ -49,7 +49,7 @@ namespace xFilter.Expressions
             }
             else {
                 pi = parameterType.GetProperty(this.Field);
-                member = Expression.PropertyOrField(param, this.Field);
+             member = Expression.PropertyOrField(param, this.Field);
             }
 
 
