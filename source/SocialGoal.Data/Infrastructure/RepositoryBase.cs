@@ -95,13 +95,14 @@ namespace SocialGoal.Data.Infrastructure
             bool sortOrder = true;
             switch (container["SortOrder"].ToString())
             {
-                case "asc":
+                case "sorting_asc":
                     sortOrder = true;
                     break;
-                case "desc":
+                case "sorting_desc":
                     sortOrder = false;
                     break;
                 default:
+                    sortOrder = false;
                     break;
             }
             if (container["Where"].ToString()!= "")

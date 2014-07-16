@@ -26,17 +26,17 @@
         <table class="table table-striped table-bordered dataTable DTTT_selectable">
             <thead>
                 <tr>
-                    <th class="sorting_asc">EquipmentNum</th>
+                    <th ng-repeat="colModel in colModels" class="{{colModel.sort}}" ng-click="sortClick(colModel.name,colModel.sort)">{{colModel.lable}}</th>
 
-                    <th class="sorting_desc">
-                        EquipmentName
-                    </th>
-                    <th class="sorting">
-                        录入时间
-                    </th>
-                    <th class="sorting_asc_disabled">
-                        更新时间
-                    </th>
+                    @*<th class="sorting_desc">
+                            EquipmentName
+                        </th>
+                        <th class="sorting">
+                            录入时间
+                        </th>
+                        <th class="sorting_asc_disabled">
+                            更新时间
+                        </th>*@
 
                     <th>Edit</th>
                 </tr>
@@ -117,7 +117,7 @@
 
     <div id="fil"></div>
     <div id="message"></div>
-   
+
 </div>
 @section scripts{
     <script src="~/Scripts/angular.js"></script>
@@ -125,52 +125,75 @@
     <script src="~/Scripts/xFilter.js"></script>
     <script type="text/javascript">
 
-        var colModel = [
-	        { "name": "EquipmentNum", "lable": "设备编号" },
-	        { "name": "EquipmentName ", "lable": "设备名称 " }	       
-        ];
-
-
+        //加载Anjular模型
         var app = angular.module("app", ["xeditable"]);
         app.run(function (editableOptions) {
             editableOptions.theme = 'bs3';
         });
         app.controller('Ctrl', function ($scope, $filter, $http) {
-            // $scope.gridSettings = "";
+            //提供搜索字段
+            $scope.colModels = [
+                { "name": "EquipmentNum", "lable": "设备编号", "sort": "sorting" },
+                { "name": "EquipmentName", "lable": "设备名称 ", "sort": "sorting" },
+                { "name": "EquipmentCreatTime", "lable": "录入时间", "sort": "sorting" },
+                { "name": "EquipmentUpDateTime", "lable": "更新时间 ", "sort": "sorting" }
+
+            ];
+            $scope.filter = {
+                "groupOp": "and",
+                "groups": [ ],
+                "rules": [
+                  { "field": "name", "op": "eq", "data": "Romania" },
+                  { "field": "id", "op": "le", "data": "1" }
+                ]
+            };
             //表格数据设置项
-            $scope.gridSettings = { IsSearch: true, PageSize: 8, PageIndex: 1, SortColumn: 'EquipmentUpDateTime', SortOrder: 'asc', Where: '' };
-            //分页数据模型
-            $scope.pageModel = { pageNum: 1, pageSzie: 8, orderBy: 'aa', sorting: 'asc', serachField: 'ssss', serachValue: 'xx' };
-
-            //        page: pageNum + ":" + pageSzie,
-            //        sort: orderBy + ":" + sorting,
-            //        serach: serachField + ":" + serachValue
-
+            $scope.gridSettings = { IsSearch: true, PageSize: 10, PageIndex: 1, SortColumn: 'EquipmentUpDateTime', SortOrder: 'asc', Where: '' };
             //定义分页数据
             $scope.pageSizes = [{ size: 2 }, { size: 5 }, { size: 10 }, { size: 20 }, { size: 50 }];
             //分页默认选中项,分页大小
             $scope.currentSize = $scope.pageSizes[2];
             //当前选中行
             $scope.currentRowId = '0';
-            //默认排序方式
-            $scope.sorting = "asc";
-            //默认排序字段
-            $scope.orderBy = "EquipmentUpDateTime";
-
-
-
-            //加载数据
-            getDate(1, $scope.currentSize.size, $scope.orderBy, $scope.sorting, $scope.serachField, $scope.serachValue);
-            //table行点击时间
+            //table行点击事件
             $scope.tableRowClick = function (rowId) {
                 $scope.currentRowId = rowId;
             };
+            //加载数据
+            getDate();
+            //排序事件
+            $scope.sortClick = function (sortColumn, sortOrder) {
+                var sortOrderBy = "";
+                switch (sortOrder) {
+                    case "sorting":
+                        sortOrderBy = "sorting_asc";
+                        break;
+                    case "sorting_asc":
+                        sortOrderBy = "sorting_desc";
+                        break;
+                    case "sorting_desc":
+                        sortOrderBy = "sorting";
+                        break;
+
+                }
+                for (var i = 0; i < $scope.colModels.length; i++) {
+                    if ($scope.colModels[i].name == sortColumn) {
+                        $scope.colModels[i].sort = sortOrderBy;
+                    } else {
+                        $scope.colModels[i].sort = "sorting";
+                    }
+                }
+                $scope.gridSettings.SortColumn = sortColumn;
+                $scope.gridSettings.SortOrder = sortOrderBy;
+                getDate();
+            }
             //分页数改变事件
             $scope.pageSizeChange = function () {
-                getDate(1, $scope.currentSize.size, $scope.orderBy, $scope.sorting, $scope.serachField, $scope.serachValue);
+                $scope.gridSettings.PageSize = $scope.currentSize.size;
+                $scope.gridSettings.PageIndex = 1;
+                getDate();
             }
-
-
+            //对输入内容进行检测
             $scope.checkEquipmentNum = function (data, id) {
 
                 if (data == "454545") {
@@ -178,7 +201,7 @@
                 }
                 return true;
             };
-
+            //提交保存数据
             $scope.saveEquipment = function (data, id) {
 
                 return $http.post("/api/ApiEquipment", data).success(function (revData) {
@@ -188,7 +211,7 @@
                 });
             };
 
-            // remove user
+            // 移除设备信息
             $scope.removeEquipment = function (index) {
                 $http.delete("/api/ApiEquipment", { params: { equipmentId: $scope.Equipments[index].EquipmentId } }).success(function (data, status) {
                     alert("删除成功");
@@ -199,7 +222,7 @@
                 $scope.Equipments.splice(index, 1);
             };
 
-            // add Equipment
+            // 添加设备信息
             $scope.addEquipment = function () {
                 $scope.inserted = {
                     id: $scope.Equipments.length + 1,
@@ -212,18 +235,15 @@
             };
             //更新分页数据
             $scope.UpdateEquipments = function (pageNums) {
-
-                getDate(pageNums, $scope.currentSize.size, $scope.orderBy, $scope.sorting, $scope.serachField, $scope.serachValue);
-
+                $scope.gridSettings.PageIndex = pageNums;
+                //重新加载数据
+                getDate();
             };
             //获取数据
-            function getDate(pageNum, pageSzie, orderBy, sorting, serachField, serachValue) {
-                var ss = { pageNum: 1, pageSzie: 8, orderBy: 'aa', sorting: 'asc', serachField: 'ssss', serachValue: 'xx' };
+            function getDate() {
                 $http.get('/api/ApiEquipment',
                     {
                         params: {
-                            //page: pageNum + ":" + pageSzie,
-                            //sort: orderBy + ":" + sorting,
                             gridSettings: $scope.gridSettings
                         }
                     }
@@ -237,7 +257,7 @@
             var f = new xFilter(document.getElementById("fil"),
        {
            /*filter: filt,*/
-           columns: colModel,
+           columns: $scope.colModels,
            onchange: function () {
                document.getElementById("message").innerHTML =
                        this.toString();
@@ -248,7 +268,6 @@
                for (var i = 0; i < fi.length; i++) {
                    it += "," + fi[i].name;
                }
-               // document.getElementById("message").innerHTML = it;
            }
        });
 
