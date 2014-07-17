@@ -7,141 +7,168 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/dataTables.bootstrap.css" rel="stylesheet" />
     <link href="~/Content/angular-xeditable/css/xeditable.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
 }
-<div class="container">
-    <div ng-app="app" ng-controller="Ctrl" class="dataTables_wrapper form-inline">
-        {{currentRowId}}
-        <div class="row">
-            <div class="col-xs-6">
-                <div class="DTTT btn-group">
-                    <a class="btn btn-default DTTT_button_text" ng-click="addEquipment()"><span>添加</span></a>
-                </div>
-            </div>
-            <div class="col-xs-6">
-                <div id="example_filter" class="dataTables_filter">
-                    <label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="example"></label>
-                </div>
-            </div>
-        </div>
-        <table class="table table-striped table-bordered dataTable DTTT_selectable">
-            <thead>
-                <tr>
-                    <th ng-repeat="colModel in colModels" class="{{colModel.sort}}" ng-click="sortClick(colModel.name,colModel.sort)">{{colModel.lable}}</th>
 
-                    @*<th class="sorting_desc">
-                            EquipmentName
-                        </th>
-                        <th class="sorting">
-                            录入时间
-                        </th>
-                        <th class="sorting_asc_disabled">
-                            更新时间
-                        </th>*@
+<div class="container" ng-app="app" ng-controller="Ctrl">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-default" style="margin-top:20px;">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div class="DTTT btn-group">
+                                <button class="btn btn-default" type="submit" ng-click="addEquipment()"><span class="glyphicon glyphicon-plus"></span> 添加</button>
+                                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span> 搜索</button>
 
-                    <th>Edit</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="equipment in Equipments" ng-click="tableRowClick(equipment.EquipmentId)" ng-class="{true: 'active', false: ''}[currentRowId==equipment.EquipmentId]">
-                    <td ng-show="$visible">
-                        <!-- editable username (text with validation) -->
-                        <span editable-text="equipment.EquipmentId" e-name="EquipmentId" e-form="rowform">
-                            {{ equipment.EquipmentId || 'empty' }}
-                        </span>
-                    </td>
-                    <td>
-                        <!-- editable status (select-local) -->
-                        <span editable-text="equipment.EquipmentNum" e-name="EquipmentNum" e-form="rowform" onbeforesave="checkEquipmentNum($data, equipment.EquipmentId)" e-required>
-                            {{ equipment.EquipmentNum || 'empty' }}
-                        </span>
-                    </td>
-                    <td>
-                        <!-- editable group (select-remote) -->
-                        <span editable-text="equipment.EquipmentName" e-name="EquipmentName" e-form="rowform">
-                            {{ equipment.EquipmentName || 'empty' }}
-                        </span>
-                    </td>
-                    <td>
-                        <!-- editable group (select-remote) -->
-                        <span editable-text="equipment.EquipmentCreatTime" e-name="EquipmentCreatTime" e-form="rowform">
-                            {{ equipment.EquipmentCreatTime || 'empty' }}
-                        </span>
-                    </td>
-                    <td>
-                        <!-- editable group (select-remote) -->
-                        <span editable-text="equipment.EquipmentCreatTime" e-name="EquipmentUpDateTime" e-form="rowform">
-                            {{ equipment.EquipmentUpDateTime || 'empty' }}
-                        </span>
-                    </td>
-                    <td style="white-space: nowrap">
-                        <!-- form -->
-                        <form editable-form name="rowform" onbeforesave="saveEquipment($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == equipment">
-                            <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
-                                save
-                            </button>
-                            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
-                                cancel
-                            </button>
-                        </form>
-                        <div class="buttons" ng-show="!rowform.$visible">
-                            <button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
-                            <button class="btn btn-danger" ng-click="removeEquipment($index)">del</button>
+                            </div>
                         </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="row">
-            <div class="col-xs-3">
-                <div class="dataTables_info" id="example_info" role="status" aria-live="polite">Showing {{Paper.FirstItemOnPage}} to {{Paper.LastItemOnPage}} of {{Paper.TotalItemCount}} entries</div>
-            </div>
-            <div class="col-xs-3">
-                <select ng-model="currentSize" ng-options="pageSize.size for pageSize in pageSizes" ng-change="pageSizeChange()"></select><br>
+                        <div class="col-xs-8">
 
-            </div>
-            <div class="col-xs-6">
-                <div class="dataTables_paginate paging_simple_numbers">
-                    <ul class="pagination">
-                        @*<li ng-class="{true: 'disabled', false: ''}[Paper.IsFirstPage]" ng-click="UpdateEquipments(1)"><a href="#">&laquo;</a></li>*@
-                        <li ng-class="{true: 'paginate_button previous', false: 'paginate_button previous disabled'}[Paper.HasPreviousPage]" ng-click="UpdateEquipments(Paper.PageNumber-1)"><a href="#">上一页</a></li>
-                        <li ng-repeat="pageNum in pageNums" ng-class="{true: 'paginate_button active', false: 'paginate_button'}[pageNum.PageCount==Paper.PageNumber]"><a href="#" ng-click="UpdateEquipments(pageNum.PageCount)">{{pageNum.PageCount}}</a></li>
-                        <li ng-class="{true: 'paginate_button next', false: 'paginate_button next disabled'}[Paper.HasNextPage]" ng-click="UpdateEquipments(Paper.PageNumber+1)"><a href="#">下一页</a></li>
-                        @*<li ng-class="{true: 'disabled', false: ''}[Paper.IsLastPage]" ng-click="UpdateEquipments(Paper.PageCount)"><a href="#">&raquo;</a></li>*@
-                    </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body table-responsive" style="padding:0px;">
+                    <div class="dataTables_wrapper form-inline">
+
+                        <table class="table table-striped table-bordered  dataTable DTTT_selectable">
+                            <thead>
+                                <tr>
+                                    <th ng-repeat="colModel in colModels" class="{{colModel.sort}} icon-filter editable editable-click editable-empty" @*ng-click="sortClick(colModel.name,colModel.sort)"*@><a href="#" id="{{colModel.name}}" data-type="text" data-pk="1" ng-class="{true: 'glyphicon glyphicon-glass', false: ''}[colModel.filter]"></a> {{colModel.lable}} </th>
+
+                                    @*<th class="sorting_desc">
+                                            EquipmentName
+                                        </th>
+                                        <th class="sorting">
+                                            录入时间
+                                        </th>
+                                        <th class="sorting_asc_disabled">
+                                            更新时间
+                                        </th>*@
+
+                                    <th style="width:60px;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="equipment in Equipments" ng-click="tableRowClick(equipment.EquipmentId)" ng-class="{true: 'active', false: ''}[currentRowId==equipment.EquipmentId]">
+                                    <td ng-show="$visible">
+                                        <!-- editable username (text with validation) -->
+                                        <span editable-text="equipment.EquipmentId" e-name="EquipmentId" e-form="rowform">
+                                            {{ equipment.EquipmentId || 'empty' }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <!-- editable status (select-local) -->
+                                        <span editable-text="equipment.EquipmentNum" e-name="EquipmentNum" e-form="rowform" onbeforesave="checkEquipmentNum($data, equipment.EquipmentId)" e-required>
+                                            {{ equipment.EquipmentNum || 'empty' }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <!-- editable group (select-remote) -->
+                                        <span editable-text="equipment.EquipmentName" e-name="EquipmentName" e-form="rowform">
+                                            {{ equipment.EquipmentName || 'empty' }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <!-- editable group (select-remote) -->
+                                        <span editable-text="equipment.EquipmentCreatTime" e-name="EquipmentCreatTime" e-form="rowform">
+                                            {{ equipment.EquipmentCreatTime || 'empty' }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <!-- editable group (select-remote) -->
+                                        <span editable-text="equipment.EquipmentCreatTime" e-name="EquipmentUpDateTime" e-form="rowform">
+                                            {{ equipment.EquipmentUpDateTime || 'empty' }}
+                                        </span>
+                                    </td>
+                                    <td style="white-space: nowrap">
+                                        <!-- form -->
+                                        <form editable-form name="rowform" onbeforesave="saveEquipment($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline btn-group" shown="inserted == equipment">
+                                            <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                            </button>
+                                            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+                                                <span class="glyphicon  glyphicon-remove"></span>
+                                            </button>
+                                        </form>
+                                        <div class=" btn-group center" ng-show="!rowform.$visible">
+                                            <button ng-click="rowform.$show()" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-pencil"></span> </button>
+                                            <button ng-click="removeEquipment($index)" class="btn btn-default" type="submit"><span class="glyphicon  glyphicon-trash"></span> </button>
+
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row">
+                            <div class="col-xs-2 dataTables_info ng-binding">
+
+                                每页显示 <select ng-model="currentSize" ng-options="pageSize.size for pageSize in pageSizes" ng-change="pageSizeChange()"></select>条记录；
+
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="dataTables_info" id="example_info" role="status" aria-live="polite">显示第 {{Paper.FirstItemOnPage}} 至 {{Paper.LastItemOnPage}}条记录，共 {{Paper.TotalItemCount}} 条记录</div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="dataTables_paginate paging_simple_numbers">
+                                    <ul class="pagination">
+                                        @*<li ng-class="{true: 'disabled', false: ''}[Paper.IsFirstPage]" ng-click="UpdateEquipments(1)"><a href="#">&laquo;</a></li>*@
+                                        <li ng-class="{true: 'paginate_button previous', false: 'paginate_button previous disabled'}[Paper.HasPreviousPage]" ng-click="UpdateEquipments(Paper.PageNumber-1)"><a href="#">上一页</a></li>
+                                        <li ng-repeat="pageNum in pageNums" ng-class="{true: 'paginate_button active', false: 'paginate_button'}[pageNum.PageCount==Paper.PageNumber]"><a href="#" ng-click="UpdateEquipments(pageNum.PageCount)">{{pageNum.PageCount}}</a></li>
+                                        <li ng-class="{true: 'paginate_button next', false: 'paginate_button next disabled'}[Paper.HasNextPage]" ng-click="UpdateEquipments(Paper.PageNumber+1)"><a href="#">下一页</a></li>
+                                        @*<li ng-class="{true: 'disabled', false: ''}[Paper.IsLastPage]" ng-click="UpdateEquipments(Paper.PageCount)"><a href="#">&raquo;</a></li>*@
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div id="fil"></div>
+                    <div id="message"></div>
                 </div>
             </div>
         </div>
-
-
     </div>
-
-    <div id="fil"></div>
-    <div id="message"></div>
-
 </div>
 @section scripts{
+    <script src="~/Scripts/jquery-2.1.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/angular.js"></script>
     <script src="~/Content/angular-xeditable/js/xeditable.js"></script>
     <script src="~/Scripts/xFilter.js"></script>
+    <script src="~/Content/bootstrap3-editable/js/bootstrap-editable.js"></script>
     <script type="text/javascript">
-
+        $(function () {
+            //内容过滤 
+            $('#EquipmentNum').editable({
+                send:'never',
+                type: 'text',
+                name: 'FirstSocre',
+                title: '录入第一轮成绩'
+            });
+        });
         //加载Anjular模型
         var app = angular.module("app", ["xeditable"]);
         app.run(function (editableOptions) {
             editableOptions.theme = 'bs3';
         });
         app.controller('Ctrl', function ($scope, $filter, $http) {
+
+
             //提供搜索字段
             $scope.colModels = [
-                { "name": "EquipmentNum", "lable": "设备编号", "sort": "sorting" },
-                { "name": "EquipmentName", "lable": "设备名称 ", "sort": "sorting" },
-                { "name": "EquipmentCreatTime", "lable": "录入时间", "sort": "sorting" },
-                { "name": "EquipmentUpDateTime", "lable": "更新时间 ", "sort": "sorting" }
+                { "name": "EquipmentNum", "lable": "设备编号", "sort": "sorting", "filter": true },
+                { "name": "EquipmentName", "lable": "设备名称 ", "sort": "sorting", "filter": true },
+                { "name": "EquipmentCreatTime", "lable": "录入时间", "sort": "sorting", "filter": false },
+                { "name": "EquipmentUpDateTime", "lable": "更新时间 ", "sort": "sorting", "filter": false }
 
             ];
             $scope.filter = {
                 "groupOp": "and",
-                "groups": [ ],
+                "groups": [],
                 "rules": [
                   { "field": "name", "op": "eq", "data": "Romania" },
                   { "field": "id", "op": "le", "data": "1" }
