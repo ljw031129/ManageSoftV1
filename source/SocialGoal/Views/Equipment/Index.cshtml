@@ -11,6 +11,10 @@
 }
 
 <div class="container" ng-app="app" ng-controller="Ctrl">
+  
+        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+        <button class='btn btn-default' ng-click="addAlert()">Add Alert</button>
+  
     <div class="row">
         <div class="col-xs-12">
             <div class="panel panel-default" style="margin-top:20px;">
@@ -140,23 +144,43 @@
     <script src="~/Content/angular-xeditable/js/xeditable.js"></script>
     <script src="~/Scripts/xFilter.js"></script>
     <script src="~/Content/bootstrap3-editable/js/bootstrap-editable.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
     <script type="text/javascript">
         $(function () {
-            //内容过滤 
+            //内容过滤
             $('#EquipmentNum').editable({
-                send:'never',
                 type: 'text',
-                name: 'FirstSocre',
-                title: '录入第一轮成绩'
+                title: '录入第一轮成绩',
+                success: function (response, newValue) {
+                    // userModel.set('EquipmentNum', newValue);
+                    $scope.gridSettings.PageSize = $scope.currentSize.size;
+                    $scope.gridSettings.PageIndex = 1;
+                    getDate();
+                    alert(newValue);
+                }
+
             });
         });
         //加载Anjular模型
-        var app = angular.module("app", ["xeditable"]);
+        var app = angular.module("app", ["xeditable", "ui.bootstrap"]);
         app.run(function (editableOptions) {
             editableOptions.theme = 'bs3';
+
         });
         app.controller('Ctrl', function ($scope, $filter, $http) {
 
+            $scope.alerts = [
+   { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
+   { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
+            ];
+
+            $scope.addAlert = function () {
+                $scope.alerts.push({ msg: 'Another alert!' });
+            };
+
+            $scope.closeAlert = function (index) {
+                $scope.alerts.splice(index, 1);
+            };
 
             //提供搜索字段
             $scope.colModels = [

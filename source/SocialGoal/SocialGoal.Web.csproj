@@ -348,6 +348,10 @@
     <Content Include="Content\calendar.gif" />
     <Content Include="Content\CustomStyles.css" />
     <Content Include="Content\dataTables.bootstrap.css" />
+    <Content Include="Content\fuelux-responsive.css" />
+    <Content Include="Content\fuelux-responsive.min.css" />
+    <Content Include="Content\fuelux.css" />
+    <Content Include="Content\fuelux.min.css" />
     <Content Include="Content\HomePage.css" />
     <Content Include="Content\images\facebook-avatar.png" />
     <Content Include="Content\images\SonataCoveSoftwareLong.png" />
