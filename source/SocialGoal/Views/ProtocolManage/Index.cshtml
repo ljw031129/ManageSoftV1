@@ -1,0 +1,232 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAngular.cshtml";
+}
+@section styles{
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/angular-xeditable/css/xeditable.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
+}
+
+<div class="container" ng-app="app" ng-controller="EditableRowCtrl">
+    <div class="row">
+        <div class="well">{{protocols | json}}</div>
+    </div>
+    <div class="row">
+
+        <table class="table table-bordered table-hover table-condensed">
+            <thead>
+                <tr style="font-weight: bold">
+                    <td width="60">编号</td>
+                    <td width="60">开始位置</td>
+                    <td width="60">数据长度</td>
+                    <td width="80">数据类型</td>
+                    <td width="60">是否为大端模式</td>
+                    <td width="60">纠偏系数</td>
+                    <td width="60">数据保存字段</td>
+                    <td>bit数据</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="protocol in protocols">
+                    <td>
+                        <!-- editable username (text with validation) -->
+                        <span editable-text="protocol.id" e-name="id" e-form="rowform">
+                            {{ protocol.id  }}
+                        </span>
+                    </td>
+                    <td>
+                        <!-- editable username (text with validation) -->
+                        <span editable-text="protocol.SrcStart" e-name="SrcStart" e-form="rowform" onbeforesave="checkName($data, protocol.SrcStart)" e-required>
+                            {{ protocol.SrcStart }}
+                        </span>
+                    </td>
+                    <td>
+                        <!-- editable status (select-local) -->
+                        <span editable-text="protocol.SrcLength" e-name="Srclength" e-form="rowform">
+                            {{ protocol.Srclength }}
+                        </span>
+                    </td>
+                    <td>
+                        <!-- editable group (select-remote) -->
+                        <span editable-select="protocol.SrcType" e-name="SrcType" e-form="rowform" e-ng-options="g.value as g.text for g in SrcTypes">
+                            {{ showTypes(protocol) }}
+                        </span>
+                    </td>
+                    <td>
+                        <!-- editable status (select-local) -->
+                        <span editable-text="protocol.SrcBigEndian" e-name="SrcBigEndian" e-form="rowform">
+                            {{ protocol.SrcBigEndian }}
+                        </span>
+                    </td>
+                    <td>
+                        <!-- editable status (select-local) -->
+                        <span editable-text="protocol.SrcOffset" e-name="SrcOffset" e-form="rowform">
+                            {{ protocol.SrcOffset }}
+                        </span>
+                    </td>
+                    <td>
+                        <!-- editable status (select-local) -->
+                        <span editable-text="protocol.SrcSaveField" e-name="SrcSaveField" e-form="rowform">
+                            {{ protocol.SrcSaveField }}
+                        </span>
+                    </td>
+                    <td>
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <td width="60">开始位置</td>
+                                    <td width="60">长度</td>
+                                    <td width="60">存储字段</td>
+                                    <td>操作</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="bitData in protocol.BitDatas">
+                                    <td><span editable-text="bitData.BitStart" e-name="BitStart" e-form="rowform">{{bitData.BitStart}}</span></td>
+                                    <td><span editable-text="bitData.BitLength" e-name="BitLength" e-form="rowform">{{bitData.BitLength}}</span></td>
+                                    <td><span editable-text="bitData.SaveFiled" e-name="SaveFiled" e-form="rowform">{{bitData.SaveFiled}}</span></td>
+                                   <td><button class="btn btn-default" ng-click="addBitDatas(protocol.id)">添加</button><button class="btn btn-default" ng-click="delBitDatas($index)">删除</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="white-space: nowrap">
+                        <!-- form -->
+                        <form editable-form name="rowform" onbeforesave="saveUser($data, protocol.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == protocol">
+                            <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </button>
+                            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+                                <span class="glyphicon  glyphicon-remove"></span>
+                            </button>
+                        </form>
+                        <div class="buttons" ng-show="!rowform.$visible">
+                            <button ng-click="rowform.$show()" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-pencil"></span> </button>
+                            <button ng-click="removeUser($index)" class="btn btn-default" type="submit"><span class="glyphicon  glyphicon-trash"></span> </button>
+
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button class="btn btn-default" ng-click="addUser()">Add row</button>
+
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/jquery-2.1.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Content/angular-xeditable/js/xeditable.js"></script>
+    <script src="~/Scripts/xFilter.js"></script>
+    <script src="~/Content/bootstrap3-editable/js/bootstrap-editable.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
+    <script type="text/javascript">
+        var app = angular.module("app", ["xeditable", "ui.bootstrap"]);
+        app.run(function (editableOptions) {
+            editableOptions.theme = 'bs3';
+            //  editableOptions.theme.inputClass = "input-sm";
+        });
+        app.controller('EditableRowCtrl', function ($scope, $filter, $http) {
+            $scope.protocols = [
+              {
+                  id: 1, SrcStart: 8, SrcLength: 2, SrcType: 1, SrcBigEndian: true, SrcOffset: 0.1, SrcSaveField: "A12",
+                  BitDatas: [{ BitStart: 1, BitLength: 2, SaveFiled: "A11" }
+                  ]
+              }
+            ];
+
+            $scope.SrcTypes = [
+              { value: 1, text: 'BYTE' },
+              { value: 2, text: 'WORD' },
+              { value: 3, text: 'DWORD'},
+              { value: 4, text: 'BIT' }
+            ];
+
+            $scope.showTypes = function (protocol) {
+                var selected = [];
+                if (protocol.SrcType) {
+                    selected = $filter('filter')($scope.SrcTypes, { value: protocol.SrcType });
+                }
+                return selected.length ? selected[0].text : 'Not set';
+            };
+
+
+            $scope.groups = [];
+            $scope.loadGroups = function () {
+                return $scope.groups.length ? null : $http.get('/groups').success(function (data) {
+                    $scope.groups = data;
+                });
+            };
+
+            $scope.showGroup = function (user) {
+                if (user.group && $scope.groups.length) {
+                    var selected = $filter('filter')($scope.groups, { id: user.group });
+                    return selected.length ? selected[0].text : 'Not set';
+                } else {
+                    return user.groupName || 'Not set';
+                }
+            };
+
+            $scope.showStatus = function (user) {
+                var selected = [];
+                if (user.status) {
+                    selected = $filter('filter')($scope.statuses, { value: user.status });
+                }
+                return selected.length ? selected[0].text : 'Not set';
+            };
+
+            $scope.checkName = function (data, id) {
+                if (id === 2 && data !== 'awesome') {
+                    return "Username 2 should be `awesome`";
+                }
+            };
+
+            $scope.saveUser = function (data, id) {
+               
+                //$scope.user not updated yet
+                angular.extend(data, { id: id });
+                return;
+                // return $http.post('/saveUser', data);
+            }; 
+
+            $scope.addBitDatas = function ( bitId) {
+              
+                $scope.insertData = { BitStart: 1, BitLength: 2, SaveFiled: "A11" };
+               
+                $scope.protocols[bitId-1].BitDatas.push($scope.insertData);
+            }
+            $scope.delBitDatas = function (index) {
+
+                debugger;
+
+                $scope.protocols[index].BitDatas.push($scope.insertData);
+            }
+
+            // remove user
+            $scope.removeUser = function (index) {
+                debugger;
+                $scope.users.splice(index, 1);
+            };
+
+            // add user
+            $scope.addUser = function () {
+                $scope.inserted = {
+                    id: $scope.protocols.length + 1,
+                    SrcStart: 0,
+                    SrcLength: 0,
+                    SrcType: 1,
+                    SrcBigEndian: true,
+                    SrcOffset: 1,
+                    SrcSaveField: '',
+                    BitDatas: [{ BitStart: 1, BitLength: 2, SaveFiled: "A11" }]
+                };
+                $scope.protocols.push($scope.inserted);
+            };
+        });
+    </script>
+}

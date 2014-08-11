@@ -32,6 +32,7 @@ namespace SocialGoal.Controllers
             ViewBag.JsonData = JsonConvert.SerializeObject(allEquipments);
             return View(allEquipments);
         }
+      
 
         public string Get()
         {

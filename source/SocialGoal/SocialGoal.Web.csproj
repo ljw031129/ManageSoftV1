@@ -257,6 +257,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApiEquipmentController.cs" />
     <Compile Include="Controllers\EquipmentController.cs" />
+    <Compile Include="Controllers\ProtocolManageController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
@@ -1069,6 +1070,7 @@
     <Content Include="Views\Equipment\Index.cshtml" />
     <Content Include="Views\Equipment\_CreateOrEdit.cshtml" />
     <Content Include="Views\Shared\_LayoutAngular.cshtml" />
+    <Content Include="Views\ProtocolManage\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
