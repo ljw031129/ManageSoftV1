@@ -503,6 +503,7 @@
     <Content Include="Images\windowsLive.png" />
     <Content Include="img\glyphicons-halflings-white.png" />
     <Content Include="img\glyphicons-halflings.png" />
+    <Content Include="Json\JsonData.js" />
     <Content Include="Scripts\AjaxLogin.js" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
