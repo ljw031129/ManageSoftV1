@@ -651,13 +651,13 @@
         {
             "Id": 37,
             "InfoTypeNumber": "16",
-            "StartPosition": 0,
-            "DataLength": "8",
+            "StartPosition": "8",
+            "DataLength": "2",
             "DataType": 1,
             "DataByteModel": {
-                "Representation": 4,
-                "IsBigEndian": true,
-                "IsUnsigned": false,
+                "Representation": 1,
+                "IsBigEndian": false,
+                "IsUnsigned": true,
                 "Formula": "",
                 "DefaultValue": "默认值",
                 "DictionaryKey": "A33"
@@ -667,13 +667,13 @@
         {
             "Id": 38,
             "InfoTypeNumber": "16",
-            "StartPosition": "8",
-            "DataLength": "8",
+            "StartPosition": "10",
+            "DataLength": "2",
             "DataType": 1,
             "DataByteModel": {
-                "Representation": 4,
-                "IsBigEndian": true,
-                "IsUnsigned": false,
+                "Representation": 1,
+                "IsBigEndian": false,
+                "IsUnsigned": true,
                 "Formula": "",
                 "DefaultValue": "默认值",
                 "DictionaryKey": "A34"
@@ -683,13 +683,13 @@
         {
             "Id": 39,
             "InfoTypeNumber": "16",
-            "StartPosition": "16",
-            "DataLength": "8",
+            "StartPosition": "12",
+            "DataLength": "2",
             "DataType": 1,
             "DataByteModel": {
-                "Representation": 4,
-                "IsBigEndian": true,
-                "IsUnsigned": false,
+                "Representation": 1,
+                "IsBigEndian": false,
+                "IsUnsigned": true,
                 "Formula": "",
                 "DefaultValue": "默认值",
                 "DictionaryKey": "A35"
@@ -699,59 +699,61 @@
         {
             "Id": 40,
             "InfoTypeNumber": "16",
-            "StartPosition": "24",
-            "DataLength": "8",
-            "DataType": 1,
+            "StartPosition": "14",
+            "DataLength": "1",
+            "DataType": 2,
             "DataByteModel": {
-                "Representation": 4,
+                "Representation": 1,
                 "IsBigEndian": true,
                 "IsUnsigned": false,
                 "Formula": "",
                 "DefaultValue": "默认值",
-                "DictionaryKey": "A36"
+                "DictionaryKey": ""
             },
-            "DataBitModels": []
+            "DataBitModels": [
+                {
+                    "Id": 1,
+                    "Representation": 0,
+                    "ByteCounts": 0,
+                    "IsBigEndian": false,
+                    "BitType": 0,
+                    "ChildStartPostion": "0",
+                    "ChildDataLength": "4",
+                    "DefaultValue": null,
+                    "DictionaryKey": "A36"
+                },
+                {
+                    "Id": 2,
+                    "Representation": 0,
+                    "ByteCounts": 0,
+                    "IsBigEndian": false,
+                    "BitType": 0,
+                    "ChildStartPostion": "4",
+                    "ChildDataLength": "2",
+                    "DefaultValue": null,
+                    "DictionaryKey": "A37"
+                },
+                {
+                    "Id": 3,
+                    "Representation": 0,
+                    "ByteCounts": 0,
+                    "IsBigEndian": false,
+                    "BitType": 0,
+                    "ChildStartPostion": "6",
+                    "ChildDataLength": "1",
+                    "DefaultValue": null,
+                    "DictionaryKey": "A38"
+                }
+            ]
         },
         {
             "Id": 41,
             "InfoTypeNumber": "16",
-            "StartPosition": "32",
-            "DataLength": "8",
+            "StartPosition": "15",
+            "DataLength": "1",
             "DataType": 1,
             "DataByteModel": {
-                "Representation": 4,
-                "IsBigEndian": true,
-                "IsUnsigned": false,
-                "Formula": "",
-                "DefaultValue": "默认值",
-                "DictionaryKey": "A37"
-            },
-            "DataBitModels": []
-        },
-        {
-            "Id": 42,
-            "InfoTypeNumber": "16",
-            "StartPosition": "40",
-            "DataLength": "8",
-            "DataType": 1,
-            "DataByteModel": {
-                "Representation": 4,
-                "IsBigEndian": true,
-                "IsUnsigned": false,
-                "Formula": "",
-                "DefaultValue": "默认值",
-                "DictionaryKey": "A38"
-            },
-            "DataBitModels": []
-        },
-        {
-            "Id": 43,
-            "InfoTypeNumber": "16",
-            "StartPosition": "48",
-            "DataLength": "8",
-            "DataType": 1,
-            "DataByteModel": {
-                "Representation": 4,
+                "Representation": 1,
                 "IsBigEndian": true,
                 "IsUnsigned": false,
                 "Formula": "",
@@ -761,20 +763,64 @@
             "DataBitModels": []
         },
         {
+            "Id": 42,
+            "InfoTypeNumber": "16",
+            "StartPosition": "16",
+            "DataLength": "2",
+            "DataType": 1,
+            "DataByteModel": {
+                "Representation": 1,
+                "IsBigEndian": false,
+                "IsUnsigned": true,
+                "Formula": "",
+                "DefaultValue": "默认值",
+                "DictionaryKey": "A62"
+            },
+            "DataBitModels": []
+        },
+        {
+            "Id": 43,
+            "InfoTypeNumber": "16",
+            "StartPosition": "19",
+            "DataLength": "2",
+            "DataType": 1,
+            "DataByteModel": {
+                "Representation": 1,
+                "IsBigEndian": false,
+                "IsUnsigned": true,
+                "Formula": "",
+                "DefaultValue": "默认值",
+                "DictionaryKey": "A63"
+            },
+            "DataBitModels": []
+        },
+        {
             "Id": 44,
             "InfoTypeNumber": "16",
-            "StartPosition": "56",
-            "DataLength": "8",
-            "DataType": 1,
+            "StartPosition": "22",
+            "DataLength": "1",
+            "DataType": 2,
             "DataByteModel": {
                 "Representation": 4,
                 "IsBigEndian": true,
                 "IsUnsigned": false,
                 "Formula": "",
                 "DefaultValue": "默认值",
-                "DictionaryKey": "A40"
+                "DictionaryKey": ""
             },
-            "DataBitModels": []
+            "DataBitModels": [
+                {
+                    "Id": 1,
+                    "Representation": 0,
+                    "ByteCounts": 0,
+                    "IsBigEndian": false,
+                    "BitType": 0,
+                    "ChildStartPostion": "6",
+                    "ChildDataLength": "2",
+                    "DefaultValue": null,
+                    "DictionaryKey": "A64"
+                }
+            ]
         },
         {
             "Id": 45,
@@ -876,7 +922,7 @@
             "Id": 51,
             "InfoTypeNumber": "18",
             "StartPosition": 0,
-            "DataLength": "120",
+            "DataLength": "8",
             "DataType": 1,
             "DataByteModel": {
                 "Representation": 4,
@@ -885,6 +931,290 @@
                 "Formula": "",
                 "DefaultValue": "默认值",
                 "DictionaryKey": "A47"
+            },
+            "DataBitModels": []
+        },
+        {
+            "Id": 52,
+            "InfoTypeNumber": "18",
+            "StartPosition": "8",
+            "DataLength": "8",
+            "DataType": 1,
+            "DataByteModel": {
+                "Representation": 4,
+                "IsBigEndian": true,
+                "IsUnsigned": false,
+                "Formula": "",
+                "DefaultValue": "默认值",
+                "DictionaryKey": "A48"
+            },
+            "DataBitModels": []
+        },
+        {
+            "Id": 53,
+            "InfoTypeNumber": "18",
+            "StartPosition": "16",
+            "DataLength": "8",
+            "DataType": 1,
+            "DataByteModel": {
+                "Representation": 4,
+                "IsBigEndian": true,
+                "IsUnsigned": false,
+                "Formula": "",
+                "DefaultValue": "默认值",
+                "DictionaryKey": "A49"
+            },
+            "DataBitModels": []
+        },
+        {
+            "Id": 54,
+            "InfoTypeNumber": "18",
+            "StartPosition": "24",
+            "DataLength": "8",
+            "DataType": 1,
+            "DataByteModel": {
+                "Representation": 4,
+                "IsBigEndian": true,
+                "IsUnsigned": false,
+                "Formula": "",
+                "DefaultValue": "默认值",
+                "DictionaryKey": "A50"
+            },
+            "DataBitModels": []
+        },
+        {
+            "Id": 55,
+            "InfoTypeNumber": "18",
+            "StartPosition": "32",
+            "DataLength": "8",
+            "DataType": 1,
+            "DataByteModel": {
+                "Representation": 4,
+                "IsBigEndian": true,
+                "IsUnsigned": false,
+                "Formula": "",
+                "DefaultValue": "默认值",
+                "DictionaryKey": "A51"
+            },
+            "DataBitModels": []
+        },
+        {
+            "Id": 56,
+            "InfoTypeNumber": "18",
+            "StartPosition": "40",
+            "DataLength": "8",
+            "DataType": 1,
+            "DataByteModel": {
+                "Representation": 4,
+                "IsBigEndian": true,
+                "IsUnsigned": false,
+                "Formula": "",
+                "DefaultValue": "默认值",
+                "DictionaryKey": "A52"
+            },
+            "DataBitModels": []
+        },
+        {
+            "Id": 57,
+            "InfoTypeNumber": "18",
+            "StartPosition": "48",
+            "DataLength": "8",
+            "DataType": 1,
+            "DataByteModel": {
+                "Representation": 4,
+                "IsBigEndian": true,
+                "IsUnsigned": false,
+                "Formula": "",
+                "DefaultValue": "默认值",
+                "DictionaryKey": "A53"
+            },
+            "DataBitModels": []
+        },
+        {
+            "Id": 58,
+            "InfoTypeNumber": "18",
+            "StartPosition": "56",
+            "DataLength": "8",
+            "DataType": 1,
+            "DataByteModel": {
+                "Representation": 4,
+                "IsBigEndian": true,
+                "IsUnsigned": false,
+                "Formula": "",
+                "DefaultValue": "默认值",
+                "DictionaryKey": "A54"
+            },
+            "DataBitModels": []
+        },
+        {
+            "Id": 59,
+            "InfoTypeNumber": "18",
+            "StartPosition": "64",
+            "DataLength": "8",
+            "DataType": 1,
+            "DataByteModel": {
+                "Representation": 4,
+                "IsBigEndian": true,
+                "IsUnsigned": false,
+                "Formula": "",
+                "DefaultValue": "默认值",
+                "DictionaryKey": "A55"
+            },
+            "DataBitModels": []
+        },
+        {
+            "Id": 60,
+            "InfoTypeNumber": "18",
+            "StartPosition": "72",
+            "DataLength": "8",
+            "DataType": 1,
+            "DataByteModel": {
+                "Representation": 4,
+                "IsBigEndian": true,
+                "IsUnsigned": false,
+                "Formula": "",
+                "DefaultValue": "默认值",
+                "DictionaryKey": "A56"
+            },
+            "DataBitModels": []
+        },
+        {
+            "Id": 61,
+            "InfoTypeNumber": "18",
+            "StartPosition": "80",
+            "DataLength": "8",
+            "DataType": 1,
+            "DataByteModel": {
+                "Representation": 4,
+                "IsBigEndian": true,
+                "IsUnsigned": false,
+                "Formula": "",
+                "DefaultValue": "默认值",
+                "DictionaryKey": "A57"
+            },
+            "DataBitModels": []
+        },
+        {
+            "Id": 62,
+            "InfoTypeNumber": "18",
+            "StartPosition": "88",
+            "DataLength": "8",
+            "DataType": 1,
+            "DataByteModel": {
+                "Representation": 4,
+                "IsBigEndian": true,
+                "IsUnsigned": false,
+                "Formula": "",
+                "DefaultValue": "默认值",
+                "DictionaryKey": "A58"
+            },
+            "DataBitModels": []
+        },
+        {
+            "Id": 63,
+            "InfoTypeNumber": "18",
+            "StartPosition": "96",
+            "DataLength": "8",
+            "DataType": 1,
+            "DataByteModel": {
+                "Representation": 4,
+                "IsBigEndian": true,
+                "IsUnsigned": false,
+                "Formula": "",
+                "DefaultValue": "默认值",
+                "DictionaryKey": "A59"
+            },
+            "DataBitModels": []
+        },
+        {
+            "Id": 64,
+            "InfoTypeNumber": "18",
+            "StartPosition": "104",
+            "DataLength": "8",
+            "DataType": 1,
+            "DataByteModel": {
+                "Representation": 4,
+                "IsBigEndian": true,
+                "IsUnsigned": false,
+                "Formula": "",
+                "DefaultValue": "默认值",
+                "DictionaryKey": "A60"
+            },
+            "DataBitModels": []
+        },
+        {
+            "Id": 65,
+            "InfoTypeNumber": "18",
+            "StartPosition": "112",
+            "DataLength": "8",
+            "DataType": 1,
+            "DataByteModel": {
+                "Representation": 4,
+                "IsBigEndian": true,
+                "IsUnsigned": false,
+                "Formula": "",
+                "DefaultValue": "默认值",
+                "DictionaryKey": "A61"
+            },
+            "DataBitModels": []
+        },
+        {
+            "Id": 66,
+            "InfoTypeNumber": "16",
+            "StartPosition": "23",
+            "DataLength": 1,
+            "DataType": 2,
+            "DataByteModel": {
+                "Representation": 4,
+                "IsBigEndian": true,
+                "IsUnsigned": false,
+                "Formula": "",
+                "DefaultValue": "默认值",
+                "DictionaryKey": ""
+            },
+            "DataBitModels": [
+                {
+                    "Id": 1,
+                    "Representation": 0,
+                    "ByteCounts": 0,
+                    "IsBigEndian": false,
+                    "BitType": 0,
+                    "ChildStartPostion": "6",
+                    "ChildDataLength": 2,
+                    "DefaultValue": null,
+                    "DictionaryKey": "A40"
+                }
+            ]
+        },
+        {
+            "Id": 67,
+            "InfoTypeNumber": "16",
+            "StartPosition": "24",
+            "DataLength": "2",
+            "DataType": 1,
+            "DataByteModel": {
+                "Representation": 1,
+                "IsBigEndian": false,
+                "IsUnsigned": true,
+                "Formula": "",
+                "DefaultValue": "默认值",
+                "DictionaryKey": "A65"
+            },
+            "DataBitModels": []
+        },
+        {
+            "Id": 68,
+            "InfoTypeNumber": "16",
+            "StartPosition": "26",
+            "DataLength": "4",
+            "DataType": 1,
+            "DataByteModel": {
+                "Representation": 1,
+                "IsBigEndian": false,
+                "IsUnsigned": true,
+                "Formula": "",
+                "DefaultValue": "默认值",
+                "DictionaryKey": "A66"
             },
             "DataBitModels": []
         }

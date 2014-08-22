@@ -182,13 +182,7 @@
     <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
     <script type="text/javascript">
 
-        function saveFile(T, content) {//保存  
-            var filename = document.all(T).value;
-            var win = window.open('', '', 'top=10000,left=10000');
-            win.document.write(document.all(content).innerText);
-            win.document.execCommand('SaveAs', '', filename)
-            win.close();
-        }
+       
         var app = angular.module("app", ["xeditable", "ui.bootstrap"]);
         app.run(function (editableOptions) {
             editableOptions.theme = 'bs3';
@@ -222,7 +216,7 @@
             ];
 
             $scope.showTypes = function (currentType) {
-                debugger;
+              
                 var selected = $filter('filter')($scope.DataTypes, { value: currentType });
                 return (currentType && selected.length) ? selected[0].text : '未设置';
             };                      
@@ -234,37 +228,7 @@
             $scope.showBool = function (curentData) {
                 var selected = $filter('filter')($scope.boolData, { value: curentData });
                 return ( selected.length) ? selected[0].text : '未设置';
-            }
-
-            $scope.groups = [];
-            $scope.loadGroups = function () {
-                return $scope.groups.length ? null : $http.get('/groups').success(function (data) {
-                    $scope.groups = data;
-                });
-            };
-
-            $scope.showGroup = function (user) {
-                if (user.group && $scope.groups.length) {
-                    var selected = $filter('filter')($scope.groups, { id: user.group });
-                    return selected.length ? selected[0].text : 'Not set';
-                } else {
-                    return user.groupName || 'Not set';
-                }
-            };
-
-            $scope.showStatus = function (user) {
-                var selected = [];
-                if (user.status) {
-                    selected = $filter('filter')($scope.statuses, { value: user.status });
-                }
-                return selected.length ? selected[0].text : 'Not set';
-            };
-
-            $scope.checkName = function (data, id) {
-                if (id === 2 && data !== 'awesome') {
-                    return "Username 2 should be `awesome`";
-                }
-            };
+            }           
 
             $scope.saveUser = function (data, id) {
 
@@ -296,9 +260,8 @@
             }
 
             // remove user
-            $scope.removeUser = function (index) {
-                debugger;
-                $scope.users.splice(index, 1);
+            $scope.removeUser = function (index) {              
+                $scope.protocolManage.DataBodyModels.splice(index, 1);
             };
 
             // add user
