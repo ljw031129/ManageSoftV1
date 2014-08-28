@@ -7,11 +7,25 @@
     <link href="~/Content/dataTables.bootstrap.css" rel="stylesheet" />
     <link href="~/Content/angular-xeditable/css/xeditable.css" rel="stylesheet" />
     <link href="~/Content/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
+   
+    <style type="text/css">
+        .gridStyle {
+            border: 1px solid rgb(212,212,212);
+            width: 400px;
+            height: 300px;
+        }
+
+        .green {
+            background-color: green;
+            color: white;
+        }
+    </style>
 }
 
 <div class="container" ng-app="app" ng-controller="EditableRowCtrl">
+   
     <div class="row">
-        <div class="well">{{protocols | json}}</div>
+     
         <div class="well">{{protocolManage.ProtocolVersion}}</div>
         <div class="well">{{protocolManage | json}}</div>
     </div>
@@ -54,7 +68,7 @@
                     <td width="60">编号</td>
                     <td width="60">信息体</td>
                     <td width="80">截取位置</td>
-                    <td width="80">截取长度</td>                    
+                    <td width="80">截取长度</td>
                     <td width="80">处理方式</td>
                     <td width="80">目标类型</td>
                     <td width="80">传输模式</td>
@@ -71,7 +85,7 @@
                         <!-- editable username (text with validation) -->
                         <span class="label label-success"> {{ dataBodyModel.Id  }}</span>
 
-</td>
+                    </td>
                     <td>
                         <!-- editable username (text with validation) -->
                         <span editable-text="dataBodyModel.InfoTypeNumber" e-name="InfoTypeNumber" e-form="rowform">
@@ -169,45 +183,48 @@
         </table>
 
         <button class="btn btn-default" ng-click="addProtocolData()">Add row</button>
-        <input type="button" value="save as txt file" onclick=saveFile('title_1','content_1')> 
+        <input type="button" value="save as txt file" onclick=saveFile('title_1','content_1')>
     </div>
 </div>
 @section scripts{
     <script src="~/Scripts/jquery-2.1.1.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/angular.js"></script>
+    
     <script src="~/Content/angular-xeditable/js/xeditable.js"></script>
     <script src="~/Scripts/xFilter.js"></script>
     <script src="~/Content/bootstrap3-editable/js/bootstrap-editable.js"></script>
     <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
     <script type="text/javascript">
 
-       
+
         var app = angular.module("app", ["xeditable", "ui.bootstrap"]);
         app.run(function (editableOptions) {
             editableOptions.theme = 'bs3';
             //  editableOptions.theme.inputClass = "input-sm";
         });
-        app.controller('EditableRowCtrl', function ($scope, $filter, $http) {
-           
+        app.controller('EditableRowCtrl', function ($scope, $filter, $http) {         
+
             //加载Json数据
             $http.get('/Json/JsonData.js').success(function (data) {
                 $scope.protocolManage = data;
             });
 
-            
+
 
             $scope.DataTypes = [
               { value: 1, text: '字节' },
               { value: 2, text: 'BIT位' },
               { value: 3, text: '状态位' }
-             
+
             ];
             $scope.Representations = [
              { value: 1, text: '整数' },
              { value: 2, text: '字符串' },
              { value: 3, text: '时间' },
-             { value: 4, text: '不处理'}
+             { value: 4, text: '不处理' },
+             { value: 5, text: '温度' },
+             { value: 6, text: '电压' }
             ];
 
             $scope.boolData = [
@@ -216,19 +233,19 @@
             ];
 
             $scope.showTypes = function (currentType) {
-              
+
                 var selected = $filter('filter')($scope.DataTypes, { value: currentType });
                 return (currentType && selected.length) ? selected[0].text : '未设置';
-            };                      
+            };
             $scope.showRepresentations = function (currentType) {
-                debugger;
+
                 var selected = $filter('filter')($scope.Representations, { value: currentType });
                 return (selected.length) ? selected[0].text : '未设置';
             };
             $scope.showBool = function (curentData) {
                 var selected = $filter('filter')($scope.boolData, { value: curentData });
-                return ( selected.length) ? selected[0].text : '未设置';
-            }           
+                return (selected.length) ? selected[0].text : '未设置';
+            }
 
             $scope.saveUser = function (data, id) {
 
@@ -260,7 +277,7 @@
             }
 
             // remove user
-            $scope.removeUser = function (index) {              
+            $scope.removeUser = function (index) {
                 $scope.protocolManage.DataBodyModels.splice(index, 1);
             };
 
@@ -296,6 +313,9 @@
                 };
                 $scope.protocolManage.DataBodyModels.push($scope.inserted);
             };
+            $scope.sortObjectWith = function () {
+
+            }
         });
     </script>
 }

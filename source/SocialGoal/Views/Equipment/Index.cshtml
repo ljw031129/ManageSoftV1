@@ -8,13 +8,27 @@
     <link href="~/Content/dataTables.bootstrap.css" rel="stylesheet" />
     <link href="~/Content/angular-xeditable/css/xeditable.css" rel="stylesheet" />
     <link href="~/Content/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
+    <link href="~/Content/ng-grid.css" rel="stylesheet" />
+    <style type="text/css">
+        .gridStyle {
+            border: 1px solid rgb(212,212,212);
+            height: 300px;
+        }
+
+        .green {
+            background-color: green;
+            color: white;
+        }
+    </style>
+
 }
 
 <div class="container" ng-app="app" ng-controller="Ctrl">
-  
-        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
-        <button class='btn btn-default' ng-click="addAlert()">Add Alert</button>
-  
+    <div class="gridStyle" ng-grid="gridOptions"></div>
+    <button ng-click="selectEnosRow()">Select Enos Row</button>
+    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+    <button class='btn btn-default' ng-click="addAlert()">Add Alert</button>
+
     <div class="row">
         <div class="col-xs-12">
             <div class="panel panel-default" style="margin-top:20px;">
@@ -141,190 +155,280 @@
     <script src="~/Scripts/jquery-2.1.1.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/ng-grid.js"></script>
     <script src="~/Content/angular-xeditable/js/xeditable.js"></script>
     <script src="~/Scripts/xFilter.js"></script>
     <script src="~/Content/bootstrap3-editable/js/bootstrap-editable.js"></script>
     <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
     <script type="text/javascript">
-        $(function () {
-            //内容过滤
-            $('#EquipmentNum').editable({
-                type: 'text',
-                title: '录入第一轮成绩',
-                success: function (response, newValue) {
-                    // userModel.set('EquipmentNum', newValue);
-                    $scope.gridSettings.PageSize = $scope.currentSize.size;
-                    $scope.gridSettings.PageIndex = 1;
-                    getDate();
-                    alert(newValue);
-                }
-
-            });
-        });
         //加载Anjular模型
-        var app = angular.module("app", ["xeditable", "ui.bootstrap"]);
+        var app = angular.module("app", ["xeditable", "ui.bootstrap", 'ngGrid']);
         app.run(function (editableOptions) {
             editableOptions.theme = 'bs3';
-
         });
         app.controller('Ctrl', function ($scope, $filter, $http) {
 
-            $scope.alerts = [
-   { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
-   { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
-            ];
-
-            $scope.addAlert = function () {
-                $scope.alerts.push({ msg: 'Another alert!' });
-            };
-
-            $scope.closeAlert = function (index) {
-                $scope.alerts.splice(index, 1);
-            };
-
-            //提供搜索字段
-            $scope.colModels = [
-                { "name": "EquipmentNum", "lable": "设备编号", "sort": "sorting", "filter": true },
-                { "name": "EquipmentName", "lable": "设备名称 ", "sort": "sorting", "filter": true },
-                { "name": "EquipmentCreatTime", "lable": "录入时间", "sort": "sorting", "filter": false },
-                { "name": "EquipmentUpDateTime", "lable": "更新时间 ", "sort": "sorting", "filter": false }
-
-            ];
-            $scope.filter = {
-                "groupOp": "and",
-                "groups": [],
-                "rules": [
-                  { "field": "name", "op": "eq", "data": "Romania" },
-                  { "field": "id", "op": "le", "data": "1" }
-                ]
-            };
-            //表格数据设置项
-            $scope.gridSettings = { IsSearch: true, PageSize: 10, PageIndex: 1, SortColumn: 'EquipmentUpDateTime', SortOrder: 'asc', Where: '' };
-            //定义分页数据
-            $scope.pageSizes = [{ size: 2 }, { size: 5 }, { size: 10 }, { size: 20 }, { size: 50 }];
-            //分页默认选中项,分页大小
-            $scope.currentSize = $scope.pageSizes[2];
-            //当前选中行
-            $scope.currentRowId = '0';
-            //table行点击事件
-            $scope.tableRowClick = function (rowId) {
-                $scope.currentRowId = rowId;
-            };
-            //加载数据
-            getDate();
-            //排序事件
-            $scope.sortClick = function (sortColumn, sortOrder) {
-                var sortOrderBy = "";
-                switch (sortOrder) {
-                    case "sorting":
-                        sortOrderBy = "sorting_asc";
-                        break;
-                    case "sorting_asc":
-                        sortOrderBy = "sorting_desc";
-                        break;
-                    case "sorting_desc":
-                        sortOrderBy = "sorting";
-                        break;
-
-                }
-                for (var i = 0; i < $scope.colModels.length; i++) {
-                    if ($scope.colModels[i].name == sortColumn) {
-                        $scope.colModels[i].sort = sortOrderBy;
-                    } else {
-                        $scope.colModels[i].sort = "sorting";
-                    }
-                }
-                $scope.gridSettings.SortColumn = sortColumn;
-                $scope.gridSettings.SortOrder = sortOrderBy;
-                getDate();
+            $scope.test = function (rowItem, event) {
+                debugger;
+                $scope.gridOptions.selectItem[0];
+                //angular.forEach($scope.myData, function(data, index){
+                //    if(data.name == 'Enos'){
+                //        $scope.gridOptions.selectItem(index, true);
+                //    }
+                //});
             }
-            //分页数改变事件
-            $scope.pageSizeChange = function () {
-                $scope.gridSettings.PageSize = $scope.currentSize.size;
-                $scope.gridSettings.PageIndex = 1;
-                getDate();
-            }
-            //对输入内容进行检测
-            $scope.checkEquipmentNum = function (data, id) {
-
-                if (data == "454545") {
-                    return "设备编号不能为空！";
-                }
-                return true;
-            };
-            //提交保存数据
-            $scope.saveEquipment = function (data, id) {
-
-                return $http.post("/api/ApiEquipment", data).success(function (revData) {
-                    angular.extend(data, { id: id });
-                }).error(function (revData) {
-                    alert(revData.Message);
-                });
-            };
-
-            // 移除设备信息
-            $scope.removeEquipment = function (index) {
-                $http.delete("/api/ApiEquipment", { params: { equipmentId: $scope.Equipments[index].EquipmentId } }).success(function (data, status) {
-                    alert("删除成功");
-                }).error(function (data) {
-                    alert(data.ModelState.error);
-                });
-
-                $scope.Equipments.splice(index, 1);
-            };
-
-            // 添加设备信息
-            $scope.addEquipment = function () {
-                $scope.inserted = {
-                    id: $scope.Equipments.length + 1,
-                    EquipmentId: '',
-                    EquipmentNum: '',
-                    EquipmentName: ''
+                //表格传输数据，依据此字符串获取服务器数据
+                $scope.gridSettings = { IsSearch: true, PageSize: 2, PageIndex: 1, SortColumn: 'EquipmentUpDateTime', SortOrder: 'asc', Where: '' };
+                //定义排序参数
+                $scope.sortOptions = {
+                    fields: ["EquipmentUpDateTime"],
+                    directions: ["ASC"]
                 };
-                $scope.Equipments.push($scope.inserted);
+                //使用NGGrid
+                $scope.filterOptions = {
+                    filterText: "",
+                    useExternalFilter: true
+                };
+                $scope.totalServerItems = 0;
+                $scope.pagingOptions = {
+                    pageSizes: [2, 4, 10],
+                    pageSize: 2,
+                    currentPage: 1
+                };
+                $scope.getPagedDataAsync = function () {
+                    setTimeout(function () {
+                        $http.get('/api/ApiEquipment',
+                            {
+                                params: {
+                                    gridSettings: $scope.gridSettings
+                                }
+                            }
+                       ).success(function (data) {
+                           $scope.myData = data.pageModel;
+                           $scope.totalServerItems = data.pager.TotalItemCount;
+                           if (!$scope.$$phase) {
+                               $scope.$apply();
+                           }
+                       });
 
-            };
-            //更新分页数据
-            $scope.UpdateEquipments = function (pageNums) {
-                $scope.gridSettings.PageIndex = pageNums;
-                //重新加载数据
-                getDate();
-            };
-            //获取数据
-            function getDate() {
-                $http.get('/api/ApiEquipment',
-                    {
-                        params: {
-                            gridSettings: $scope.gridSettings
-                        }
+                    }, 100);
+                };
+                //第一次加载数据
+                $scope.getPagedDataAsync();
+
+                //监测点击分页和过滤事件，触发getPageDataAsync()函数
+                $scope.$watch('pagingOptions', function (newVal, oldVal) {
+                    if (newVal !== oldVal) {
+                        $scope.gridSettings.SortColumn = $scope.sortOptions.fields[0];
+                        $scope.gridSettings.SortOrder = $scope.sortOptions.directions[0];
+                        $scope.gridSettings.PageIndex = $scope.pagingOptions.currentPage;
+                        $scope.gridSettings.PageSize = $scope.pagingOptions.pageSize;
+                        $scope.getPagedDataAsync();
                     }
-                    ).success(function (data) {
-                        $scope.Equipments = data.pageModel;
-                        $scope.Paper = data.pager;
-                        $scope.pageNums = data.pageNums;
-                    });
+                }, true);
+                $scope.$watch('filterOptions', function (newVal, oldVal) {
+                    if (newVal !== oldVal) {
+                        $scope.getPagedDataAsync();
+                    }
+                }, true);
+                $scope.$watch('sortOptions', function (newVal, oldVal) {
+                    if (newVal !== oldVal) {
+                        $scope.gridSettings.SortColumn = $scope.sortOptions.fields[0];
+                        $scope.gridSettings.SortOrder = $scope.sortOptions.directions[0];
+                        $scope.gridSettings.PageIndex = $scope.pagingOptions.currentPage;
+                        $scope.gridSettings.PageSize = $scope.pagingOptions.pageSize;
 
-            }
-            var f = new xFilter(document.getElementById("fil"),
-       {
-           /*filter: filt,*/
-           columns: $scope.colModels,
-           onchange: function () {
-               document.getElementById("message").innerHTML =
-                       this.toString();
+                        $scope.getPagedDataAsync();
+                    }
+                }, true);
+                //分页数据的配置信息
+                $scope.gridOptions = {
+                    data: 'myData',
+                    columnDefs: [
+                   { field: 'EquipmentId', displayName: 'EquipmentId' },
+                   { field: 'EquipmentNum', displayName: 'EquipmentNum' },
+                   { field: 'EquipmentName', displayName: 'EquipmentName' },
+                   { field: 'EquipmentCreatTime', displayName: 'EquipmentCreatTime' },
+                   { field: 'EquipmentUpDateTime', displayName: 'EquipmentUpDateTime' },
+                    ],
+                    enablePaging: true,//是否显示分页信息
+                    showFooter: true,//是否显示底部信息
+                    totalServerItems: 'totalServerItems',//服务端总记录数
+                    pagingOptions: $scope.pagingOptions,
+                    filterOptions: $scope.filterOptions,
+                    sortInfo: $scope.sortOptions,//排序设置项
+                    useExternalSorting: true,//自定义排序
+                    i18n: "zh-cn",
+                    multiSelect: false, //行单选,
+                    //beforeSelectionChange: function () {
+                    //    return true;
+                    //},
+                    //afterSelectionChange: function (rowItem) {
+                        
+                    //   alert(rowItem.entity.EquipmentId);
+                    //},
+                    selectRow: function (rowItem) {
+                        debugger;
+                    }
 
-               $scope.gridSettings.Where = this.filter;
-               var fi = f.Apply(items);
-               var it = "";
-               for (var i = 0; i < fi.length; i++) {
-                   it += "," + fi[i].name;
-               }
-           }
-       });
+                };
 
 
-        });
+                //结束位置
 
+                //         $scope.alerts = [
+                //{ type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
+                //{ type: 'success', msg: 'Well done! You successfully read this important alert message.' }
+                //         ];
+
+                //         $scope.addAlert = function () {
+                //             $scope.alerts.push({ msg: 'Another alert!' });
+                //         };
+
+                //         $scope.closeAlert = function (index) {
+                //             $scope.alerts.splice(index, 1);
+                //         };
+
+                //         //提供搜索字段
+                //         $scope.colModels = [
+                //             { "name": "EquipmentNum", "lable": "设备编号", "sort": "sorting", "filter": true },
+                //             { "name": "EquipmentName", "lable": "设备名称 ", "sort": "sorting", "filter": true },
+                //             { "name": "EquipmentCreatTime", "lable": "录入时间", "sort": "sorting", "filter": false },
+                //             { "name": "EquipmentUpDateTime", "lable": "更新时间 ", "sort": "sorting", "filter": false }
+
+                //         ];
+                //         $scope.filter = {
+                //             "groupOp": "and",
+                //             "groups": [],
+                //             "rules": [
+                //               { "field": "name", "op": "eq", "data": "Romania" },
+                //               { "field": "id", "op": "le", "data": "1" }
+                //             ]
+                //         };
+                //         //表格数据设置项
+                //         $scope.gridSettings = { IsSearch: true, PageSize: 10, PageIndex: 1, SortColumn: 'EquipmentUpDateTime', SortOrder: 'asc', Where: '' };
+                //         //定义分页数据
+                //         $scope.pageSizes = [{ size: 2 }, { size: 5 }, { size: 10 }, { size: 20 }, { size: 50 }];
+                //         //分页默认选中项,分页大小
+                //         $scope.currentSize = $scope.pageSizes[2];
+                //         //当前选中行
+                //         $scope.currentRowId = '0';
+                //         //table行点击事件
+                //         $scope.tableRowClick = function (rowId) {
+                //             $scope.currentRowId = rowId;
+                //         };
+                //         //加载数据
+                //         getDate();
+                //         //排序事件
+                //         $scope.sortClick = function (sortColumn, sortOrder) {
+                //             var sortOrderBy = "";
+                //             switch (sortOrder) {
+                //                 case "sorting":
+                //                     sortOrderBy = "sorting_asc";
+                //                     break;
+                //                 case "sorting_asc":
+                //                     sortOrderBy = "sorting_desc";
+                //                     break;
+                //                 case "sorting_desc":
+                //                     sortOrderBy = "sorting";
+                //                     break;
+
+                //             }
+                //             for (var i = 0; i < $scope.colModels.length; i++) {
+                //                 if ($scope.colModels[i].name == sortColumn) {
+                //                     $scope.colModels[i].sort = sortOrderBy;
+                //                 } else {
+                //                     $scope.colModels[i].sort = "sorting";
+                //                 }
+                //             }
+                //             $scope.gridSettings.SortColumn = sortColumn;
+                //             $scope.gridSettings.SortOrder = sortOrderBy;
+                //             getDate();
+                //         }
+                //         //分页数改变事件
+                //         $scope.pageSizeChange = function () {
+                //             $scope.gridSettings.PageSize = $scope.currentSize.size;
+                //             $scope.gridSettings.PageIndex = 1;
+                //             getDate();
+                //         }
+                //         //对输入内容进行检测
+                //         $scope.checkEquipmentNum = function (data, id) {
+
+                //             if (data == "454545") {
+                //                 return "设备编号不能为空！";
+                //             }
+                //             return true;
+                //         };
+                //         //提交保存数据
+                //         $scope.saveEquipment = function (data, id) {
+
+                //             return $http.post("/api/ApiEquipment", data).success(function (revData) {
+                //                 angular.extend(data, { id: id });
+                //             }).error(function (revData) {
+                //                 alert(revData.Message);
+                //             });
+                //         };
+
+                //         // 移除设备信息
+                //         $scope.removeEquipment = function (index) {
+                //             $http.delete("/api/ApiEquipment", { params: { equipmentId: $scope.Equipments[index].EquipmentId } }).success(function (data, status) {
+                //                 alert("删除成功");
+                //             }).error(function (data) {
+                //                 alert(data.ModelState.error);
+                //             });
+
+                //             $scope.Equipments.splice(index, 1);
+                //         };
+
+                //         // 添加设备信息
+                //         $scope.addEquipment = function () {
+                //             $scope.inserted = {
+                //                 id: $scope.Equipments.length + 1,
+                //                 EquipmentId: '',
+                //                 EquipmentNum: '',
+                //                 EquipmentName: ''
+                //             };
+                //             $scope.Equipments.push($scope.inserted);
+
+                //         };
+                //         //更新分页数据
+                //         $scope.UpdateEquipments = function (pageNums) {
+                //             $scope.gridSettings.PageIndex = pageNums;
+                //             //重新加载数据
+                //             getDate();
+                //         };
+                //         //获取数据
+                //         function getDate() {
+                //             $http.get('/api/ApiEquipment',
+                //                 {
+                //                     params: {
+                //                         gridSettings: $scope.gridSettings
+                //                     }
+                //                 }
+                //                 ).success(function (data) {
+                //                     $scope.Equipments = data.pageModel;
+                //                     $scope.Paper = data.pager;
+                //                     $scope.pageNums = data.pageNums;
+                //                 });
+
+                //         }
+                //         var f = new xFilter(document.getElementById("fil"),
+                //    {
+                //        /*filter: filt,*/
+                //        columns: $scope.colModels,
+                //        onchange: function () {
+                //            document.getElementById("message").innerHTML =
+                //                    this.toString();
+
+                //            $scope.gridSettings.Where = this.filter;
+                //            var fi = f.Apply(items);
+                //            var it = "";
+                //            for (var i = 0; i < fi.length; i++) {
+                //                it += "," + fi[i].name;
+                //            }
+                //        }
+                //    });
+            });
 
     </script>
 }
