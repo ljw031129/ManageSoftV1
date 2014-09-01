@@ -75,6 +75,7 @@
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\SelectListExtensions.cs" />
     <Compile Include="Helpers\UserHtmlHelper.cs" />
+    <Compile Include="Models\JQueryDataTableParamModel.cs" />
     <Compile Include="Models\PagedListData.cs" />
     <Compile Include="Models\PageNum.cs" />
     <Compile Include="Models\Role.cs" />

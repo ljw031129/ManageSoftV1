@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutDataTables.cshtml";
+}
+<table class="display" id="PeopleListTable">
+    <tfoot>
+        <tr>
+            <th>Name</th>
+            <th>E-mail</th>
+            <th >Status</th>
+            <th>Status</th>
+            <th>Status</th>
+        </tr>
+    </tfoot>
+</table>
+
+@section scripts
+{
+<script src="~/Scripts/jquery.dataTables.columnFilter.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var peopleList = $('#PeopleListTable').dataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": "@Url.Action("Get", "ProtocolManage")",
+                "columns": [
+                    { "data": "EquipmentId" },
+                    { "data": "EquipmentNum" },
+                    { "data": "EquipmentName" }, //Allow post TSQL server side processing
+                    { "data": "EquipmentCreatTime" },
+                    { "data": "EquipmentUpDateTime" }
+
+                ],
+                "columnDefs": [
+                { type: "phoneNumber", targets: 0 }
+                ]
+            });
+        });
+    </script>
+
+}

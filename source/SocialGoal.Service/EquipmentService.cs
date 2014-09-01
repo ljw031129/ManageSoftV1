@@ -30,6 +30,9 @@ namespace SocialGoal.Service
         Task<bool> UpdateEquipmentAsync(Equipment equipment);
 
         Task<IPagedList<Equipment>> GetEquipmentsAsync(string gridSettings);
+
+        IQueryable<Equipment> GetIQueryableAll();
+        
     }
 
     public class EquipmentService : IEquipmentService
@@ -159,6 +162,13 @@ namespace SocialGoal.Service
             _equipmentRepository.Add(equipment);
             SaveEquipment();
             return Task.FromResult(equipment);
+        }
+
+
+        public IQueryable<Equipment> GetIQueryableAll()
+        {
+            var equipment = _equipmentRepository.GetIQueryableAll();
+            return equipment;
         }
     }
 }

@@ -1078,6 +1078,8 @@
     <Content Include="Views\Equipment\_CreateOrEdit.cshtml" />
     <Content Include="Views\Shared\_LayoutAngular.cshtml" />
     <Content Include="Views\ProtocolManage\Index.cshtml" />
+    <Content Include="Views\ProtocolManage\Create.cshtml" />
+    <Content Include="Views\Shared\_LayoutDataTables.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

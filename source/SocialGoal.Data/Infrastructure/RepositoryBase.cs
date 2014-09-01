@@ -63,6 +63,11 @@ namespace SocialGoal.Data.Infrastructure
             return dbset.ToList();
         }
 
+        public virtual IQueryable<T> GetIQueryableAll()
+        {
+            return dbset;
+        }
+
         public virtual IEnumerable<T> GetMany(Expression<Func<T, bool>> where)
         {
             return dbset.Where(where).ToList();

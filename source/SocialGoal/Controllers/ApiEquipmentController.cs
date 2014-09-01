@@ -43,6 +43,8 @@ namespace SocialGoal.Controllers
 
         public async Task<Object> Get(string gridSettings)
         {
+
+            //{"IsSearch":true,"PageSize":2,"PageIndex":1,"SortColumn":"EquipmentUpDateTime","SortOrder":"ASC","Where":""}
             //可后台自动添加查询条件
             //xFilter.Expressions.Group g = new xFilter.Expressions.Group() { Operator = GroupOperator.And };
             //g.Rules.Add(new Rule() { Field = "Continent.Name", Operator = RuleOperator.Equals, Data = "E" });

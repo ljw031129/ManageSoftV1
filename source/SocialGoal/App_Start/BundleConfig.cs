@@ -131,6 +131,15 @@ namespace SocialGoal
                      "~/Content/jqModal.css",
                      "~/Content/jquery.jqplot.min.css"
                      ));
+
+
+            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+                        "~/Scripts/jquery-2.1.1.js"));
+            //datatables
+            bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
+                "~/Scripts/DataTables-1.10.2/jquery.dataTables.js"));
+
+            bundles.Add(new StyleBundle("~/Content/datatables/css").Include("~/Content/DataTables-1.10.2/css/jquery.dataTables.css"));
         }
     }
 }
