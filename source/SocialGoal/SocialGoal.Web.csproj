@@ -1533,6 +1533,7 @@
     <Content Include="Views\ProtocolManage\Create.cshtml" />
     <Content Include="Views\Shared\_LayoutDataTables.cshtml" />
     <Content Include="Views\Shared\_LayoutFlatty.cshtml" />
+    <Content Include="Views\Shared\_LayoutFlattyMain.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,15 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/Flatty/Css")
+    @RenderSection("styles", required: false)
+</head>
+<body class='contrast-red'>
+    @RenderBody()
+    @Scripts.Render("~/Content/Flatty/Js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
