@@ -16,15 +16,15 @@ namespace SocialGoal.Web.Core.Extensions
     /// </summary>
     public static class SelectExtensions
     {
-        public static MvcHtmlString EnumDropDownListFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, object htmlAttributes) where TModel : class
-        {
-            var inputName = GetInputName(expression);
-            var value = htmlHelper.ViewData.Model == null
-                ? default(TProperty)
-                : expression.Compile()(htmlHelper.ViewData.Model);
+        //public static MvcHtmlString EnumDropDownListFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, object htmlAttributes) where TModel : class
+        //{
+        //    var inputName = GetInputName(expression);
+        //    var value = htmlHelper.ViewData.Model == null
+        //        ? default(TProperty)
+        //        : expression.Compile()(htmlHelper.ViewData.Model);
 
-            return htmlHelper.DropDownList(inputName, ToSelectList(typeof(TProperty), value.ToString()), htmlAttributes);
-        }
+        //    return htmlHelper.DropDownList(inputName, ToSelectList(typeof(TProperty), value.ToString()), htmlAttributes);
+        //}
 
         public static SelectList ToSelectList(Type enumType, string selectedItem)
         {

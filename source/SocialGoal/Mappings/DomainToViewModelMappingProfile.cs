@@ -56,6 +56,8 @@ namespace SocialGoal.Mappings
                                                       .ForMember(x => x.EndDate, opt => opt.MapFrom(source => source.EndDate.ToString("dd MMM yyyy")));
             Mapper.CreateMap<Group, GroupsItemViewModel>().ForMember(x => x.CreatedDate, opt => opt.MapFrom(source => source.CreatedDate.ToString("dd MMM yyyy")));
 
+            Mapper.CreateMap<IPagedList<Group>, IPagedList<GroupsItemViewModel>>().ConvertUsing<PagedListConverter<Group, GroupsItemViewModel>>();
+
             Mapper.CreateMap<IPagedList<Equipment>, IPagedList<EquipmentViewModel>>().ConvertUsing<PagedListConverter<Equipment, EquipmentViewModel>>();
 
 

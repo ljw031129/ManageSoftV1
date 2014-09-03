@@ -15,11 +15,12 @@ namespace SocialGoal.Web.ViewModels
         //    {
         //        NotificationDate = "Yesterday";
         //    }
-        //    else{
+        //    else
+        //    {
         //        NotificationDate = CreatedDate.ToShortDateString();
         //    }
 
-       // }
+        //}
         public int NotificationId { get; set; }
         public int NotificationType { get; set; }
         public DateTime CreatedDate { get; set; }
