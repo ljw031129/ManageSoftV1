@@ -1,13 +1,13 @@
 ﻿@model SocialGoal.Web.ViewModels.HomeViewModel
 @{
     ViewBag.Title = "Home";
-    Layout = "../Shared/_HomeLayout.cshtml";
+    Layout = "../Shared/_LayoutFlattyMain.cshtml";
 }
 <header>
     <nav class='navbar navbar-default'>
         <a class='navbar-brand' href='index.html'>
-            <img width="81" height="21" class="logo" alt="Flatty" src="assets/images/logo.svg" />
-            <img width="21" height="21" class="logo-xs" alt="Flatty" src="assets/images/logo_xs.svg" />
+            <img width="81" height="21" class="logo" alt="Flatty" src="~/Content/assets/images/logo.svg" />
+            <img width="21" height="21" class="logo-xs" alt="Flatty" src="~/Content/assets/images/logo_xs.svg" />
         </a>
         <a class='toggle-nav btn pull-left' href='#'>
             <i class='icon-reorder'></i>
@@ -225,7 +225,7 @@
         </form>
     </nav>
 </header>
-<div id='wrapper'>
+<div id='wrapper' ng-app="app" ng-controller="Ctrl">
     <div id='main-nav-bg'></div>
     <nav id='main-nav'>
         <div class='navigation'>
@@ -237,304 +237,28 @@
                     </div>
                 </form>
             </div>
-            <ul class='nav nav-stacked'>
-                <li class=''>
-                    <a href='index.html'>
-                        <i class='icon-dashboard'></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li class=''>
-                    <a class="dropdown-collapse" href="#">
-                        <i class='icon-edit'></i>
-                        <span>Forms</span>
-                        <i class='icon-angle-down angle-down'></i>
-                    </a>
-
-                    <ul class='nav nav-stacked'>
-                        <li class=''>
-                            <a href='form_styles.html'>
-                                <i class='icon-caret-right'></i>
-                                <span>Form styles and features</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='form_components.html'>
-                                <i class='icon-caret-right'></i>
-                                <span>Form components</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='validations.html'>
-                                <i class='icon-caret-right'></i>
-                                <span>Validations</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='wizard.html'>
-                                <i class='icon-caret-right'></i>
-                                <span>Wizard</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a class='dropdown-collapse ' href='#'>
-                        <i class='icon-tint'></i>
-                        <span>UI Elements & Widgets</span>
-                        <i class='icon-angle-down angle-down'></i>
-                    </a>
-                    <ul class='nav nav-stacked'>
-                        <li class=''>
-                            <a href='ui_elements.html'>
-                                <i class='icon-caret-right'></i>
-                                <span>UI Elements</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='widgets.html'>
-                                <i class='icon-caret-right'></i>
-                                <span>Widgets</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class=''>
-                    <a href='buttons_and_icons.html'>
-                        <i class='icon-star'></i>
-                        <span>Buttons & Icons</span>
-                    </a>
-                </li>
-                <li>
-                    <a class='dropdown-collapse ' href='#'>
-                        <i class='icon-cogs'></i>
-                        <span>Components</span>
-                        <i class='icon-angle-down angle-down'></i>
-                    </a>
-                    <ul class='nav nav-stacked'>
-                        <li class=''>
-                            <a href='charts.html'>
-                                <i class='icon-bar-chart'></i>
-                                <span>Charts</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='address_book.html'>
-                                <i class='icon-envelope'></i>
-                                <span>Address book</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='chats.html'>
-                                <i class='icon-comments'></i>
-                                <span>Chats</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='filetrees.html'>
-                                <i class='icon-list-ul'></i>
-                                <span>File trees</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='fileupload.html'>
-                                <i class='icon-file'></i>
-                                <span>Fileupload</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='todo.html'>
-                                <i class='icon-list-alt'></i>
-                                <span>Todo list</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='wysiwyg.html'>
-                                <i class='icon-paste'></i>
-                                <span>WYSIWYG</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class=''>
-                    <a href='tables.html'>
-                        <i class='icon-table'></i>
-                        <span>Tables</span>
-                    </a>
-                </li>
-                <li class='active'>
-                    <a href='grid.html'>
-                        <i class='icon-th'></i>
-                        <span>Grid</span>
-                    </a>
-                </li>
-                <li class=''>
-                    <a href='type.html'>
-                        <i class='icon-font'></i>
-                        <span>Typography</span>
-                    </a>
-                </li>
-                <li class=''>
-                    <a href='calendar.html'>
-                        <i class='icon-calendar'></i>
-                        <span>Calendar</span>
-                    </a>
-                </li>
-                <li>
-                    <a class='dropdown-collapse ' href='#'>
-                        <i class='icon-book'></i>
-                        <span>Example pages</span>
-                        <i class='icon-angle-down angle-down'></i>
-                    </a>
-                    <ul class='nav nav-stacked'>
-                        <li class=''>
-                            <a href='invoice.html'>
-                                <i class='icon-money'></i>
-                                <span>Invoice</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='gallery.html'>
-                                <i class='icon-picture'></i>
-                                <span>Gallery</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='timeline.html'>
-                                <i class='icon-time'></i>
-                                <span>Timeline</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='pricing_tables.html'>
-                                <i class='icon-table'></i>
-                                <span>Pricing tables</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='user_profile.html'>
-                                <i class='icon-user'></i>
-                                <span>User profile</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='err404.html' target='_blank'>
-                                <i class='icon-question-sign'></i>
-                                <span>404 Error</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='err500.html' target='_blank'>
-                                <i class='icon-cogs'></i>
-                                <span>500 Error</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='sign_in.html' target='_blank'>
-                                <i class='icon-signin'></i>
-                                <span>Sign in</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='faq.html'>
-                                <i class='icon-bullhorn'></i>
-                                <span>FAQ</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='orders.html'>
-                                <i class='icon-inbox'></i>
-                                <span>Orders</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='search_results.html'>
-                                <i class='icon-search'></i>
-                                <span>Search results</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='blank.html'>
-                                <i class='icon-circle-blank'></i>
-                                <span>Blank page</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a class='dropdown-collapse ' href='#'>
-                        <i class='icon-cog'></i>
-                        <span>Layouts</span>
-                        <i class='icon-angle-down angle-down'></i>
-                    </a>
-                    <ul class='nav nav-stacked'>
-                        <li class=''>
-                            <a href='closed_navigation.html'>
-                                <i class='icon-caret-right'></i>
-                                <span>Closed navigation</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='fixed_header.html'>
-                                <i class='icon-caret-right'></i>
-                                <span>Fixed header</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='fixed_navigation.html'>
-                                <i class='icon-caret-right'></i>
-                                <span>Fixed navigation</span>
-                            </a>
-                        </li>
-                        <li class=''>
-                            <a href='fixed_navigation_and_header.html'>
-                                <i class='icon-caret-right'></i>
-                                <span>Fixed navigation & header</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class=''>
-                    <a href='email_templates.html'>
-                        <i class='icon-mail-reply'></i>
-                        <span>Email templates</span>
-                    </a>
-                </li>
-                <li>
+            <ul class='nav nav-stacked in'>
+                <li ng-repeat="menuDataModel in MenuData" >
                     <a class='dropdown-collapse' href='#'>
-                        <i class='icon-folder-open-alt'></i>
-                        <span>Four level dropdown</span>
-                        <i class='icon-angle-down angle-down'></i>
+                        <i class='{{menuDataModel.Icon}}'></i>
+                        <span>{{menuDataModel.MenuName}}</span>
+                        <i class='icon-angle-down angle-down' ng-click="OpenMenu(menuDataModel.Id)"></i>
                     </a>
-                    <ul class='nav nav-stacked'>
-                        <li>
+                    <ul class="nav nav-stacked " ng-class="{'in': menuDataModel.Id==activeItem}" ng-show="menuDataModel.ChildMenu.length>0">
+                        <li ng-repeat="childMenuData in menuDataModel.ChildMenu" >
                             <a class='dropdown-collapse' href='#'>
-                                <i class='icon-caret-right'></i>
-                                <span>Second level</span>
-                                <i class='icon-angle-down angle-down'></i>
+                                <i class='{{childMenuData.Icon}}'></i>
+                                <span>{{childMenuData.MenuName}}</span>
+                                <i class='icon-angle-down angle-down' ng-click="OpenMenu(childMenuData.Id)"></i>
                             </a>
-                            <ul class='nav nav-stacked'>
-                                <li>
-                                    <a class='dropdown-collapse' href='#'>
-                                        <i class='icon-caret-right'></i>
-                                        <span>Third level</span>
-                                        <i class='icon-angle-down angle-down'></i>
+                            <ul class='nav nav-stacked ' ng-class="{'in': childMenuData.Id==activeItem}" ng-show="childMenuData.ChildMenu.length>0">
+                                <li ng-repeat="threeChildMenuData in childMenuData.ChildMenu" ng-click="OpenMenu(threeChildMenuData.Id)">
+                                    <a href='{{threeChildMenuData.MenuUrl}}'>
+                                        <i class='{{threeChildMenuData.Icon}}'></i>
+                                        <span>{{threeChildMenuData.MenuName}}</span>
                                     </a>
-                                    <ul class='nav nav-stacked'>
-                                        <li>
-                                            <a href='#'>
-                                                <i class='icon-caret-right'></i>
-                                                <span>Fourth level</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href='#'>
-                                                <i class='icon-caret-right'></i>
-                                                <span>Another fourth level</span>
-                                            </a>
-                                        </li>
-                                    </ul>
                                 </li>
+
                             </ul>
                         </li>
                     </ul>
@@ -552,6 +276,7 @@
                                 <h1 class='pull-left'>
                                     <i class='icon-th'></i>
                                     <span>Grid</span>
+                                    {{activeItem }}
                                 </h1>
                                 <div class='pull-right'>
                                     <ul class='breadcrumb'>
@@ -569,115 +294,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class='row'>
-                        <div class='col-sm-12'>
-                            <p class='lead'>Bootstrap includes a responsive, mobile first fluid grid system that appropriately scales up to 12 columns as the device or viewport size increases.</p>
-                        </div>
-                    </div>
-                    <div class='row'>
-                        <div class='col-sm-12'>
-                            <h3>Mobile and desktop</h3>
-                            <p class='lead'>
-                                Don't want your columns to simply stack in smaller devices? Use the extra small and medium device grid classes by adding
-                                <code>.col-xs-*</code>
-                                <code>.col-md-*</code>
-                                to your columns. See the example below for a better idea of how it all works.
-                            </p>
-                        </div>
-                    </div>
-                    <div class='row'>
-                        <div class='col-xs-12 col-md-8'>
-                            <div class='well well-sm'>.col-xs-12 .col-md-8</div>
-                        </div>
-                        <div class='col-xs-6 col-md-4'>
-                            <div class='well well-sm'>.col-xs-6 .col-md-4</div>
-                        </div>
-                    </div>
-                    <div class='row'>
-                        <div class='col-xs-6 col-md-4'>
-                            <div class='well well-sm'>.col-xs-6 .col-md-4</div>
-                        </div>
-                        <div class='col-xs-6 col-md-4'>
-                            <div class='well well-sm'>.col-xs-6 .col-md-4</div>
-                        </div>
-                        <div class='col-xs-6 col-md-4'>
-                            <div class='well well-sm'>.col-xs-6 .col-md-4</div>
-                        </div>
-                    </div>
-                    <div class='row'>
-                        <div class='col-xs-6'>
-                            <div class='well well-sm'>.col-xs-6</div>
-                        </div>
-                        <div class='col-xs-6'>
-                            <div class='well well-sm'>.col-xs-6</div>
-                        </div>
-                    </div>
+
                     <hr class='hr-half'>
-                    <div class='row'>
-                        <div class='col-sm-12'>
-                            <h3>Mobile, tables & desktops</h3>
-                            <p class='lead'>
-                                Build on the previous example by creating even more dynamic and powerful layouts with tablet
-                                <code>.col-sm-*</code>
-                                classes.
-                            </p>
-                        </div>
-                    </div>
-                    <div class='row'>
-                        <div class='col-xs-12 col-sm-6 col-md-8'>
-                            <div class='well well-sm'>.col-xs-12 .col-sm-6 .col-md-8</div>
-                        </div>
-                        <div class='col-xs-6 col-sm-6 col-md-4'>
-                            <div class='well well-sm'>.col-xs-6 .col-sm-6 .col-md-4</div>
-                        </div>
-                    </div>
-                    <div class='row'>
-                        <div class='col-xs-6 col-sm-4 col-md-4'>
-                            <div class='well well-sm'>.col-xs-6 .col-sm-4 .col-md-4</div>
-                        </div>
-                        <div class='col-xs-6 col-sm-4 col-md-4'>
-                            <div class='well well-sm'>.col-xs-6 .col-sm-4 .col-md-4</div>
-                        </div>
-                        <div class='col-xs-6 col-sm-4 col-md-4'>
-                            <div class='well well-sm'>.col-xs-6 .col-sm-4 .col-md-4</div>
-                        </div>
-                    </div>
-                    <hr class='hr-half'>
-                    <div class='row'>
-                        <div class='col-sm-12'>
-                            <h3>Offsetting columns</h3>
-                            <p class='lead'>
-                                Move columns to the right using
-                                <code>.col-md-offset-*</code>
-                                classes. These classes increase the left margin of a column by * columns. For example,
-                                <code>.col-md-offset-4</code>
-                                moves
-                                <code>.col-md-4</code>
-                                over four columns.
-                            </p>
-                        </div>
-                    </div>
-                    <div class='row'>
-                        <div class='col-md-4'>
-                            <div class='well well-sm'>.col-md-4</div>
-                        </div>
-                        <div class='col-md-4 col-md-offset-4'>
-                            <div class='well well-sm'>.col-md-4 .col-md-offset-4</div>
-                        </div>
-                    </div>
-                    <div class='row'>
-                        <div class='col-md-3 col-md-offset-3'>
-                            <div class='well well-sm'>.col-md-3 .col-md-offset-3</div>
-                        </div>
-                        <div class='col-md-3 col-md-offset-3'>
-                            <div class='well well-sm'>.col-md-3 .col-md-offset-3</div>
-                        </div>
-                    </div>
-                    <div class='row'>
-                        <div class='col-md-6 col-md-offset-3'>
-                            <div class='well well-sm no-mg-b'>.col-md-6 .col-md-offset-3</div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
             <footer id='footer'>
@@ -696,3 +315,27 @@
         </div>
     </section>
 </div>
+@section scripts{
+    <script src="~/Scripts/angular.js"></script>
+    <script type="text/javascript">
+        var app = angular.module("app", []);
+        app.controller('Ctrl', function ($scope, $filter, $http, $element) {
+            $scope.activeItem = '';
+            //加载Json数据
+            $http.get('/Json/MenuData.js').success(function (data) {
+                $scope.MenuData = data;
+            });
+            $scope.OpenMenu = function (item) {
+                $scope.activeItem = item;
+            }
+            $scope.DataTypes = [
+              { value: 1, text: '字节' },
+              { value: 2, text: 'BIT位' },
+              { value: 3, text: '状态位' }
+
+            ];
+
+        })
+
+    </script>
+}

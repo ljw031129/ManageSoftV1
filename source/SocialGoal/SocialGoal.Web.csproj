@@ -269,6 +269,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\SocialGoalSessionFacade.cs" />
+    <Compile Include="Json\DataBitModel.cs" />
+    <Compile Include="Json\DataBodyModel.cs" />
+    <Compile Include="Json\DataByteModel.cs" />
+    <Compile Include="Json\FInterpretersModel.cs" />
+    <Compile Include="Json\MenuModel.cs" />
+    <Compile Include="Json\SpeciaCalculationModel.cs" />
     <Compile Include="Mailers\IUserMailer.cs" />
     <Compile Include="Mailers\UserMailer.cs" />
     <Compile Include="Mappings\AutoMapperConfiguration.cs" />
@@ -337,6 +343,8 @@
     <Content Include="Content\angular-xeditable\css\xeditable.css" />
     <Content Include="Content\angular-xeditable\js\xeditable.js" />
     <Content Include="Content\angular-xeditable\js\xeditable.min.js" />
+    <Content Include="Content\angularplugins\tree-control-attribute.css" />
+    <Content Include="Content\angularplugins\tree-control.css" />
     <Content Include="Content\assets\images\ajax-loaders\1.gif" />
     <Content Include="Content\assets\images\ajax-loaders\10.gif" />
     <Content Include="Content\assets\images\ajax-loaders\11.gif" />
@@ -813,6 +821,9 @@
     <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Content\ng-grid.css" />
     <Content Include="Content\ng-grid.min.css" />
+    <Content Include="Json\MenuData.js" />
+    <Content Include="Scripts\angularModule\MenuDataModule.js" />
+    <Content Include="Scripts\angularplugins\angular-tree-control.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\NgGridThemes\cellTemplate.html" />

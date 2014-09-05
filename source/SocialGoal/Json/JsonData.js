@@ -1592,7 +1592,7 @@
         },
         {
             "Id": 88,
-            "InfoTypeNumber": "05",
+            "InfoTypeNumber": "5",
             "StartPosition": 0,
             "DataLength": 1,
             "DataType": 2,

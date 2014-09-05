@@ -2061,7 +2061,7 @@ header .navbar {
           #main-nav .navigation > .nav > li .nav.in {
             display: none !important; } }
         #main-nav .navigation > .nav > li .nav > li > a {
-          padding: 5px;
+            padding: 5px 5px 05px 20px;
           border-top: 1px solid #cbcbcb; }
           #main-nav .navigation > .nav > li .nav > li > a .icon-angle-down {
             float: right;
