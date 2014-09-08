@@ -84,16 +84,16 @@ namespace xFilter.Expressions
         /// </summary>
         /// <param name="jsonString"></param>
         /// <returns></returns>
-        public static Group DeserializeGroupFromJSON(JObject container)
+        public static Group DeserializeGroupFromJSON(JToken container)
         {
-           // JObject container = JObject.Parse(jsonString);
+            // JObject container = JObject.Parse(jsonString);
 
             Group g = DeserializeGroupFromJSON(container);
 
             return g;
         }
 
-        public static Group DeserializeGroupFromJSON(JToken value)
+        public static Group DeserializeGroupFromJSON(JObject value)
         {
             Group g = new Group();
             g.Operator = ((string)value["groupOp"]).ToLower() == "and"

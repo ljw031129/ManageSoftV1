@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using PagedList;
 using System.Linq;
+using SocialGoal.Core.xFilter.Expressions;
 
 namespace SocialGoal.Data.Infrastructure
 {
@@ -24,6 +25,6 @@ namespace SocialGoal.Data.Infrastructure
         IPagedList<T> GetPage<TOrder>(Page page, Expression<Func<T, bool>> where, Expression<Func<T, TOrder>> order);
 
         IPagedList<T> GetPage<TOrder>(string gridSettings);
-       
+        IEnumerable<T> GetPageJqGrid<TOrder>(JqGridSetting jqGridSetting, out int count);
     }
 }

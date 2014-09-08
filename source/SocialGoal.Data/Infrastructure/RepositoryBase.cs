@@ -8,6 +8,7 @@ using PagedList;
 using SocialGoal.Data.Models;
 using xFilter.Expressions;
 using Newtonsoft.Json.Linq;
+using SocialGoal.Core.xFilter.Expressions;
 
 namespace SocialGoal.Data.Infrastructure
 {
@@ -130,6 +131,40 @@ namespace SocialGoal.Data.Infrastructure
         public T Get(Expression<Func<T, bool>> where)
         {
             return dbset.Where(where).FirstOrDefault<T>();
+        }
+
+        public virtual IEnumerable<T> GetPageJqGrid<TOrder>(JqGridSetting jqGridSetting, out int count)
+        {           
+            //JSON字符串转化       
+
+            bool sortOrder = true;
+            switch (jqGridSetting.sord)
+            {
+                case "asc":
+                    sortOrder = true;
+                    break;
+                case "desc":
+                    sortOrder = false;
+                    break;
+                default:
+                    sortOrder = false;
+                    break;
+            }
+            if (jqGridSetting._search)
+            {
+                JObject container = JObject.Parse(jqGridSetting.filters);
+                xFilter.Expressions.Group g = WebHelper.DeserializeGroupFromJSON(container);
+                var results = dbset.OrderByExtensions(jqGridSetting.sidx, sortOrder).Where<T>(g.ToExpressionTree<T>().Compile()).Skip((jqGridSetting.page - 1) * jqGridSetting.rows).Take(jqGridSetting.rows);
+                count = dbset.Where<T>(g.ToExpressionTree<T>().Compile()).Count();
+                return results;
+            }
+            else
+            {
+                var results = dbset.OrderByExtensions(jqGridSetting.sidx, sortOrder).Skip((jqGridSetting.page-1)*jqGridSetting.rows).Take(jqGridSetting.rows).ToList();
+                count = dbset.Count();
+                return results;
+
+            }
         }
     }
 }

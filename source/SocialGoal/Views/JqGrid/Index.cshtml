@@ -5,35 +5,54 @@
 @section styles{
 
     <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui-1.8.21.custom.css" rel="stylesheet" />
 }
 <h2>Index</h2>
-<table id="list2"></table> <div id="pager2"></div>
+<table id="grps"></table> <div id="pgrps"></div>
 @section scripts{
-
-    <script src="~/Scripts/jquery.jqGrid.src.js"></script>
+    <script src="~/Scripts/jquery-ui-1.8.20.js"></script>
+    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
+    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#list2").jqGrid(
+            jQuery("#grps").jqGrid(
                 {
-                   // url: 'server.php?q=2',
+                    url: '/Equipment/Get',
                     datatype: "json",
-                    colNames: ['Inv No', 'Date', 'Client', 'Amount', 'Tax', 'Total', 'Notes'],
-                    colModel: [{ name: 'id', index: 'id', width: 55 },
-                        { name: 'invdate', index: 'invdate', width: 90 },
-                        { name: 'name', index: 'name asc, invdate', width: 100 },
-                        { name: 'amount', index: 'amount', width: 80, align: "right" },
-                        { name: 'tax', index: 'tax', width: 80, align: "right" },
-                        { name: 'total', index: 'total', width: 80, align: "right" },
-                        { name: 'note', index: 'note', width: 150, sortable: false }],
+                    colNames:
+                        ['EquipmentId', 'EquipmentNum', 'EquipmentName', 'EquipmentCreatTime', 'EquipmentUpDateTime'],
+                    colModel: [
+                        { name: 'EquipmentId', key: true, index: 'EquipmentId', editable: true, editoptions: { readonly: true }, width: 55 },
+                        { name: 'EquipmentNum', index: 'EquipmentNum', editable: true, width: 90 },
+                        { name: 'EquipmentName', index: 'EquipmentName', editable: true, width: 100 },
+                        { name: 'EquipmentCreatTime', index: 'EquipmentCreatTime', sorttype: 'date', editable: true, editrules: { date: true }, formatter: 'date', datefmt: 'Y-m-d', width: 80, align: "right" },
+                        { name: 'EquipmentUpDateTime', index: 'EquipmentUpDateTime', sorttype: 'date', editable: true, editrules: { date: true }, formatter: 'date', datefmt: 'Y-m-d', width: 80, align: "right" }
+                        ],
                     rowNum: 10,
+                    width: 700,
                     rowList: [10, 20, 30],
-                    pager: '#pager2',
-                    sortname: 'id',
+                    pager: '#pgrps',
+                    sortname: 'EquipmentNum',
                     viewrecords: true,
                     sortorder: "desc",
-                    caption: "JSON Example"
+                    jsonReader: {
+                        root: "rows",
+                        page: "page",
+                        total: "total",
+                        records: "records",
+                        repeatitems: false,
+                        userdata: "userdata"
+                    },
+                    caption: "Complex search",
+                    height: '100%',
+                    editurl: 'server.php' // this is dummy existing url
                 });
-            $("#list2").jqGrid('navGrid', '#pager2', { edit: false, add: false, del: false });
+            jQuery("#grps").jqGrid('navGrid', '#pgrps',
+                { edit: true, add: true, del: true },
+                {},
+                {},
+                {},
+                { multipleSearch: true, multipleGroup: true });
         });
 
     </script>
