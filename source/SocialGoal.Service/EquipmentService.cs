@@ -34,7 +34,7 @@ namespace SocialGoal.Service
         IQueryable<Equipment> GetIQueryableAll();
 
 
-        IEnumerable<Equipment> GetEquipmentsJqGrid(Core.xFilter.Expressions.JqGridSetting jqGridSetting, out int count);
+        Task<IEnumerable<Equipment>> GetEquipmentsJqGrid(Core.xFilter.Expressions.JqGridSetting jqGridSetting, out int count);
     }
 
     public class EquipmentService : IEquipmentService
@@ -174,10 +174,10 @@ namespace SocialGoal.Service
         }
 
 
-        public IEnumerable<Equipment> GetEquipmentsJqGrid(Core.xFilter.Expressions.JqGridSetting jqGridSetting, out int count)
+        public Task<IEnumerable<Equipment>> GetEquipmentsJqGrid(Core.xFilter.Expressions.JqGridSetting jqGridSetting, out int count)
         {
             IEnumerable<Equipment> equipments = _equipmentRepository.GetPageJqGrid<Equipment>(jqGridSetting, out count);
-            return equipments;
+            return Task.FromResult(equipments);
         }
     }
 }

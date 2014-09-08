@@ -3,9 +3,9 @@
     Layout = "~/Views/Shared/_LayoutFlattyMain.cshtml";
 }
 @section styles{
-
-    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
-    <link href="~/Content/jquery-ui-1.8.21.custom.css" rel="stylesheet" />
+<link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+  
 }
 <h2>Index</h2>
 <table id="grps"></table> <div id="pgrps"></div>
@@ -20,20 +20,20 @@
                     url: '/Equipment/Get',
                     datatype: "json",
                     colNames:
-                        ['EquipmentId', 'EquipmentNum', 'EquipmentName', 'EquipmentCreatTime', 'EquipmentUpDateTime'],
+                        ['Id', '设备编号', '设备名称', '创建时间', '更新时间'],
                     colModel: [
-                        { name: 'EquipmentId', key: true, index: 'EquipmentId', editable: true, editoptions: { readonly: true }, width: 55 },
+                        { name: 'EquipmentId', key: true, index: 'EquipmentId', editable: true, editoptions: { readonly: true }, width: 55 ,hidden:true},
                         { name: 'EquipmentNum', index: 'EquipmentNum', editable: true, width: 90 },
                         { name: 'EquipmentName', index: 'EquipmentName', editable: true, width: 100 },
                         { name: 'EquipmentCreatTime', index: 'EquipmentCreatTime', sorttype: 'date', editable: true, editrules: { date: true }, formatter: 'date', datefmt: 'Y-m-d', width: 80, align: "right" },
                         { name: 'EquipmentUpDateTime', index: 'EquipmentUpDateTime', sorttype: 'date', editable: true, editrules: { date: true }, formatter: 'date', datefmt: 'Y-m-d', width: 80, align: "right" }
-                        ],
+                    ],
                     rowNum: 10,
                     width: 700,
                     rowList: [10, 20, 30],
                     pager: '#pgrps',
                     sortname: 'EquipmentNum',
-                    viewrecords: true,
+                    viewrecords: true,//定义是否要显示总记录数
                     sortorder: "desc",
                     jsonReader: {
                         root: "rows",
@@ -45,7 +45,7 @@
                     },
                     caption: "Complex search",
                     height: '100%',
-                    editurl: 'server.php' // this is dummy existing url
+                    editurl: '/api/ApiEquipment' // this is dummy existing url
                 });
             jQuery("#grps").jqGrid('navGrid', '#pgrps',
                 { edit: true, add: true, del: true },

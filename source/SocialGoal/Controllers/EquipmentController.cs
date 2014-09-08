@@ -13,6 +13,7 @@ using SocialGoal.Core.xFilter.Expressions;
 using SocialGoal.Web.Core.Models;
 using PagedList;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace SocialGoal.Controllers
 {
@@ -37,19 +38,11 @@ namespace SocialGoal.Controllers
         }
 
 
-        public JsonResult Get(JqGridSetting jqGridSetting)
+        public async Task<JsonResult> Get(JqGridSetting jqGridSetting)
         {
-
             int count = 0;
-
-            //{"IsSearch":true,"PageSize":2,"PageIndex":1,"SortColumn":"EquipmentUpDateTime","SortOrder":"ASC","Where":""}
-            //可后台自动添加查询条件
-            //xFilter.Expressions.Group g = new xFilter.Expressions.Group() { Operator = GroupOperator.And };
-            //g.Rules.Add(new Rule() { Field = "Continent.Name", Operator = RuleOperator.Equals, Data = "E" });
-
-            // Get a paged list of groups
-            IEnumerable<Equipment> equipments = _equipmentService.GetEquipmentsJqGrid(jqGridSetting, out count);
-            var data = equipments.ToArray();
+            IEnumerable<Equipment> equipments = await _equipmentService.GetEquipmentsJqGrid(jqGridSetting, out count);
+            var data = Mapper.Map<IEnumerable<Equipment>, IEnumerable<EquipmentViewModel>>(equipments).ToArray();
             var result = new
             {
                 total = (int)Math.Ceiling((double)count / jqGridSetting.rows),
@@ -62,10 +55,10 @@ namespace SocialGoal.Controllers
                             EquipmentNum = item.EquipmentNum,
                             EquipmentName = item.EquipmentName,
                             EquipmentCreatTime = item.EquipmentCreatTime,
-                            EquipmentUpDateTime = item.EquipmentUpDateTime                          
+                            EquipmentUpDateTime = item.EquipmentUpDateTime
                         }).ToArray()
             };
-            
+
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

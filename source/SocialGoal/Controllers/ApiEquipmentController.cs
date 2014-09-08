@@ -48,7 +48,7 @@ namespace SocialGoal.Controllers
             //可后台自动添加查询条件
             //xFilter.Expressions.Group g = new xFilter.Expressions.Group() { Operator = GroupOperator.And };
             //g.Rules.Add(new Rule() { Field = "Continent.Name", Operator = RuleOperator.Equals, Data = "E" });
-            
+
             // Get a paged list of groups
             IPagedList<Equipment> equipments = await _equipmentService.GetEquipmentsAsync(gridSettings);
 
@@ -80,23 +80,32 @@ namespace SocialGoal.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (newEquipment.EquipmentId == "")
+                Equipment equipment = Mapper.Map<EquipmentViewModel, Equipment>(newEquipment);
+                switch (newEquipment.oper)
                 {
-                    newEquipment.EquipmentId = Guid.NewGuid().ToString();
-                    newEquipment.EquipmentUpDateTime = DateTime.Now;
-                    newEquipment.EquipmentCreatTime = DateTime.Now;
-                    Equipment equipment = Mapper.Map<EquipmentViewModel, Equipment>(newEquipment);
-                    var errors = _equipmentService.CanAddEquipment(equipment).ToList();
-                    await _equipmentService.CreateEquipmentAsync(equipment, "");
-                    return Ok();
+                    case "add":
+                        newEquipment.EquipmentId = Guid.NewGuid().ToString();
+                        newEquipment.EquipmentUpDateTime = DateTime.Now;
+                        newEquipment.EquipmentCreatTime = DateTime.Now;                       
+                        var errors = _equipmentService.CanAddEquipment(equipment).ToList();
+                        await _equipmentService.CreateEquipmentAsync(equipment, "");
+                        return Ok();
+
+                    case "edit":
+                        newEquipment.EquipmentUpDateTime = DateTime.Now;                       
+                        await _equipmentService.UpdateEquipmentAsync(equipment);
+                        return Ok();
+
+                    case "del":
+                        bool rec = await _equipmentService.DeleteEquipmentAsync(newEquipment.id);
+                        if (rec)
+                        {
+                            return Ok();
+                        }
+                        break;
+
                 }
-                else
-                {
-                    newEquipment.EquipmentUpDateTime = DateTime.Now;
-                    Equipment equipment = Mapper.Map<EquipmentViewModel, Equipment>(newEquipment);
-                    await _equipmentService.UpdateEquipmentAsync(equipment);
-                    return Ok();
-                }
+               
             }
             // ModelState.AddModelErrors(errors);
             return BadRequest(ModelState);
