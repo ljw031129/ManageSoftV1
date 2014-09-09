@@ -1730,6 +1730,7 @@
     <Content Include="Views\Shared\_LayoutFlatty.cshtml" />
     <Content Include="Views\Shared\_LayoutFlattyMain.cshtml" />
     <Content Include="Views\JqGrid\Index.cshtml" />
+    <Content Include="Views\Shared\_PartialFlattyHeader.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

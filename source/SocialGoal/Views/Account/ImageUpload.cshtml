@@ -123,7 +123,7 @@
      @Html.ValidationSummary(true)  
     <table style="padding-right:20px;">
         <tr>
-            <td rowspan="3">
+            <td >
                 @if (String.IsNullOrEmpty(Model.LocalPath))
                 {
                     <img alt="Field for image cutting" id ="preview" src="@Url.Content("~/Content/ProfilePics/facebook-avatar.png")" class="thumbnail"/>
@@ -133,15 +133,18 @@
                     <img alt="Field for image cutting" id ="preview" src="@Url.Content(Model.LocalPath)" class="thumbnail"/>
                 }
             </td>
-            <td >@Html.TextBoxFor(model => model.File, new { @type = "file" })</td>
+           
         </tr>
         <tr>
-            <td align="right">
-                <input type ="submit" class ="btn btn-primary" value ="Upload" />
-                <button class="btn" type="reset" value="Cancel" onclick="window.location.href='@Url.Action("UserProfile", "Account", new { id = User.Identity.GetUserId() })'">Cancel</button>
-            </td>
+            <td>@Html.TextBoxFor(model => model.File, new { @type = "file" })</td>
+           
         </tr>
-        <tr><td colspan="2">@Html.ValidationMessageFor(model => model.File)</td></tr>
+       <tr><td><input type="submit" class="btn btn-primary" value="Upload" /></td></tr>
+        <tr><td>
+   
+    <button class="btn" type="reset" value="Cancel" onclick="window.location.href='@Url.Action("UserProfile", "Account", new { id = User.Identity.GetUserId() })'">Cancel</button>
+</td></tr>
+        <tr><td >@Html.ValidationMessageFor(model => model.File)</td></tr>
     </table>
  }
        

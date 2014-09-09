@@ -7,9 +7,91 @@
     @RenderSection("styles", required: false)
 </head>
 <body class='contrast-red'>
-    @RenderBody()
+    @Html.Partial("_PartialFlattyHeader")
+    <div id='wrapper' ng-app="app" ng-controller="Ctrl">
+        <div id='main-nav-bg'></div>
+        <nav id='main-nav'>
+            <div class='navigation'>
+                <div class='search'>
+                    <form action='search_results.html' method='get'>
+                        <div class='search-wrapper'>
+                            <input value="" class="search-query form-control" placeholder="Search..." autocomplete="off" name="q" type="text" />
+                            <button class='btn btn-link icon-search' name='button' type='submit'></button>
+                        </div>
+                    </form>
+                </div>
+                <ul class='nav nav-stacked in'>
+                    <li ng-repeat="menuDataModel in MenuData">
+                        <a class='dropdown-collapse' href='#'>
+                            <i class='{{menuDataModel.Icon}}'></i>
+                            <span>{{menuDataModel.MenuName}}</span>
+                            <i class='icon-angle-down angle-down' ng-click="OpenMenu(menuDataModel.Id)"></i>
+                        </a>
+                        <ul class="nav nav-stacked " ng-class="{'in': menuDataModel.Id==activeItem}" ng-show="menuDataModel.ChildMenu.length>0">
+                            <li ng-repeat="childMenuData in menuDataModel.ChildMenu">
+                                <a class='dropdown-collapse' href='#'>
+                                    <i class='{{childMenuData.Icon}}'></i>
+                                    <span>{{childMenuData.MenuName}}</span>
+                                    <i class='icon-angle-down angle-down' ng-click="OpenMenu(childMenuData.Id)"></i>
+                                </a>
+                                <ul class='nav nav-stacked ' ng-class="{'in': childMenuData.Id==activeItem}" ng-show="childMenuData.ChildMenu.length>0">
+                                    <li ng-repeat="threeChildMenuData in childMenuData.ChildMenu" ng-click="OpenMenu(threeChildMenuData.Id)">
+                                        <a href='{{threeChildMenuData.MenuUrl}}'>
+                                            <i class='{{threeChildMenuData.Icon}}'></i>
+                                            <span>{{threeChildMenuData.MenuName}}</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <section id='content'>
+            <div class='container'>
+                @RenderBody()
+                <footer id='footer'>
+                    <div class='footer-wrapper'>
+                        <div class='row'>
+                            <div class='col-sm-6 text'>
+                                Copyright © 2013 Your Project Name
+                            </div>
+                            <div class='col-sm-6 buttons'>
+                                <a class="btn btn-link" href="http://www.bublinastudio.com/flatty">Preview</a>
+                                <a class="btn btn-link" href="https://wrapbootstrap.com/theme/flatty-flat-administration-template-WB0P6NR1N">Purchase</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </section>
+    </div>
     @Scripts.Render("~/Content/Flatty/Js")
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/angular.js"></script>
+    <script type="text/javascript">
+        var app = angular.module("app", []);
+        app.controller('Ctrl', function ($scope, $filter, $http, $element) {
+            $scope.activeItem = '';
+            //加载Json数据
+            $http.get('/Json/MenuData.js').success(function (data) {
+                $scope.MenuData = data;
+            });
+            $scope.OpenMenu = function (item) {
+                $scope.activeItem = item;
+            }
+            $scope.DataTypes = [
+              { value: 1, text: '字节' },
+              { value: 2, text: 'BIT位' },
+              { value: 3, text: '状态位' }
+
+            ];
+
+        })
+
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

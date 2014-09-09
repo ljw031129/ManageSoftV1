@@ -157,7 +157,8 @@ namespace SocialGoal
                "~/Content/assets/javascripts/bootstrap/bootstrap.js",
                "~/Content/assets/javascripts/plugins/modernizr/modernizr.min.js",
                "~/Content/assets/javascripts/plugins/retina/retina.js",
-                "~/Content/assets/javascripts/theme.js"
+                "~/Content/assets/javascripts/theme.js",
+                "~/Scripts/jquery.nicescroll.min.js"
                ));
         }
     }
