@@ -77,6 +77,11 @@
     <Compile Include="Models\GroupUser.cs" />
     <Compile Include="Models\Metric.cs" />
     <Compile Include="Models\NotificationType.cs" />
+    <Compile Include="Models\PmDataBit.cs" />
+    <Compile Include="Models\PmDataBody.cs" />
+    <Compile Include="Models\PmDataByte.cs" />
+    <Compile Include="Models\PmFInterpreter.cs" />
+    <Compile Include="Models\PmSpeciaCalculation.cs" />
     <Compile Include="Models\ProfilePic.cs" />
     <Compile Include="Models\RegistrationToken.cs" />
     <Compile Include="Models\SecurityToken.cs" />

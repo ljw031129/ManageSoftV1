@@ -46,7 +46,13 @@ namespace SocialGoal.Data.Models
         //测试数据
        public DbSet<Equipment> Equipments { get; set; }
        public DbSet<Smart> Smarts { get; set; }
-   
+
+        //协议管理部分
+       public DbSet<PmFInterpreter> PmFInterpreters { get; set; }
+       public DbSet<PmSpeciaCalculation> PmSpeciaCalculations { get; set; }
+       public DbSet<PmDataByte> PmDataBytes { get; set; }
+       public DbSet<PmDataBody> PmDataBodys { get; set; }
+       public DbSet<PmDataBit> PmDataBits { get; set; }
 
         public virtual void Commit()
         {
@@ -85,6 +91,13 @@ namespace SocialGoal.Data.Models
             modelBuilder.Configurations.Add(new EquipmentConfiguration());
             modelBuilder.Configurations.Add(new SmartConfiguration());
 
+            //协议管理
+            modelBuilder.Configurations.Add(new PmDataBitConfiguration());
+            modelBuilder.Configurations.Add(new PmDataBodyConfiguration());
+            modelBuilder.Configurations.Add(new PmDataByteConfiguration());
+            modelBuilder.Configurations.Add(new PmFInterpreterConfiguration());
+            modelBuilder.Configurations.Add(new PmSpeciaCalculationConfiguration());
+           
         }
     }
 }

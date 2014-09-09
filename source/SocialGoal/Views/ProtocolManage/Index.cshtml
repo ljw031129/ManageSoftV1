@@ -1,214 +1,329 @@
 ﻿@{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_LayoutAngular.cshtml";
+    Layout = "../Shared/_LayoutFlattyMain.cshtml";
 }
 @section styles{
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/dataTables.bootstrap.css" rel="stylesheet" />
-    <link href="~/Content/angular-xeditable/css/xeditable.css" rel="stylesheet" />
-    <link href="~/Content/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
-   
-    <style type="text/css">
-        .gridStyle {
-            border: 1px solid rgb(212,212,212);
-            width: 400px;
-            height: 300px;
-        }
 
-        .green {
-            background-color: green;
-            color: white;
-        }
-    </style>
 }
+<div class='row' id='content-wrapper'>
+    <div class='col-xs-12' ng-controller="ProCtrl">
+        <div class='row'>
+            <div class='col-sm-12'>
+                <div class='page-header'>
+                    <h1 class='pull-left'>
+                        <i class='icon-user'></i>
+                        <span>解析协议配置</span>
+                    </h1>
+                    <div class='pull-right'>
+                        <ul class='breadcrumb'>
+                            <li>
+                                <a href='index.html'>
+                                    <i class='icon-bar-chart'></i>
+                                </a>
+                            </li>
+                            <li class='separator'>
+                                <i class='icon-angle-right'></i>
+                            </li>
+                            <li>Example pages</li>
+                            <li class='separator'>
+                                <i class='icon-angle-right'></i>
+                            </li>
+                            <li class='active'>User profile</li>
+                        </ul>
+                    </div>
+                </div>
 
-<div class="container" ng-app="app" ng-controller="EditableRowCtrl">
-   
-    <div class="row">
-     
-        <div class="well">{{protocolManage.ProtocolVersion}}</div>
-        <div class="well">{{protocolManage | json}}</div>
-    </div>
-    <div class="row">
-        <div class=" well">
-            <div class="form-inline" role="form">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div style="margin-bottom:0;" class="box bordered-box blue-border">
+                    <div class="box-header blue-background">
+                        <div class="title">基本信息</div>
+                        <div class="actions">
+                            <a href="#" class="btn box-remove btn-xs btn-link">
+                                <i class="icon-remove"></i>
+                            </a>
 
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-addon">协议版本号</div>
-                        <input ng-model="protocolManage.ProtocolVersion" class="form-control" type="text">
+                            <a href="#" class="btn box-collapse btn-xs btn-link">
+                                <i></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="box-content box-no-padding">
+                        <div class="responsive-table">
+                            <div class="scrollable-area">
+                                <table class="table table-bordered table-hover table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>
+                                                协议名称
+                                            </th>
+                                            <th>
+                                                协议版本号
+                                            </th>
+                                            <th>
+                                                解析方式
+                                            </th>
+                                            <th>信息体个数位置</th>
+                                            <th>信息体标志位置</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="prData in PmFInterpreters">
+                                            <td>{{prData.PmFInterpreterId}}</td>
+                                            <td>{{prData.ProtocolName}}</td>
+                                            <td>{{prData.ProtocolVersion}}</td>
+                                            <td>{{prData.AnalysisWay}}</td>
+                                            <td>{{prData.InfoSignStartPosition}}</td>
+                                            <td>
+                                                {{prData.InfoSignLength}}
+                                            </td>
+                                            <td>
+                                                <div class="text-right">
+                                                    <a href="#" class="btn btn-success btn-xs">
+                                                        <i class="icon-ok" ng-click="loadDataBody(prData.PmFInterpreterId)"></i>
+                                                    </a>
+                                                    <a href="#" class="btn btn-danger btn-xs">
+                                                        <i class="icon-remove"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-addon">解析方式</div>
-                        <input ng-model="protocolManage.AnalysisWay" class="form-control" type="text">
+            </div>
+        </div>
+        <hr class="hr-double">
+        <div class="row">
+            <div class="col-sm-12">
+                <div style="margin-bottom:0;" class="box bordered-box blue-border">
+                    <div class="box-header blue-background">
+                        <div class="title">Responsive table</div>
+                        <div class="actions">
+                            <a href="#" class="btn box-remove btn-xs btn-link">
+                                <i class="icon-remove"></i>
+                            </a>
+
+                            <a href="#" class="btn box-collapse btn-xs btn-link">
+                                <i></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="box-content box-no-padding">
+                        <div class="responsive-table">
+                            <div class="scrollable-area">
+                                <table style="margin-bottom:0;" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                ID
+                                            </th>
+                                            <th>
+                                                信息体标志
+                                            </th>
+                                            <th>
+                                                开始位置
+                                            </th>
+                                            <th>长度</th>
+                                            <th>处理方式</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Zelma Langosh</td>
+                                            <td>berta@hotmail.com</td>
+                                            <td>Zelma Langosh</td>
+                                            <td>berta@hotmail.com</td>
+                                            <td>
+                                                <span class="label label-important">Important</span>
+                                            </td>
+                                            <td>
+                                                <div class="text-right">
+                                                    <a href="#" class="btn btn-success btn-xs">
+                                                        <i class="icon-ok"></i>
+                                                    </a>
+                                                    <a href="#" class="btn btn-danger btn-xs">
+                                                        <i class="icon-remove"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-addon">信息体个数位置</div>
-                        <input ng-model="protocolManage.InfoCountsPostion" class="form-control" type="text">
+            </div>
+        </div>
+
+        <hr class="hr-double">
+        <div class="row">
+            <div class="col-sm-12">
+                <div style="margin-bottom:0;" class="box bordered-box purple-border">
+                    <div class="box-header purple-background">
+                        <div class="title">配置信息 <button class="btn btn-default" ng-click="addProtocolData()">Add row</button></div>
+                        <div class="actions">
+                            <a href="#" class="btn box-remove btn-xs btn-link">
+                                <i class="icon-remove"></i>
+                            </a>
+
+                            <a href="#" class="btn box-collapse btn-xs btn-link">
+                                <i></i>
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-addon">信息体标志位置</div>
-                        <input ng-model="protocolManage.InfoSignStartPosition" class="form-control" type="text">
+                    <div class="box-content box-no-padding">
+                        <table class="table table-bordered table-hover table-condensed">
+                            <thead>
+                                <tr style="font-weight: bold">
+                                    <td width="60">编号</td>
+                                    <td width="60">信息体</td>
+                                    <td width="80">截取位置</td>
+                                    <td width="80">截取长度</td>
+                                    <td width="80">处理方式</td>
+                                    <td width="80">目标类型</td>
+                                    <td width="80">传输模式</td>
+                                    <td width="60">符号位</td>
+                                    <td width="80">计算公式</td>
+                                    <td width="90">存储Key值</td>
+                                    <td>bit数据</td>
+                                    <td>操作</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="dataBodyModel in protocolManage.DataBodyModels">
+                                    <td>
+                                        <!-- editable username (text with validation) -->
+                                        <span class="label label-success"> {{ dataBodyModel.Id  }}</span>
+
+                                    </td>
+                                    <td>
+                                        <!-- editable username (text with validation) -->
+                                        <span editable-text="dataBodyModel.InfoTypeNumber" e-name="InfoTypeNumber" e-form="rowform">
+                                            {{ dataBodyModel.InfoTypeNumber }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <!-- editable status (select-local) -->
+                                        <span editable-text="dataBodyModel.StartPosition" e-name="StartPosition" e-form="rowform">
+                                            {{ dataBodyModel.StartPosition }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <!-- editable group (select-remote) -->
+                                        <span editable-text="dataBodyModel.DataLength" e-name="DataLength" e-form="rowform">
+                                            {{ dataBodyModel.DataLength }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <!-- editable status (select-local) -->
+                                        <span editable-select="dataBodyModel.DataType" e-name="DataType" e-form="rowform" e-ng-options="s.value as s.text for s in DataTypes">
+                                            {{ showTypes(dataBodyModel.DataType) }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <!-- editable status (select-local) -->
+                                        <span editable-select="dataBodyModel.DataByteModel.Representation" e-name="Representation" e-form="rowform" e-ng-options="s.value as s.text for s in Representations">
+                                            {{ showRepresentations(dataBodyModel.DataByteModel.Representation) }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <!-- editable status (select-local) -->
+                                        <span editable-select="dataBodyModel.DataByteModel.IsBigEndian" e-name="IsBigEndian" e-form="rowform" e-ng-options="s.value as s.text for s in boolData">
+                                            {{ showBool(dataBodyModel.DataByteModel.IsBigEndian) }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <!-- editable status (select-local) -->
+                                        <span editable-select="dataBodyModel.DataByteModel.IsUnsigned" e-name="IsUnsigned" e-form="rowform" e-ng-options="s.value as s.text for s in boolData">
+                                            {{ showBool(dataBodyModel.DataByteModel.IsUnsigned) }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <!-- editable status (select-local) -->
+                                        <span editable-text="dataBodyModel.DataByteModel.Formula" e-name="Formula" e-form="rowform">
+                                            {{ dataBodyModel.DataByteModel.Formula }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <!-- editable status (select-local) -->
+                                        <span editable-text="dataBodyModel.DataByteModel.DictionaryKey" e-name="DictionaryKey" e-form="rowform">
+                                            {{ dataBodyModel.DataByteModel.DictionaryKey }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <table class="table table-bordered table-hover" ng-show="dataBodyModel.DataType==2">
+                                            <thead>
+                                                <tr>
+                                                    <td width="60">Id</td>
+                                                    <td width="60">开始位置</td>
+                                                    <td width="60">长度</td>
+                                                    <td width="60">存储字段</td>
+                                                    <td><button class="btn btn-default" ng-click="addBitDatas(dataBodyModel.Id)"><span class="glyphicon  glyphicon-plus"></span></button></td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="bitData in dataBodyModel.DataBitModels">
+                                                    <td><span class="label label-success">{{bitData.Id}}</span></td>
+                                                    <td><span editable-text="bitData.ChildStartPostion" e-name="ChildStartPostion" e-form="rowform">{{bitData.ChildStartPostion}}</span></td>
+                                                    <td><span editable-text="bitData.ChildDataLength" e-name="ChildDataLength" e-form="rowform">{{bitData.ChildDataLength}}</span></td>
+                                                    <td><span editable-text="bitData.DictionaryKey" e-name="DictionaryKey" e-form="rowform">{{bitData.DictionaryKey}}</span></td>
+                                                    <td><button class="btn btn-default" ng-click="delBitDatas(dataBodyModel.Id,bitData.Id)"><span class="glyphicon  glyphicon-trash"></span></button></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td style="white-space: nowrap">
+                                        <!-- form -->
+                                        <form editable-form name="rowform" onbeforesave="savePmDataBody($data, dataBodyModel.Id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == dataBodyModel">
+                                            <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                            </button>
+                                            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+                                                <span class="glyphicon  glyphicon-remove"></span>
+                                            </button>
+                                        </form>
+                                        <div class="buttons" ng-show="!rowform.$visible">
+                                            <button ng-click="rowform.$show()" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-pencil"></span> </button>
+                                            <button ng-click="removeUser($index)" class="btn btn-default" type="submit"><span class="glyphicon  glyphicon-trash"></span> </button>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
-
-        <table class="table table-bordered table-hover table-condensed">
-            <thead>
-                <tr style="font-weight: bold">
-                    <td width="60">编号</td>
-                    <td width="60">信息体</td>
-                    <td width="80">截取位置</td>
-                    <td width="80">截取长度</td>
-                    <td width="80">处理方式</td>
-                    <td width="80">目标类型</td>
-                    <td width="80">传输模式</td>
-                    <td width="60">符号位</td>
-                    <td width="80">计算公式</td>
-                    <td width="90">存储Key值</td>
-                    <td>bit数据</td>
-                    <td>操作</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="dataBodyModel in protocolManage.DataBodyModels">
-                    <td>
-                        <!-- editable username (text with validation) -->
-                        <span class="label label-success"> {{ dataBodyModel.Id  }}</span>
-
-                    </td>
-                    <td>
-                        <!-- editable username (text with validation) -->
-                        <span editable-text="dataBodyModel.InfoTypeNumber" e-name="InfoTypeNumber" e-form="rowform">
-                            {{ dataBodyModel.InfoTypeNumber }}
-                        </span>
-                    </td>
-                    <td>
-                        <!-- editable status (select-local) -->
-                        <span editable-text="dataBodyModel.StartPosition" e-name="StartPosition" e-form="rowform">
-                            {{ dataBodyModel.StartPosition }}
-                        </span>
-                    </td>
-                    <td>
-                        <!-- editable group (select-remote) -->
-                        <span editable-text="dataBodyModel.DataLength" e-name="DataLength" e-form="rowform">
-                            {{ dataBodyModel.DataLength }}
-                        </span>
-                    </td>
-                    <td>
-                        <!-- editable status (select-local) -->
-                        <span editable-select="dataBodyModel.DataType" e-name="DataType" e-form="rowform" e-ng-options="s.value as s.text for s in DataTypes">
-                            {{ showTypes(dataBodyModel.DataType) }}
-                        </span>
-                    </td>
-                    <td>
-                        <!-- editable status (select-local) -->
-                        <span editable-select="dataBodyModel.DataByteModel.Representation" e-name="Representation" e-form="rowform" e-ng-options="s.value as s.text for s in Representations">
-                            {{ showRepresentations(dataBodyModel.DataByteModel.Representation) }}
-                        </span>
-                    </td>
-                    <td>
-                        <!-- editable status (select-local) -->
-                        <span editable-select="dataBodyModel.DataByteModel.IsBigEndian" e-name="IsBigEndian" e-form="rowform" e-ng-options="s.value as s.text for s in boolData">
-                            {{ showBool(dataBodyModel.DataByteModel.IsBigEndian) }}
-                        </span>
-                    </td>
-                    <td>
-                        <!-- editable status (select-local) -->
-                        <span editable-select="dataBodyModel.DataByteModel.IsUnsigned" e-name="IsUnsigned" e-form="rowform" e-ng-options="s.value as s.text for s in boolData">
-                            {{ showBool(dataBodyModel.DataByteModel.IsUnsigned) }}
-                        </span>
-                    </td>
-                    <td>
-                        <!-- editable status (select-local) -->
-                        <span editable-text="dataBodyModel.DataByteModel.Formula" e-name="Formula" e-form="rowform">
-                            {{ dataBodyModel.DataByteModel.Formula }}
-                        </span>
-                    </td>
-                    <td>
-                        <!-- editable status (select-local) -->
-                        <span editable-text="dataBodyModel.DataByteModel.DictionaryKey" e-name="DictionaryKey" e-form="rowform">
-                            {{ dataBodyModel.DataByteModel.DictionaryKey }}
-                        </span>
-                    </td>
-                    <td>
-                        <table class="table table-bordered table-hover" ng-show="dataBodyModel.DataType==2">
-                            <thead>
-                                <tr>
-                                    <td width="60">Id</td>
-                                    <td width="60">开始位置</td>
-                                    <td width="60">长度</td>
-                                    <td width="60">存储字段</td>
-                                    <td><button class="btn btn-default" ng-click="addBitDatas(dataBodyModel.Id)"><span class="glyphicon  glyphicon-plus"></span></button></td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="bitData in dataBodyModel.DataBitModels">
-                                    <td><span class="label label-success">{{bitData.Id}}</span></td>
-                                    <td><span editable-text="bitData.ChildStartPostion" e-name="ChildStartPostion" e-form="rowform">{{bitData.ChildStartPostion}}</span></td>
-                                    <td><span editable-text="bitData.ChildDataLength" e-name="ChildDataLength" e-form="rowform">{{bitData.ChildDataLength}}</span></td>
-                                    <td><span editable-text="bitData.DictionaryKey" e-name="DictionaryKey" e-form="rowform">{{bitData.DictionaryKey}}</span></td>
-                                    <td><button class="btn btn-default" ng-click="delBitDatas(dataBodyModel.Id,bitData.Id)"><span class="glyphicon  glyphicon-trash"></span></button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                    <td style="white-space: nowrap">
-                        <!-- form -->
-                        <form editable-form name="rowform" onbeforesave="saveUser($data, protocol.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == dataBodyModel">
-                            <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-ok"></span>
-                            </button>
-                            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
-                                <span class="glyphicon  glyphicon-remove"></span>
-                            </button>
-                        </form>
-                        <div class="buttons" ng-show="!rowform.$visible">
-                            <button ng-click="rowform.$show()" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-pencil"></span> </button>
-                            <button ng-click="removeUser($index)" class="btn btn-default" type="submit"><span class="glyphicon  glyphicon-trash"></span> </button>
-
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <button class="btn btn-default" ng-click="addProtocolData()">Add row</button>
-        <input type="button" value="save as txt file" onclick=saveFile('title_1','content_1')>
-    </div>
 </div>
+
 @section scripts{
-    <script src="~/Scripts/jquery-2.1.1.js"></script>
-    <script src="~/Scripts/bootstrap.js"></script>
-    <script src="~/Scripts/angular.js"></script>
-    
-    <script src="~/Content/angular-xeditable/js/xeditable.js"></script>
-    <script src="~/Scripts/xFilter.js"></script>
-    <script src="~/Content/bootstrap3-editable/js/bootstrap-editable.js"></script>
-    <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
+
     <script type="text/javascript">
-
-
-        var app = angular.module("app", ["xeditable", "ui.bootstrap"]);
-        app.run(function (editableOptions) {
-            editableOptions.theme = 'bs3';
-            //  editableOptions.theme.inputClass = "input-sm";
-        });
-        app.controller('EditableRowCtrl', function ($scope, $filter, $http) {         
+        app.controller('ProCtrl', function ($scope, $filter, $http) {
+            //加载基本信息数据
+            $http.get('/ProtocolManage/GetAll').success(function (data) {
+                $scope.PmFInterpreters = data;
+            });
+            $scope.loadDataBody = function (pmFInterpreterId) {
+                alert(pmFInterpreterId);
+            }
 
             //加载Json数据
             $http.get('/Json/JsonData.js').success(function (data) {
                 $scope.protocolManage = data;
-               
+
             });
 
 
@@ -248,8 +363,8 @@
                 return (selected.length) ? selected[0].text : '未设置';
             }
 
-            $scope.saveUser = function (data, id) {
-
+            $scope.savePmDataBody = function (data, id) {
+                debugger
                 //$scope.user not updated yet
                 angular.extend(data, { id: id });
                 return;

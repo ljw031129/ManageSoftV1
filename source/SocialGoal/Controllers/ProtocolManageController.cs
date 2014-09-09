@@ -14,10 +14,12 @@ namespace SocialGoal.Controllers
 {
     public class ProtocolManageController : Controller
     {
-        private readonly IEquipmentService _equipmentService;
-        public ProtocolManageController(IEquipmentService equipmentService)
+        
+        private readonly IProtocolManageService _protocolManageService;
+        private readonly IPmDataBodiesService _pmDataBodiesServic;
+        public ProtocolManageController(IProtocolManageService protocolManageService)
         {
-            this._equipmentService = equipmentService;
+            this._protocolManageService = protocolManageService;
         }
 
         // GET: ProtocolManage
@@ -26,6 +28,18 @@ namespace SocialGoal.Controllers
 
 
             return View();
+        }
+        public JsonResult GetAll()
+        {
+            var prList = _protocolManageService.GetPmFInterpreter();
+
+            return Json(prList, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetPmDataBodyById(string pmId) {
+            var prList = _pmDataBodiesServic.GePmDataBody(pmId);
+
+            return Json(prList, JsonRequestBehavior.AllowGet);
         }
 
         // GET: ProtocolManage/Details/5
@@ -43,7 +57,7 @@ namespace SocialGoal.Controllers
         [HttpPost]
         public JsonResult All()
         {
-            var allEquipments = _equipmentService.GetIQueryableAll();
+            //  var allEquipments = _equipmentService.GetIQueryableAll();
 
 
             return Json("");
@@ -56,13 +70,13 @@ namespace SocialGoal.Controllers
             //g.Rules.Add(new Rule() { Field = "Continent.Name", Operator = RuleOperator.Equals, Data = "E" });
 
             // Get a paged list of groups
-            IPagedList<Equipment> equipments = await _equipmentService.GetEquipmentsAsync(gridSettings);
+            //  IPagedList<Equipment> equipments = await _equipmentService.GetEquipmentsAsync(gridSettings);
             return Json(new
             {
                 sEcho = param.sEcho,
                 iTotalRecords = 50,
                 iTotalDisplayRecords = 50,
-                aaData = equipments
+                //   aaData = equipments
             }, JsonRequestBehavior.AllowGet);
         }
 

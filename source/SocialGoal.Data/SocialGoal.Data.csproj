@@ -80,6 +80,11 @@
     <Compile Include="Configuration\GroupGoalConfiguration.cs" />
     <Compile Include="Configuration\GroupInvitationConfiguration.cs" />
     <Compile Include="Configuration\GroupRequestConfiguration.cs" />
+    <Compile Include="Configuration\PmDataBitConfiguration.cs" />
+    <Compile Include="Configuration\PmDataBodyConfiguration.cs" />
+    <Compile Include="Configuration\PmDataByteConfiguration.cs" />
+    <Compile Include="Configuration\PmFInterpreterConfiguration.cs" />
+    <Compile Include="Configuration\PmSpeciaCalculationConfiguration.cs" />
     <Compile Include="Configuration\SmartConfiguration.cs" />
     <Compile Include="Configuration\SupportInvitationConfiguration.cs" />
     <Compile Include="Configuration\UpdateConfiguration.cs" />
@@ -128,6 +133,10 @@
     <Compile Include="Migrations\201407080242464_UpdateEquipmentId.Designer.cs">
       <DependentUpon>201407080242464_UpdateEquipmentId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201409090655385_updatePm.cs" />
+    <Compile Include="Migrations\201409090655385_updatePm.Designer.cs">
+      <DependentUpon>201409090655385_updatePm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CommentRepository.cs" />
@@ -149,6 +158,8 @@
     <Compile Include="Repository\GroupUpdateUserRepository.cs" />
     <Compile Include="Repository\GroupUserRepository.cs" />
     <Compile Include="Repository\MetricRepository.cs" />
+    <Compile Include="Repository\PmDataBodiesRepository.cs" />
+    <Compile Include="Repository\ProtocolManageRepository.cs" />
     <Compile Include="Repository\SecurityTokenRepository.cs" />
     <Compile Include="Repository\SupportInvitationRepository.cs" />
     <Compile Include="Repository\SupportRepository.cs" />
@@ -196,6 +207,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201407080242464_UpdateEquipmentId.resx">
       <DependentUpon>201407080242464_UpdateEquipmentId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409090655385_updatePm.resx">
+      <DependentUpon>201409090655385_updatePm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

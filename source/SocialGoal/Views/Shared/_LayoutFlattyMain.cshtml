@@ -5,13 +5,28 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/Flatty/Css")
     @RenderSection("styles", required: false)
+    <link href="~/Content/angular-xeditable/css/xeditable.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
+
+    <style type="text/css">
+        .gridStyle {
+            border: 1px solid rgb(212,212,212);
+            width: 400px;
+            height: 300px;
+        }
+
+        .green {
+            background-color: green;
+            color: white;
+        }
+    </style>
 </head>
-<body class='contrast-red'>
+<body class='contrast-red' ng-app="App">
     @Html.Partial("_PartialFlattyHeader")
-    <div id='wrapper' ng-app="app" ng-controller="Ctrl">
+    <div id='wrapper'>
         <div id='main-nav-bg'></div>
         <nav id='main-nav'>
-            <div class='navigation'>
+            <div class='navigation' ng-controller="Ctrl">
                 <div class='search'>
                     <form action='search_results.html' method='get'>
                         <div class='search-wrapper'>
@@ -70,9 +85,14 @@
     </div>
     @Scripts.Render("~/Content/Flatty/Js")
     @Scripts.Render("~/bundles/jqueryval")
-    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Content/angular-xeditable/js/xeditable.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
     <script type="text/javascript">
-        var app = angular.module("app", []);
+        var app = angular.module("App", ["xeditable", "ui.bootstrap"]);
+        app.run(function (editableOptions) {
+            editableOptions.theme = 'bs3';
+            //  editableOptions.theme.inputClass = "input-sm";
+        });
         app.controller('Ctrl', function ($scope, $filter, $http, $element) {
             $scope.activeItem = '';
             //加载Json数据
