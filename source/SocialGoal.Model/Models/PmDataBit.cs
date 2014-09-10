@@ -24,5 +24,7 @@ namespace SocialGoal.Model.Models
         //默认值
         public string DefaultValue { get; set; }
         public string DictionaryKey { get; set; }
+
+        public string PmDataBodyId { get; set; }
     }
 }

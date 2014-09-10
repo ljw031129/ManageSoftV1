@@ -137,6 +137,10 @@
     <Compile Include="Migrations\201409090655385_updatePm.Designer.cs">
       <DependentUpon>201409090655385_updatePm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201409101105228_updateForeignKey.cs" />
+    <Compile Include="Migrations\201409101105228_updateForeignKey.Designer.cs">
+      <DependentUpon>201409101105228_updateForeignKey.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CommentRepository.cs" />
@@ -158,7 +162,9 @@
     <Compile Include="Repository\GroupUpdateUserRepository.cs" />
     <Compile Include="Repository\GroupUserRepository.cs" />
     <Compile Include="Repository\MetricRepository.cs" />
+    <Compile Include="Repository\PmDataBitRepository.cs" />
     <Compile Include="Repository\PmDataBodiesRepository.cs" />
+    <Compile Include="Repository\PmDataBytesRepository.cs" />
     <Compile Include="Repository\ProtocolManageRepository.cs" />
     <Compile Include="Repository\SecurityTokenRepository.cs" />
     <Compile Include="Repository\SupportInvitationRepository.cs" />
@@ -210,6 +216,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201409090655385_updatePm.resx">
       <DependentUpon>201409090655385_updatePm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409101105228_updateForeignKey.resx">
+      <DependentUpon>201409101105228_updateForeignKey.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -17,6 +17,9 @@ namespace SocialGoal.Model.Models
         //数据类型 1 byte,2 bit
         public int DataType { get; set; }
 
+        public string PmFInterpreterId { get; set; }
+        public string PmDataByteId { get; set; }
+        
         public virtual PmDataByte PmDataByte { get; set; }
         public virtual ICollection<PmDataBit> PmDataBits { get; set; }
     }

@@ -13,6 +13,7 @@ namespace SocialGoal.Data.Configuration
        public CommentConfiguration()
        {
            Property(c => c.CommentText).HasMaxLength(250);
+         
        }
     }
 }

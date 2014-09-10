@@ -17,9 +17,10 @@ namespace SocialGoal.Controllers
         
         private readonly IProtocolManageService _protocolManageService;
         private readonly IPmDataBodiesService _pmDataBodiesServic;
-        public ProtocolManageController(IProtocolManageService protocolManageService)
+        public ProtocolManageController(IProtocolManageService protocolManageService, IPmDataBodiesService pmDataBodiesServic)
         {
             this._protocolManageService = protocolManageService;
+            this._pmDataBodiesServic = pmDataBodiesServic;
         }
 
         // GET: ProtocolManage
@@ -34,6 +35,11 @@ namespace SocialGoal.Controllers
             var prList = _protocolManageService.GetPmFInterpreter();
 
             return Json(prList, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult UpdateDataBody(PmDataBody pmdataBody) {
+          var rec =_pmDataBodiesServic.UpdatePmDataBodyAsync(pmdataBody);
+          return Json(rec.Result);
         }
 
         public JsonResult GetPmDataBodyById(string pmId) {
