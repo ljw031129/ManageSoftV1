@@ -14,13 +14,15 @@ namespace SocialGoal.Controllers
 {
     public class ProtocolManageController : Controller
     {
-        
+
+        private readonly IPmDataBitsService _pmDataBitsService;
         private readonly IProtocolManageService _protocolManageService;
         private readonly IPmDataBodiesService _pmDataBodiesServic;
-        public ProtocolManageController(IProtocolManageService protocolManageService, IPmDataBodiesService pmDataBodiesServic)
+        public ProtocolManageController(IProtocolManageService protocolManageService, IPmDataBodiesService pmDataBodiesServic, IPmDataBitsService pmDataBitsService)
         {
             this._protocolManageService = protocolManageService;
             this._pmDataBodiesServic = pmDataBodiesServic;
+            this._pmDataBitsService = pmDataBitsService;
         }
 
         // GET: ProtocolManage
@@ -36,16 +38,43 @@ namespace SocialGoal.Controllers
 
             return Json(prList, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult GetPropertyInfoArrayByReceiveDataLast()
+        {
+            string[] rec = new string[66];
+            var proPerty = _protocolManageService.GetPropertyInfoArray();
+            for (int i = 0; i < proPerty.Count(); i++)
+            {
+                rec[i] = proPerty[i].Name;
+            }
+
+            return Json(rec, JsonRequestBehavior.AllowGet);
+        }
         [HttpPost]
-        public JsonResult UpdateDataBody(PmDataBody pmdataBody) {
-          var rec =_pmDataBodiesServic.UpdatePmDataBodyAsync(pmdataBody);
-          return Json(rec.Result);
+        public JsonResult UpdateDataBody(PmDataBody pmdataBody)
+        {
+            var rec = _pmDataBodiesServic.UpdatePmDataBodyAsync(pmdataBody);
+            return Json(rec.Result);
         }
 
-        public JsonResult GetPmDataBodyById(string pmId) {
+        public JsonResult GetPmDataBodyById(string pmId)
+        {
             var prList = _pmDataBodiesServic.GePmDataBody(pmId);
 
             return Json(prList, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult DeletePmDataBits(PmDataBit pBit)
+        {
+            _pmDataBitsService.Delete(pBit);
+
+            return Json(true);
+        }
+        [HttpPost]
+        public JsonResult DeletePmDataBody(PmDataBody pDataBody)
+        {
+            _pmDataBodiesServic.Delete(pDataBody);
+
+            return Json(true);
         }
 
         // GET: ProtocolManage/Details/5

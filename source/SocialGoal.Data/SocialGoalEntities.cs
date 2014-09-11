@@ -21,7 +21,7 @@ namespace SocialGoal.Data.Models
         public DbSet<Focus> Focuses { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Update> Updates { get; set; }
-        //public DbSet<User> Users { get; set; }
+        // public DbSet<User> Users { get; set; }
         public DbSet<Metric> Metrics { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<GroupUser> GroupUsers { get; set; }
@@ -44,15 +44,18 @@ namespace SocialGoal.Data.Models
         public DbSet<GroupUpdateSupport> GroupUpdateSupports { get; set; }
 
         //测试数据
-       public DbSet<Equipment> Equipments { get; set; }
-       public DbSet<Smart> Smarts { get; set; }
+        public DbSet<Equipment> Equipments { get; set; }
+        public DbSet<Smart> Smarts { get; set; }
 
         //协议管理部分
-       public DbSet<PmFInterpreter> PmFInterpreters { get; set; }
-       public DbSet<PmSpeciaCalculation> PmSpeciaCalculations { get; set; }
-       public DbSet<PmDataByte> PmDataBytes { get; set; }
-       public DbSet<PmDataBody> PmDataBodys { get; set; }
-       public DbSet<PmDataBit> PmDataBits { get; set; }
+        public DbSet<PmFInterpreter> PmFInterpreters { get; set; }
+        public DbSet<PmSpeciaCalculation> PmSpeciaCalculations { get; set; }
+        public DbSet<PmDataByte> PmDataBytes { get; set; }
+        public DbSet<PmDataBody> PmDataBodys { get; set; }
+        public DbSet<PmDataBit> PmDataBits { get; set; }
+        //回传数据部分
+        public DbSet<ReceiveDataLast> ReceiveDataLasts { get; set; }
+        public DbSet<ReceiveData> ReceiveDatas { get; set; }
 
         public virtual void Commit()
         {
@@ -62,7 +65,7 @@ namespace SocialGoal.Data.Models
         {
 
             base.OnModelCreating(modelBuilder);
-           // modelBuilder.Conventions.Remove<IncludeMetadataConvention>();
+            // modelBuilder.Conventions.Remove<IncludeMetadataConvention>();
 
             modelBuilder.Configurations.Add(new CommentConfiguration());
             modelBuilder.Configurations.Add(new CommentUserConfiguration());
@@ -97,7 +100,12 @@ namespace SocialGoal.Data.Models
             modelBuilder.Configurations.Add(new PmDataByteConfiguration());
             modelBuilder.Configurations.Add(new PmFInterpreterConfiguration());
             modelBuilder.Configurations.Add(new PmSpeciaCalculationConfiguration());
-           
+
+            //数据部分
+            modelBuilder.Configurations.Add(new ReceiveDataConfiguration());
+            modelBuilder.Configurations.Add(new ReceiveDataLastConfiguration());
+
+
         }
     }
 }

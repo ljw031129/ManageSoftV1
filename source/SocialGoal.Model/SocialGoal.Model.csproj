@@ -83,6 +83,9 @@
     <Compile Include="Models\PmFInterpreter.cs" />
     <Compile Include="Models\PmSpeciaCalculation.cs" />
     <Compile Include="Models\ProfilePic.cs" />
+    <Compile Include="Models\ReceiveData.cs" />
+    <Compile Include="Models\ReceiveDataDispaly.cs" />
+    <Compile Include="Models\ReceiveDataLast.cs" />
     <Compile Include="Models\RegistrationToken.cs" />
     <Compile Include="Models\SecurityToken.cs" />
     <Compile Include="Models\Smart.cs" />

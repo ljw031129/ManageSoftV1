@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "协议管理";
     Layout = "../Shared/_LayoutFlattyMain.cshtml";
 }
 @section styles{
@@ -12,7 +12,7 @@
                 <div class='page-header'>
                     <h1 class='pull-left'>
                         <i class='icon-user'></i>
-                        <span>解析协议配置</span>
+                        <span>协议管理</span>
                     </h1>
                     <div class='pull-right'>
                         <ul class='breadcrumb'>
@@ -39,7 +39,7 @@
             <div class="col-sm-12">
                 <div style="margin-bottom:0;" class="box bordered-box blue-border">
                     <div class="box-header blue-background">
-                        <div class="title">基本信息</div>
+                        <div class="title">基本类型</div>
                         <div class="actions">
                             <a href="#" class="btn box-remove btn-xs btn-link">
                                 <i class="icon-remove"></i>
@@ -82,13 +82,10 @@
                                                 {{prData.InfoSignLength}}
                                             </td>
                                             <td>
-                                                <div class="text-right">
+                                                <div class="text-center">
                                                     <a href="#" class="btn btn-success btn-xs">
-                                                        <i class="icon-ok" ng-click="loadDataBody(prData.PmFInterpreterId)"></i>
-                                                    </a>
-                                                    <a href="#" class="btn btn-danger btn-xs">
-                                                        <i class="icon-remove"></i>
-                                                    </a>
+                                                        <i class=" icon-search " ng-click="loadDataBody(prData)"></i>
+                                                    </a>                                                   
                                                 </div>
                                             </td>
                                         </tr>
@@ -103,10 +100,14 @@
         <hr class="hr-double">
         <div class="row">
             <div class="col-sm-12">
-                <div style="margin-bottom:0;" class="box bordered-box blue-border">
-                    <div class="box-header blue-background">
-                        <div class="title">配置信息  <input type="button" ng-click="addDataBody()" value="添加" /></div>
+                <div style="margin-bottom:0;" class="box purple-border blue-border">
+                    <div class="box-header  purple-background">
+                        <div class="title">解析协议配置信息</div>
                         <div class="actions">
+                            <a href="#" class="btn btn-xs btn-link">
+                                <i class="icon-plus" ng-click="addDataBody()"></i>
+                            </a>
+
                             <a href="#" class="btn box-remove btn-xs btn-link">
                                 <i class="icon-remove"></i>
                             </a>
@@ -193,7 +194,7 @@
                                             </td>
                                             <td>
                                                 <!-- editable status (select-local) -->
-                                                <span editable-text="dataBody.PmDataByte.DictionaryKey" e-name="DictionaryKey" e-form="rowform">
+                                                <span editable-select="dataBody.PmDataByte.DictionaryKey" e-name="DictionaryKey" e-form="rowform" e-ng-options="m for m in SelectReceiveData">
                                                     {{ dataBody.PmDataByte.DictionaryKey }}
                                                 </span>
                                             </td>
@@ -201,11 +202,11 @@
                                                 <table class="table table-bordered table-hover" ng-show="dataBody.DataType==2">
                                                     <thead>
                                                         <tr>
-                                                            <td width="60">Id</td>
+                                                            <td width="60">编号</td>
                                                             <td width="60">开始位置</td>
                                                             <td width="60">长度</td>
                                                             <td width="60">存储字段</td>
-                                                            <td><button class="btn btn-default" ng-click="addBitDatas(dataBody)"><span class="glyphicon  glyphicon-plus"></span></button></td>
+                                                            <td><button class="btn btn-primary btn-xs" ng-click="addBitDatas(dataBody)" ng-disabled="!rowform.$visible"><span class="glyphicon  glyphicon-plus"></span></button></td>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -213,8 +214,8 @@
                                                             <td><span class="label label-success">{{$index}}</span></td>
                                                             <td><span editable-text="bitData.ChildStartPostion" e-name="ChildStartPostion" e-form="rowform">{{bitData.ChildStartPostion}}</span></td>
                                                             <td><span editable-text="bitData.ChildDataLength" e-name="ChildDataLength" e-form="rowform">{{bitData.ChildDataLength}}</span></td>
-                                                            <td><span editable-text="bitData.DictionaryKey" e-name="DictionaryKey" e-form="rowform">{{bitData.DictionaryKey}}</span></td>
-                                                            <td><button class="btn btn-default" ng-click="delBitDatas(dataBody,$index)"><span class="glyphicon  glyphicon-trash"></span></button></td>
+                                                            <td><span editable-select="bitData.DictionaryKey" e-name="DictionaryKey" e-form="rowform" e-ng-options="m for m in SelectReceiveData">{{bitData.DictionaryKey}}</span></td>
+                                                            <td><button class="btn btn-danger btn-xs" ng-click="delBitDatas(dataBody,$index,bitData)"><span class="glyphicon  glyphicon-trash"></span></button></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -222,16 +223,16 @@
                                             <td style="white-space: nowrap">
                                                 <!-- form -->
                                                 <form editable-form name="rowform" onaftersave="pmDataBodySave($data, dataBody.PmDataBodyId)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == dataBody">
-                                                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                                                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-success btn-xs">
                                                         <span class="glyphicon glyphicon-ok"></span>
                                                     </button>
-                                                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+                                                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-danger  btn-xs">
                                                         <span class="glyphicon  glyphicon-remove"></span>
                                                     </button>
                                                 </form>
                                                 <div class="buttons" ng-show="!rowform.$visible">
-                                                    <button ng-click="rowform.$show()" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-pencil"></span> </button>
-                                                    <button ng-click="removeUser($index)" class="btn btn-default" type="submit"><span class="glyphicon  glyphicon-trash"></span> </button>
+                                                    <button ng-click="rowform.$show()" class="btn btn-primary btn-xs" type="submit"><span class="glyphicon glyphicon-pencil"></span> </button>
+                                                    <button ng-click="removePro($index)" class="btn btn-danger  btn-xs" type="submit"><span class="glyphicon  glyphicon-trash"></span> </button>
 
                                                 </div>
                                             </td>
@@ -257,13 +258,19 @@
         app.controller('ProCtrl', function ($scope, $filter, $http) {
 
             $scope.DataBodys = null;
+            $scope.SelectpmFInterpreter = null;
+            $scope.SelectReceiveData = null;
+            $http.get('/ProtocolManage/GetPropertyInfoArrayByReceiveDataLast').success(function (data) {
+                $scope.SelectReceiveData = data;
+            });
             //加载基本信息数据
             $http.get('/ProtocolManage/GetAll').success(function (data) {
                 $scope.PmFInterpreters = data;
             });
-            $scope.loadDataBody = function (pmFInterpreterId) {
+            $scope.loadDataBody = function (pmFInterpreter) {
+                $scope.SelectpmFInterpreter = pmFInterpreter;
                 $http.get('/ProtocolManage/GetPmDataBodyById',
-                    { params: { pmId: pmFInterpreterId } }).success(function (data) {
+                    { params: { pmId: pmFInterpreter.PmFInterpreterId } }).success(function (data) {
                         $scope.DataBodys = data;
                     });
             }
@@ -274,17 +281,14 @@
                 if (data[0].DataType == "1" && data[0].PmDataByte.PmDataByteId == null) {
                     data[0].PmDataByte.PmDataByteId = guidStr;
                     var idx = $scope.DataBodys.indexOf(data[0]);
-                    $scope.DataBodys[idx].PmDataByte.PmDataByteId = guidStr;                   
+                    $scope.DataBodys[idx].PmDataByte.PmDataByteId = guidStr;
                 }
                 //协议类型ID
-                data[0].PmFInterpreterId = "1";
+                data[0].PmFInterpreterId = $scope.SelectpmFInterpreter.PmFInterpreterId;
                 return $http.post('/ProtocolManage/UpdateDataBody', data[0]).success(function (reData) {
 
                 });
             };
-
-
-
             $scope.DataTypes = [
               { value: 1, text: '字节' },
               { value: 2, text: 'BIT位' },
@@ -304,7 +308,6 @@
             { value: true, text: '是' },
             { value: false, text: '否' }
             ];
-
             $scope.showTypes = function (currentType) {
 
                 var selected = $filter('filter')($scope.DataTypes, { value: currentType });
@@ -319,8 +322,6 @@
                 var selected = $filter('filter')($scope.boolData, { value: curentData });
                 return (selected.length) ? selected[0].text : '未设置';
             }
-
-
             $scope.addBitDatas = function (data) {
                 var idx = $scope.DataBodys.indexOf(data);
                 $scope.insertData = {
@@ -337,18 +338,27 @@
 
                 $scope.DataBodys[idx].PmDataBits.push($scope.insertData);
             }
-            $scope.delBitDatas = function (dataBody, cIndex) {
+            $scope.delBitDatas = function (dataBody, cIndex, bitData) {
+
                 var idx = $scope.DataBodys.indexOf(dataBody);
                 var st = $scope.DataBodys[idx];
                 $scope.DataBodys[idx].PmDataBits.splice(cIndex, 1);
+                //执行后台删除操作
+                return $http.post('/ProtocolManage/DeletePmDataBits', bitData).success(function (reData) {
+
+                });
             }
-
             // remove user
-            $scope.removeUser = function (index) {
-                $scope.protocolManage.DataBodyModels.splice(index, 1);
-            };
+            $scope.removePro = function (index) {
+                var dataBodys = $scope.DataBodys[index];
+                dataBodys.PmFInterpreterId = $scope.SelectpmFInterpreter.PmFInterpreterId;
 
-            // add user
+                $scope.DataBodys.splice(index, 1);
+                return $http.post('/ProtocolManage/DeletePmDataBody', dataBodys).success(function (reData) {
+
+                });
+               
+            };            
             $scope.addDataBody = function () {
                 $scope.inserted = {
                     PmDataBodyId: getGuidGenerator(),

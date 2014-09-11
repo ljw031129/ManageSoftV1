@@ -30,7 +30,7 @@ namespace SocialGoal.Data.Repository
 
         public void DeleteByte(string p)
         {
-            this.DataContext.Database.ExecuteSqlCommand("update PmDataBodies set PmDataByteId=NULL");
+            this.DataContext.Database.ExecuteSqlCommand("update PmDataBodies set PmDataByteId=NULL where PmDataBodyId='"+p+"'");
             this.DataContext.Database.ExecuteSqlCommand("DELETE FROM PmDataBytes where PmDataByteId in (select top 1 PmDataByteId from PmDataBodies where PmDataBodyId='" + p + "')");
         }
 

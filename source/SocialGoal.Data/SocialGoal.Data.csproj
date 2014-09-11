@@ -85,6 +85,8 @@
     <Compile Include="Configuration\PmDataByteConfiguration.cs" />
     <Compile Include="Configuration\PmFInterpreterConfiguration.cs" />
     <Compile Include="Configuration\PmSpeciaCalculationConfiguration.cs" />
+    <Compile Include="Configuration\ReceiveDataConfiguration.cs" />
+    <Compile Include="Configuration\ReceiveDataLastConfiguration.cs" />
     <Compile Include="Configuration\SmartConfiguration.cs" />
     <Compile Include="Configuration\SupportInvitationConfiguration.cs" />
     <Compile Include="Configuration\UpdateConfiguration.cs" />
@@ -140,6 +142,10 @@
     <Compile Include="Migrations\201409101105228_updateForeignKey.cs" />
     <Compile Include="Migrations\201409101105228_updateForeignKey.Designer.cs">
       <DependentUpon>201409101105228_updateForeignKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201409110704142_updateRecData.cs" />
+    <Compile Include="Migrations\201409110704142_updateRecData.Designer.cs">
+      <DependentUpon>201409110704142_updateRecData.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -219,6 +225,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201409101105228_updateForeignKey.resx">
       <DependentUpon>201409101105228_updateForeignKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409110704142_updateRecData.resx">
+      <DependentUpon>201409110704142_updateRecData.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -81,6 +81,7 @@
     <Compile Include="GroupUserService.cs" />
     <Compile Include="MetricService.cs" />
     <Compile Include="PmDataBodiesService.cs" />
+    <Compile Include="PmDataBitsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

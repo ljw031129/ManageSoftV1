@@ -17,6 +17,8 @@ namespace SocialGoal.Service
         PmFInterpreter GetPmFInterpreterById(string pmId);
         void SavePmDataBody();
         Task<bool> UpdatePmDataBodyAsync(PmDataBody pmdataBody);
+
+        void Delete(PmDataBody pDataBody);
     }
     public class PmDataBodiesService : IPmDataBodiesService
     {
@@ -60,8 +62,8 @@ namespace SocialGoal.Service
             {
                 _pmDataBitRepository.DeleteBit(pmdataBody.PmDataBodyId);
 
-            }        
-            
+            }
+
 
             if (pmdataBody.PmDataByte != null)
             {
@@ -71,7 +73,7 @@ namespace SocialGoal.Service
                 }
                 else
                 {
-                   
+
                     _pmDataBytesRepository.Add(pmdataBody.PmDataByte);
                 }
             }
@@ -116,6 +118,22 @@ namespace SocialGoal.Service
         {
             var pmDataBody = _pmDataBodiesRepository.GetPmFInterpreterById(pmId);
             return pmDataBody;
+        }
+
+
+        public void Delete(PmDataBody pDataBody)
+        {
+            _pmDataBodiesRepository.Delete(_pmDataBodiesRepository.GetById(pDataBody.PmDataBodyId));
+            if (pDataBody.PmDataBits != null)
+            {
+                foreach (var item in pDataBody.PmDataBits)
+                {
+                    _pmDataBitRepository.Delete(_pmDataBitRepository.GetById(item.PmDataBitId));
+
+                }
+            }
+            _pmDataBodiesRepository.Delete(_pmDataBodiesRepository.GetById(pDataBody.PmDataBodyId));
+            SavePmDataBody();
         }
     }
 }
