@@ -86,7 +86,9 @@
     <Compile Include="Configuration\PmFInterpreterConfiguration.cs" />
     <Compile Include="Configuration\PmSpeciaCalculationConfiguration.cs" />
     <Compile Include="Configuration\ReceiveDataConfiguration.cs" />
+    <Compile Include="Configuration\ReceiveDataDisplayConfiguration.cs" />
     <Compile Include="Configuration\ReceiveDataLastConfiguration.cs" />
+    <Compile Include="Configuration\ReDataDisplayFormatConfiguration.cs" />
     <Compile Include="Configuration\SmartConfiguration.cs" />
     <Compile Include="Configuration\SupportInvitationConfiguration.cs" />
     <Compile Include="Configuration\UpdateConfiguration.cs" />
@@ -147,6 +149,22 @@
     <Compile Include="Migrations\201409110704142_updateRecData.Designer.cs">
       <DependentUpon>201409110704142_updateRecData.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201409120717489_addDisplayData.cs" />
+    <Compile Include="Migrations\201409120717489_addDisplayData.Designer.cs">
+      <DependentUpon>201409120717489_addDisplayData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201409120723179_addDisplayDataForFInter.cs" />
+    <Compile Include="Migrations\201409120723179_addDisplayDataForFInter.Designer.cs">
+      <DependentUpon>201409120723179_addDisplayDataForFInter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201409120827248_updateReceiveData.cs" />
+    <Compile Include="Migrations\201409120827248_updateReceiveData.Designer.cs">
+      <DependentUpon>201409120827248_updateReceiveData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201409120841300_updateReceiveDataPlay.cs" />
+    <Compile Include="Migrations\201409120841300_updateReceiveDataPlay.Designer.cs">
+      <DependentUpon>201409120841300_updateReceiveDataPlay.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CommentRepository.cs" />
@@ -172,6 +190,8 @@
     <Compile Include="Repository\PmDataBodiesRepository.cs" />
     <Compile Include="Repository\PmDataBytesRepository.cs" />
     <Compile Include="Repository\ProtocolManageRepository.cs" />
+    <Compile Include="Repository\ReDataDisplayFormat.cs" />
+    <Compile Include="Repository\ReDataDisplayFormatRepository.cs" />
     <Compile Include="Repository\SecurityTokenRepository.cs" />
     <Compile Include="Repository\SupportInvitationRepository.cs" />
     <Compile Include="Repository\SupportRepository.cs" />
@@ -228,6 +248,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201409110704142_updateRecData.resx">
       <DependentUpon>201409110704142_updateRecData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409120717489_addDisplayData.resx">
+      <DependentUpon>201409120717489_addDisplayData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409120723179_addDisplayDataForFInter.resx">
+      <DependentUpon>201409120723179_addDisplayDataForFInter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409120827248_updateReceiveData.resx">
+      <DependentUpon>201409120827248_updateReceiveData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409120841300_updateReceiveDataPlay.resx">
+      <DependentUpon>201409120841300_updateReceiveDataPlay.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

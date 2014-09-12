@@ -838,6 +838,7 @@
     <Content Include="Content\ng-grid.css" />
     <Content Include="Content\ng-grid.min.css" />
     <Content Include="Json\MenuData.js" />
+    <Content Include="Scripts\AngularCtrlJs\ProtocolManageJs.js" />
     <Content Include="Scripts\angularModule\MenuDataModule.js" />
     <Content Include="Scripts\angularplugins\angular-tree-control.js" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />

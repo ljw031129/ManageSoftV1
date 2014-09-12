@@ -6,21 +6,25 @@ using System.Threading.Tasks;
 
 namespace SocialGoal.Model.Models
 {
-    public class ReceiveDataDispaly
+    public class ReceiveDataDisplay
     {
-        public string ReceiveDataDispalyId { get; set; }
+        public string ReceiveDataDisplayId { get; set; }
         //存储字段
         public string DictionaryKey { get; set; }
-        //显示存储字段名称
-        public string DefaultValue { get; set; }
-        public string ShowColor { get; set; }
-        public string ChartRange { get; set; }
+        //排序
+        public int ShowOrder { get; set; }
+        public string ShowUnit { get; set; }
         //input button select chart
         public string ShowType { get; set; }
         public string ShowIcon { get; set; }
         //主页 页块中
         public string ShowPostion { get; set; }
+        public bool ShowCommon { get; set; }
 
+        public string PmFInterpreterId { get; set; }
+
+
+        public virtual ICollection<ReDataDisplayFormat> ReDataDisplayFormats { get; set; }
 
     }
 }

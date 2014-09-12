@@ -57,6 +57,11 @@ namespace SocialGoal.Data.Models
         public DbSet<ReceiveDataLast> ReceiveDataLasts { get; set; }
         public DbSet<ReceiveData> ReceiveDatas { get; set; }
 
+        //数据显示配置
+        public DbSet<ReceiveDataDisplay> ReceiveDataDisplays { get; set; }
+        public DbSet<ReDataDisplayFormat> ReDataDisplayFormats { get; set; }
+
+
         public virtual void Commit()
         {
             base.SaveChanges();
@@ -104,6 +109,9 @@ namespace SocialGoal.Data.Models
             //数据部分
             modelBuilder.Configurations.Add(new ReceiveDataConfiguration());
             modelBuilder.Configurations.Add(new ReceiveDataLastConfiguration());
+            //数据显示内容设置
+            modelBuilder.Configurations.Add(new ReDataDisplayFormatConfiguration());
+            modelBuilder.Configurations.Add(new ReceiveDataDisplayConfiguration());
 
 
         }

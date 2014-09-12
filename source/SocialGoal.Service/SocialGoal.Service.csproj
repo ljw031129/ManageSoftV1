@@ -89,6 +89,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ProtocolManageService.cs" />
+    <Compile Include="ReceiveDataDisplayService.cs" />
+    <Compile Include="ReDataDisplayFormatService.cs" />
     <Compile Include="SecurityTockenService.cs" />
     <Compile Include="SupportInvitationService.cs" />
     <Compile Include="SupportService.cs" />

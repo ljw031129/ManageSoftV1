@@ -30,6 +30,7 @@ namespace SocialGoal.Model.Models
        // public int InfoCounts { get; set; }
         public virtual ICollection<PmDataBody> PmDataBodys { get; set; }
         public virtual ICollection<PmSpeciaCalculation> PmSpeciaCalculations { get; set; }
+        public virtual ICollection<ReceiveDataDisplay> ReceiveDataDispalys { get; set; }
 
     }
 }

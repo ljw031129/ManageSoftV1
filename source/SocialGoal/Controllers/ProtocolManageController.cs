@@ -55,8 +55,15 @@ namespace SocialGoal.Controllers
             var rec = _pmDataBodiesServic.UpdatePmDataBodyAsync(pmdataBody);
             return Json(rec.Result);
         }
-
+        //解析协议记录
         public JsonResult GetPmDataBodyById(string pmId)
+        {
+            var prList = _pmDataBodiesServic.GePmDataBody(pmId);
+
+            return Json(prList, JsonRequestBehavior.AllowGet);
+        }
+        //显示协议记录
+        public JsonResult GetReceiveDataDisplayById(string pmId)
         {
             var prList = _pmDataBodiesServic.GePmDataBody(pmId);
 
