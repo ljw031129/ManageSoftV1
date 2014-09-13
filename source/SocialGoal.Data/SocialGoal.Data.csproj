@@ -190,6 +190,7 @@
     <Compile Include="Repository\PmDataBodiesRepository.cs" />
     <Compile Include="Repository\PmDataBytesRepository.cs" />
     <Compile Include="Repository\ProtocolManageRepository.cs" />
+    <Compile Include="Repository\ReceiveDataDisplayRepository.cs" />
     <Compile Include="Repository\ReDataDisplayFormat.cs" />
     <Compile Include="Repository\ReDataDisplayFormatRepository.cs" />
     <Compile Include="Repository\SecurityTokenRepository.cs" />

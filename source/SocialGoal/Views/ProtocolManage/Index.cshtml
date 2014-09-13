@@ -256,6 +256,12 @@
                     <div class='box-header purple-background'>
                         <div class='title'>显示协议配置信息(<span style="font-size:13px;">当前选中的协议类型：{{SelectpmFInterpreter.ProtocolName}}</span>)</div>
                         <div class='actions'>
+                            <a href="#" class="btn btn-xs btn-link">
+                                <i class="icon-refresh" ng-click="loadReceiveDataDisplay(SelectpmFInterpreter)"></i>
+                            </a>
+                            <a href="#" class="btn btn-xs btn-link">
+                                <i class="icon-plus" ng-click="addReceiveDataDisplay()"></i>
+                            </a>
                             <a class="btn box-remove btn-xs btn-link" href="#">
                                 <i class='icon-remove'></i>
                             </a>
@@ -270,13 +276,16 @@
                             <thead>
                                 <tr>
                                     <th>
+                                        显示顺序
+                                    </th>
+                                    <th>
                                         存储Key值
                                     </th>
                                     <th>
-                                        单位
+                                        显示类型
                                     </th>
                                     <th>
-                                        显示类型
+                                        单位
                                     </th>
                                     <th>
                                         显示图标
@@ -288,28 +297,101 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Gaylord Reynolds</td>
-                                    <td>Gaylord Reynolds</td>
-                                    <td>claudie@yahoo.com</td>
-                                    <td>Gaylord Reynolds</td>
-                                    <td>claudie@yahoo.com</td>
-                                    <td>claudie@yahoo.com</td>
+                                <tr ng-repeat="rd in ReceiveDataDisplays">
                                     <td>
-                                        <span class='label label-warning'>Warning</span>
+                                        <span editable-text="rd.ShowOrder" e-name="ShowOrder" e-form="rowformDisplay">
+                                            {{rd.ShowOrder}}
+                                        </span>
                                     </td>
                                     <td>
-                                        <div class='text-right'>
-                                            <a class='btn btn-success btn-xs' href='#'>
-                                                <i class='icon-ok'></i>
-                                            </a>
-                                            <a class='btn btn-danger btn-xs' href='#'>
-                                                <i class='icon-remove'></i>
-                                            </a>
-                                        </div>
+                                        <span editable-select="rd.DictionaryKey" e-name="DictionaryKey" e-form="rowformDisplay" e-ng-options="m for m in SelectReceiveData">
+                                            {{rd.DictionaryKey}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span editable-text="rd.ShowType" e-name="ShowType" e-form="rowformDisplay">
+                                            {{rd.ShowType}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span editable-text="rd.ShowUnit" e-name="ShowUnit" e-form="rowformDisplay">
+                                            {{rd.ShowUnit}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span editable-text="rd.ShowIcon" e-name="ShowIcon" e-form="rowformDisplay">
+                                            {{rd.ShowIcon}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span editable-text="rd.ShowPostion" e-name="ShowPostion" e-form="rowformDisplay">
+                                            {{rd.ShowPostion}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span editable-select="rd.ShowCommon" e-name="ShowCommon" e-form="rowformDisplay" e-ng-options="s.value as s.text for s in boolData">
+                                            {{ showBool(rd.ShowCommon) }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>格式类型</th>
+                                                    <th>格式表达式</th>
+                                                    <th>显示颜色</th>
+                                                    <th>显示值</th>
+                                                    <td><button class="btn btn-primary btn-xs" ng-click="addReDataDisplayFormat(rd)" ng-disabled="!rowformDisplay.$visible"><span class="glyphicon  glyphicon-plus"></span></button></td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="df in rd.ReDataDisplayFormats">
+                                                    <td>
+                                                        <span editable-text="df.FormatType" e-name="FormatType" e-form="rowformDisplay">
+                                                            {{df.FormatType}}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span editable-text="df.FormatExpression" e-name="FormatExpression" e-form="rowformDisplay">
+                                                            {{df.FormatExpression}}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span editable-text="df.FormatValue" e-name="FormatValue" e-form="rowformDisplay">
+                                                            {{df.FormatValue}}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span editable-text="df.FormatColor" e-name="FormatColor" e-form="rowformDisplay">
+                                                            {{df.FormatColor}}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                    <td><button class="btn btn-danger btn-xs" ng-click="delReDataDisplayFormat(rd,$index,df)"><span class="glyphicon  glyphicon-trash"></span></button></td>
                                     </td>
                                 </tr>
                             </tbody>
+                        </table>
+
+                        </td>
+                        <td style="white-space: nowrap">
+                            <!-- form -->
+                            <form editable-form name="rowformDisplay" onaftersave="ReceiveDataSave($data, rd.ReceiveDataDisplayId)" ng-show="rowformDisplay.$visible" class="form-buttons form-inline" shown="inserted == ReceiveDataDisplays">
+                                <button type="submit" ng-disabled="rowformDisplay.$waiting" class="btn btn-success btn-xs">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </button>
+                                <button type="button" ng-disabled="rowformDisplay.$waiting" ng-click="rowformDisplay.$cancel()" class="btn btn-danger  btn-xs">
+                                    <span class="glyphicon  glyphicon-remove"></span>
+                                </button>
+                            </form>
+                            <div class="buttons" ng-show="!rowformDisplay.$visible">
+                                <button ng-click="rowformDisplay.$show()" class="btn btn-primary btn-xs" type="submit"><span class="glyphicon glyphicon-pencil"></span> </button>
+                                <button ng-click="removeReceiveDataDisplays($index)" class="btn btn-danger  btn-xs" type="submit"><span class="glyphicon  glyphicon-trash"></span> </button>
+
+                            </div>
+                        </td>
+                        </tr>
+                        </tbody>
                         </table>
                     </div>
                 </div>

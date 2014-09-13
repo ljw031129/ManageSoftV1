@@ -10,7 +10,7 @@
     });
     //加载基本信息数据
     $http.get('/ProtocolManage/GetAll').success(function (data) {
-        $scope.PmFInterpreters = data;        
+        $scope.PmFInterpreters = data;
     });
     $scope.selectPmInterpreter = function (pmFInterpreter) {
         $scope.SelectpmFInterpreter = pmFInterpreter;
@@ -138,7 +138,84 @@
         };
         $scope.DataBodys.push($scope.inserted);
     };
+    /******
+  end------------- 解析协议数据加载
+   ******/
 
+    $scope.ReceiveDataDisplays = null;
+    $scope.loadReceiveDataDisplay = function (pmFInterpreter) {
+        $http.get('/ProtocolManage/GetReceiveDataDisplayByPmFInterpreterId',
+            { params: { pmId: pmFInterpreter.PmFInterpreterId } }).success(function (data) {
+                $scope.ReceiveDataDisplays = data;
+            });
+    }
+
+    $scope.ReceiveDataSave = function (data, rid) {
+        //  angular.extend(data, { id: pmid });     
+        var data = $filter('filter')($scope.ReceiveDataDisplays, { ReceiveDataDisplayId: rid });             
+        //协议类型ID
+        data[0].PmFInterpreterId = $scope.SelectpmFInterpreter.PmFInterpreterId;
+        return $http.post('/ProtocolManage/UpdateReceiveData', data[0]).success(function (reData) {
+
+        });
+    };
+    $scope.addReDataDisplayFormat = function (data) {
+        var idx = $scope.ReceiveDataDisplays.indexOf(data);
+        $scope.insertData = {
+            "ReDataDisplayFormatId": getGuidGenerator(),
+            "FormatType": 1,
+            "FormatExpression": "",
+            "FormatValue": "",
+            "FormatColor": "",
+            "ReceiveDataDisplayId": data.ReceiveDataDisplayId
+        };
+
+        $scope.ReceiveDataDisplays[idx].ReDataDisplayFormats.push($scope.insertData);
+    }
+    $scope.delReDataDisplayFormat = function (dataBody, cIndex, reDataDisplayFormat) {
+        var idx = $scope.ReceiveDataDisplays.indexOf(dataBody);       
+        $scope.ReceiveDataDisplays[idx].ReDataDisplayFormats.splice(cIndex, 1);
+        //执行后台删除操作
+        return $http.post('/ProtocolManage/DeleteReDataDisplayFormat', reDataDisplayFormat).success(function (reData) {
+
+        });
+    }
+    $scope.addReceiveDataDisplay = function () {
+        var ReceiveDataDisplayId = getGuidGenerator();
+        $scope.inserted = {
+            ReceiveDataDisplayId: ReceiveDataDisplayId,
+            DictionaryKey: "0",
+            ShowType: 1,
+            ShowIcon: "",
+            ShowPostion: "",
+            ShowOrder: "",
+            ShowUnit: "",
+            ShowCommon: true,
+            PmFInterpreterId:"",
+            ReDataDisplayFormats: [
+                    {
+                        "ReDataDisplayFormatId": getGuidGenerator(),
+                        "FormatType": "",
+                        "FormatExpression": "",
+                        "FormatValue": "",
+                        "FormatColor": "",
+                        "ReceiveDataDisplayId": ReceiveDataDisplayId,
+                        
+                    }
+            ]
+        };
+        $scope.ReceiveDataDisplays.push($scope.inserted);
+
+    }
+    $scope.removeReceiveDataDisplays = function (index) {
+        var dataBodys = $scope.ReceiveDataDisplays[index];
+        dataBodys.PmFInterpreterId = $scope.SelectpmFInterpreter.PmFInterpreterId;
+
+        $scope.ReceiveDataDisplays.splice(index, 1);
+        return $http.post('/ProtocolManage/DeleteReceiveDataDisplay', dataBodys).success(function (reData) {
+
+        });
+    }
 });
 //生成随机的GUID
 function getGuidGenerator() {
@@ -148,12 +225,3 @@ function getGuidGenerator() {
     return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
 }
 
-/******
-  end------------- 解析协议数据加载
-   ******/
-$scope.loadReceiveDataDisplay = function (pmFInterpreter) {
-    $http.get('/ProtocolManage/GetReceiveDataDisplayById',
-        { params: { pmId: pmFInterpreter.PmFInterpreterId } }).success(function (data) {
-            $scope.DataBodys = data;
-        });
-}

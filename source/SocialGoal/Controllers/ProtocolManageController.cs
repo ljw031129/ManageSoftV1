@@ -18,11 +18,15 @@ namespace SocialGoal.Controllers
         private readonly IPmDataBitsService _pmDataBitsService;
         private readonly IProtocolManageService _protocolManageService;
         private readonly IPmDataBodiesService _pmDataBodiesServic;
-        public ProtocolManageController(IProtocolManageService protocolManageService, IPmDataBodiesService pmDataBodiesServic, IPmDataBitsService pmDataBitsService)
+        private readonly IReceiveDataDisplayService _receiveDataDisplayService;
+        private readonly IReDataDisplayFormatService _reDataDisplayFormatService;
+        public ProtocolManageController(IReDataDisplayFormatService reDataDisplayFormatService, IProtocolManageService protocolManageService, IPmDataBodiesService pmDataBodiesServic, IPmDataBitsService pmDataBitsService, IReceiveDataDisplayService receiveDataDisplayService)
         {
+            this._reDataDisplayFormatService = reDataDisplayFormatService;
             this._protocolManageService = protocolManageService;
             this._pmDataBodiesServic = pmDataBodiesServic;
             this._pmDataBitsService = pmDataBitsService;
+            this._receiveDataDisplayService = receiveDataDisplayService;
         }
 
         // GET: ProtocolManage
@@ -55,6 +59,13 @@ namespace SocialGoal.Controllers
             var rec = _pmDataBodiesServic.UpdatePmDataBodyAsync(pmdataBody);
             return Json(rec.Result);
         }
+
+        [HttpPost]
+        public JsonResult UpdateReceiveData(ReceiveDataDisplay rd)
+        {
+            var rec = _receiveDataDisplayService.UpdateReceiveData(rd);
+            return Json(rec.Result);
+        }
         //解析协议记录
         public JsonResult GetPmDataBodyById(string pmId)
         {
@@ -63,17 +74,24 @@ namespace SocialGoal.Controllers
             return Json(prList, JsonRequestBehavior.AllowGet);
         }
         //显示协议记录
-        public JsonResult GetReceiveDataDisplayById(string pmId)
+        public JsonResult GetReceiveDataDisplayByPmFInterpreterId(string pmId)
         {
-            var prList = _pmDataBodiesServic.GePmDataBody(pmId);
+            var prList = _receiveDataDisplayService.GetDataByPmFInterpreterId(pmId);
 
-            return Json(prList, JsonRequestBehavior.AllowGet);
+            return Json(prList.ToList(), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public JsonResult DeletePmDataBits(PmDataBit pBit)
         {
             _pmDataBitsService.Delete(pBit);
 
+            return Json(true);
+        }
+
+        [HttpPost]
+        public JsonResult DeleteReDataDisplayFormat(ReDataDisplayFormat rf)
+        {
+            _reDataDisplayFormatService.Delete(rf);
             return Json(true);
         }
         [HttpPost]
@@ -83,7 +101,12 @@ namespace SocialGoal.Controllers
 
             return Json(true);
         }
+        public JsonResult DeleteReceiveDataDisplay(ReceiveDataDisplay pd)
+        {
+            _receiveDataDisplayService.Delete(pd);
 
+            return Json(true);
+        }
         // GET: ProtocolManage/Details/5
         public ActionResult Details(int id)
         {

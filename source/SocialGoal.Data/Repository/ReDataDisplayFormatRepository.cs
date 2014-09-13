@@ -15,7 +15,7 @@ namespace SocialGoal.Data.Repository
         {
         }
 
-        public bool CanUpData(string p)
+        public bool CanUpDate(string p)
         {
             if (this.DataContext.ReDataDisplayFormats.Where(pb => pb.ReDataDisplayFormatId == p).Count() > 0)
             {
@@ -37,7 +37,7 @@ namespace SocialGoal.Data.Repository
     public interface IReDataDisplayFormatRepository : IRepository<ReDataDisplayFormat>
     {
 
-        bool CanUpData(string p);
+        bool CanUpDate(string p);
 
         void DeleteByDisplayId(string p);
 
