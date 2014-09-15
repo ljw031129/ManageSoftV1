@@ -2237,7 +2237,7 @@ body {
   .box.box-collapsed .box-content {
     display: none; }
   .box .box-header {
-    font-size: 21px;
+    font-size: 14px;
     font-weight: 200;
     line-height: 30px;
     padding: 10px 15px;

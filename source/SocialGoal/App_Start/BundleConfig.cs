@@ -157,9 +157,10 @@ namespace SocialGoal
                "~/Content/assets/javascripts/bootstrap/bootstrap.js",
                "~/Content/assets/javascripts/plugins/modernizr/modernizr.min.js",
                "~/Content/assets/javascripts/plugins/retina/retina.js",
-                "~/Content/assets/javascripts/theme.js",
-                "~/Scripts/jquery.nicescroll.min.js",
-                 "~/Scripts/angular.js"
+               "~/Scripts/jquery.nicescroll.min.js",//Head和left滚动
+               "~/Content/assets/javascripts/plugins/slimscroll/jquery.slimscroll.min.js",//局部滚动，可能与angular冲突
+               "~/Scripts/angular.js",
+               "~/Content/assets/javascripts/theme.js"
                ));
         }
     }

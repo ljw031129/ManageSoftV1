@@ -3,7 +3,7 @@
     Layout = "../Shared/_LayoutFlattyMain.cshtml";
 }
 @section styles{
-
+    <link href="~/Content/assets/stylesheets/plugins/bootstrap_colorpicker/bootstrap-colorpicker.css" rel="stylesheet" />
 }
 
 <div class='row' id='content-wrapper'>
@@ -103,15 +103,8 @@
             <div class="col-sm-12">
                 <div style="margin-bottom:0;" class="box purple-border blue-border">
                     <div class="box-header  purple-background">
-                        <div class="title">解析协议配置信息(<span style="font-size:13px;">当前选中的协议类型：{{SelectpmFInterpreter.ProtocolName}}</span>)</div>
+                        <div class="title"><i class="icon-book"></i>解析协议配置信息</div>
                         <div class="actions">
-                            <a href="#" class="btn btn-xs btn-link">
-                                <i class="icon-refresh" ng-click="loadDataBody(SelectpmFInterpreter)"></i>
-                            </a>
-                            <a href="#" class="btn btn-xs btn-link">
-                                <i class="icon-plus" ng-click="addDataBody()"></i>
-                            </a>
-
                             <a href="#" class="btn box-remove btn-xs btn-link">
                                 <i class="icon-remove"></i>
                             </a>
@@ -121,7 +114,25 @@
                             </a>
                         </div>
                     </div>
-                    <div class="box-content box-no-padding">
+                    <div class="box-content">
+                        <div class="box-toolbox box-toolbox-top">
+                            <div class="pull-left">
+                                <span class="label label-important">当前协议类型：{{SelectpmFInterpreter.ProtocolName}}</span>
+
+                                <a class="btn btn-white" ng-click="loadDataBody(SelectpmFInterpreter)">
+
+                                    <i class="icon-refresh"></i>
+                                </a>
+                                <a class="btn btn-white" ng-click="addDataBody()">
+                                    <i class="icon-plus"></i>
+                                </a>
+                            </div>
+                            <div class="pull-right">
+                                <a class="btn btn-white">
+                                    <i class="icon-eye-open"></i>
+                                </a>
+                            </div>
+                        </div>
                         <div class="responsive-table">
                             <div class="scrollable-area">
                                 <table class="table table-bordered table-hover table-condensed">
@@ -254,14 +265,8 @@
             <div class='col-sm-12'>
                 <div class='box bordered-box purple-border' style='margin-bottom:0;'>
                     <div class='box-header purple-background'>
-                        <div class='title'>显示协议配置信息(<span style="font-size:13px;">当前选中的协议类型：{{SelectpmFInterpreter.ProtocolName}}</span>)</div>
+                        <div class='title'><i class="icon-book"></i>显示协议配置信息</div>
                         <div class='actions'>
-                            <a href="#" class="btn btn-xs btn-link">
-                                <i class="icon-refresh" ng-click="loadReceiveDataDisplay(SelectpmFInterpreter)"></i>
-                            </a>
-                            <a href="#" class="btn btn-xs btn-link">
-                                <i class="icon-plus" ng-click="addReceiveDataDisplay()"></i>
-                            </a>
                             <a class="btn box-remove btn-xs btn-link" href="#">
                                 <i class='icon-remove'></i>
                             </a>
@@ -271,7 +276,25 @@
                             </a>
                         </div>
                     </div>
-                    <div class='box-content box-no-padding'>
+                    <div class='box-content'>
+                        <div class="box-toolbox box-toolbox-top">
+                            <div class="pull-left">
+                                <span class="label label-important">当前协议类型：{{SelectpmFInterpreter.ProtocolName}}</span>
+
+                                <a class="btn btn-white" ng-click="loadReceiveDataDisplay(SelectpmFInterpreter)">
+
+                                    <i class="icon-refresh"></i>
+                                </a>
+                                <a class="btn btn-white" ng-click="addReceiveDataDisplay()">
+                                    <i class="icon-plus"></i>
+                                </a>
+                            </div>
+                            <div class="pull-right">
+                                <a class="btn btn-white">
+                                    <i class="icon-eye-open"></i>
+                                </a>
+                            </div>
+                        </div>
                         <table class='table table-striped' style='margin-bottom:0;'>
                             <thead>
                                 <tr>
@@ -299,7 +322,7 @@
                             <tbody>
                                 <tr ng-repeat="rd in ReceiveDataDisplays">
                                     <td>
-                                        <span editable-text="rd.ShowOrder" e-name="ShowOrder" e-form="rowformDisplay">
+                                        <span editable-number="rd.ShowOrder" e-name="ShowOrder" e-form="rowformDisplay">
                                             {{rd.ShowOrder}}
                                         </span>
                                     </td>
@@ -339,8 +362,8 @@
                                                 <tr>
                                                     <th>格式类型</th>
                                                     <th>格式表达式</th>
-                                                    <th>显示颜色</th>
                                                     <th>显示值</th>
+                                                    <th>显示颜色</th>
                                                     <td><button class="btn btn-primary btn-xs" ng-click="addReDataDisplayFormat(rd)" ng-disabled="!rowformDisplay.$visible"><span class="glyphicon  glyphicon-plus"></span></button></td>
                                                 </tr>
                                             </thead>
@@ -362,36 +385,36 @@
                                                         </span>
                                                     </td>
                                                     <td>
-                                                        <span editable-text="df.FormatColor" e-name="FormatColor" e-form="rowformDisplay">
+
+                                                        <span editable-color="df.FormatColor" e-name="FormatColor" e-form="rowformDisplay">
                                                             {{df.FormatColor}}
                                                         </span>
                                                     </td>
-                                                    <td>
                                                     <td><button class="btn btn-danger btn-xs" ng-click="delReDataDisplayFormat(rd,$index,df)"><span class="glyphicon  glyphicon-trash"></span></button></td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </td>
+                                    <td style="white-space: nowrap">
+                                        <!-- form -->
+                                        <form editable-form name="rowformDisplay" onaftersave="ReceiveDataSave($data, rd.ReceiveDataDisplayId)" ng-show="rowformDisplay.$visible" class="form-buttons form-inline" shown="inserted == ReceiveDataDisplays">
+                                            <button type="submit" ng-disabled="rowformDisplay.$waiting" class="btn btn-success btn-xs">
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                            </button>
+                                            <button type="button" ng-disabled="rowformDisplay.$waiting" ng-click="rowformDisplay.$cancel()" class="btn btn-danger  btn-xs">
+                                                <span class="glyphicon  glyphicon-remove"></span>
+                                            </button>
+                                        </form>
+                                        <div class="buttons" ng-show="!rowformDisplay.$visible">
+                                            <button ng-click="rowformDisplay.$show()" class="btn btn-primary btn-xs" type="submit"><span class="glyphicon glyphicon-pencil"></span> </button>
+                                            <button ng-click="removeReceiveDataDisplays($index)" class="btn btn-danger  btn-xs" type="submit"><span class="glyphicon  glyphicon-trash"></span> </button>
+
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
-                        </table>
-
-                        </td>
-                        <td style="white-space: nowrap">
-                            <!-- form -->
-                            <form editable-form name="rowformDisplay" onaftersave="ReceiveDataSave($data, rd.ReceiveDataDisplayId)" ng-show="rowformDisplay.$visible" class="form-buttons form-inline" shown="inserted == ReceiveDataDisplays">
-                                <button type="submit" ng-disabled="rowformDisplay.$waiting" class="btn btn-success btn-xs">
-                                    <span class="glyphicon glyphicon-ok"></span>
-                                </button>
-                                <button type="button" ng-disabled="rowformDisplay.$waiting" ng-click="rowformDisplay.$cancel()" class="btn btn-danger  btn-xs">
-                                    <span class="glyphicon  glyphicon-remove"></span>
-                                </button>
-                            </form>
-                            <div class="buttons" ng-show="!rowformDisplay.$visible">
-                                <button ng-click="rowformDisplay.$show()" class="btn btn-primary btn-xs" type="submit"><span class="glyphicon glyphicon-pencil"></span> </button>
-                                <button ng-click="removeReceiveDataDisplays($index)" class="btn btn-danger  btn-xs" type="submit"><span class="glyphicon  glyphicon-trash"></span> </button>
-
-                            </div>
-                        </td>
-                        </tr>
-                        </tbody>
                         </table>
                     </div>
                 </div>
@@ -402,5 +425,6 @@
 </div>
 
 @section scripts{
+    <script src="~/Content/assets/javascripts/plugins/bootstrap_colorpicker/bootstrap-colorpicker.min.js"></script>
     <script src="~/Scripts/AngularCtrlJs/ProtocolManageJs.js"></script>
 }

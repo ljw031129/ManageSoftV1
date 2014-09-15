@@ -266,6 +266,7 @@
     <Compile Include="Controllers\GoalController.cs" />
     <Compile Include="Controllers\EmailRequestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TerminalController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -346,6 +347,7 @@
     <Content Include="Content\angular-xeditable\js\xeditable.min.js" />
     <Content Include="Content\angularplugins\tree-control-attribute.css" />
     <Content Include="Content\angularplugins\tree-control.css" />
+    <Content Include="Content\assets\map.Default.css" />
     <Content Include="Content\assets\images\ajax-loaders\1.gif" />
     <Content Include="Content\assets\images\ajax-loaders\10.gif" />
     <Content Include="Content\assets\images\ajax-loaders\11.gif" />
@@ -1732,6 +1734,7 @@
     <Content Include="Views\Shared\_LayoutFlattyMain.cshtml" />
     <Content Include="Views\JqGrid\Index.cshtml" />
     <Content Include="Views\Shared\_PartialFlattyHeader.cshtml" />
+    <Content Include="Views\Terminal\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

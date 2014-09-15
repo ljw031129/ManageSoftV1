@@ -217,6 +217,10 @@
         });
     }
 });
+
+app.controller('TerminalCtrl', function ($scope, $filter, $http) {
+
+});
 //生成随机的GUID
 function getGuidGenerator() {
     var S4 = function () {

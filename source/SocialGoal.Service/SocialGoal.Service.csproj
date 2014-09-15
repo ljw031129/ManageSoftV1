@@ -90,6 +90,7 @@
     </Compile>
     <Compile Include="ProtocolManageService.cs" />
     <Compile Include="ReceiveDataDisplayService.cs" />
+    <Compile Include="ReceiveDataLastService.cs" />
     <Compile Include="ReDataDisplayFormatService.cs" />
     <Compile Include="SecurityTockenService.cs" />
     <Compile Include="SupportInvitationService.cs" />
