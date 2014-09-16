@@ -7,8 +7,7 @@ namespace SocialGoal.Model.Models
 {
     public class ReDataDisplayFormat
     {
-        public string ReDataDisplayFormatId { get; set; }
-        public int FormatType { get; set; }
+        public string ReDataDisplayFormatId { get; set; }        
         public string FormatExpression { get; set; }
         public string FormatValue { get; set; }
         public string FormatColor { get; set; }

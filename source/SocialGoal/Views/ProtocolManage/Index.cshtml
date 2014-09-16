@@ -295,14 +295,20 @@
                                 </a>
                             </div>
                         </div>
-                        <table class='table table-striped' style='margin-bottom:0;'>
+                        <table class='table table-bordered table-hover table-condensed' style='margin-bottom:0;'>
                             <thead>
                                 <tr>
                                     <th>
-                                        显示顺序
+                                        顺序
                                     </th>
                                     <th>
                                         存储Key值
+                                    </th>
+                                    <th>
+                                        显示名称
+                                    </th>
+                                    <th style="width:120px;">
+                                        格式化类型
                                     </th>
                                     <th>
                                         显示类型
@@ -314,7 +320,7 @@
                                         显示图标
                                     </th>
                                     <th>显示位置</th>
-                                    <th>常用数据项</th>
+                                    <th>常用</th>
                                     <th>显示格式</th>
                                     <th>操作</th>
                                 </tr>
@@ -329,6 +335,16 @@
                                     <td>
                                         <span editable-select="rd.DictionaryKey" e-name="DictionaryKey" e-form="rowformDisplay" e-ng-options="m for m in SelectReceiveData">
                                             {{rd.DictionaryKey}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span editable-text="rd.DictionaryValue" e-name="DictionaryValue" e-form="rowformDisplay">
+                                            {{rd.DictionaryValue}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span editable-select="rd.FormatType" e-name="FormatType" e-form="rowformDisplay" e-ng-options="s.value as s.text for s in FormatTypes" >
+                                            {{ SetFormatTypes(rd.FormatType) }}
                                         </span>
                                     </td>
                                     <td>
@@ -358,42 +374,35 @@
                                     </td>
                                     <td>
                                         <table class="table table-bordered table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>格式类型</th>
-                                                    <th>格式表达式</th>
-                                                    <th>显示值</th>
-                                                    <th>显示颜色</th>
-                                                    <td><button class="btn btn-primary btn-xs" ng-click="addReDataDisplayFormat(rd)" ng-disabled="!rowformDisplay.$visible"><span class="glyphicon  glyphicon-plus"></span></button></td>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr ng-repeat="df in rd.ReDataDisplayFormats">
-                                                    <td>
-                                                        <span editable-text="df.FormatType" e-name="FormatType" e-form="rowformDisplay">
-                                                            {{df.FormatType}}
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <span editable-text="df.FormatExpression" e-name="FormatExpression" e-form="rowformDisplay">
-                                                            {{df.FormatExpression}}
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <span editable-text="df.FormatValue" e-name="FormatValue" e-form="rowformDisplay">
-                                                            {{df.FormatValue}}
-                                                        </span>
-                                                    </td>
-                                                    <td>
 
-                                                        <span editable-color="df.FormatColor" e-name="FormatColor" e-form="rowformDisplay">
-                                                            {{df.FormatColor}}
-                                                        </span>
-                                                    </td>
-                                                    <td><button class="btn btn-danger btn-xs" ng-click="delReDataDisplayFormat(rd,$index,df)"><span class="glyphicon  glyphicon-trash"></span></button></td>
+                                            <tr>
+                                                <th>表达式</th>
+                                                <th>显示值</th>
+                                                <th>颜色</th>
+                                                <td><button class="btn btn-primary btn-xs" ng-click="addReDataDisplayFormat(rd)" ng-disabled="!rowformDisplay.$visible"><span class="glyphicon  glyphicon-plus"></span></button></td>
+                                            </tr>
 
-                                                </tr>
-                                            </tbody>
+                                            <tr ng-repeat="df in rd.ReDataDisplayFormats">
+                                                <td>
+                                                    <span editable-text="df.FormatExpression" e-name="FormatExpression" e-form="rowformDisplay">
+                                                        {{df.FormatExpression}}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span editable-text="df.FormatValue" e-name="FormatValue" e-form="rowformDisplay">
+                                                        {{df.FormatValue}}
+                                                    </span>
+                                                </td>
+                                                <td>
+
+                                                    <span editable-color="df.FormatColor" e-name="FormatColor" e-form="rowformDisplay">
+                                                        {{df.FormatColor}}
+                                                    </span>
+                                                </td>
+                                                <td><button class="btn btn-danger btn-xs" ng-click="delReDataDisplayFormat(rd,$index,df)"><span class="glyphicon  glyphicon-trash"></span></button></td>
+
+                                            </tr>
+
                                         </table>
 
                                     </td>

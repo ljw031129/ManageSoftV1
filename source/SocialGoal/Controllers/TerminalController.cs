@@ -1,4 +1,7 @@
-﻿using System;
+﻿using SocialGoal.Model.Models;
+using SocialGoal.Model.ViewModels;
+using SocialGoal.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,14 +11,29 @@ namespace SocialGoal.Controllers
 {
     public class TerminalController : Controller
     {
+
+        private readonly IReceiveDataLastService _receiveDataLastService;
+        public TerminalController(IReceiveDataLastService eceiveDataLastService)
+        {
+            this._receiveDataLastService = eceiveDataLastService;
+
+        }
         // GET: Terminal
         public ActionResult Index()
         {
+
             return View();
         }
         public ActionResult Detail()
         {
-            return View();
+            string tmId = "C2340008";
+            ReceiveDataLast rdl = _receiveDataLastService.GetReceiveDataLastByTerminalNum(tmId);
+            return View(rdl);
+        }
+        public JsonResult GetreceiveDataLast(string terminalNum)
+        {
+            List<TerminalDataViewModel> tdLs = _receiveDataLastService.GetTerminalDataByTerminalNum(terminalNum);
+            return Json(tdLs, JsonRequestBehavior.AllowGet);
         }
     }
 }

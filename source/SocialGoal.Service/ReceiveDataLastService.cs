@@ -16,7 +16,8 @@ namespace SocialGoal.Service
     {
         void Delete(ReceiveDataLast pBit);
         void Save();
-        List<TerminalDataViewModel> GetTerminalDataByTerminalNum(string terminalNum, string pmId);
+        List<TerminalDataViewModel> GetTerminalDataByTerminalNum(string terminalNum);
+        ReceiveDataLast GetReceiveDataLastByTerminalNum(string num);
     }
     public class ReceiveDataLastService : IReceiveDataLastService
     {
@@ -47,8 +48,9 @@ namespace SocialGoal.Service
             throw new NotImplementedException();
         }
 
-        public List<TerminalDataViewModel> GetTerminalDataByTerminalNum(string terminalNum, string pmId)
+        public List<TerminalDataViewModel> GetTerminalDataByTerminalNum(string terminalNum)
         {
+            string pmId = "1";
             ReceiveDataLast rl = _receiveDataLastRepository.GetReceiveDataLastByTerminalNum(terminalNum);
             List<TerminalDataViewModel> tdvList = new List<TerminalDataViewModel>();
 
@@ -59,10 +61,10 @@ namespace SocialGoal.Service
 
             IEnumerable<ReceiveDataDisplay> rd = _receiveDataDisplayRepository.GetDataByPmFInterpreterId(pmId);
 
-            foreach (ReceiveDataDisplay itemRd in rd)
+            foreach (ReceiveDataDisplay itemRd in rd.ToList())
             {
                 TerminalDataViewModel tdv = new TerminalDataViewModel();
-                tdv.DictionaryKey = itemRd.DictionaryKey;
+                tdv.DictionaryKey = itemRd.DictionaryValue;
                 tdv.DictionaryValue = (string)type.GetProperty(itemRd.DictionaryKey).GetValue(rl, null);
                 tdv.ShowPostion = itemRd.ShowPostion;
                 tdv.ShowIcon = itemRd.ShowIcon;
@@ -72,15 +74,16 @@ namespace SocialGoal.Service
                 {
                     foreach (ReDataDisplayFormat itemRdf in itemRd.ReDataDisplayFormats)
                     {
-                        if (itemRdf.FormatType == 1)//状态
+                        if (itemRd.FormatType == 1)//状态
                         {
                             if (itemRdf.FormatExpression == tdv.DictionaryValue)
                             {
                                 tdv.DictionaryValue = itemRdf.FormatValue;
                                 tdv.ShowColor = itemRdf.FormatColor;
+                                break;
                             }
                         }
-                        if (itemRdf.FormatType == 2)//数值范围"30-50"
+                        if (itemRd.FormatType == 2)//数值范围"30-50"
                         {
                             string[] sp = itemRdf.FormatExpression.Split('-');
                             double leftE = 0;
@@ -88,14 +91,14 @@ namespace SocialGoal.Service
                             double rightE = 0;
                             double.TryParse(sp[1].ToString(), out rightE);
                             double currentE = 0;
-                            double.TryParse(itemRdf.FormatValue.ToString(), out currentE);
+                            double.TryParse(tdv.DictionaryValue.ToString(), out currentE);
                             if (currentE > leftE && currentE <= rightE)
                             {
-                                tdv.DictionaryValue = itemRdf.FormatValue;
+                                //tdv.DictionaryValue = itemRdf.FormatValue;
                                 tdv.ShowColor = itemRdf.FormatColor;
+                                break;
                             }
                         }
-
                     }
                 }
                 else
@@ -103,8 +106,15 @@ namespace SocialGoal.Service
                     tdv.ShowColor = "#468847";
                 }
                 //itemRd.DictionaryKey
+                tdvList.Add(tdv);
             }
             return tdvList;
+        }
+
+
+        public ReceiveDataLast GetReceiveDataLastByTerminalNum(string num)
+        {
+           return _receiveDataLastRepository.GetReceiveDataLastByTerminalNum(num);
         }
     }
 }

@@ -34,11 +34,15 @@ namespace SocialGoal.Service
         public void Delete(ReceiveDataDisplay data)
         {
             _receiveDataDisplayRepository.Delete(_receiveDataDisplayRepository.GetById(data.ReceiveDataDisplayId));
-            foreach (var item in data.ReDataDisplayFormats)
+            if (data.ReDataDisplayFormats != null)
             {
-                _reDataDisplayFormatRepository.Delete(_reDataDisplayFormatRepository.GetById(item.ReDataDisplayFormatId));
+                foreach (var item in data.ReDataDisplayFormats)
+                {
+                    _reDataDisplayFormatRepository.Delete(_reDataDisplayFormatRepository.GetById(item.ReDataDisplayFormatId));
 
+                }
             }
+
             Save();
         }
 

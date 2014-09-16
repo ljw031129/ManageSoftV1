@@ -141,7 +141,14 @@
     /******
   end------------- 解析协议数据加载
    ******/
-
+    $scope.FormatTypes = [
+      { value: 1, text: '状态' },
+      { value: 2, text: '数值' }  
+    ];
+    $scope.SetFormatTypes = function (currentType) {
+        var selected = $filter('filter')($scope.FormatTypes, { value: currentType });
+        return (currentType && selected.length) ? selected[0].text : '未设置';
+    };
     $scope.ReceiveDataDisplays = null;
     $scope.loadReceiveDataDisplay = function (pmFInterpreter) {
         $http.get('/ProtocolManage/GetReceiveDataDisplayByPmFInterpreterId',
@@ -152,7 +159,7 @@
 
     $scope.ReceiveDataSave = function (data, rid) {
         //  angular.extend(data, { id: pmid });     
-        var data = $filter('filter')($scope.ReceiveDataDisplays, { ReceiveDataDisplayId: rid });             
+        var data = $filter('filter')($scope.ReceiveDataDisplays, { ReceiveDataDisplayId: rid });
         //协议类型ID
         data[0].PmFInterpreterId = $scope.SelectpmFInterpreter.PmFInterpreterId;
         return $http.post('/ProtocolManage/UpdateReceiveData', data[0]).success(function (reData) {
@@ -173,7 +180,7 @@
         $scope.ReceiveDataDisplays[idx].ReDataDisplayFormats.push($scope.insertData);
     }
     $scope.delReDataDisplayFormat = function (dataBody, cIndex, reDataDisplayFormat) {
-        var idx = $scope.ReceiveDataDisplays.indexOf(dataBody);       
+        var idx = $scope.ReceiveDataDisplays.indexOf(dataBody);
         $scope.ReceiveDataDisplays[idx].ReDataDisplayFormats.splice(cIndex, 1);
         //执行后台删除操作
         return $http.post('/ProtocolManage/DeleteReDataDisplayFormat', reDataDisplayFormat).success(function (reData) {
@@ -191,7 +198,7 @@
             ShowOrder: "",
             ShowUnit: "",
             ShowCommon: true,
-            PmFInterpreterId:"",
+            PmFInterpreterId: "",
             ReDataDisplayFormats: [
                     {
                         "ReDataDisplayFormatId": getGuidGenerator(),
@@ -200,7 +207,7 @@
                         "FormatValue": "",
                         "FormatColor": "",
                         "ReceiveDataDisplayId": ReceiveDataDisplayId,
-                        
+
                     }
             ]
         };
@@ -219,7 +226,13 @@
 });
 
 app.controller('TerminalCtrl', function ($scope, $filter, $http) {
-
+    
+    var terminalId = "C2340008";
+    $scope.ReceiveDataLasts = null;
+    $http.get('/Terminal/GetreceiveDataLast',
+            { params: { terminalNum: terminalId } }).success(function (data) {
+                $scope.ReceiveDataLasts = data;
+            });
 });
 //生成随机的GUID
 function getGuidGenerator() {

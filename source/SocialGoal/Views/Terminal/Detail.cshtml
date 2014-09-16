@@ -1,4 +1,5 @@
-﻿@{
+﻿@model SocialGoal.Model.Models.ReceiveDataLast
+@{
     ViewBag.Title = "终端详细信息";
     Layout = "../Shared/_LayoutFlattyMain.cshtml";
 }
@@ -181,16 +182,16 @@
                                                 <div class='col-sm-6'>
                                                     <div class='box-content box-statistic text-right'>
                                                         <h3 class='title text-error'>9100</h3>
-                                                        <small>Unique</small>
+                                                        <small>累计工时</small>
                                                         <div class='text-error icon-user align-left'></div>
                                                     </div>
                                                     <div class='box-content box-statistic text-right'>
                                                         <h3 class='title text-warning'>41 000</h3>
-                                                        <small>Pageviews</small>
+                                                        <small>累计耗油量</small>
                                                         <div class='text-warning icon-book align-left'></div>
                                                     </div>
                                                     <div class='box-content box-statistic text-right'>
-                                                        <h3 class='title text-primary'>12:21</h3>
+                                                        <h3 class='title text-primary'>2014/09/16 12:21:12</h3>
                                                         <small>最后更新时间</small>
                                                         <div class='text-primary icon-time align-left'></div>
                                                     </div>
@@ -198,17 +199,17 @@
                                                 <div class='col-sm-6'>
                                                     <div class='box-content box-statistic red-background'>
                                                         <h3 class='title text-primary'>3</h3>
-                                                        <small>Shipped</small>
+                                                        <small>行驶里程</small>
                                                         <div class='text-primary icon-truck align-right'></div>
                                                     </div>
                                                     <div class='box-content box-statistic green-background'>
-                                                        <h3 class='title text-success'>981</h3>
-                                                        <small>Completed</small>
+                                                        <h3 class='title text-success'>工作</h3>
+                                                        <small>工作状态</small>
                                                         <div class='text-success icon-flag align-right'></div>
                                                     </div>
                                                     <div class='box-content box-statistic muted-background'>
-                                                        <h3 class='title text-muted'>0</h3>
-                                                        <small>Canceled</small>
+                                                        <h3 class='title text-muted'>150</h3>
+                                                        <small>报警统计</small>
                                                         <div class='text-muted icon-remove align-right'></div>
                                                     </div>
                                                 </div>
@@ -233,65 +234,9 @@
                                             </div>
                                             <div class='box-content'>
                                                 <ul class='list-unstyled list-inline'>
-                                                    <li class="text-success">
-                                                        <i class='icon-tag'></i>
-                                                        Lorem ipsum
-                                                    </li>
-                                                    <li>
-                                                        <i class='icon-circle-blank'></i>
-                                                        Lorem ipsum
-                                                    </li>
-                                                    <li>
-                                                        <i class='icon-barcode'></i>
-                                                        Lorem ipsum
-                                                    </li>
-                                                    <li>
-                                                        <i class='icon-tag'></i>
-                                                        Lorem ipsum
-                                                    </li>
-                                                    <li>
-                                                        <i class='icon-circle-blank'></i>
-                                                        Lorem ipsum
-                                                    </li>
-                                                    <li>
-                                                        <i class='icon-barcode'></i>
-                                                        Lorem ipsum
-                                                    </li>
-                                                    <li>
-                                                        <i class='icon-tag'></i>
-                                                        Lorem ipsum
-                                                    </li>
-                                                    <li>
-                                                        <i class='icon-circle-blank'></i>
-                                                        Lorem ipsum
-                                                    </li>
-                                                    <li>
-                                                        <i class='icon-barcode'></i>
-                                                        Lorem ipsum
-                                                    </li>
-                                                    <li>
-                                                        <i class='icon-tag'></i>
-                                                        Lorem ipsum
-                                                    </li>
-                                                    <li>
-                                                        <i class='icon-circle-blank'></i>
-                                                        Lorem ipsum
-                                                    </li>
-                                                    <li>
-                                                        <i class='icon-barcode'></i>
-                                                        Lorem ipsum
-                                                    </li>
-                                                    <li>
-                                                        <i class='icon-tag'></i>
-                                                        Lorem ipsum
-                                                    </li>
-                                                    <li>
-                                                        <i class='icon-circle-blank'></i>
-                                                        Lorem ipsum
-                                                    </li>
-                                                    <li>
-                                                        <i class='icon-barcode'></i>
-                                                        Lorem ipsum
+                                                    <li ng-repeat="rd in ReceiveDataLasts">
+                                                        <i ng-class="rd.ShowIcon"></i>
+                                                        {{rd.DictionaryKey}}：<span style="color:{{rd.ShowColor}}">{{rd.DictionaryValue}}{{rd.ShowUnit}}</span>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -312,7 +257,7 @@
         <div class="row">
             <div class='col-sm-12 box'>
                 <div class='box-header blue-background'>
-                    <div class='title'>地图展示</div>
+                    <div class='title'><i class="icon-star-empty"></i>位置信息</div>
                     <div class='actions'>
                         <a class="btn box-remove btn-xs btn-link" href="#">
                             <i class='icon-remove'></i>
@@ -324,10 +269,67 @@
                     </div>
                 </div>
                 <div class='box-content'>
+                    <div class="box-toolbox box-toolbox-top">
+                        <div class="pull-left">
+                            <ul class="list-unstyled list-inline">
+                                <li>
+                                    <i class="  icon-map-marker"></i>
+                                    当前位置：@Model.GpsPos
+                                </li>
+                                <li>
+                                    <i class=" icon-ellipsis-horizontal"></i>
+                                    纬度：@Model.GpsPlat
+                                </li>
+                                <li>
+                                    <i class=" icon-ellipsis-horizontal"></i>
+                                    经度：@Model.GpsPlog
+                                </li>
+                                <li>
+                                    <i class="icon-rocket"></i>
+                                    速度：@Model.GpsSpeed
+                                </li>
+                                <li>
+                                    <i class="icon-stackexchange"></i>
+                                    方向：@Model.GpsDirection
+                                </li>
+                                <li class="text-success">
+                                    <i class="icon-map-marker"></i>
+                                    定位状态：@Model.GpsIsPos
+                                </li>
+                            </ul>
+
+                        </div>
+                        <div class="pull-right">
+                            <a class="btn btn-white" onclick="javascript:startRuler()">
+                                <i class="icon-bold"></i>测距
+                            </a>
+                            <a class="btn btn-white">
+                                <i class="icon-eye-open"></i>
+                            </a>
+                        </div>
+                    </div>
                     <div id="iCenter"></div>
-                    <div style="padding:2px 0px 0px 5px;font-size:12px">
-                        <input type="button" value="开始动画" onclick="startAnimation()" />
-                        <input type="button" value="停止动画" onclick="stopAnimation()" />
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="box box-transparent box-nomargin">
+                                <div class="box-header">
+                                    <div class="title">查询结果</div>
+                                    <div class="actions">
+                                        <a class="btn box-remove btn-xs btn-link" href="#">
+                                            <i class="icon-remove"></i>
+                                        </a>
+
+                                        <a class="btn box-collapse btn-xs btn-link" href="#">
+                                            <i></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-content" id="result">
+                                  
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -339,7 +341,7 @@
     <script src="~/Scripts/AngularCtrlJs/ProtocolManageJs.js"></script>
     <script language="javascript" src="http://webapi.amap.com/maps?v=1.3&key=1e6cbdf39e0bfc6505e7a1b4f7c4bad3"></script>
     <script language="javascript">
-        var mapObj, marker;
+        var mapObj, marker, ruler2;
         $(function () {
             mapInit();
         });
@@ -349,54 +351,164 @@
             mapObj = new AMap.Map("iCenter", {
                 //二维地图显示视口
                 view: new AMap.View2D({
-                    center: new AMap.LngLat(116.397428, 39.90923),//地图中心点
+                    // center: new AMap.LngLat(116.397428, 39.90923),//地图中心点
                     zoom: 17 //地图显示的缩放级别
                 }),
                 continuousZoomEnable: false
             });
-            AMap.event.addListener(mapObj, "complete", completeEventHandler);
-        }
+            //地图类型切换
+            mapObj.plugin(["AMap.MapType"], function () {
+                var type = new AMap.MapType({ defaultType: 0 });//初始状态使用2D地图
+                mapObj.addControl(type);
+            });
+            //加载比例尺插件
+            mapObj.plugin(["AMap.Scale"], function () {
+                scale = new AMap.Scale();
+                mapObj.addControl(scale);
+            });
+            //在地图中添加ToolBar插件
+            mapObj.plugin(["AMap.ToolBar"], function () {
+                toolBar = new AMap.ToolBar();
+                mapObj.addControl(toolBar);
+            });
+            //在地图中添加鹰眼插件
+            mapObj.plugin(["AMap.OverView"], function () {
+                //加载鹰眼
+                overView = new AMap.OverView({
+                    visible: true //初始化隐藏鹰眼
+                });
+                mapObj.addControl(overView);
+            });
+            //拉大地图
+            var rectOptions = {
+                strokeStyle: "dashed",
+                strokeColor: "#FF33FF",
+                fillColor: "#FF99FF",
+                fillOpacity: 0.5,
+                strokeOpacity: 1,
+                strokeWeight: 2
+            };
+            mapObj.plugin(["AMap.MouseTool"], function () {
+                mouseTool = new AMap.MouseTool(mapObj);
+                mouseTool.rectZoomIn(rectOptions);     //通过rectOptions更改拉框放大时鼠标绘制的矩形框样式
+            });
+            mapObj.plugin(["AMap.RangingTool"], function () {
 
-        //地图图块加载完毕后执行函数
-        function completeEventHandler() {
+                var lOptions = {
+                    strokeStyle: "solid",
+                    strokeColor: "#FF33FF",
+                    strokeOpacity: 1,
+                    strokeWeight: 2
+                };
+                var sMarker = {
+                    icon: new AMap.Icon({    //复杂图标
+                        size: new AMap.Size(28, 37),//图标大小
+                        image: "http://webapi.amap.com/images/custom_a_j.png", //大图地址
+                        imageOffset: new AMap.Pixel(0, 0)//相对于大图的取图位置
+                    })
+                };
+                var eMarker = {
+                    icon: new AMap.Icon({    //复杂图标
+                        size: new AMap.Size(28, 37),//图标大小
+                        image: "http://webapi.amap.com/images/custom_a_j.png", //大图地址
+                        imageOffset: new AMap.Pixel(-28, 0)//相对于大图的取图位置
+                    }),
+                    offset: new AMap.Pixel(-16, -35)
+                };
+                var rulerOptions = { startMarkerOptions: sMarker, endMarkerOptions: eMarker, lineOptions: lOptions };
+                ruler2 = new AMap.RangingTool(mapObj, rulerOptions);
+            });
+            //自动加点
+            geocoder();
+        }
+        //添加点标记
+        function addMarker(LngLatX,LngLatY) {
+            //var LngLatX = "116.405467"; //获取Lng值
+            //var LngLatY = "39.907761"; //获取Lat值
             marker = new AMap.Marker({
-                map: mapObj,
-                //draggable:true, //是否可拖动
-                position: new AMap.LngLat(116.397428, 39.90923),//基点位置
-                icon: "http://code.mapabc.com/images/car_03.png", //marker图标，直接传递地址url
-                offset: new AMap.Pixel(-26, -13), //相对于基点的位置
-                autoRotation: true
+                // icon: "http://webapi.amap.com/images/marker_sprite.png",
+                position: new AMap.LngLat(LngLatX, LngLatY)
             });
 
-            var lngX = 116.397428;
-            var latY = 39.90923;
-            lineArr = new Array();
-            lineArr.push(new AMap.LngLat(lngX, latY));
-            for (var i = 1; i < 3; i++) {
-                lngX = lngX + Math.random() * 0.05;
-                if (i % 2) {
-                    latY = latY + Math.random() * 0.0001;
-                } else {
-                    latY = latY + Math.random() * 0.06;
-                }
-                lineArr.push(new AMap.LngLat(lngX, latY));
-            }
-            //绘制轨迹
-            var polyline = new AMap.Polyline({
-                map: mapObj,
-                path: lineArr,
-                strokeColor: "#00A",//线颜色
-                strokeOpacity: 1,//线透明度
-                strokeWeight: 3,//线宽
-                strokeStyle: "solid"//线样式
+            marker.setMap(mapObj);  //在地图上添加点
+            marker.setAnimation('AMAP_ANIMATION_BOUNCE'); //设置点标记的动画效果，此处为弹跳效果
+            mapObj.setFitView(); //调整到合理视野
+        }
+        function startRuler() {
+            ruler2.turnOn();
+        }
+
+        //已知点坐标
+        var lnglatXY = new AMap.LngLat(@Model.GpsPlat,@Model.GpsPlog);
+        function geocoder() {
+            var MGeocoder;
+            //加载地理编码插件
+            mapObj.plugin(["AMap.Geocoder"], function() {
+                MGeocoder = new AMap.Geocoder({
+                    radius: 1000,
+                    extensions: "all"
+                });
+                //返回地理编码结果
+                AMap.event.addListener(MGeocoder, "complete", geocoder_CallBack);
+                //逆地理编码
+                MGeocoder.getAddress(lnglatXY);
+            });
+            //加点
+            var marker = new AMap.Marker({
+                map:mapObj,
+                icon: new AMap.Icon({
+                    image: "http://api.amap.com/Public/images/js/mark.png",
+                    size:new AMap.Size(58,30),
+                    imageOffset: new AMap.Pixel(-32, -0)
+                }),
+                position: lnglatXY,
+                offset: new AMap.Pixel(-5,-30)
             });
             mapObj.setFitView();
         }
-        function startAnimation() {
-            marker.moveAlong(lineArr, 500);
+        //鼠标划过显示相应点
+        var marker;
+        function onMouseOver (e) {
+            var coor = e.split(','),
+                lnglat = new AMap.LngLat(coor[0], coor[1]);
+            if (!marker) {
+                marker = new AMap.Marker({
+                    map:mapObj,
+                    icon: "http://webapi.amap.com/images/0.png",
+                    position: lnglat,
+                    offset: new AMap.Pixel(-10, -34)
+                });
+            } else {
+                marker.setPosition(lnglat);
+            }
+            mapObj.setFitView();
         }
-        function stopAnimation() {
-            marker.stopMove();
+        //回调函数
+        function geocoder_CallBack(data) {
+            var resultStr = "";
+            var roadinfo ="";
+            var poiinfo="";
+            var address;
+            //返回地址描述
+            address = data.regeocode.formattedAddress;
+            //返回周边道路信息
+            roadinfo +="<table class='table table-bordered table-hover table-condensed'>";
+            for(var i=0;i<data.regeocode.roads.length;i++){
+                
+                roadinfo += "<tr><td>道路：" + data.regeocode.roads[i].name + "</td><td>方向：" + data.regeocode.roads[i].direction + "</td><td>距离：" + data.regeocode.roads[i].distance + "米</td></tr>";
+            }
+            roadinfo +="</table>"
+            //返回周边兴趣点信息
+            poiinfo += "<table  class='table table-bordered table-hover table-condensed'>";
+            for(var j=0;j<data.regeocode.pois.length;j++){
+              
+                poiinfo += "<tr onmouseover='onMouseOver(\"" + data.regeocode.pois[j].location.toString() + "\")'><td>兴趣点：" + data.regeocode.pois[j].name + "</td><td>类型：" + data.regeocode.pois[j].type + "</td><td>距离：" + data.regeocode.pois[j].distance + "米</td></tr>";
+            }
+            poiinfo += "</table>";
+            //返回结果拼接输出
+            resultStr = "<span class='text-info'>地址："+ address + "</span></br/><span class='text-info'>周边道路信息</span>" + roadinfo + "<span class='text-info'>周边兴趣点信息</span>" + poiinfo +"";
+            document.getElementById("result").innerHTML = resultStr;
         }
     </script>
+
 }
