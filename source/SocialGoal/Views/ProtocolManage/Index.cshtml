@@ -67,7 +67,10 @@
                                             <th>
                                                 解析方式
                                             </th>
-                                            <th>信息体个数位置</th>
+                                            <th>
+                                                信息体个数位置
+                                            </th>
+                                            <th>信息体开始位置</th>
                                             <th>信息体标志位置</th>
                                             <th>操作</th>
                                         </tr>
@@ -78,6 +81,7 @@
                                             <td>{{prData.ProtocolName}}</td>
                                             <td>{{prData.ProtocolVersion}}</td>
                                             <td>{{prData.AnalysisWay}}</td>
+                                            <td>{{prData.InfoCountsPostion}}</td>
                                             <td>{{prData.InfoSignStartPosition}}</td>
                                             <td>
                                                 {{prData.InfoSignLength}}
@@ -139,6 +143,7 @@
                                     <thead>
                                         <tr style="font-weight: bold">
                                             <td width="60">编号</td>
+                                            <td width="60">顺序</td>
                                             <td width="60">信息体</td>
                                             <td width="80">截取位置</td>
                                             <td width="80">截取长度</td>
@@ -158,6 +163,12 @@
                                                 <!-- editable username (text with validation) -->
                                                 <span class="label label-success"> {{ $index  }}</span>
 
+                                            </td>
+                                            <td>
+                                                <!-- editable username (text with validation) -->
+                                                <span editable-text="dataBody.OrderIndex" e-name="OrderIndex" e-form="rowform">
+                                                    {{ dataBody.OrderIndex }}
+                                                </span>
                                             </td>
                                             <td>
                                                 <!-- editable username (text with validation) -->
@@ -343,7 +354,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <span editable-select="rd.FormatType" e-name="FormatType" e-form="rowformDisplay" e-ng-options="s.value as s.text for s in FormatTypes" >
+                                        <span editable-select="rd.FormatType" e-name="FormatType" e-form="rowformDisplay" e-ng-options="s.value as s.text for s in FormatTypes">
                                             {{ SetFormatTypes(rd.FormatType) }}
                                         </span>
                                     </td>
@@ -430,6 +441,144 @@
             </div>
         </div>
 
+        <hr class="hr-double">
+        <div class='row'>
+            <div class='col-sm-12'>
+                <div class='box bordered-box purple-border' style='margin-bottom:0;'>
+                    <div class='box-header purple-background'>
+                        <div class='title'><i class="icon-book"></i>协议测试</div>
+                        <div class='actions'>
+                            <a class="btn box-remove btn-xs btn-link" href="#">
+                                <i class='icon-remove'></i>
+                            </a>
+
+                            <a class="btn box-collapse btn-xs btn-link" href="#">
+                                <i></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class='box-content'>
+                        <div class="row">
+                            <div class="col-sm-4 box box-nomargin">
+                                <div class="box-header">
+                                    <div class="title">录入原始数据</div>
+                                    <div class="actions">
+                                        <a href="#" class="btn box-remove btn-xs btn-link">
+                                            <i class="icon-remove"></i>
+                                        </a>
+
+                                        <a href="#" class="btn box-collapse btn-xs btn-link">
+                                            <i></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-content">
+                                    <div style="margin-bottom: 0;" class="form form-horizontal">
+
+                                        <div class="form-group">
+                                            <label for="inputTextArea1" class="col-md-2 control-label">原始报文</label>
+                                            <div class="col-md-10">
+                                                <textarea rows="3" class="form-control" ng-model="sendData"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-actions form-actions-padding-sm">
+                                            <div class="row">
+                                                <div class="col-md-10 col-md-offset-2">
+                                                    <button class="btn btn-primary" ng-disabled="!IsNull()" ng-click="SubTest()">
+                                                        <i class="icon-save"></i>
+                                                        开始测试
+                                                    </button>
+                                                    <button class="btn" ng-click="rest()">清空数据</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 0;" class="col-sm-8 box">
+                                <div class="box-header">
+                                    <div class="title">解析结果</div>
+                                    <div class="actions">
+                                        <a href="#" class="btn box-remove btn-xs btn-link">
+                                            <i class="icon-remove"></i>
+                                        </a>
+
+                                        <a href="#" class="btn box-collapse btn-xs btn-link">
+                                            <i></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-content">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="alert alert-info alert-dismissable">
+                                                <a href="#" data-dismiss="alert" class="close">
+                                                    ×
+                                                </a>
+                                                <h4>
+                                                    <i class="icon-beaker"></i>
+                                                    待测试数据，数据中长度{{sendData.length}}
+                                                </h4>
+                                                <div style="word-break:break-all">
+                                                    {{sendData}}
+                                                </div>
+                                            </div>
+                                            <div class="alert alert-success alert-dismissable">
+                                                <a href="#" data-dismiss="alert" class="close">
+                                                    ×
+                                                </a>
+                                                <h4>
+                                                    <i class="icon-ok-sign"></i>
+                                                    解析协议测试结果
+                                                </h4>
+                                                <table class='table table-bordered table-hover table-condensed' style='margin-bottom:0;'>
+                                                    <thead><tr><th>存储字段</th><th>解析结果</th></tr></thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="bitData in resultData.PmFInterpreterResult">
+                                                            <td>{{bitData.Key}}</td>
+                                                            <td>{{bitData.Value}}</td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>                                              
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class='col-sm-12'>
+                                            <div class='box box-nomargin'>
+                                                <div class='box-header'>
+                                                    <div class='title'><i class="icon-book"></i>展示效果</div>
+                                                    <div class='actions'>
+                                                        <a class="btn box-remove btn-xs btn-link" href="#">
+                                                            <i class='icon-remove'></i>
+                                                        </a>
+
+                                                        <a class="btn box-collapse btn-xs btn-link" href="#">
+                                                            <i></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class='box-content'>
+                                                    <ul class='list-unstyled list-inline'>
+                                                        <li ng-repeat="rd in resultData.ReceiveDataDisplayResult">
+                                                            <i ng-class="rd.ShowIcon"></i>
+                                                            {{rd.DictionaryKey}}：<span style="color:{{rd.ShowColor}}">{{rd.DictionaryValue}}{{rd.ShowUnit}}</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                 </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

@@ -52,6 +52,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -116,6 +117,10 @@
     <ProjectReference Include="..\SocialGoal.Web.Core\SocialGoal.Web.Core.csproj">
       <Project>{ad4d8636-776d-4d8d-834f-0fdd132591f8}</Project>
       <Name>SocialGoal.Web.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Src\ProtocolsManage\ProtocolsManage.csproj">
+      <Project>{807a0743-27e9-4de6-9610-55fd105d55ae}</Project>
+      <Name>ProtocolsManage</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

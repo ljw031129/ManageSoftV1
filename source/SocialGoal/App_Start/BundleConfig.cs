@@ -152,7 +152,7 @@ namespace SocialGoal
                "~/Scripts/jquery-2.1.1.js",
                "~/Content/assets/javascripts/jquery/jquery.mobile.custom.min.js",
                "~/Content/assets/javascripts/jquery/jquery-migrate.min.js",
-               "~/Scripts/jquery-ui-1.8.20.js",
+               "~/Scripts/jquery-ui.min-1.11.1.js",
                "~/Content/assets/javascripts/plugins/jquery_ui_touch_punch/jquery.ui.touch-punch.min.js",
                "~/Content/assets/javascripts/bootstrap/bootstrap.js",
                "~/Content/assets/javascripts/plugins/modernizr/modernizr.min.js",

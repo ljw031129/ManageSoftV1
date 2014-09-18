@@ -3,14 +3,15 @@
     Layout = "~/Views/Shared/_LayoutFlattyMain.cshtml";
 }
 @section styles{
-<link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
-    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
-  
+
+    <link href="~/Content/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
+    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+    <link href="~/Content/jquery.jqGrid/jqGrid.overrides.css" rel="stylesheet" />
 }
 <h2>Index</h2>
 <table id="grps"></table> <div id="pgrps"></div>
 @section scripts{
-    <script src="~/Scripts/jquery-ui-1.8.20.js"></script>
+
     <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
     <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
     <script type="text/javascript">
@@ -22,7 +23,7 @@
                     colNames:
                         ['Id', '设备编号', '设备名称', '创建时间', '更新时间'],
                     colModel: [
-                        { name: 'EquipmentId', key: true, index: 'EquipmentId', editable: true, editoptions: { readonly: true }, width: 55 ,hidden:true},
+                        { name: 'EquipmentId', key: true, index: 'EquipmentId', editable: true, editoptions: { readonly: true }, width: 55, hidden: true },
                         { name: 'EquipmentNum', index: 'EquipmentNum', editable: true, width: 90 },
                         { name: 'EquipmentName', index: 'EquipmentName', editable: true, width: 100 },
                         { name: 'EquipmentCreatTime', index: 'EquipmentCreatTime', sorttype: 'date', editable: true, editrules: { date: true }, formatter: 'date', datefmt: 'Y-m-d', width: 80, align: "right" },
@@ -53,6 +54,22 @@
                 {},
                 {},
                 { multipleSearch: true, multipleGroup: true });
+            //test responsiveness
+            $(window).on('resize', function (event, ui) {
+                // Get width of parent container
+                var parWidth = $("#gbox_grps").parent().width();
+                var curWidth = $("#gbox_grps").width();
+                //console.log("span width " + parWidth + " gridWidth " + gWidth);
+                var w = parWidth - 1; // Fudge factor to prevent horizontal scrollbars
+                if (Math.abs(w - curWidth) > 2) {
+                    //alert("resize to " + width);
+                    console.log("span width " + parWidth + " gridWidth " + curWidth);
+                    $("#grps").setGridWidth(w);
+                    console.log("new width " + w);
+                }
+
+            }).trigger('resize');
+
         });
 
     </script>

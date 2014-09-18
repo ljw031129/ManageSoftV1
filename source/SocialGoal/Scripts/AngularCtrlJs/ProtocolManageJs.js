@@ -142,6 +142,7 @@
   end------------- 解析协议数据加载
    ******/
     $scope.FormatTypes = [
+      { value: 0, text: '不设置' },
       { value: 1, text: '状态' },
       { value: 2, text: '数值' }  
     ];
@@ -223,6 +224,26 @@
 
         });
     }
+    //协议测试部分
+    $scope.sendData = "";
+    $scope.resultData = null;
+    $scope.SubTest = function () {       
+        $http.get('/ProtocolManage/TestProtocol',
+           { params: { pmId: $scope.SelectpmFInterpreter.PmFInterpreterId, sendData: $scope.sendData } }).success(function (data) {
+               $scope.resultData = data;
+           });
+    }
+    $scope.IsNull = function () {
+        if ($scope.sendData != "") {
+            return true;
+        } else {
+            return false;
+        }       
+    }
+    $scope.rest = function () {
+        $scope.sendData = "";
+    }
+
 });
 
 app.controller('TerminalCtrl', function ($scope, $filter, $http) {

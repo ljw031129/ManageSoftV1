@@ -48,7 +48,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PagedList">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
@@ -169,6 +169,10 @@
     <Compile Include="Migrations\201409160123015_updateReceiveDataAddFormatType.Designer.cs">
       <DependentUpon>201409160123015_updateReceiveDataAddFormatType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201409180658334_addOrderIndex.cs" />
+    <Compile Include="Migrations\201409180658334_addOrderIndex.Designer.cs">
+      <DependentUpon>201409180658334_addOrderIndex.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CommentRepository.cs" />
@@ -269,6 +273,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201409160123015_updateReceiveDataAddFormatType.resx">
       <DependentUpon>201409160123015_updateReceiveDataAddFormatType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409180658334_addOrderIndex.resx">
+      <DependentUpon>201409180658334_addOrderIndex.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

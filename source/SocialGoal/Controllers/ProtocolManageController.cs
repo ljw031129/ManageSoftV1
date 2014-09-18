@@ -1,6 +1,7 @@
 ﻿
 using PagedList;
 using SocialGoal.Model.Models;
+using SocialGoal.Model.ViewModels;
 using SocialGoal.Service;
 using SocialGoal.Web.Core.Models;
 using System;
@@ -32,7 +33,7 @@ namespace SocialGoal.Controllers
         // GET: ProtocolManage
         public ActionResult Index()
         {
-
+            _protocolManageService.GetPmFInterpreterById("1");
 
             return View();
         }
@@ -107,6 +108,12 @@ namespace SocialGoal.Controllers
 
             return Json(true);
         }
+        public JsonResult TestProtocol(string pmId, string sendData)
+        {
+            ProtocolTestViewModel pv = _protocolManageService.TestProtocol(pmId, sendData);
+            return Json(pv, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: ProtocolManage/Details/5
         public ActionResult Details(int id)
         {

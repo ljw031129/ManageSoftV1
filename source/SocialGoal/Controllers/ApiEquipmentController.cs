@@ -84,15 +84,15 @@ namespace SocialGoal.Controllers
                 switch (newEquipment.oper)
                 {
                     case "add":
-                        newEquipment.EquipmentId = Guid.NewGuid().ToString();
-                        newEquipment.EquipmentUpDateTime = DateTime.Now;
-                        newEquipment.EquipmentCreatTime = DateTime.Now;                       
+                        equipment.EquipmentId = Guid.NewGuid().ToString();
+                        equipment.EquipmentUpDateTime = DateTime.Now;
+                        equipment.EquipmentCreatTime = DateTime.Now;                       
                         var errors = _equipmentService.CanAddEquipment(equipment).ToList();
                         await _equipmentService.CreateEquipmentAsync(equipment, "");
                         return Ok();
 
                     case "edit":
-                        newEquipment.EquipmentUpDateTime = DateTime.Now;                       
+                        equipment.EquipmentUpDateTime = DateTime.Now;                       
                         await _equipmentService.UpdateEquipmentAsync(equipment);
                         return Ok();
 

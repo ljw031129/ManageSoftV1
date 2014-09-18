@@ -63,7 +63,7 @@ namespace SocialGoal.Service
             {
                 _receiveDataDisplayRepository.Add(rd);
             }
-            if (rd.ReDataDisplayFormats.Count() > 0)
+            if (rd.ReDataDisplayFormats!=null && rd.ReDataDisplayFormats.Count() > 0)
             {
                 foreach (var item in rd.ReDataDisplayFormats)
                 {
