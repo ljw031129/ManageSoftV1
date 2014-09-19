@@ -80,6 +80,8 @@
     <Compile Include="Configuration\GroupGoalConfiguration.cs" />
     <Compile Include="Configuration\GroupInvitationConfiguration.cs" />
     <Compile Include="Configuration\GroupRequestConfiguration.cs" />
+    <Compile Include="Configuration\OrgEnterpriseConfiguration.cs" />
+    <Compile Include="Configuration\OrgStructureConfiguration.cs" />
     <Compile Include="Configuration\PmDataBitConfiguration.cs" />
     <Compile Include="Configuration\PmDataBodyConfiguration.cs" />
     <Compile Include="Configuration\PmDataByteConfiguration.cs" />
@@ -173,6 +175,10 @@
     <Compile Include="Migrations\201409180658334_addOrderIndex.Designer.cs">
       <DependentUpon>201409180658334_addOrderIndex.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201409190301053_addPrg.cs" />
+    <Compile Include="Migrations\201409190301053_addPrg.Designer.cs">
+      <DependentUpon>201409190301053_addPrg.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CommentRepository.cs" />
@@ -194,6 +200,7 @@
     <Compile Include="Repository\GroupUpdateUserRepository.cs" />
     <Compile Include="Repository\GroupUserRepository.cs" />
     <Compile Include="Repository\MetricRepository.cs" />
+    <Compile Include="Repository\OrgEnterpriseRepository.cs" />
     <Compile Include="Repository\PmDataBitRepository.cs" />
     <Compile Include="Repository\PmDataBodiesRepository.cs" />
     <Compile Include="Repository\PmDataBytesRepository.cs" />
@@ -276,6 +283,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201409180658334_addOrderIndex.resx">
       <DependentUpon>201409180658334_addOrderIndex.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409190301053_addPrg.resx">
+      <DependentUpon>201409190301053_addPrg.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

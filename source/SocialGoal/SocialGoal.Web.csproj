@@ -257,8 +257,10 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApiEquipmentController.cs" />
+    <Compile Include="Controllers\ApiOrgEnterpriseController.cs" />
     <Compile Include="Controllers\EquipmentController.cs" />
     <Compile Include="Controllers\JqGridController.cs" />
+    <Compile Include="Controllers\OrgEnterpriseController.cs" />
     <Compile Include="Controllers\ProtocolManageController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
@@ -330,6 +332,7 @@
     <Compile Include="ViewModels\MemberViewModel.cs" />
     <Compile Include="ViewModels\NotificationsViewModel.cs" />
     <Compile Include="ViewModels\NotificationViewModel.cs" />
+    <Compile Include="ViewModels\OrgEnterpriseViewModel.cs" />
     <Compile Include="ViewModels\SearchViewModel.cs" />
     <Compile Include="ViewModels\UpdateFormModel.cs" />
     <Compile Include="ViewModels\UpdateListViewModel.cs" />
@@ -2214,6 +2217,7 @@
     <Content Include="Views\JqGrid\Index.cshtml" />
     <Content Include="Views\Shared\_PartialFlattyHeader.cshtml" />
     <Content Include="Views\Terminal\Detail.cshtml" />
+    <Content Include="Views\OrgEnterprise\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

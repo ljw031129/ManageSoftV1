@@ -61,6 +61,9 @@ namespace SocialGoal.Data.Models
         public DbSet<ReceiveDataDisplay> ReceiveDataDisplays { get; set; }
         public DbSet<ReDataDisplayFormat> ReDataDisplayFormats { get; set; }
 
+        //组织机构信息
+        public DbSet<OrgEnterprise> OrgEnterprises { get; set; }
+        public DbSet<OrgStructure> OrgStructures { get; set; }
 
         public virtual void Commit()
         {
@@ -112,7 +115,9 @@ namespace SocialGoal.Data.Models
             //数据显示内容设置
             modelBuilder.Configurations.Add(new ReDataDisplayFormatConfiguration());
             modelBuilder.Configurations.Add(new ReceiveDataDisplayConfiguration());
-
+            //组织机构信息
+            modelBuilder.Configurations.Add(new OrgEnterpriseConfiguration());
+            modelBuilder.Configurations.Add(new OrgStructureConfiguration());
 
         }
     }

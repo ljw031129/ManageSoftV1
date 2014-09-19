@@ -7577,6 +7577,7 @@ $.jgrid.extend({
 			if(p.checkOnUpdate && p.jqModal && !p.modal) {
 				closeovrl = false;
 			}
+            //提交表单获取数据方法
 			function getFormData(){
 				$(frmtb+" > tbody > tr > td > .FormElement").each(function() {
 					var celm = $(".customelement", this);
@@ -8280,6 +8281,7 @@ $.jgrid.extend({
 				function(){$(this).addClass('ui-state-hover');},
 				function(){$(this).removeClass('ui-state-hover');}
 			);
+            //点击提交按钮绑定的点击
 			$("#sData", frmtb+"_2").click(function(){
 				postdata = {};
 				$("#FormError",frmtb).hide();
@@ -9418,8 +9420,9 @@ $.jgrid.extend({
 		}, $.jgrid.inlineEdit, o );
 		// End compatible
 
+        //定义可以传递到后台的数据
 		var success = false;
-		var $t = this[0], nm, tmp={}, tmp2={}, tmp3= {}, editable, fr, cv, ind;
+		var $t = this[0], nm, tmp = {}, tmp2 = {}, tmp3 = {}, editable, fr, cv, ind;
 		if (!$t.grid ) { return success; }
 		ind = $($t).jqGrid("getInd",rowid,true);
 		if(ind === false) {return success;}
@@ -9429,6 +9432,8 @@ $.jgrid.extend({
 		}
 		if(!bfsr) { return; }
 		editable = $(ind).attr("editable");
+        //增加的变量标识传递后台参数
+		
 		o.url = o.url || $t.p.editurl;
 		if (editable==="1") {
 			var cm;

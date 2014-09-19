@@ -77,6 +77,8 @@
     <Compile Include="Models\GroupUser.cs" />
     <Compile Include="Models\Metric.cs" />
     <Compile Include="Models\NotificationType.cs" />
+    <Compile Include="Models\OrgEnterprise.cs" />
+    <Compile Include="Models\OrgStructure.cs" />
     <Compile Include="Models\PmDataBit.cs" />
     <Compile Include="Models\PmDataBody.cs" />
     <Compile Include="Models\PmDataByte.cs" />

@@ -34,6 +34,8 @@ namespace SocialGoal.Mappings
             //测试
             Mapper.CreateMap<EquipmentViewModel,Equipment>();
 
+            Mapper.CreateMap<OrgEnterpriseViewModel, OrgEnterprise>();
+
             //Mapper.CreateMap<XViewModel, X()
             //    .ForMember(x => x.PropertyXYZ, opt => opt.MapFrom(source => source.Property1));     
         }

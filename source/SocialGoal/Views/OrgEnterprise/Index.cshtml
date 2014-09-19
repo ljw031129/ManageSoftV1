@@ -1,0 +1,114 @@
+﻿@{
+    ViewBag.Title = "企业管理";
+    Layout = "~/Views/Shared/_LayoutFlattyMain.cshtml";
+}
+@section styles{
+
+    <link href="~/Content/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
+    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+    <link href="~/Content/jquery.jqGrid/jqGrid.overrides.css" rel="stylesheet" />
+}
+<div class='row' id='content-wrapper'>
+    <div class='col-xs-12'>
+        <div class='row'>
+            <div class='col-sm-12'>
+                <div class='page-header'>
+                    <h1 class='pull-left'>
+                        <i class='icon-user'></i>
+                        <span>企业管理</span>
+                    </h1>
+                    <div class='pull-right'>
+                        <ul class='breadcrumb'>
+                            <li>
+                                <a href='index.html'>
+                                    <i class='icon-bar-chart'></i>
+                                </a>
+                            </li>
+                            <li class='separator'>
+                                <i class='icon-angle-right'></i>
+                            </li>
+                            <li>Example pages</li>
+                            <li class='separator'>
+                                <i class='icon-angle-right'></i>
+                            </li>
+                            <li class='active'>User profile</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="grps"></table> <div id="pgrps"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
+    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            jQuery("#grps").jqGrid(
+                {
+                    url: '/api/ApiOrgEnterprise',
+                    datatype: "json",
+                    mtype: "get",
+                    colNames:
+                        ['Id', '企业编号', '企业名称', '描述', '更新时间', '创建时间'],
+                    colModel: [
+                        { name: 'OrgEnterpriseId', key: true, index: 'EquipmentId', editable: true, editoptions: { readonly: true }, width: 55, hidden: true },
+                        { name: 'OrgEnterpriseNum', index: 'EquipmentNum', editable: true, width: 90 },
+                        { name: 'OrgEnterpriseName', index: 'EquipmentName', editable: true, width: 100 },
+                         { name: 'OrgEnterpriseDescribe', index: 'EquipmentName', editable: true, width: 100 },
+                        { name: 'OrgEnterpriseUpdateTime', index: 'EquipmentCreatTime', sorttype: 'date', editable: false, editrules: { date: true }, formatter: 'date', datefmt: 'Y-m-d', width: 80, align: "right" },
+                        { name: 'OrgEnterpriseCreateTime', index: 'EquipmentUpDateTime', sorttype: 'date', editable: true, readonly: true, editrules: { date: true }, formatter: 'date', datefmt: 'Y-m-d', width: 80, align: "right" }
+                    ],
+                    rowNum: 10,
+                    width: 700,
+                    rowList: [10, 20, 30],
+                    pager: '#pgrps',
+                    sortname: 'OrgEnterpriseUpdateTime',
+                    viewrecords: true,//定义是否要显示总记录数
+                    sortorder: "desc",
+                    jsonReader: {
+                        root: "rows",
+                        page: "page",
+                        total: "total",
+                        records: "records",
+                        repeatitems: false,
+                        userdata: "userdata"
+                    },
+                    caption: "企业信息表",
+                    height: '100%',
+                    editurl: '/api/ApiOrgEnterprise' // this is dummy existing url
+                });
+            jQuery("#grps").jqGrid('navGrid', '#pgrps',
+                { edit: true, add: true, del: true },
+                {},
+                {},
+                {},
+                { multipleSearch: true, multipleGroup: true });
+            //test responsiveness
+            $(window).on('resize', function (event, ui) {
+                // Get width of parent container
+                var parWidth = $("#gbox_grps").parent().width();
+                var curWidth = $("#gbox_grps").width();
+                //console.log("span width " + parWidth + " gridWidth " + gWidth);
+                var w = parWidth - 1; // Fudge factor to prevent horizontal scrollbars
+                if (Math.abs(w - curWidth) > 2) {
+                    //alert("resize to " + width);
+                    console.log("span width " + parWidth + " gridWidth " + curWidth);
+                    $("#grps").setGridWidth(w);
+                    console.log("new width " + w);
+                }
+
+            }).trigger('resize');
+
+        });
+
+    </script>
+}
+

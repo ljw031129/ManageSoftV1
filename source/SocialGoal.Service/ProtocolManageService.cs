@@ -170,16 +170,39 @@ namespace SocialGoal.Service
         /// <param name="pmid"></param>
         /// <returns></returns>
         public PmFInterpreter GetPmFInterpreterById(string pmid)
-        {
+        {           
             var strPmFInterpreter = "select * from  PmFInterpreters where PmFInterpreterId='" + pmid + "'";
-           
-            DataTable rePmFInterpreter = GetDateTable(strPmFInterpreter);           
-
-
+            var strPmDataBodies = "select * from  PmDataBodies where PmFInterpreterId='" + pmid + "'";
+            //
+            DataTable rePmFInterpreter = GetDateTable(strPmFInterpreter);
             DateSetTransform<PmFInterpreter> dsTf = new DateSetTransform<PmFInterpreter>();
             List<PmFInterpreter> pmF = dsTf.FillModel(rePmFInterpreter);
+            PmFInterpreter firstPmFInterpreter = pmF.FirstOrDefault();
            
-            return null;
+            //
+            DataTable rePmDataBodies = GetDateTable(strPmDataBodies);
+            DateSetTransform<PmDataBody> pmdb = new DateSetTransform<PmDataBody>();
+            List<PmDataBody> pmdbList = pmdb.FillModel(rePmDataBodies);
+           
+            
+            foreach (PmDataBody PmDataBodyitem in pmdbList)
+            {
+                if (PmDataBodyitem!=null)
+                {
+                    DateSetTransform<PmDataByte> pmbyte = new DateSetTransform<PmDataByte>();
+                    DataTable dt = GetDateTable("select * from  PmDataBytes where PmDataByteId='" + PmDataBodyitem.PmDataByteId + "'");
+                    if (dt.Rows.Count>0)
+                    {
+                        PmDataBodyitem.PmDataByte = pmbyte.FillModel(dt).FirstOrDefault(); 
+                    }
+                  
+                }             
+
+                DateSetTransform<PmDataBit> pmDataBit = new DateSetTransform<PmDataBit>();
+                PmDataBodyitem.PmDataBits = pmDataBit.FillModel(GetDateTable("select * from  PmDataBits where PmDataBodyId='" + PmDataBodyitem.PmDataBodyId + "'"));
+            }
+            firstPmFInterpreter.PmDataBodys = pmdbList;
+            return firstPmFInterpreter;
         }
         public DataTable GetDateTable(string sqlStr)
         {
