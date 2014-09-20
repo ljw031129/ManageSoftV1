@@ -20,5 +20,12 @@ namespace SocialGoal.Model.Models
         public string OrgStructureDescribe { get; set; }
         public DateTime OrgStructureCreateTime { get; set; }
         public DateTime OrgStructureUpdateTime { get; set; }
+        public string OrgEnterpriseId { get; set; }
+        public string level { get; set; }
+        public string parent { get; set; }
+        public bool isLeaf { get; set; }
+        public bool expanded { get; set; }
+        public bool loaded { get; set; }
+        public string icon { get; set; }
     }
 }

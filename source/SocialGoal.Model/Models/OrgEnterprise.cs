@@ -19,5 +19,6 @@ namespace SocialGoal.Model.Models
         public string OrgEnterpriseDescribe { get; set; }
         public DateTime OrgEnterpriseCreateTime { get; set; }
         public DateTime OrgEnterpriseUpdateTime { get; set; }
+        public virtual ICollection<OrgStructure> OrgStructures { get; set; }
     }
 }

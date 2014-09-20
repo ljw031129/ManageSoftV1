@@ -66,11 +66,8 @@ namespace SocialGoal.Controllers
                         await _orgEnterpriseService.CreateAsync(orgEnterprise);
                         return Ok();
 
-                    case "edit":
-                        OrgEnterprise old = _orgEnterpriseService.GetById(orgEnterprise.OrgEnterpriseId);
-                        DateTime createTime = old.OrgEnterpriseCreateTime;
-                        orgEnterprise.OrgEnterpriseUpdateTime = DateTime.Now;
-                        orgEnterprise.OrgEnterpriseCreateTime = createTime;
+                    case "edit":                       
+                        orgEnterprise.OrgEnterpriseUpdateTime = DateTime.Now;                       
                         await _orgEnterpriseService.UpdateAsync(orgEnterprise);
                         return Ok();
 
