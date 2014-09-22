@@ -7,12 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SocialGoal.Data.Configuration
-{
-    public class PmDataBodyConfiguration:EntityTypeConfiguration<PmDataBody>
+{    
+    public class TerminalSimCardConfiguration : EntityTypeConfiguration<TerminalSimCard>
     {
-        public PmDataBodyConfiguration()
+        public TerminalSimCardConfiguration()
         {
-            Property(g => g.PmDataBodyId).IsRequired();           
+            Property(g => g.TerminalSimCardId).IsRequired();
         }
     }
 }

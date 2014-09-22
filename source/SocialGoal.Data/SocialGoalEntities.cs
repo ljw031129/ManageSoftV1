@@ -65,6 +65,10 @@ namespace SocialGoal.Data.Models
         public DbSet<OrgEnterprise> OrgEnterprises { get; set; }
         public DbSet<OrgStructure> OrgStructures { get; set; }
 
+        //终端管理
+        public DbSet<TerminalSimCard> TerminalSimCards { get; set; }
+        public DbSet<TerminalEquipment> TerminalEquipments { get; set; }
+
         public virtual void Commit()
         {
             base.SaveChanges();
@@ -118,7 +122,9 @@ namespace SocialGoal.Data.Models
             //组织机构信息
             modelBuilder.Configurations.Add(new OrgEnterpriseConfiguration());
             modelBuilder.Configurations.Add(new OrgStructureConfiguration());
-
+            //终端管理
+            modelBuilder.Configurations.Add(new TerminalSimCardConfiguration());
+            modelBuilder.Configurations.Add(new TerminalEquipmentConfiguration());
         }
     }
 }

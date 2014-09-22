@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace SocialGoal.Data.Configuration
 {
-    public class PmDataBodyConfiguration:EntityTypeConfiguration<PmDataBody>
+   
+    public class TerminalEquipmentConfiguration : EntityTypeConfiguration<TerminalEquipment>
     {
-        public PmDataBodyConfiguration()
+        public TerminalEquipmentConfiguration()
         {
-            Property(g => g.PmDataBodyId).IsRequired();           
+            Property(g => g.TerminalEquipmentId).IsRequired();
         }
     }
 }

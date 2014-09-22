@@ -91,6 +91,8 @@
     <Compile Include="Models\ReDataDisplayFormat.cs" />
     <Compile Include="Models\RegistrationToken.cs" />
     <Compile Include="Models\SecurityToken.cs" />
+    <Compile Include="Models\TerminalEquipment.cs" />
+    <Compile Include="Models\TerminalSimCard.cs" />
     <Compile Include="Models\Smart.cs" />
     <Compile Include="Models\Support.cs" />
     <Compile Include="Models\SupportInvitation.cs" />

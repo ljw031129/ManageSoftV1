@@ -271,6 +271,8 @@
     <Compile Include="Controllers\EmailRequestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TerminalController.cs" />
+    <Compile Include="Controllers\ApiTerminalEquipmentController.cs" />
+    <Compile Include="Controllers\TerminalEquipmentController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2265,6 +2267,7 @@
     <Content Include="Views\Terminal\Detail.cshtml" />
     <Content Include="Views\OrgEnterprise\Index.cshtml" />
     <Content Include="Views\OrgStructure\Index.cshtml" />
+    <Content Include="Views\TerminalEquipment\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
