@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "终端管理";
     Layout = "~/Views/Shared/_LayoutFlattyMain.cshtml";
 }
@@ -59,15 +58,15 @@
                     datatype: "json",
                     mtype: "get",
                     colNames:
-                        ['Id', '终端编号', '终端类型', '协议名称','SIM', '创建时间','更新时间'],
+                        ['Id', '终端编号', '终端类型', '协议名称', 'SIM', '创建时间', '更新时间'],
                     colModel: [
                         { name: 'TerminalEquipmentId', key: true, index: 'TerminalEquipmentId', editable: true, editoptions: { readonly: true }, width: 55, hidden: true },
                         { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: true, width: 90 },
-                        { name: 'TerminalEquipmentType', index: 'EquipmentName', editable: true, width: 100 },
-                         { name: 'ProtocolName', index: 'PmFInterpreter.ProtocolName', editable: true, width: 100 },
-                          { name: 'TerminalSimCardNum', index: 'TerminalSimCard.TerminalSimCardNum', editable: true, width: 100 },
-                        { name: 'TerminalEquipmentCreateTime', index: 'EquipmentCreatTime', sorttype: 'date', editable: false, editrules: { date: true }, formatter: 'date', datefmt: 'Y-m-d', width: 80, align: "right" },
-                        { name: 'TerminalEquipmentUpdateTime', index: 'EquipmentUpDateTime', sorttype: 'date', editable: true, editoptions: { readonly: true }, editrules: { date: true }, formatter: 'date', datefmt: 'Y-m-d', width: 80, align: "right" }
+                        { name: 'TerminalEquipmentType', index: 'EquipmentName', editable: true, width: 100, edittype: "select", formatter: 'select', editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" } },
+                        { name: 'PmFInterpreterId', index: 'PmFInterpreterId', editable: true, width: 100, edittype: "select", editoptions: { dataUrl: '/ProtocolManage/GetAllList' } },
+                        { name: 'TerminalSimCardId', index: 'TerminalSimCardId', editable: true, width: 100, edittype: "select", editoptions: { dataUrl: '/api/ApiTerminalSimCard/123' } },
+                        { name: 'TerminalEquipmentCreateTime', index: 'EquipmentCreatTime', sorttype: 'date', editable: true, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, width: 80, align: "right", editoptions: { readonly: true, defaultValue: CurentTime() } },
+                        { name: 'TerminalEquipmentUpdateTime', index: 'EquipmentUpDateTime', sorttype: 'date', editable: false, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, editoptions: { readonly: true }, editrules: { date: true }, width: 80, align: "right" }
                     ],
                     rowNum: 10,
                     width: 700,
@@ -109,7 +108,36 @@
                 }
 
             }).trigger('resize');
+            function CurentTime() {
+                var now = new Date();
 
+                var year = now.getFullYear();       //年
+                var month = now.getMonth() + 1;     //月
+                var day = now.getDate();            //日
+
+                var hh = now.getHours();            //时
+                var mm = now.getMinutes();          //分
+
+                var clock = year + "-";
+
+                if (month < 10)
+                    clock += "0";
+
+                clock += month + "-";
+
+                if (day < 10)
+                    clock += "0";
+
+                clock += day + " ";
+
+                if (hh < 10)
+                    clock += "0";
+
+                clock += hh + ":";
+                if (mm < 10) clock += '0';
+                clock += mm;
+                return (clock);
+            }
         });
 
     </script>

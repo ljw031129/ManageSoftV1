@@ -12,7 +12,7 @@ namespace SocialGoal.App_Start
         {
             // Web API configuration and services
 
-            // Web API routes
+            // Web API routes启用属性路由
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(

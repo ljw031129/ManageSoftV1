@@ -13,6 +13,12 @@ namespace SocialGoal.Service
     {
         Task<IEnumerable<TerminalEquipment>> GetOrgStructures(Core.xFilter.Expressions.JqGridSetting jqGridSetting, out int count);
         void Save();
+
+        Task CreateAsync(TerminalEquipment terminalEquipment);
+
+        Task UpdateAsync(TerminalEquipment terminalEquipment);
+
+        Task<bool> DeleteAsync(string p);
     }
     public class TerminalEquipmentService : ITerminalEquipmentService
     {
@@ -33,6 +39,29 @@ namespace SocialGoal.Service
         public void Save()
         {
             _unitOfWork.Commit();
+        }
+
+
+        public Task CreateAsync(TerminalEquipment terminalEquipment)
+        {
+            _terminalEquipmentRepository.Add(terminalEquipment);
+            Save();
+            return Task.FromResult(true);
+        }
+
+        public Task UpdateAsync(TerminalEquipment terminalEquipment)
+        {
+            _terminalEquipmentRepository.Update(terminalEquipment);
+            Save();
+            return Task.FromResult(true);
+        }
+
+        public Task<bool> DeleteAsync(string id)
+        {
+            var orgEnterprise = _terminalEquipmentRepository.GetById(id);
+            _terminalEquipmentRepository.Delete(orgEnterprise);           
+            Save();
+            return Task.FromResult(true);
         }
     }
 }

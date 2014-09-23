@@ -99,6 +99,7 @@
     <Compile Include="SupportInvitationService.cs" />
     <Compile Include="SupportService.cs" />
     <Compile Include="TerminalEquipmentService.cs" />
+    <Compile Include="TerminalSimCardService.cs" />
     <Compile Include="UpdateService.cs" />
     <Compile Include="UpdateSupportService.cs" />
     <Compile Include="UserProfileService.cs" />

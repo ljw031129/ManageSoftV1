@@ -228,6 +228,7 @@
     <Compile Include="Repository\SupportInvitationRepository.cs" />
     <Compile Include="Repository\SupportRepository.cs" />
     <Compile Include="Repository\TerminalEquipmentRepository.cs" />
+    <Compile Include="Repository\TerminalSimCardRepository.cs" />
     <Compile Include="Repository\UpdateRepository.cs" />
     <Compile Include="Repository\UpdateSupportRepository.cs" />
     <Compile Include="Repository\UserProfileRepository.cs" />

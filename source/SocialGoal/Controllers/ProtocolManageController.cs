@@ -7,6 +7,7 @@ using SocialGoal.Web.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -36,6 +37,19 @@ namespace SocialGoal.Controllers
             _protocolManageService.GetPmFInterpreterById("1");
 
             return View();
+        }
+        public string GetAllList()
+        {
+            StringBuilder st = new StringBuilder();
+            IEnumerable<PmFInterpreter> re = _protocolManageService.GetPmFInterpreter();
+            st.Append("<select>");
+            foreach (var item in re)
+            {
+                st.Append("<option value='" + item.PmFInterpreterId + "'>" + item.ProtocolName + "</option>");
+
+            }
+            st.Append("</select>"); ;
+            return st.ToString();
         }
         public JsonResult GetAll()
         {

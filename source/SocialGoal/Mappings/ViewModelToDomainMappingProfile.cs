@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SocialGoal.Model.Models;
+using SocialGoal.ViewModels;
 using SocialGoal.Web.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,8 @@ namespace SocialGoal.Mappings
             Mapper.CreateMap<EquipmentViewModel,Equipment>();
 
             Mapper.CreateMap<OrgEnterpriseViewModel, OrgEnterprise>();
-
+            Mapper.CreateMap<TerminalSimCardViewModel, TerminalSimCard>();
+            Mapper.CreateMap<TerminalEquipmentViewModel, TerminalEquipment>();
             //Mapper.CreateMap<XViewModel, X()
             //    .ForMember(x => x.PropertyXYZ, opt => opt.MapFrom(source => source.Property1));     
         }

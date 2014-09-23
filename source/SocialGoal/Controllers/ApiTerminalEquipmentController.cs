@@ -1,6 +1,8 @@
-﻿using SocialGoal.Core.xFilter.Expressions;
+﻿using AutoMapper;
+using SocialGoal.Core.xFilter.Expressions;
 using SocialGoal.Model.Models;
 using SocialGoal.Service;
+using SocialGoal.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,19 +30,56 @@ namespace SocialGoal.Controllers
                 total = (int)Math.Ceiling((double)count / jqGridSetting.rows),
                 page = jqGridSetting.page,
                 records = count,
-                rows = (from item in orgStructure
+                rows = (from item in orgStructure.ToList()
                         select new
                         {
                             TerminalEquipmentId = item.TerminalEquipmentId,
                             TerminalEquipmentNum = item.TerminalEquipmentNum,
                             TerminalEquipmentType = item.TerminalEquipmentType,
-                            ProtocolName = item.PmFInterpreter.ProtocolName,
-                            TerminalSimCardNum = item.TerminalSimCard.TerminalSimCardNum,
+                            PmFInterpreterId = item.PmFInterpreter.ProtocolName,
+                            TerminalSimCardId = item.TerminalSimCard.TerminalSimCardNum,
                             TerminalEquipmentCreateTime = item.TerminalEquipmentCreateTime,
                             TerminalEquipmentUpdateTime = item.TerminalEquipmentUpdateTime
                         }).ToArray()
             };
             return result;
+        }
+        // POST api/<controller>
+        [HttpPost]
+        public async Task<IHttpActionResult> Post(TerminalEquipmentViewModel newTerminalEquipment)
+        {
+            if (ModelState.IsValid)
+            {
+
+                TerminalEquipment terminalEquipment = Mapper.Map<TerminalEquipmentViewModel, TerminalEquipment>(newTerminalEquipment);
+                switch (newTerminalEquipment.oper)
+                {
+                    case "add":
+                        terminalEquipment.TerminalEquipmentId = Guid.NewGuid().ToString();
+                        terminalEquipment.TerminalEquipmentUpdateTime = DateTime.Now;
+                        terminalEquipment.TerminalEquipmentCreateTime = DateTime.Now;
+                        // var errors = _orgEnterpriseService.CanAdd(equipment).ToList();
+                        await _terminalEquipmentService.CreateAsync(terminalEquipment);
+                        return Ok();
+
+                    case "edit":
+                        terminalEquipment.TerminalEquipmentUpdateTime = DateTime.Now;
+                        await _terminalEquipmentService.UpdateAsync(terminalEquipment);
+                        return Ok();
+
+                    case "del":
+                        bool rec = await _terminalEquipmentService.DeleteAsync(newTerminalEquipment.id);
+                        if (rec)
+                        {
+                            return Ok();
+                        }
+                        break;
+
+                }
+
+            }
+            // ModelState.AddModelErrors(errors);
+            return BadRequest(ModelState);
         }
     }
 }
