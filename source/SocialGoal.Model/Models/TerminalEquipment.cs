@@ -20,6 +20,12 @@ namespace SocialGoal.Model.Models
         public string TerminalSimCardId { get; set; }
         public virtual TerminalSimCard TerminalSimCard { get; set; }
 
+        //企业信息
+        public string OrgEnterpriseId { get; set; }
+        public virtual OrgEnterprise OrgEnterprise { get; set; }
+
+        public virtual ICollection<OrgStructure> OrgStructures { get; set; }
+
         public DateTime TerminalEquipmentCreateTime { get; set; }
         public DateTime TerminalEquipmentUpdateTime { get; set; }
     }

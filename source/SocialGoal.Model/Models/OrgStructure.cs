@@ -27,5 +27,7 @@ namespace SocialGoal.Model.Models
         public bool expanded { get; set; }
         public bool loaded { get; set; }
         public string icon { get; set; }
+
+        public virtual ICollection<TerminalEquipment> TerminalEquipments { get; set; }
     }
 }

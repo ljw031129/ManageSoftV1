@@ -133,6 +133,13 @@ namespace SocialGoal.Data.Infrastructure
             return dbset.Where(where).FirstOrDefault<T>();
         }
 
+        //select2返回结果
+        public IEnumerable<T> GetSelect2(Expression<Func<T, bool>> where,string sortColumn,bool sortOrder,  int pageSize, int pageNum, out int reTotal)
+        {
+            reTotal = dbset.Where(where).Count();
+            return dbset.OrderByExtensions(sortColumn, sortOrder).Where(where).Skip((pageNum - 1) * pageSize).Take(pageSize);
+        }
+
         public virtual IEnumerable<T> GetPageJqGrid<TOrder>(JqGridSetting jqGridSetting, out int count)
         {           
             //JSON字符串转化       

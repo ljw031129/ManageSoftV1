@@ -7632,7 +7632,9 @@ $.jgrid.extend({
 				});
 				return true;
 			}
-			function createData(rowid,obj,tb,maxcols){
+            //创建表单数据
+			function createData(rowid, obj, tb, maxcols) {
+			   
 				var nm, hc,trdata, cnt=0,tmp, dc,elc, retpos=[], ind=false,
 				tdtmpl = "<td class='CaptionTD'>&#160;</td><td class='DataTD'>&#160;</td>", tmpl="", i; //*2
 				for (i =1; i<=maxcols;i++) {
@@ -7641,7 +7643,8 @@ $.jgrid.extend({
 				if(rowid !== '_empty') {
 					ind = $(obj).jqGrid("getInd",rowid);
 				}
-				$(obj.p.colModel).each( function(i) {
+				$(obj.p.colModel).each(function (i) {
+                   
 					nm = this.name;
 					// hidden fields are included in the form
 					if(this.editrules && this.editrules.edithidden === true) {
@@ -7784,7 +7787,7 @@ $.jgrid.extend({
 								break;
 							case "select":
 								var opv = tmp.split(",");
-								opv = $.map(opv,function(n){return $.trim(n);});
+								opv = $.map(opv, function (n) { return $.trim(n); });								
 								$("#"+nm+" option","#"+fmid).each(function(){
 									if (!cm[i].editoptions.multiple && ($.trim(tmp) === $.trim($(this).text()) || opv[0] === $.trim($(this).text()) || opv[0] === $.trim($(this).val())) ){
 										this.selected= true;
@@ -8404,7 +8407,8 @@ $.jgrid.extend({
 					setTimeout(function(){$(".ui-jqdialog-titlebar-close","#"+$.jgrid.jqID(IDs.modalhead)).focus();},0);
 				}
 			}
-			function createData(rowid,obj,tb,maxcols){
+			function createData(rowid, obj, tb, maxcols) {
+			   
 				var nm, hc,trdata, cnt=0,tmp, dc, retpos=[], ind=false, i,
 				tdtmpl = "<td class='CaptionTD form-view-label ui-widget-content' width='"+p.labelswidth+"'>&#160;</td><td class='DataTD form-view-data ui-helper-reset ui-widget-content'>&#160;</td>", tmpl="",
 				tdtmpl2 = "<td class='CaptionTD form-view-label ui-widget-content'>&#160;</td><td class='DataTD form-view-data ui-widget-content'>&#160;</td>",

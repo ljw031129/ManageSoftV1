@@ -68,6 +68,7 @@ namespace SocialGoal.Data.Models
         //终端管理
         public DbSet<TerminalSimCard> TerminalSimCards { get; set; }
         public DbSet<TerminalEquipment> TerminalEquipments { get; set; }
+       
 
         public virtual void Commit()
         {
@@ -125,6 +126,7 @@ namespace SocialGoal.Data.Models
             //终端管理
             modelBuilder.Configurations.Add(new TerminalSimCardConfiguration());
             modelBuilder.Configurations.Add(new TerminalEquipmentConfiguration());
+            
         }
     }
 }

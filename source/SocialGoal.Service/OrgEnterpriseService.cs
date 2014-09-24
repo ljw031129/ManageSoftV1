@@ -27,6 +27,8 @@ namespace SocialGoal.Service
         void Save();
 
         OrgEnterprise GetById(string id);
+
+        Task<Select2PagedResult> GetSelect2PagedResult(string searchTerm, int pageSize, int pageNum);
     }
     public class OrgEnterpriseService : IOrgEnterpriseService
     {
@@ -91,6 +93,25 @@ namespace SocialGoal.Service
         public OrgEnterprise GetById(string id)
         {
             return _orgEnterpriseRepository.GetById(id);
+        }
+
+
+        public Task<Select2PagedResult> GetSelect2PagedResult(string searchTerm, int pageSize, int pageNum)
+        {
+            int reTotal = 0;
+            IEnumerable<OrgEnterprise> orgEnterprise = _orgEnterpriseRepository.GetSelect2(t => t.OrgEnterpriseName.Contains(searchTerm), "OrgEnterpriseUpdateTime", true, pageSize, pageNum, out reTotal);
+
+            Select2PagedResult jsonAttendees = new Select2PagedResult();
+            jsonAttendees.Results = new List<Select2Result>();
+
+            //Loop through our attendees and translate it into a text value and an id for the select list
+            foreach (OrgEnterprise a in orgEnterprise.ToList())
+            {
+                jsonAttendees.Results.Add(new Select2Result { id = a.OrgEnterpriseId.ToString(), text = a.OrgEnterpriseName });
+            }
+            //Set the total count of the results from the query.
+            jsonAttendees.Total = reTotal;
+            return Task.FromResult(jsonAttendees);
         }
     }
 }

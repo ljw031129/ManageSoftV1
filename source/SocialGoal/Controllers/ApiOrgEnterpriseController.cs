@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using PagedList;
+using SocialGoal.Core.Common;
 using SocialGoal.Core.xFilter.Expressions;
 using SocialGoal.Model.Models;
 using SocialGoal.Service;
+using SocialGoal.Web.Core.Extensions;
 using SocialGoal.Web.Core.Models;
 using SocialGoal.Web.ViewModels;
 using System;
@@ -22,7 +24,18 @@ namespace SocialGoal.Controllers
         {
             this._orgEnterpriseService = orgEnterpriseService;
         }
-
+        [HttpGet]
+        //[Route("api/ApiTerminalSimCard/{terminalEquipmentId}")]
+        public async Task<JsonpResult> GetOrgEnterprises(int pageSize, int pageNum, string searchTerm)
+        {
+            Select2PagedResult orgEnterprises = await _orgEnterpriseService.GetSelect2PagedResult(searchTerm, pageSize, pageNum);
+            //Return the data as a jsonp result
+            return new JsonpResult
+            {
+                Data = orgEnterprises,
+                JsonRequestBehavior = System.Web.Mvc.JsonRequestBehavior.AllowGet
+            };
+        }
         public async Task<Object> Get([FromUri]JqGridSetting jqGridSetting)
         {
             int count = 0;
@@ -66,8 +79,8 @@ namespace SocialGoal.Controllers
                         await _orgEnterpriseService.CreateAsync(orgEnterprise);
                         return Ok();
 
-                    case "edit":                       
-                        orgEnterprise.OrgEnterpriseUpdateTime = DateTime.Now;                       
+                    case "edit":
+                        orgEnterprise.OrgEnterpriseUpdateTime = DateTime.Now;
                         await _orgEnterpriseService.UpdateAsync(orgEnterprise);
                         return Ok();
 

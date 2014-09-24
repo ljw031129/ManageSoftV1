@@ -26,5 +26,7 @@ namespace SocialGoal.Data.Infrastructure
 
         IPagedList<T> GetPage<TOrder>(string gridSettings);
         IEnumerable<T> GetPageJqGrid<TOrder>(JqGridSetting jqGridSetting, out int count);
+        //Select2数据
+        IEnumerable<T> GetSelect2(Expression<Func<T, bool>> where,string sortColumn,bool sortOrder, int pageSize, int pageNum, out int reTotal);
     }
 }

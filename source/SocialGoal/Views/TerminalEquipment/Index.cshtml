@@ -8,6 +8,9 @@
     <link href="~/Content/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
     <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
     <link href="~/Content/jquery.jqGrid/jqGrid.overrides.css" rel="stylesheet" />
+
+    <link href="~/Scripts/plugins/select2-3.5.1/select2.css" rel="stylesheet" />
+    <link href="~/Scripts/plugins/select2-3.5.1/select2-bootstrap.css" rel="stylesheet" />
 }
 <div class='row' id='content-wrapper'>
     <div class='col-xs-12'>
@@ -41,8 +44,59 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <table id="grps"></table> <div id="pgrps"></div>
+                <div class="tabbable">
+                    <ul class="nav nav-tabs nav-tabs-simple">
+                        <li class="active">
+                            <a href="#tabsimple1" class="green-border">
+                                <i class="icon-indent-left"></i>
+                                Section 1
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#tabsimple2">
+                                <i class="icon-edit text-red"></i>
+                                Section 2
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
+        </div>
+        <div class="row">
+            <div style="margin-bottom: 0" class="col-sm-12 box">
+                <div class="box-header red-background">
+                    <div class="title">终端管理与调度</div>
+                    <div class="actions">
+                        <a href="#" class="btn box-remove btn-xs btn-link">
+                            <i class="icon-remove"></i>
+                        </a>
+
+                        <a href="#" class="btn box-collapse btn-xs btn-link">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-content">
+                    <div class="box-toolbox box-toolbox-top">
+                        <div class="pull-left col-sm-4">
+                            <div class="input-group  ">
+                                <span class="input-group-addon">企业</span>
+                                <input type="text" placeholder="搜索企业" id="attendee" class="form-control">
+                            </div>
+
+                        </div>
+                        <div class="pull-right">
+                            <a class="btn btn-white">
+                                <i class="icon-eye-open" ></i>
+                            </a>
+                        </div>
+                    </div>
+                    <table id="grps"></table> <div id="pgrps"></div>
+
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -50,8 +104,63 @@
 
     <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
     <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
+    <script src="~/Scripts/plugins/select2-3.5.1/select2.js"></script>
+    <script src="~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"></script>
     <script type="text/javascript">
+        
         $(document).ready(function () {
+
+            //The url we will send our get request to
+            var attendeeUrl = '@Url.Action("GetOrgEnterprises", "OrgEnterprise")';
+            var pageSize = 20;
+
+            $('#attendee').select2(
+            {
+                placeholder: 'Enter name',
+                //Does the user have to enter any data before sending the ajax request
+                minimumInputLength: 0,
+                allowClear: true,
+                ajax: {
+                    //How long the user has to pause their typing before sending the next request
+                    quietMillis: 150,
+                    //The url of the json service
+                    url: attendeeUrl,
+                    dataType: 'jsonp',
+                    //Our search term and what page we are on
+                    data: function (term, page) {
+                        return {
+                            pageSize: pageSize,
+                            pageNum: page,
+                            searchTerm: term
+                        };
+                    },
+                    results: function (data, page) {
+                        //Used to determine whether or not there are more results available,
+                        //and if requests for more data should be sent in the infinite scrolling
+                        var more = (page * pageSize) < data.Total;
+                        return { results: data.Results, more: more };
+                    }
+                }
+            });
+            //function myelem(value, options) {
+            //    var el = document.createElement("SELECT");
+            //    el.type = "text";
+            //    el.value = value;
+            //    var opt = new Option("xx", "xx");
+            //    el.options.add(opt);
+            //    opt = new Option("ccc", "ccc");
+            //    el.options.add(opt);
+            //    $("#" + options.id).select2();
+            //    return el;
+            //}
+            //function myvalue(elem, operation, value) {
+
+            //    if (operation === 'get') {
+            //        return $(elem).val();
+            //    } else if (operation === 'set') {
+            //        $('SELECT', elem).val(value);
+            //    }
+            //}
             jQuery("#grps").jqGrid(
                 {
                     url: '/api/ApiTerminalEquipment',
@@ -68,6 +177,7 @@
                         { name: 'TerminalEquipmentCreateTime', index: 'EquipmentCreatTime', sorttype: 'date', editable: true, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, width: 80, align: "right", editoptions: { readonly: true, defaultValue: CurentTime() } },
                         { name: 'TerminalEquipmentUpdateTime', index: 'EquipmentUpDateTime', sorttype: 'date', editable: false, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, editoptions: { readonly: true }, editrules: { date: true }, width: 80, align: "right" }
                     ],
+                    multiselect: true,
                     rowNum: 10,
                     width: 700,
                     rowList: [10, 20, 30],
@@ -83,13 +193,24 @@
                         repeatitems: false,
                         userdata: "userdata"
                     },
-                    caption: "终端信息表",
+                    // caption: "终端信息表",
                     height: '100%',
                     editurl: '/api/ApiTerminalEquipment' // this is dummy existing url
                 });
             jQuery("#grps").jqGrid('navGrid', '#pgrps',
                 { edit: true, add: true, del: true },
-                {},
+                {
+                    editCaption: "编辑",
+                    top: "5",
+                    left: "310",
+                    jqModal: false,
+                    reloadAfterSubmit: true,
+                    afterShowForm: function (form) {
+
+                        $("#PmFInterpreterId").select2();
+
+                    }
+                },
                 {},
                 {},
                 { multipleSearch: true, multipleGroup: true });
