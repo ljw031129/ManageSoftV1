@@ -29,6 +29,8 @@ namespace SocialGoal.Service
         OrgEnterprise GetById(string id);
 
         Task<Select2PagedResult> GetSelect2PagedResult(string searchTerm, int pageSize, int pageNum);
+
+        Task<IEnumerable<OrgEnterprise>> GetAll();
     }
     public class OrgEnterpriseService : IOrgEnterpriseService
     {
@@ -112,6 +114,13 @@ namespace SocialGoal.Service
             //Set the total count of the results from the query.
             jsonAttendees.Total = reTotal;
             return Task.FromResult(jsonAttendees);
+        }
+
+
+        public Task<IEnumerable<OrgEnterprise>> GetAll()
+        {
+            IEnumerable<OrgEnterprise> orgEnterprise = _orgEnterpriseRepository.GetAll();
+            return Task.FromResult(orgEnterprise);
         }
     }
 }

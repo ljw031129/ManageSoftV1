@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -35,6 +36,20 @@ namespace SocialGoal.Controllers
                 Data = orgEnterprises,
                 JsonRequestBehavior = System.Web.Mvc.JsonRequestBehavior.AllowGet
             };
+        }
+        [Route("api/ApiOrgEnterprise/GetAll")]
+        public async Task<string> GetAll()
+        {
+            StringBuilder st = new StringBuilder();
+            IEnumerable<OrgEnterprise> re = await _orgEnterpriseService.GetAll();
+            st.Append("<select>");
+            foreach (var item in re)
+            {
+                st.Append("<option value='" + item.OrgEnterpriseId + "'>" + item.OrgEnterpriseName + "</option>");
+
+            }
+            st.Append("</select>"); ;
+            return st.ToString();
         }
         public async Task<Object> Get([FromUri]JqGridSetting jqGridSetting)
         {

@@ -8,9 +8,9 @@
     <link href="~/Content/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
     <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
     <link href="~/Content/jquery.jqGrid/jqGrid.overrides.css" rel="stylesheet" />
-
     <link href="~/Scripts/plugins/select2-3.5.1/select2.css" rel="stylesheet" />
     <link href="~/Scripts/plugins/select2-3.5.1/select2-bootstrap.css" rel="stylesheet" />
+    <link href="~/Scripts/plugins/artDialog/css/ui-dialog.css" rel="stylesheet" />
 }
 <div class='row' id='content-wrapper'>
     <div class='col-xs-12'>
@@ -79,16 +79,23 @@
                 </div>
                 <div class="box-content">
                     <div class="box-toolbox box-toolbox-top">
-                        <div class="pull-left col-sm-4">
-                            <div class="input-group  ">
-                                <span class="input-group-addon">企业</span>
-                                <input type="text" placeholder="搜索企业" id="attendee" class="form-control">
+                        <div class="pull-left col-sm-6">
+                            <div class="row">
+                                <div class="input-group  col-sm-6">
+                                    <span class="input-group-addon">企业</span>
+                                    <input type="text" placeholder="搜索企业" id="OrgEnterpriseId" class="form-control">
+                                </div>
+                                <div class="col-sm-6">
+                                    <button type="submit" class="btn btn-primary" id="SetOrgEnterprise">
+                                        <i class="icon-save"></i>
+                                        分配
+                                    </button>
+                                </div>
                             </div>
-
                         </div>
                         <div class="pull-right">
                             <a class="btn btn-white">
-                                <i class="icon-eye-open" ></i>
+                                <i class="icon-eye-open"></i>
                             </a>
                         </div>
                     </div>
@@ -106,15 +113,55 @@
     <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
     <script src="~/Scripts/plugins/select2-3.5.1/select2.js"></script>
     <script src="~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"></script>
+    <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
     <script type="text/javascript">
-        
+        var d, OrgEnterpriseId, ids;
         $(document).ready(function () {
+            // $("#OrgEnterpriseId").val("");
+            $("#SetOrgEnterprise").click(function () {
+                OrgEnterpriseId = $('#OrgEnterpriseId').val();
+                ids = $("#grps").jqGrid("getGridParam", "selarrrow");
 
+                if (OrgEnterpriseId == "") {
+                    var d = dialog({
+                        title: '提示',
+                        content: '请选择企业！'
+                    });
+                    d.show();
+                    return;
+                } else if (ids == "") {
+                    d = dialog({
+                        title: '提示',
+                        content: '请选择要分配的设备！',
+                        ok: function () { }
+                    });
+                    d.show();
+                    return;
+                } else {
+                    d = dialog({
+                        title: '提示',
+                        content: '确定要分配当前设备吗？',
+                        ok: function () {
+                            var that = this;
+                            this.title('正在提交..');
+                            $.post("/api/ApiTerminalEquipment/UpdateOrgEnterprise/" + OrgEnterpriseId + "/" + ids + "", function (result) {
+                                that.close().remove();
+                                $("#grps").trigger("reloadGrid");
+                            });
+                            return false;
+                        },
+                        cancelValue: '取消',
+                        cancel: function () { }
+                    });
+                    d.show();
+                }
+
+            });
             //The url we will send our get request to
             var attendeeUrl = '@Url.Action("GetOrgEnterprises", "OrgEnterprise")';
             var pageSize = 20;
 
-            $('#attendee').select2(
+            $('#OrgEnterpriseId').select2(
             {
                 placeholder: 'Enter name',
                 //Does the user have to enter any data before sending the ajax request
@@ -167,13 +214,14 @@
                     datatype: "json",
                     mtype: "get",
                     colNames:
-                        ['Id', '终端编号', '终端类型', '协议名称', 'SIM', '创建时间', '更新时间'],
+                        ['Id', '终端编号', '终端类型', '所属企业', '协议名称', 'SIM', '创建时间', '更新时间'],
                     colModel: [
                         { name: 'TerminalEquipmentId', key: true, index: 'TerminalEquipmentId', editable: true, editoptions: { readonly: true }, width: 55, hidden: true },
                         { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: true, width: 90 },
                         { name: 'TerminalEquipmentType', index: 'EquipmentName', editable: true, width: 100, edittype: "select", formatter: 'select', editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" } },
-                        { name: 'PmFInterpreterId', index: 'PmFInterpreterId', editable: true, width: 100, edittype: "select", editoptions: { dataUrl: '/ProtocolManage/GetAllList' } },
-                        { name: 'TerminalSimCardId', index: 'TerminalSimCardId', editable: true, width: 100, edittype: "select", editoptions: { dataUrl: '/api/ApiTerminalSimCard/123' } },
+                        { name: 'OrgEnterpriseId', index: 'OrgEnterpriseId', editable: true, width: 100, edittype: "select", editoptions: { dataUrl: '/api/ApiOrgEnterprise/GetAll' }, stype: "select", searchoptions: { dataUrl: '/api/ApiOrgEnterprise/GetAll' } },
+                        { name: 'PmFInterpreterId', index: 'PmFInterpreterId', editable: true, width: 100, edittype: "select", editoptions: { dataUrl: '/ProtocolManage/GetAllList' }, stype: "select", searchoptions: { dataUrl: '/ProtocolManage/GetAllList' } },
+                        { name: 'TerminalSimCardId', index: 'TerminalSimCardId', editable: true, width: 100, edittype: "select", editoptions: { dataUrl: '/api/ApiTerminalSimCard/123' }, stype: "select", searchoptions: { dataUrl: '/api/ApiTerminalSimCard/123' } },
                         { name: 'TerminalEquipmentCreateTime', index: 'EquipmentCreatTime', sorttype: 'date', editable: true, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, width: 80, align: "right", editoptions: { readonly: true, defaultValue: CurentTime() } },
                         { name: 'TerminalEquipmentUpdateTime', index: 'EquipmentUpDateTime', sorttype: 'date', editable: false, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, editoptions: { readonly: true }, editrules: { date: true }, width: 80, align: "right" }
                     ],
@@ -202,16 +250,25 @@
                 {
                     editCaption: "编辑",
                     top: "5",
-                    left: "310",
+                    left: "5",
                     jqModal: false,
                     reloadAfterSubmit: true,
                     afterShowForm: function (form) {
-
                         $("#PmFInterpreterId").select2();
 
                     }
                 },
-                {},
+                {
+                    editCaption: "添加",
+                    top: "5",
+                    left: "5",
+                    jqModal: false,
+                    reloadAfterSubmit: true,
+                    afterShowForm: function (form) {
+                        $("#PmFInterpreterId").select2();
+
+                    }
+                },
                 {},
                 { multipleSearch: true, multipleGroup: true });
             //test responsiveness

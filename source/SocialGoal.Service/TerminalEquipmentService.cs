@@ -19,6 +19,8 @@ namespace SocialGoal.Service
         Task UpdateAsync(TerminalEquipment terminalEquipment);
 
         Task<bool> DeleteAsync(string p);
+
+        void UpdateTerminalEquipmentOrgEnterpriseId(string OrgEnterpriseId, string TerminalEquipmentIds);
     }
     public class TerminalEquipmentService : ITerminalEquipmentService
     {
@@ -62,6 +64,12 @@ namespace SocialGoal.Service
             _terminalEquipmentRepository.Delete(orgEnterprise);           
             Save();
             return Task.FromResult(true);
+        }
+
+
+        public void UpdateTerminalEquipmentOrgEnterpriseId(string OrgEnterpriseId, string TerminalEquipmentIds)
+        {
+            _terminalEquipmentRepository.UpdateTerminalEquipmentOrgEnterpriseId(OrgEnterpriseId, TerminalEquipmentIds);            
         }
     }
 }

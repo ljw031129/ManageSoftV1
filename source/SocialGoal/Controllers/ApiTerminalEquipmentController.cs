@@ -36,6 +36,7 @@ namespace SocialGoal.Controllers
                             TerminalEquipmentId = item.TerminalEquipmentId,
                             TerminalEquipmentNum = item.TerminalEquipmentNum,
                             TerminalEquipmentType = item.TerminalEquipmentType,
+                            OrgEnterpriseId = !string.IsNullOrWhiteSpace(item.OrgEnterprise.ToString()) ? item.OrgEnterprise.OrgEnterpriseName : "",
                             PmFInterpreterId = item.PmFInterpreter.ProtocolName,
                             TerminalSimCardId = item.TerminalSimCard.TerminalSimCardNum,
                             TerminalEquipmentCreateTime = item.TerminalEquipmentCreateTime,
@@ -43,6 +44,14 @@ namespace SocialGoal.Controllers
                         }).ToArray()
             };
             return result;
+        
+        }
+        [HttpPost]
+        [Route("api/ApiTerminalEquipment/UpdateOrgEnterprise/{OrgEnterpriseId}/{TerminalEquipmentIds}")]
+        public string UpdateTerminalEquipmentOrgEnterprise(string OrgEnterpriseId, string TerminalEquipmentIds) {
+
+            _terminalEquipmentService.UpdateTerminalEquipmentOrgEnterpriseId(OrgEnterpriseId, TerminalEquipmentIds);
+            return "";
         }
         // POST api/<controller>
         [HttpPost]
