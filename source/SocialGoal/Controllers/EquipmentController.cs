@@ -32,9 +32,7 @@ namespace SocialGoal.Controllers
 
         public ViewResult Index()
         {
-            var allEquipments = _equipmentService.GetEquipments();
-            ViewBag.JsonData = JsonConvert.SerializeObject(allEquipments);
-            return View(allEquipments);
+            return View();
         }
 
 

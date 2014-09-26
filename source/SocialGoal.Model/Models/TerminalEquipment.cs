@@ -26,6 +26,8 @@ namespace SocialGoal.Model.Models
 
         public virtual ICollection<OrgStructure> OrgStructures { get; set; }
 
+        public string EquipmentId { get; set; }      
+
         public DateTime TerminalEquipmentCreateTime { get; set; }
         public DateTime TerminalEquipmentUpdateTime { get; set; }
     }

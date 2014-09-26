@@ -20,6 +20,7 @@ using SocialGoal.Web.Core.Models;
 using SocialGoal.Web.ViewModels;
 using xFilter.Expressions;
 using Newtonsoft.Json.Linq;
+using SocialGoal.Core.xFilter.Expressions;
 
 namespace SocialGoal.Controllers
 {
@@ -30,46 +31,28 @@ namespace SocialGoal.Controllers
         {
             this._equipmentService = equipmentService;
         }
-        // GET api/<controller>
-        public IEnumerable<Equipment> Get()
+        public async Task<Object> Get([FromUri]JqGridSetting jqGridSetting)
         {
-            var allEquipments = _equipmentService.GetEquipments();
-            if (allEquipments == null)
+            int count = 0;
+            IEnumerable<Equipment> equipments = await _equipmentService.GetEquipmentsJqGrid(jqGridSetting, out count);
+            var data = Mapper.Map<IEnumerable<Equipment>, IEnumerable<EquipmentViewModel>>(equipments).ToArray();
+            var result = new
             {
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
-            }
-            return allEquipments;
-        }
+                total = (int)Math.Ceiling((double)count / jqGridSetting.rows),
+                page = jqGridSetting.page,
+                records = count,
+                rows = (from item in data.ToList()
+                        select new
+                        {
+                            EquipmentId = item.EquipmentId,
+                            EquipmentNum = item.EquipmentNum,
+                            EquipmentName = item.EquipmentName,
+                            EquipmentCreatTime = item.EquipmentCreatTime,
+                            EquipmentUpDateTime = item.EquipmentUpDateTime
+                        }).ToArray()
+            };
 
-        public async Task<Object> Get(string gridSettings)
-        {
-
-            //{"IsSearch":true,"PageSize":2,"PageIndex":1,"SortColumn":"EquipmentUpDateTime","SortOrder":"ASC","Where":""}
-            //可后台自动添加查询条件
-            //xFilter.Expressions.Group g = new xFilter.Expressions.Group() { Operator = GroupOperator.And };
-            //g.Rules.Add(new Rule() { Field = "Continent.Name", Operator = RuleOperator.Equals, Data = "E" });
-
-            // Get a paged list of groups
-            IPagedList<Equipment> equipments = await _equipmentService.GetEquipmentsAsync(gridSettings);
-
-            // map it to a paged list of models.
-            var equipmentsViewModel = Mapper.Map<IPagedList<Equipment>, IPagedList<EquipmentViewModel>>(equipments);
-
-            if (equipmentsViewModel.Count == 0)
-            {
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
-            }
-
-            PagedListData pagedListMetaData = Mapper.Map<IPagedList, PagedListData>(equipmentsViewModel.GetMetaData());
-            //处理分页对象
-            List<PageNum> pageNumsList = new List<PageNum>();
-            for (int i = 1; i <= pagedListMetaData.PageCount; i++)
-            {
-                var pageNum = new PageNum { PageCount = i };
-                pageNumsList.Add(pageNum);
-
-            }
-            return new { pageModel = equipmentsViewModel, pager = pagedListMetaData, pageNums = pageNumsList };
+            return result;
         }
 
 
@@ -86,13 +69,13 @@ namespace SocialGoal.Controllers
                     case "add":
                         equipment.EquipmentId = Guid.NewGuid().ToString();
                         equipment.EquipmentUpDateTime = DateTime.Now;
-                        equipment.EquipmentCreatTime = DateTime.Now;                       
+                        equipment.EquipmentCreatTime = DateTime.Now;
                         var errors = _equipmentService.CanAddEquipment(equipment).ToList();
                         await _equipmentService.CreateEquipmentAsync(equipment, "");
                         return Ok();
 
                     case "edit":
-                        equipment.EquipmentUpDateTime = DateTime.Now;                       
+                        equipment.EquipmentUpDateTime = DateTime.Now;
                         await _equipmentService.UpdateEquipmentAsync(equipment);
                         return Ok();
 
@@ -105,7 +88,7 @@ namespace SocialGoal.Controllers
                         break;
 
                 }
-               
+
             }
             // ModelState.AddModelErrors(errors);
             return BadRequest(ModelState);

@@ -18,8 +18,8 @@ namespace SocialGoal.ViewModels
        // public virtual PmFInterpreter PmFInterpreter { get; set; }
         //绑定卡号
         public string TerminalSimCardId { get; set; }
-       // public virtual TerminalSimCard TerminalSimCard { get; set; }
-
+        // public virtual TerminalSimCard TerminalSimCard { get; set; }
+        public string OrgEnterpriseId { get; set; }
         public DateTime TerminalEquipmentCreateTime { get; set; }
         public DateTime TerminalEquipmentUpdateTime { get; set; }
 

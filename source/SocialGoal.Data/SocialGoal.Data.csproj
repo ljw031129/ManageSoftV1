@@ -201,6 +201,14 @@
     <Compile Include="Migrations\201409240130447_deletetVsO.Designer.cs">
       <DependentUpon>201409240130447_deletetVsO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201409260910401_addTlist.cs" />
+    <Compile Include="Migrations\201409260910401_addTlist.Designer.cs">
+      <DependentUpon>201409260910401_addTlist.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201409260915179_addTlist1.cs" />
+    <Compile Include="Migrations\201409260915179_addTlist1.Designer.cs">
+      <DependentUpon>201409260915179_addTlist1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CommentRepository.cs" />
@@ -326,6 +334,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201409240130447_deletetVsO.resx">
       <DependentUpon>201409240130447_deletetVsO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409260910401_addTlist.resx">
+      <DependentUpon>201409260910401_addTlist.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409260915179_addTlist1.resx">
+      <DependentUpon>201409260915179_addTlist1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

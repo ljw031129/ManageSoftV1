@@ -1,434 +1,285 @@
-@model IEnumerable<SocialGoal.Model.Models.Equipment>
-
 @{
-    Layout = "~/Views/Shared/_LayoutAngular.cshtml";
+    ViewBag.Title = "设备管理";
+    Layout = "~/Views/Shared/_LayoutFlattyMain.cshtml";
 }
+
 @section styles{
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/dataTables.bootstrap.css" rel="stylesheet" />
-    <link href="~/Content/angular-xeditable/css/xeditable.css" rel="stylesheet" />
-    <link href="~/Content/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
-    <link href="~/Content/ng-grid.css" rel="stylesheet" />
-    <style type="text/css">
-        .gridStyle {
-            border: 1px solid rgb(212,212,212);
-            height: 300px;
-        }
 
-        .green {
-            background-color: green;
-            color: white;
-        }
-    </style>
-
+    <link href="~/Content/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
+    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+    <link href="~/Content/jquery.jqGrid/jqGrid.overrides.css" rel="stylesheet" />
+    <link href="~/Scripts/plugins/select2-3.5.1/select2.css" rel="stylesheet" />
+    <link href="~/Scripts/plugins/select2-3.5.1/select2-bootstrap.css" rel="stylesheet" />
+    <link href="~/Scripts/plugins/artDialog/css/ui-dialog.css" rel="stylesheet" />
 }
-
-<div class="container" ng-app="app" ng-controller="Ctrl">
-    <div class="gridStyle" ng-grid="gridOptions"></div>
-    <button ng-click="selectEnosRow()">Select Enos Row</button>
-    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
-    <button class='btn btn-default' ng-click="addAlert()">Add Alert</button>
-
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="panel panel-default" style="margin-top:20px;">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <div class="DTTT btn-group">
-                                <button class="btn btn-default" type="submit" ng-click="addEquipment()"><span class="glyphicon glyphicon-plus"></span> 添加</button>
-                                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span> 搜索</button>
-
-                            </div>
-                        </div>
-                        <div class="col-xs-8">
-
-                        </div>
+<div class='row' id='content-wrapper'>
+    <div class='col-xs-12'>
+        <div class='row'>
+            <div class='col-sm-12'>
+                <div class='page-header'>
+                    <h1 class='pull-left'>
+                        <i class='icon-user'></i>
+                        <span>设备管理</span>
+                    </h1>
+                    <div class='pull-right'>
+                        <ul class='breadcrumb'>
+                            <li>
+                                <a href='index.html'>
+                                    <i class='icon-bar-chart'></i>
+                                </a>
+                            </li>
+                            <li class='separator'>
+                                <i class='icon-angle-right'></i>
+                            </li>
+                            <li>Example pages</li>
+                            <li class='separator'>
+                                <i class='icon-angle-right'></i>
+                            </li>
+                            <li class='active'>User profile</li>
+                        </ul>
                     </div>
                 </div>
-                <div class="panel-body table-responsive" style="padding:0px;">
-                    <div class="dataTables_wrapper form-inline">
 
-                        <table class="table table-striped table-bordered  dataTable DTTT_selectable">
-                            <thead>
-                                <tr>
-                                    <th ng-repeat="colModel in colModels" class="{{colModel.sort}} icon-filter editable editable-click editable-empty" @*ng-click="sortClick(colModel.name,colModel.sort)"*@><a href="#" id="{{colModel.name}}" data-type="text" data-pk="1" ng-class="{true: 'glyphicon glyphicon-glass', false: ''}[colModel.filter]"></a> {{colModel.lable}} </th>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs nav-tabs-simple">
+                        <li class="active">
+                            <a href="#tabsimple1" class="green-border">
+                                <i class="icon-indent-left"></i>
+                                Section 1
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#tabsimple2">
+                                <i class="icon-edit text-red"></i>
+                                Section 2
+                            </a>
+                        </li>
+                    </ul>
+                </div>
 
-                                    @*<th class="sorting_desc">
-                                            EquipmentName
-                                        </th>
-                                        <th class="sorting">
-                                            录入时间
-                                        </th>
-                                        <th class="sorting_asc_disabled">
-                                            更新时间
-                                        </th>*@
+            </div>
+        </div>
+        <div class="row">
+            <div style="margin-bottom: 0" class="col-sm-12 box">
+                <div class="box-header red-background">
+                    <div class="title">设备管理</div>
+                    <div class="actions">
+                        <a href="#" class="btn box-remove btn-xs btn-link">
+                            <i class="icon-remove"></i>
+                        </a>
 
-                                    <th style="width:60px;">操作</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="equipment in Equipments" ng-click="tableRowClick(equipment.EquipmentId)" ng-class="{true: 'active', false: ''}[currentRowId==equipment.EquipmentId]">
-                                    <td ng-show="$visible">
-                                        <!-- editable username (text with validation) -->
-                                        <span editable-text="equipment.EquipmentId" e-name="EquipmentId" e-form="rowform">
-                                            {{ equipment.EquipmentId || 'empty' }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <!-- editable status (select-local) -->
-                                        <span editable-text="equipment.EquipmentNum" e-name="EquipmentNum" e-form="rowform" onbeforesave="checkEquipmentNum($data, equipment.EquipmentId)" e-required>
-                                            {{ equipment.EquipmentNum || 'empty' }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <!-- editable group (select-remote) -->
-                                        <span editable-text="equipment.EquipmentName" e-name="EquipmentName" e-form="rowform">
-                                            {{ equipment.EquipmentName || 'empty' }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <!-- editable group (select-remote) -->
-                                        <span editable-text="equipment.EquipmentCreatTime" e-name="EquipmentCreatTime" e-form="rowform">
-                                            {{ equipment.EquipmentCreatTime || 'empty' }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <!-- editable group (select-remote) -->
-                                        <span editable-text="equipment.EquipmentCreatTime" e-name="EquipmentUpDateTime" e-form="rowform">
-                                            {{ equipment.EquipmentUpDateTime || 'empty' }}
-                                        </span>
-                                    </td>
-                                    <td style="white-space: nowrap">
-                                        <!-- form -->
-                                        <form editable-form name="rowform" onbeforesave="saveEquipment($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline btn-group" shown="inserted == equipment">
-                                            <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
-                                                <span class="glyphicon glyphicon-ok"></span>
-                                            </button>
-                                            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
-                                                <span class="glyphicon  glyphicon-remove"></span>
-                                            </button>
-                                        </form>
-                                        <div class=" btn-group center" ng-show="!rowform.$visible">
-                                            <button ng-click="rowform.$show()" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-pencil"></span> </button>
-                                            <button ng-click="removeEquipment($index)" class="btn btn-default" type="submit"><span class="glyphicon  glyphicon-trash"></span> </button>
-
-
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="row">
-                            <div class="col-xs-2 dataTables_info ng-binding">
-
-                                每页显示 <select ng-model="currentSize" ng-options="pageSize.size for pageSize in pageSizes" ng-change="pageSizeChange()"></select>条记录；
-
-                            </div>
-                            <div class="col-xs-4">
-                                <div class="dataTables_info" id="example_info" role="status" aria-live="polite">显示第 {{Paper.FirstItemOnPage}} 至 {{Paper.LastItemOnPage}}条记录，共 {{Paper.TotalItemCount}} 条记录</div>
-                            </div>
-                            <div class="col-xs-6">
-                                <div class="dataTables_paginate paging_simple_numbers">
-                                    <ul class="pagination">
-                                        @*<li ng-class="{true: 'disabled', false: ''}[Paper.IsFirstPage]" ng-click="UpdateEquipments(1)"><a href="#">&laquo;</a></li>*@
-                                        <li ng-class="{true: 'paginate_button previous', false: 'paginate_button previous disabled'}[Paper.HasPreviousPage]" ng-click="UpdateEquipments(Paper.PageNumber-1)"><a href="#">上一页</a></li>
-                                        <li ng-repeat="pageNum in pageNums" ng-class="{true: 'paginate_button active', false: 'paginate_button'}[pageNum.PageCount==Paper.PageNumber]"><a href="#" ng-click="UpdateEquipments(pageNum.PageCount)">{{pageNum.PageCount}}</a></li>
-                                        <li ng-class="{true: 'paginate_button next', false: 'paginate_button next disabled'}[Paper.HasNextPage]" ng-click="UpdateEquipments(Paper.PageNumber+1)"><a href="#">下一页</a></li>
-                                        @*<li ng-class="{true: 'disabled', false: ''}[Paper.IsLastPage]" ng-click="UpdateEquipments(Paper.PageCount)"><a href="#">&raquo;</a></li>*@
-                                    </ul>
+                        <a href="#" class="btn box-collapse btn-xs btn-link">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-content">
+                    <div class="box-toolbox box-toolbox-top">
+                        <div class="pull-left col-sm-6">
+                            <div class="row">
+                                <div class="input-group  col-sm-6">
+                                    <span class="input-group-addon">企业</span>
+                                    <input type="text" placeholder="搜索企业" id="OrgEnterpriseId" class="form-control">
+                                </div>
+                                <div class="col-sm-6">
+                                    <button type="submit" class="btn btn-primary" id="SetOrgEnterprise">
+                                        <i class="icon-save"></i>
+                                        分配
+                                    </button>
                                 </div>
                             </div>
                         </div>
-
-
+                        <div class="pull-right">
+                            <a class="btn btn-white">
+                                <i class="icon-eye-open"></i>
+                            </a>
+                        </div>
                     </div>
+                    <table id="grps"></table> <div id="pgrps"></div>
 
-                    <div id="fil"></div>
-                    <div id="message"></div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
 @section scripts{
-    <script src="~/Scripts/jquery-2.1.1.js"></script>
-    <script src="~/Scripts/bootstrap.js"></script>
-    <script src="~/Scripts/angular.js"></script>
-    <script src="~/Scripts/ng-grid.js"></script>
-    <script src="~/Content/angular-xeditable/js/xeditable.js"></script>
-    <script src="~/Scripts/xFilter.js"></script>
-    <script src="~/Content/bootstrap3-editable/js/bootstrap-editable.js"></script>
-    <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
+
+    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
+    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
+    <script src="~/Scripts/plugins/select2-3.5.1/select2.js"></script>
+    <script src="~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"></script>
+    <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
     <script type="text/javascript">
-        //加载Anjular模型
-        var app = angular.module("app", ["xeditable", "ui.bootstrap", 'ngGrid']);
-        app.run(function (editableOptions) {
-            editableOptions.theme = 'bs3';
-        });
-        app.controller('Ctrl', function ($scope, $filter, $http) {
+        var d, OrgEnterpriseId, ids;
+        $(document).ready(function () {
+            // $("#OrgEnterpriseId").val("");
+            $("#SetOrgEnterprise").click(function () {
+                OrgEnterpriseId = $('#OrgEnterpriseId').val();
+                ids = $("#grps").jqGrid("getGridParam", "selarrrow");
 
-            $scope.test = function (rowItem, event) {
-                debugger;
-                $scope.gridOptions.selectItem[0];
-                //angular.forEach($scope.myData, function(data, index){
-                //    if(data.name == 'Enos'){
-                //        $scope.gridOptions.selectItem(index, true);
-                //    }
-                //});
-            }
-                //表格传输数据，依据此字符串获取服务器数据
-                $scope.gridSettings = { IsSearch: true, PageSize: 2, PageIndex: 1, SortColumn: 'EquipmentUpDateTime', SortOrder: 'asc', Where: '' };
-                //定义排序参数
-                $scope.sortOptions = {
-                    fields: ["EquipmentUpDateTime"],
-                    directions: ["ASC"]
-                };
-                //使用NGGrid
-                $scope.filterOptions = {
-                    filterText: "",
-                    useExternalFilter: true
-                };
-                $scope.totalServerItems = 0;
-                $scope.pagingOptions = {
-                    pageSizes: [2, 4, 10],
-                    pageSize: 2,
-                    currentPage: 1
-                };
-                $scope.getPagedDataAsync = function () {
-                    setTimeout(function () {
-                        $http.get('/api/ApiEquipment',
-                            {
-                                params: {
-                                    gridSettings: $scope.gridSettings
-                                }
-                            }
-                       ).success(function (data) {
-                           $scope.myData = data.pageModel;
-                           $scope.totalServerItems = data.pager.TotalItemCount;
-                           if (!$scope.$$phase) {
-                               $scope.$apply();
-                           }
-                       });
+                if (OrgEnterpriseId == "") {
+                    var d = dialog({
+                        title: '提示',
+                        content: '请选择企业！'
+                    });
+                    d.show();
+                    return;
+                } else if (ids == "") {
+                    d = dialog({
+                        title: '提示',
+                        content: '请选择要分配的设备！',
+                        ok: function () { }
+                    });
+                    d.show();
+                    return;
+                } else {
+                    d = dialog({
+                        title: '提示',
+                        content: '确定要分配当前设备吗？',
+                        ok: function () {
+                            var that = this;
+                            this.title('正在提交..');
+                            $.post("/api/ApiTerminalEquipment/UpdateOrgEnterprise/" + OrgEnterpriseId + "/" + ids + "", function (result) {
+                                that.close().remove();
+                                $("#grps").trigger("reloadGrid");
+                            });
+                            return false;
+                        },
+                        cancelValue: '取消',
+                        cancel: function () { }
+                    });
+                    d.show();
+                }
 
-                    }, 100);
-                };
-                //第一次加载数据
-                $scope.getPagedDataAsync();
-
-                //监测点击分页和过滤事件，触发getPageDataAsync()函数
-                $scope.$watch('pagingOptions', function (newVal, oldVal) {
-                    if (newVal !== oldVal) {
-                        $scope.gridSettings.SortColumn = $scope.sortOptions.fields[0];
-                        $scope.gridSettings.SortOrder = $scope.sortOptions.directions[0];
-                        $scope.gridSettings.PageIndex = $scope.pagingOptions.currentPage;
-                        $scope.gridSettings.PageSize = $scope.pagingOptions.pageSize;
-                        $scope.getPagedDataAsync();
-                    }
-                }, true);
-                $scope.$watch('filterOptions', function (newVal, oldVal) {
-                    if (newVal !== oldVal) {
-                        $scope.getPagedDataAsync();
-                    }
-                }, true);
-                $scope.$watch('sortOptions', function (newVal, oldVal) {
-                    if (newVal !== oldVal) {
-                        $scope.gridSettings.SortColumn = $scope.sortOptions.fields[0];
-                        $scope.gridSettings.SortOrder = $scope.sortOptions.directions[0];
-                        $scope.gridSettings.PageIndex = $scope.pagingOptions.currentPage;
-                        $scope.gridSettings.PageSize = $scope.pagingOptions.pageSize;
-
-                        $scope.getPagedDataAsync();
-                    }
-                }, true);
-                //分页数据的配置信息
-                $scope.gridOptions = {
-                    data: 'myData',
-                    columnDefs: [
-                   { field: 'EquipmentId', displayName: 'EquipmentId' },
-                   { field: 'EquipmentNum', displayName: 'EquipmentNum' },
-                   { field: 'EquipmentName', displayName: 'EquipmentName' },
-                   { field: 'EquipmentCreatTime', displayName: 'EquipmentCreatTime' },
-                   { field: 'EquipmentUpDateTime', displayName: 'EquipmentUpDateTime' },
-                    ],
-                    enablePaging: true,//是否显示分页信息
-                    showFooter: true,//是否显示底部信息
-                    totalServerItems: 'totalServerItems',//服务端总记录数
-                    pagingOptions: $scope.pagingOptions,
-                    filterOptions: $scope.filterOptions,
-                    sortInfo: $scope.sortOptions,//排序设置项
-                    useExternalSorting: true,//自定义排序
-                    i18n: "zh-cn",
-                    multiSelect: false, //行单选,
-                    //beforeSelectionChange: function () {
-                    //    return true;
-                    //},
-                    //afterSelectionChange: function (rowItem) {
-                        
-                    //   alert(rowItem.entity.EquipmentId);
-                    //},
-                    selectRow: function (rowItem) {
-                        debugger;
-                    }
-
-                };
-
-
-                //结束位置
-
-                //         $scope.alerts = [
-                //{ type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
-                //{ type: 'success', msg: 'Well done! You successfully read this important alert message.' }
-                //         ];
-
-                //         $scope.addAlert = function () {
-                //             $scope.alerts.push({ msg: 'Another alert!' });
-                //         };
-
-                //         $scope.closeAlert = function (index) {
-                //             $scope.alerts.splice(index, 1);
-                //         };
-
-                //         //提供搜索字段
-                //         $scope.colModels = [
-                //             { "name": "EquipmentNum", "lable": "设备编号", "sort": "sorting", "filter": true },
-                //             { "name": "EquipmentName", "lable": "设备名称 ", "sort": "sorting", "filter": true },
-                //             { "name": "EquipmentCreatTime", "lable": "录入时间", "sort": "sorting", "filter": false },
-                //             { "name": "EquipmentUpDateTime", "lable": "更新时间 ", "sort": "sorting", "filter": false }
-
-                //         ];
-                //         $scope.filter = {
-                //             "groupOp": "and",
-                //             "groups": [],
-                //             "rules": [
-                //               { "field": "name", "op": "eq", "data": "Romania" },
-                //               { "field": "id", "op": "le", "data": "1" }
-                //             ]
-                //         };
-                //         //表格数据设置项
-                //         $scope.gridSettings = { IsSearch: true, PageSize: 10, PageIndex: 1, SortColumn: 'EquipmentUpDateTime', SortOrder: 'asc', Where: '' };
-                //         //定义分页数据
-                //         $scope.pageSizes = [{ size: 2 }, { size: 5 }, { size: 10 }, { size: 20 }, { size: 50 }];
-                //         //分页默认选中项,分页大小
-                //         $scope.currentSize = $scope.pageSizes[2];
-                //         //当前选中行
-                //         $scope.currentRowId = '0';
-                //         //table行点击事件
-                //         $scope.tableRowClick = function (rowId) {
-                //             $scope.currentRowId = rowId;
-                //         };
-                //         //加载数据
-                //         getDate();
-                //         //排序事件
-                //         $scope.sortClick = function (sortColumn, sortOrder) {
-                //             var sortOrderBy = "";
-                //             switch (sortOrder) {
-                //                 case "sorting":
-                //                     sortOrderBy = "sorting_asc";
-                //                     break;
-                //                 case "sorting_asc":
-                //                     sortOrderBy = "sorting_desc";
-                //                     break;
-                //                 case "sorting_desc":
-                //                     sortOrderBy = "sorting";
-                //                     break;
-
-                //             }
-                //             for (var i = 0; i < $scope.colModels.length; i++) {
-                //                 if ($scope.colModels[i].name == sortColumn) {
-                //                     $scope.colModels[i].sort = sortOrderBy;
-                //                 } else {
-                //                     $scope.colModels[i].sort = "sorting";
-                //                 }
-                //             }
-                //             $scope.gridSettings.SortColumn = sortColumn;
-                //             $scope.gridSettings.SortOrder = sortOrderBy;
-                //             getDate();
-                //         }
-                //         //分页数改变事件
-                //         $scope.pageSizeChange = function () {
-                //             $scope.gridSettings.PageSize = $scope.currentSize.size;
-                //             $scope.gridSettings.PageIndex = 1;
-                //             getDate();
-                //         }
-                //         //对输入内容进行检测
-                //         $scope.checkEquipmentNum = function (data, id) {
-
-                //             if (data == "454545") {
-                //                 return "设备编号不能为空！";
-                //             }
-                //             return true;
-                //         };
-                //         //提交保存数据
-                //         $scope.saveEquipment = function (data, id) {
-
-                //             return $http.post("/api/ApiEquipment", data).success(function (revData) {
-                //                 angular.extend(data, { id: id });
-                //             }).error(function (revData) {
-                //                 alert(revData.Message);
-                //             });
-                //         };
-
-                //         // 移除设备信息
-                //         $scope.removeEquipment = function (index) {
-                //             $http.delete("/api/ApiEquipment", { params: { equipmentId: $scope.Equipments[index].EquipmentId } }).success(function (data, status) {
-                //                 alert("删除成功");
-                //             }).error(function (data) {
-                //                 alert(data.ModelState.error);
-                //             });
-
-                //             $scope.Equipments.splice(index, 1);
-                //         };
-
-                //         // 添加设备信息
-                //         $scope.addEquipment = function () {
-                //             $scope.inserted = {
-                //                 id: $scope.Equipments.length + 1,
-                //                 EquipmentId: '',
-                //                 EquipmentNum: '',
-                //                 EquipmentName: ''
-                //             };
-                //             $scope.Equipments.push($scope.inserted);
-
-                //         };
-                //         //更新分页数据
-                //         $scope.UpdateEquipments = function (pageNums) {
-                //             $scope.gridSettings.PageIndex = pageNums;
-                //             //重新加载数据
-                //             getDate();
-                //         };
-                //         //获取数据
-                //         function getDate() {
-                //             $http.get('/api/ApiEquipment',
-                //                 {
-                //                     params: {
-                //                         gridSettings: $scope.gridSettings
-                //                     }
-                //                 }
-                //                 ).success(function (data) {
-                //                     $scope.Equipments = data.pageModel;
-                //                     $scope.Paper = data.pager;
-                //                     $scope.pageNums = data.pageNums;
-                //                 });
-
-                //         }
-                //         var f = new xFilter(document.getElementById("fil"),
-                //    {
-                //        /*filter: filt,*/
-                //        columns: $scope.colModels,
-                //        onchange: function () {
-                //            document.getElementById("message").innerHTML =
-                //                    this.toString();
-
-                //            $scope.gridSettings.Where = this.filter;
-                //            var fi = f.Apply(items);
-                //            var it = "";
-                //            for (var i = 0; i < fi.length; i++) {
-                //                it += "," + fi[i].name;
-                //            }
-                //        }
-                //    });
             });
+            //The url we will send our get request to
+            var attendeeUrl = '@Url.Action("GetOrgEnterprises", "OrgEnterprise")';
+            var pageSize = 20;
+
+            $('#OrgEnterpriseId').select2(
+            {
+                placeholder: 'Enter name',
+                //Does the user have to enter any data before sending the ajax request
+                minimumInputLength: 0,
+                allowClear: true,
+                ajax: {
+                    //How long the user has to pause their typing before sending the next request
+                    quietMillis: 150,
+                    //The url of the json service
+                    url: attendeeUrl,
+                    dataType: 'jsonp',
+                    //Our search term and what page we are on
+                    data: function (term, page) {
+                        return {
+                            pageSize: pageSize,
+                            pageNum: page,
+                            searchTerm: term
+                        };
+                    },
+                    results: function (data, page) {
+                        //Used to determine whether or not there are more results available,
+                        //and if requests for more data should be sent in the infinite scrolling
+                        var more = (page * pageSize) < data.Total;
+                        return { results: data.Results, more: more };
+                    }
+                }
+            });            
+            jQuery("#grps").jqGrid(
+                {
+                    url: '/api/ApiEquipment',
+                    datatype: "json",
+                    mtype: "get",
+                    colNames:
+                        ['Id', '终端编号', '终端名称', '创建时间', '更新时间'],
+                    colModel: [
+                        { name: 'EquipmentId', key: true, index: 'EquipmentId', editable: true, editoptions: { readonly: true }, width: 55, hidden: true },
+                        { name: 'EquipmentNum', index: 'EquipmentNum', editable: true, width: 90 },
+                        { name: 'EquipmentName', index: 'EquipmentName', editable: true, width: 100 },
+                        { name: 'EquipmentCreatTime', index: 'EquipmentCreatTime', sorttype: 'date', editable: true, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, width: 80, align: "right", editoptions: { readonly: true, defaultValue: CurentTime() } },
+                        { name: 'EquipmentUpDateTime', index: 'EquipmentUpDateTime', sorttype: 'date', editable: false, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, editoptions: { readonly: true }, editrules: { date: true }, width: 80, align: "right" }
+                    ],
+                    multiselect: true,
+                    rowNum: 10,
+                    width: 700,
+                    rowList: [10, 20, 30],
+                    pager: '#pgrps',
+                    sortname: 'EquipmentUpDateTime',
+                    viewrecords: true,//定义是否要显示总记录数
+                    sortorder: "desc",
+                    jsonReader: {
+                        root: "rows",
+                        page: "page",
+                        total: "total",
+                        records: "records",
+                        repeatitems: false,
+                        userdata: "userdata"
+                    },
+                    // caption: "终端信息表",
+                    height: '100%',
+                    editurl: '/api/ApiEquipment' // this is dummy existing url
+                });
+            jQuery("#grps").jqGrid('navGrid', '#pgrps',
+                { edit: true, add: true, del: true },
+                { },
+                { },
+                {},
+                { multipleSearch: true, multipleGroup: true });
+            //test responsiveness
+            $(window).on('resize', function (event, ui) {
+                // Get width of parent container
+                var parWidth = $("#gbox_grps").parent().width();
+                var curWidth = $("#gbox_grps").width();
+                //console.log("span width " + parWidth + " gridWidth " + gWidth);
+                var w = parWidth - 1; // Fudge factor to prevent horizontal scrollbars
+                if (Math.abs(w - curWidth) > 2) {
+                    //alert("resize to " + width);
+                    console.log("span width " + parWidth + " gridWidth " + curWidth);
+                    $("#grps").setGridWidth(w);
+                    console.log("new width " + w);
+                }
+
+            }).trigger('resize');
+            function CurentTime() {
+                var now = new Date();
+
+                var year = now.getFullYear();       //年
+                var month = now.getMonth() + 1;     //月
+                var day = now.getDate();            //日
+
+                var hh = now.getHours();            //时
+                var mm = now.getMinutes();          //分
+
+                var clock = year + "-";
+
+                if (month < 10)
+                    clock += "0";
+
+                clock += month + "-";
+
+                if (day < 10)
+                    clock += "0";
+
+                clock += day + " ";
+
+                if (hh < 10)
+                    clock += "0";
+
+                clock += hh + ":";
+                if (mm < 10) clock += '0';
+                clock += mm;
+                return (clock);
+            }
+        });
 
     </script>
 }
+
+
+
+
+

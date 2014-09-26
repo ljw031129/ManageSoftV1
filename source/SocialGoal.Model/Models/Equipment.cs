@@ -14,7 +14,7 @@ namespace SocialGoal.Model.Models
         public DateTime EquipmentCreatTime { get; set; }
         public DateTime EquipmentUpDateTime { get; set; }
       //  public virtual ICollection<Smart> Smarts { get; set; }
-
+        public virtual ICollection<TerminalEquipment> TerminalEquipments { get; set; }
         public Equipment()
         {
             EquipmentCreatTime = DateTime.Now;

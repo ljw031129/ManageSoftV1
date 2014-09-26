@@ -30,7 +30,7 @@ namespace SocialGoal.Controllers
                 total = (int)Math.Ceiling((double)count / jqGridSetting.rows),
                 page = jqGridSetting.page,
                 records = count,
-                rows = (from item in orgStructure.ToList()
+                rows = (from item in orgStructure.ToList()                        
                         select new
                         {
                             TerminalEquipmentId = item.TerminalEquipmentId,
