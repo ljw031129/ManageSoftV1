@@ -88,7 +88,11 @@
                                 <div class="col-sm-6">
                                     <button type="submit" class="btn btn-primary" id="SetOrgEnterprise">
                                         <i class="icon-save"></i>
-                                        分配
+                                        绑定终端
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" id="SetOrgEnterprise">
+                                        <i class="icon-save"></i>
+                                        更换终端
                                     </button>
                                 </div>
                             </div>
@@ -188,14 +192,14 @@
                         return { results: data.Results, more: more };
                     }
                 }
-            });            
+            });
             jQuery("#grps").jqGrid(
                 {
                     url: '/api/ApiEquipment',
                     datatype: "json",
                     mtype: "get",
                     colNames:
-                        ['Id', '终端编号', '终端名称', '创建时间', '更新时间'],
+                        ['Id', '设备ID', '发动机型号', '创建时间', '更新时间'],
                     colModel: [
                         { name: 'EquipmentId', key: true, index: 'EquipmentId', editable: true, editoptions: { readonly: true }, width: 55, hidden: true },
                         { name: 'EquipmentNum', index: 'EquipmentNum', editable: true, width: 90 },
@@ -203,7 +207,7 @@
                         { name: 'EquipmentCreatTime', index: 'EquipmentCreatTime', sorttype: 'date', editable: true, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, width: 80, align: "right", editoptions: { readonly: true, defaultValue: CurentTime() } },
                         { name: 'EquipmentUpDateTime', index: 'EquipmentUpDateTime', sorttype: 'date', editable: false, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, editoptions: { readonly: true }, editrules: { date: true }, width: 80, align: "right" }
                     ],
-                    multiselect: true,
+                    // multiselect: true,
                     rowNum: 10,
                     width: 700,
                     rowList: [10, 20, 30],
@@ -221,12 +225,50 @@
                     },
                     // caption: "终端信息表",
                     height: '100%',
-                    editurl: '/api/ApiEquipment' // this is dummy existing url
+                    editurl: '/api/ApiEquipment', // this is dummy existing url
+                    subGrid: true,
+                    subGridRowExpanded: function (subgrid_id, row_id) {  // (2)子表格容器的id和需要展开子表格的行id，将传入此事件函数
+                        var subgrid_table_id;
+                        subgrid_table_id = subgrid_id + "_t";   // (3)根据subgrid_id定义对应的子表格的table的id
+
+                        var subgrid_pager_id;
+                        subgrid_pager_id = subgrid_id + "_pgr"  // (4)根据subgrid_id定义对应的子表格的pager的id
+
+                        // (5)动态添加子报表的table和pager
+                        $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='" + subgrid_pager_id + "' class='scroll'></div>");
+
+                        // (6)创建jqGrid对象
+                        $("#" + subgrid_table_id).jqGrid({
+                            url: "api/ApiTerminalEquipment/GetSubGrid?subRowId=" + row_id,  // (7)子表格数据对应的url，注意传入的contact.id参数
+                            datatype: "json",
+                            colNames: ['Id', '终端编号', 'SIM卡号', '绑定时间'],
+                            colModel: [
+                                { name: "TerminalEquipmentId", index: "TerminalEquipmentId", width: 80, key: true, hidden: true },
+                                { name: "TerminalEquipmentNum", index: "TerminalEquipmentNum", width: 130 },
+                                { name: "TerminalSimCardId", index: "TerminalSimCardId", width: 80, align: "right" },
+                                { name: "TerminalEquipmentUpdateTime", index: "TerminalEquipmentUpdateTime", width: 80, align: "right" }
+                            ],
+                            jsonReader: {   // (8)针对子表格的jsonReader设置
+                                root: "rows",
+                                page: "page",
+                                total: "total",
+                                records: "records",
+                                repeatitems: false,
+                                userdata: "userdata"
+                            },
+                            //  prmNames: { search: "search" },
+                            //  pager: subgrid_pager_id,
+                            viewrecords: true,
+                            height: "100%",
+                            rowNum: 5,
+                            sortname: 'TerminalEquipmentUpdateTime',
+                        });
+                    }
                 });
             jQuery("#grps").jqGrid('navGrid', '#pgrps',
                 { edit: true, add: true, del: true },
-                { },
-                { },
+                {},
+                {},
                 {},
                 { multipleSearch: true, multipleGroup: true });
             //test responsiveness

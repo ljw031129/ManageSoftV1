@@ -18,6 +18,7 @@ namespace SocialGoal.Core.xFilter.Expressions
         public string searchField { get; set; }
         public string searchOper { get; set; }
         public string searchString { get; set; }
+        public string subRowId { get; set; }
         public Group Where { get; set; }
     }
 }

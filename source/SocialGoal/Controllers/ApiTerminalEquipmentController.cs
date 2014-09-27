@@ -46,6 +46,32 @@ namespace SocialGoal.Controllers
             return result;
         
         }
+        [Route("api/ApiTerminalEquipment/GetSubGrid")]
+        public async Task<Object> GetSubGrid([FromUri]JqGridSetting jqGridSetting)
+        {
+            int count = 0;
+            IEnumerable<TerminalEquipment> orgStructure = await _terminalEquipmentService.GetSubGridByEquipmentId(jqGridSetting, out count);
+            var result = new
+            {
+                total = (int)Math.Ceiling((double)count / jqGridSetting.rows),
+                page = jqGridSetting.page,
+                records = count,
+                rows = (from item in orgStructure.ToList()
+                        select new
+                        {
+                            TerminalEquipmentId = item.TerminalEquipmentId,
+                            TerminalEquipmentNum = item.TerminalEquipmentNum,
+                            TerminalEquipmentType = item.TerminalEquipmentType,
+                            OrgEnterpriseId = !string.IsNullOrWhiteSpace(item.OrgEnterprise.ToString()) ? item.OrgEnterprise.OrgEnterpriseName : "",
+                            PmFInterpreterId = item.PmFInterpreter.ProtocolName,
+                            TerminalSimCardId = item.TerminalSimCard.TerminalSimCardNum,
+                            TerminalEquipmentCreateTime = item.TerminalEquipmentCreateTime,
+                            TerminalEquipmentUpdateTime = item.TerminalEquipmentUpdateTime
+                        }).ToArray()
+            };
+            return result;
+
+        }
         [HttpPost]
         [Route("api/ApiTerminalEquipment/UpdateOrgEnterprise/{OrgEnterpriseId}/{TerminalEquipmentIds}")]
         public string UpdateTerminalEquipmentOrgEnterprise(string OrgEnterpriseId, string TerminalEquipmentIds) {
