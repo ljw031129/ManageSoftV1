@@ -29,6 +29,11 @@ namespace SocialGoal.Controllers
             ReceiveDataLast rdl = _receiveDataLastService.GetReceiveDataLastByTerminalNum(Id);
             return View(rdl);
         }
+        public ActionResult Map()
+        {
+           
+            return View();
+        }
         public JsonResult GetreceiveDataLast(string terminalNum)
         {
             List<TerminalDataViewModel> tdLs = _receiveDataLastService.GetTerminalDataByTerminalNum(terminalNum);

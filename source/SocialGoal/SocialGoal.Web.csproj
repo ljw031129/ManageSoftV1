@@ -2341,6 +2341,7 @@
     <Content Include="Views\OrgStructure\Index.cshtml" />
     <Content Include="Views\TerminalEquipment\Index.cshtml" />
     <Content Include="Views\Terminal\Index.cshtml" />
+    <Content Include="Views\Terminal\Map.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
