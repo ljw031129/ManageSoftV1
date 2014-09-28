@@ -259,6 +259,7 @@
     <Compile Include="Controllers\ApiEquipmentController.cs" />
     <Compile Include="Controllers\ApiOrgEnterpriseController.cs" />
     <Compile Include="Controllers\ApiOrgStructureController.cs" />
+    <Compile Include="Controllers\ApiTerminalController.cs" />
     <Compile Include="Controllers\ApiTerminalSimCardController.cs" />
     <Compile Include="Controllers\EquipmentController.cs" />
     <Compile Include="Controllers\JqGridController.cs" />
@@ -828,6 +829,12 @@
     <Content Include="Content\fuelux.css" />
     <Content Include="Content\fuelux.min.css" />
     <Content Include="Content\HomePage.css" />
+    <Content Include="Content\ICON\car.ico" />
+    <Content Include="Content\ICON\car.png" />
+    <Content Include="Content\ICON\car1.png" />
+    <Content Include="Content\ICON\g.png" />
+    <Content Include="Content\ICON\start.png" />
+    <Content Include="Content\ICON\stop.png" />
     <Content Include="Content\images\facebook-avatar.png" />
     <Content Include="Content\images\SonataCoveSoftwareLong.png" />
     <Content Include="Content\images\sort_asc.png" />
@@ -2333,6 +2340,7 @@
     <Content Include="Views\OrgEnterprise\Index.cshtml" />
     <Content Include="Views\OrgStructure\Index.cshtml" />
     <Content Include="Views\TerminalEquipment\Index.cshtml" />
+    <Content Include="Views\Terminal\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

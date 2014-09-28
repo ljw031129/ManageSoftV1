@@ -45,6 +45,7 @@ namespace SocialGoal.Controllers
                         select new
                         {
                             EquipmentId = item.EquipmentId,
+                            EquipmentTypeId = item.EquipmentTypeId,
                             EquipmentNum = item.EquipmentNum,
                             EquipmentName = item.EquipmentName,
                             EquipmentCreatTime = item.EquipmentCreatTime,

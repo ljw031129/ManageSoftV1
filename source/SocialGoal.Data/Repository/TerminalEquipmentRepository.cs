@@ -40,9 +40,33 @@ namespace SocialGoal.Data.Repository
                 throw;
             }
         }
+
+
+        public void UpdateEquipmentId(string TerminalEquipmentId, string EquipmentIds)
+        {
+            string sql = @"UPDATE TerminalEquipments
+                                SET EquipmentId=@EquipmentId
+                                 WHERE TerminalEquipmentId=@TerminalEquipmentId";           
+            try
+            {
+               
+                    this.DataContext.Database.ExecuteSqlCommand(sql, new DbParameter[] {                     
+                    new SqlParameter("EquipmentId",EquipmentIds),
+                    new SqlParameter("TerminalEquipmentId",TerminalEquipmentId)
+                                   });              
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
     public interface ITerminalEquipmentRepository : IRepository<TerminalEquipment>
     {
         void UpdateTerminalEquipmentOrgEnterpriseId(string OrgEnterpriseId, string TerminalEquipmentIds);
+
+        void UpdateEquipmentId(string TerminalEquipmentId, string EquipmentIds);
     }
 }

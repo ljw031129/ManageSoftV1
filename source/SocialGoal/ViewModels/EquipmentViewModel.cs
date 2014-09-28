@@ -10,6 +10,7 @@ namespace SocialGoal.Web.ViewModels
         public string EquipmentId { get; set; }
         public string EquipmentNum { get; set; }
         public string EquipmentName { get; set; }
+        public string EquipmentTypeId { get; set; }
         public DateTime EquipmentCreatTime { get; set; }
         public DateTime EquipmentUpDateTime { get; set; }
         //del  edit  add

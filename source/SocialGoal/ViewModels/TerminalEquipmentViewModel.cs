@@ -22,7 +22,7 @@ namespace SocialGoal.ViewModels
         public string OrgEnterpriseId { get; set; }
         public DateTime TerminalEquipmentCreateTime { get; set; }
         public DateTime TerminalEquipmentUpdateTime { get; set; }
-
+        public string ReceiveDataLastId { get; set; }
         public string oper { get; set; }
         public string id { get; set; }
     }

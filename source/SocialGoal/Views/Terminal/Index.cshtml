@@ -1,0 +1,241 @@
+﻿@{
+    ViewBag.Title = "机械监控";
+    Layout = "~/Views/Shared/_LayoutFlattyMain.cshtml";
+}
+
+@section styles{
+
+    <link href="~/Content/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
+    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+    <link href="~/Content/jquery.jqGrid/jqGrid.overrides.css" rel="stylesheet" />
+    <link href="~/Scripts/plugins/select2-3.5.1/select2.css" rel="stylesheet" />
+    <link href="~/Scripts/plugins/select2-3.5.1/select2-bootstrap.css" rel="stylesheet" />
+    <link href="~/Scripts/plugins/artDialog/css/ui-dialog.css" rel="stylesheet" />
+}
+<div class='row' id='content-wrapper'>
+    <div class='col-xs-12'>
+        <div class='row'>
+            <div class='col-sm-12'>
+                <div class='page-header'>
+                    <h1 class='pull-left'>
+                        <i class='icon-user'></i>
+                        <span>机械监控</span>
+                    </h1>
+                    <div class='pull-right'>
+                        <ul class='breadcrumb'>
+                            <li>
+                                <a href='index.html'>
+                                    <i class='icon-bar-chart'></i>
+                                </a>
+                            </li>
+                            <li class='separator'>
+                                <i class='icon-angle-right'></i>
+                            </li>
+                            <li>Example pages</li>
+                            <li class='separator'>
+                                <i class='icon-angle-right'></i>
+                            </li>
+                            <li class='active'>User profile</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div style="margin-bottom: 0" class="col-sm-12 box">
+                <div class="box-header red-background">
+                    <div class="title">监控信息</div>
+                    <div class="actions">
+                        <a href="#" class="btn box-remove btn-xs btn-link">
+                            <i class="icon-remove"></i>
+                        </a>
+
+                        <a href="#" class="btn box-collapse btn-xs btn-link">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-content">
+                    <div class="box-toolbox box-toolbox-top">
+                        <div class="pull-left">
+                            <a class="btn btn-white">
+                                <i class="icon-bold"></i>
+                            </a>
+                            <a class="btn btn-white">
+                                <i class="icon-italic"></i>
+                            </a>
+                        </div>
+                        <div class="pull-right">
+                            <a class="btn btn-white">
+                                <i class="icon-eye-open"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <table id="grps"></table> <div id="pgrps"></div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
+    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
+    <script src="~/Scripts/plugins/select2-3.5.1/select2.js"></script>
+    <script src="~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"></script>
+    <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            jQuery("#grps").jqGrid(
+                {
+                    url: '/api/ApiTerminal/GetTerminalEquipmentDetail',
+                    datatype: "json",
+                    mtype: "get",
+                    colNames:
+                        ['Id', '设备类型', '设备编号', '发动机编号', '终端编号', '终端类型', '工作状态', '小时表', '信息最后更新时间', '位置'],
+                    colModel: [
+                        { name: 'TerminalEquipmentId', key: true, index: 'TerminalEquipmentId', editable: false, editoptions: { readonly: true }, width: 55, hidden: true },
+                        { name: 'EquipmentTypeId', index: 'EquipmentTypeId', editable: false, width: 100, edittype: "select", formatter: IconyFmatter, editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" }, align: "center" },
+                        { name: 'EquipmentNum', index: 'EquipmentNum', editable: false, width: 90 },
+                        { name: 'EquipmentName', index: 'EquipmentName', editable: false, width: 90 },
+                        { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: false, width: 90, formatter: LinkFmatter },
+                        { name: 'TerminalEquipmentType', index: 'EquipmentName', editable: false, width: 100, edittype: "select", formatter: "select", editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" }, align: "center" },
+                        { name: 'AccStatus', index: 'AccStatus', editable: false, width: 100 },
+                        { name: 'TotalWorkTime', index: 'TotalWorkTime', editable: false, width: 100 },
+                        { name: 'ReceiveTime', index: 'ReceiveTime', editable: false, width: 100, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
+                        { name: 'GpsPos', index: 'GpsPos',  editable: false, width: 80, align: "right" }
+
+                    ],
+                    //   multiselect: true,
+                    //  rownumbers: true,//添加左侧行号
+                    altRows: true,//设置为交替行表格,默认为false
+                    rowNum: 10,
+                    width: 700,
+                    rowList: [10, 20, 30],
+                    pager: '#pgrps',
+                    sortname: 'TerminalEquipmentUpdateTime',
+                    viewrecords: true,//定义是否要显示总记录数
+                    sortorder: "desc",
+                    jsonReader: {
+                        root: "rows",
+                        page: "page",
+                        total: "total",
+                        records: "records",
+                        repeatitems: false,
+                        userdata: "userdata"
+                    },
+                    // caption: "终端信息表",
+                    height: '100%',
+                    editurl: '/api/ApiTerminalEquipment' // this is dummy existing url
+                });
+            jQuery("#grps").jqGrid('navGrid', '#pgrps',
+                { edit: true, add: true, del: true },
+                {
+                    editCaption: "编辑",
+                    top: "5",
+                    left: "5",
+                    jqModal: false,
+                    reloadAfterSubmit: true,
+                    afterShowForm: function (form) {
+                        $("#PmFInterpreterId").select2();
+
+                    }
+                },
+                {
+                    editCaption: "添加",
+                    top: "5",
+                    left: "5",
+                    jqModal: false,
+                    reloadAfterSubmit: true,
+                    afterShowForm: function (form) {
+                        $("#PmFInterpreterId").select2();
+
+                    }
+                },
+                {},
+                { multipleSearch: true, multipleGroup: true });
+            //test responsiveness
+            $(window).on('resize', function (event, ui) {
+                // Get width of parent container
+                var parWidth = $("#gbox_grps").parent().width();
+                var curWidth = $("#gbox_grps").width();
+                //console.log("span width " + parWidth + " gridWidth " + gWidth);
+                var w = parWidth - 1; // Fudge factor to prevent horizontal scrollbars
+                if (Math.abs(w - curWidth) > 2) {
+                    //alert("resize to " + width);
+                    console.log("span width " + parWidth + " gridWidth " + curWidth);
+                    $("#grps").setGridWidth(w);
+                    console.log("new width " + w);
+                }
+
+            }).trigger('resize');
+            //自定义的格式化方法
+            //cellvalue - 当前cell的值
+            //options - 该cell的options设置，包括{rowId, colModel,pos,gid}
+            //rowObject - 当前cell所在row的值，如{ id=1, name="name1", price=123.1, ...}
+            function IconyFmatter(cellvalue, options, rowObject) {
+                var rec = "";
+                switch (cellvalue) {
+                    case "1":
+                        rec = '<img src="../../Content/ICON/car.png" alt="" />';
+                        break;
+                    case "2":
+                        rec = '<img src="../..//Content/ICON/car1.png" alt="" />';
+                        break;
+                    case "3":
+                        rec = '<img src="../../Content/ICON/car1.png" alt="" />';
+                        break;
+                    default:
+                        rec = '<img src="../../Content/ICON/car1.png" alt="" />';
+                        break;
+
+                }
+                return rec;
+            }
+            function LinkFmatter(cellvalue, options, rowObject) {
+                var rec = '<a href="../../Terminal/Detail/' + cellvalue + '">' + cellvalue + '</a>';
+                       
+                return rec;
+            }
+            function CurentTime() {
+                var now = new Date();
+
+                var year = now.getFullYear();       //年
+                var month = now.getMonth() + 1;     //月
+                var day = now.getDate();            //日
+
+                var hh = now.getHours();            //时
+                var mm = now.getMinutes();          //分
+
+                var clock = year + "-";
+
+                if (month < 10)
+                    clock += "0";
+
+                clock += month + "-";
+
+                if (day < 10)
+                    clock += "0";
+
+                clock += day + " ";
+
+                if (hh < 10)
+                    clock += "0";
+
+                clock += hh + ":";
+                if (mm < 10) clock += '0';
+                clock += mm;
+                return (clock);
+            }
+        });
+
+    </script>
+}
+
+
+
+
+

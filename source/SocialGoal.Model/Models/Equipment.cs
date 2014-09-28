@@ -11,6 +11,7 @@ namespace SocialGoal.Model.Models
         public string EquipmentId { get; set; }
         public string EquipmentNum { get; set; }
         public string EquipmentName { get; set; }
+        public string EquipmentTypeId { get; set; }
         public DateTime EquipmentCreatTime { get; set; }
         public DateTime EquipmentUpDateTime { get; set; }
       //  public virtual ICollection<Smart> Smarts { get; set; }

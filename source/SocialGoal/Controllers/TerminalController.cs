@@ -24,10 +24,9 @@ namespace SocialGoal.Controllers
 
             return View();
         }
-        public ActionResult Detail()
-        {
-            string tmId = "C2340008";
-            ReceiveDataLast rdl = _receiveDataLastService.GetReceiveDataLastByTerminalNum(tmId);
+        public ActionResult Detail(string Id)
+        {          
+            ReceiveDataLast rdl = _receiveDataLastService.GetReceiveDataLastByTerminalNum(Id);
             return View(rdl);
         }
         public JsonResult GetreceiveDataLast(string terminalNum)

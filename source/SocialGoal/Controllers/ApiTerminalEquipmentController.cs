@@ -30,7 +30,7 @@ namespace SocialGoal.Controllers
                 total = (int)Math.Ceiling((double)count / jqGridSetting.rows),
                 page = jqGridSetting.page,
                 records = count,
-                rows = (from item in orgStructure.ToList()                        
+                rows = (from item in orgStructure.ToList()
                         select new
                         {
                             TerminalEquipmentId = item.TerminalEquipmentId,
@@ -44,7 +44,7 @@ namespace SocialGoal.Controllers
                         }).ToArray()
             };
             return result;
-        
+
         }
         [Route("api/ApiTerminalEquipment/GetSubGrid")]
         public async Task<Object> GetSubGrid([FromUri]JqGridSetting jqGridSetting)
@@ -73,11 +73,20 @@ namespace SocialGoal.Controllers
 
         }
         [HttpPost]
-        [Route("api/ApiTerminalEquipment/UpdateOrgEnterprise/{OrgEnterpriseId}/{TerminalEquipmentIds}")]
-        public string UpdateTerminalEquipmentOrgEnterprise(string OrgEnterpriseId, string TerminalEquipmentIds) {
+        [Route("api/ApiTerminalEquipment/UpdateEquipmentId/{TerminalEquipmentId}/{EquipmentIds}")]
+        public string UpdateEquipmentId(string TerminalEquipmentId, string EquipmentIds)
+        {
 
+            _terminalEquipmentService.UpdateEquipmentId(TerminalEquipmentId, EquipmentIds);
+            return "true";
+        }
+
+        [HttpPost]
+        [Route("api/ApiTerminalEquipment/UpdateOrgEnterprise/{OrgEnterpriseId}/{TerminalEquipmentIds}")]
+        public string UpdateTerminalEquipmentOrgEnterprise(string OrgEnterpriseId, string TerminalEquipmentIds)
+        {
             _terminalEquipmentService.UpdateTerminalEquipmentOrgEnterpriseId(OrgEnterpriseId, TerminalEquipmentIds);
-            return "";
+            return "true";
         }
         // POST api/<controller>
         [HttpPost]

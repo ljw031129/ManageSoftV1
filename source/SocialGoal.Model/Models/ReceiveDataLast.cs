@@ -8,6 +8,15 @@ namespace SocialGoal.Model.Models
 {
     public class ReceiveDataLast
     {
+        public ReceiveDataLast()
+        {
+           // ReceiveDataLastId =Guid.NewGuid().ToString();
+            ReceiveTime = DateTime.Now;
+            CollectTime = DateTime.Now;
+            TotalWorkTime = 0;
+            TotalMileage = 0;
+            GpsTime = DateTime.Now;
+        }
         public string ReceiveDataLastId { get; set; }
         public string DevId { get; set; }
         public DateTime ReceiveTime { get; set; }

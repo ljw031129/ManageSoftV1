@@ -1,6 +1,8 @@
-﻿using SocialGoal.Model.Models;
+﻿using SocialGoal.Core.Common;
+using SocialGoal.Model.Models;
 using SocialGoal.Model.ViewModels;
 using SocialGoal.Service;
+using SocialGoal.Web.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +15,12 @@ namespace SocialGoal.Controllers
 {
     public class TerminalEquipmentController : Controller
     {
+        private readonly ITerminalEquipmentService _terminalEquipmentService;
         private readonly ITerminalSimCardService _terminalSimCardService;
-        public TerminalEquipmentController(ITerminalSimCardService terminalSimCardService)
+        public TerminalEquipmentController(ITerminalSimCardService terminalSimCardService, ITerminalEquipmentService terminalEquipmentService)
         {
             this._terminalSimCardService = terminalSimCardService;
+            this._terminalEquipmentService = terminalEquipmentService;
         }
         // GET: TerminalEquipment
         public ActionResult Index()
@@ -35,6 +39,16 @@ namespace SocialGoal.Controllers
             }
             st.Append("</select>"); ;
             return st.ToString();
+        }
+        public async Task<JsonpResult> GetTerminalEquipment(int pageSize, int pageNum, string searchTerm)
+        {
+            Select2PagedResult orgEnterprises = await _terminalEquipmentService.GetSelect2PagedResult(searchTerm, pageSize, pageNum);
+            //Return the data as a jsonp result
+            return new JsonpResult
+            {
+                Data = orgEnterprises,
+                JsonRequestBehavior = System.Web.Mvc.JsonRequestBehavior.AllowGet
+            };
         }
     }
 }
