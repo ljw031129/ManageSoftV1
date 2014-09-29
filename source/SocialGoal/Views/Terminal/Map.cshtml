@@ -2,75 +2,252 @@
     ViewBag.Title = "Map";
     Layout = "~/Views/Shared/_LayoutFlattyMain.cshtml";
 }
-@section styles{}
-
-<div style="padding:2px 0px 0px 5px;font-size:12px">
-    <input type="button" value="开始动画" onclick="startAnimation()" />
-    <input type="button" value="停止动画" onclick="stopAnimation()" />
-</div>
-<div id="iCenter" style="width:600px; height:500px;" ></div>
-@section scripts{
-   <script language="javascript" src="http://webapi.amap.com/maps?v=1.3&key=990f8ec17963b0c7a507f9c74d275568"></script> 
-<script language="javascript">
-    $(document).ready(function () {
-        mapInit();
-    });
-    var mapObj;
-    //初始化地图对象，加载地图
-    function mapInit() {
-        mapObj = new AMap.Map("iCenter", {
-            //二维地图显示视口
-            view: new AMap.View2D({
-                center: new AMap.LngLat(116.397428, 39.90923),//地图中心点
-                zoom: 17 //地图显示的缩放级别
-            }),
-            continuousZoomEnable: false
-        });
-        AMap.event.addListener(mapObj, "complete", completeEventHandler);
-    }
-
-    //地图图块加载完毕后执行函数
-    function completeEventHandler() {
-        marker = new AMap.Marker({
-            map: mapObj,
-            //draggable:true, //是否可拖动
-            position: new AMap.LngLat(116.397428, 39.90923),//基点位置
-            icon: "http://code.mapabc.com/images/car_03.png", //marker图标，直接传递地址url
-            offset: new AMap.Pixel(-26, -13), //相对于基点的位置
-            //是否自动旋转。点标记在使用moveAlong动画时，路径方向若有变化，点标记是否自动调整角度，默认为false            
-            autoRotation: true
-        });
-
-        var lngX = 116.397428;
-        var latY = 39.90923;
-        lineArr = new Array();
-        lineArr.push(new AMap.LngLat(lngX, latY));
-        for (var i = 1; i < 3; i++) {
-            lngX = lngX + Math.random() * 0.05;
-            if (i % 2) {
-                latY = latY + Math.random() * 0.0001;
-            } else {
-                latY = latY + Math.random() * 0.06;
-            }
-            lineArr.push(new AMap.LngLat(lngX, latY));
+@section styles{
+    <link href="~/Content/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
+    <style type="text/css">
+        #iCenter {
+            border: 1px solid #f6f6f6;
+            height: 400px;
+            width: 100%;
         }
-        //绘制轨迹
-        var polyline = new AMap.Polyline({
-            map: mapObj,
-            path: lineArr,
-            strokeColor: "#00A",//线颜色
-            strokeOpacity: 1,//线透明度
-            strokeWeight: 3,//线宽
-            strokeStyle: "solid"//线样式
+    </style>
+}
+<div class='row' id='content-wrapper'>
+    <div class='col-xs-12'>
+        <div class='row'>
+            <div class='col-sm-12'>
+                <div class='page-header'>
+                    <h1 class='pull-left'>
+                        <i class='icon-user'></i>
+                        <span>终端详细信息</span>
+                    </h1>
+                    <div class='pull-right'>
+                        <ul class='breadcrumb'>
+                            <li>
+                                <a href='index.html'>
+                                    <i class='icon-bar-chart'></i>
+                                </a>
+                            </li>
+                            <li class='separator'>
+                                <i class='icon-angle-right'></i>
+                            </li>
+                            <li>Example pages</li>
+                            <li class='separator'>
+                                <i class='icon-angle-right'></i>
+                            </li>
+                            <li class='active'>User profile</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class='col-sm-12 box'>
+                <div class='box-header blue-background'>
+                    <div class='title'><i class="icon-star-empty"></i>位置信息</div>
+                    <div class='actions'>
+                        <a class="btn box-remove btn-xs btn-link" href="#">
+                            <i class='icon-remove'></i>
+                        </a>
+
+                        <a class="btn box-collapse btn-xs btn-link" href="#">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+                <div class='box-content'>
+                    <div class="box-toolbox box-toolbox-top">
+                        <div class="pull-left">
+                            <ul class="list-unstyled list-inline" style="margin-top:10px;">
+                                <li>
+                                    <i class=" icon-ellipsis-horizontal"></i>
+                                    当前播放速度：
+                                </li>
+                                <li>
+                                    <div id='slider-example1' style='width:160px;'></div>
+                                </li>
+                                <li>
+                                    <small id='slider-example1-amount'></small>
+                                </li>
+
+                            </ul>
+
+                        </div>
+                        <div class="pull-right">
+                            <a class="btn btn-white" onclick="javascript:startRuler()">
+                                <i class="icon-bold"></i>测距
+                            </a>
+                            <a class="btn btn-white">
+                                <i class="icon-eye-open"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="iCenter"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div style="padding:2px 0px 0px 5px;font-size:12px">
+    <input type="button" value="从头开始动画" onclick="startAnimation()" style="margin-left:5px;" />
+    <input type="button" value="暂停" onclick="pauseAnimation()" style="margin-left:5px;" />
+    <input type="button" value="继续" onclick="continueAnimation()" style="margin-left:5px;" />
+    <input type="button" value="加载数据" onclick="load()" style="margin-left:5px;" />
+</div>
+
+@section scripts{
+    <script language="javascript" src="http://webapi.amap.com/maps?v=1.2&key=990f8ec17963b0c7a507f9c74d275568"></script>
+    <script language="javascript">
+        var mapObj, marker, markerMovingControl;
+        var lngX = 116.373881;
+        var latY = 39.907409;
+        $(document).ready(function () {
+            mapInit();
+            $("#slider-example1").slider({
+                value: 500,
+                min: 0,
+                max: 5000,
+                step: 50,
+                slide: function (event, ui) {
+                    markerMovingControl.setSpeed(ui.value);
+                    return $("#slider-example1-amount").text(ui.value + "千米/小时");
+                }
+            });
+
+            $("#slider-example1-amount").text($("#slider-example1").slider("value") + "千米/小时");
         });
-        mapObj.setFitView();
-    }
-    function startAnimation() {
-        marker.moveAlong(lineArr, 500);
-    }
-    function stopAnimation() {
-        marker.stopMove();
-    }
-</script>
-    }
+        //初始化地图对象，加载地图
+        function mapInit() {
+            mapObj = new AMap.Map("iCenter", {
+                //二维地图显示视口
+                //view: new AMap.View2D({
+                //    center: new AMap.LngLat(lngX, latY)//,//地图中心点
+                //    // zoom: 8 //地图显示的缩放级别
+                //}),
+                //continuousZoomEnable: false
+            });
+            marker = new AMap.Marker({
+                map: mapObj,
+                //draggable:true, //是否可拖动
+                position: new AMap.LngLat(116.397428, 39.90923),//基点位置
+                icon: "http://code.mapabc.com/images/car_03.png", //marker图标，直接传递地址url
+                offset: new AMap.Pixel(-26, -13), //相对于基点的位置
+                //是否自动旋转。点标记在使用moveAlong动画时，路径方向若有变化，点标记是否自动调整角度，默认为false
+                autoRotation: true
+            });
+            //  AMap.event.addListener(mapObj, "complete", completeEventHandler);
+        }
+        /**     第一部分，动画暂停、继续的实现     */
+
+        /**
+       * Marker移动控件
+       * param {Map} map    地图对象
+       * param {Marker} marker Marker对象
+       * param {Array} path   移动的路径，以坐标数组表示
+       */
+        var MarkerMovingControl = function (map, marker, path) {
+            this._map = map;
+            this._marker = marker;
+            this._path = path;
+            this._currentIndex = 0;
+            this._speed = 500;
+            //为Marker指定目标显示地图。当参数值取null时，地图上移除当前Marker：setMap(null)
+            marker.setMap(map);
+            marker.setPosition(path[0]);
+        }
+
+        /**
+         * 移动marker，会从当前位置开始向前移动
+         */
+        MarkerMovingControl.prototype.move = function () {
+            if (!this._listenToStepend) {
+                this._listenToStepend = AMap.event.addListener(this, 'stepend', function () {
+                    this.step();
+                }, this);
+            }
+            this.step();
+        };
+
+        /**
+         * 停止移动marker，由于控件会记录当前位置，所以相当于暂停
+         */
+        MarkerMovingControl.prototype.stop = function () {
+            this._marker.stopMove();
+        };
+
+        /**
+         * 重新开始，会把marker移动到路径的起点然后开始移动
+         */
+        MarkerMovingControl.prototype.restart = function () {
+            this.stop();
+            this._marker.setPosition(this._path[0]);
+            this._currentIndex = 0;
+            this.move();
+        };
+
+        /**
+         * 向前移动一步
+         */
+        MarkerMovingControl.prototype.step = function () {
+            var nextIndex = this._currentIndex + 1;
+            if (nextIndex < this._path.length) {
+                if (!this._listenToMoveend) {
+                    this._listenToMoveend = AMap.event.addListener(this._marker, 'moveend', function () {
+                        this._currentIndex++;
+                        AMap.event.trigger(this, 'stepend');
+                    }, this);
+                }
+                // console.log(nextIndex);
+                this._marker.moveTo(this._path[nextIndex], this._speed);
+            }
+        };
+        MarkerMovingControl.prototype.setSpeed = function (value) {
+            this._speed = value;
+        };
+        /**     第二部分，应用示例     */
+
+        // 编写事件响应函数
+        function startAnimation() {
+            markerMovingControl.restart();
+        }
+
+        function pauseAnimation() {
+            markerMovingControl.stop();
+        }
+
+        function continueAnimation() {
+            markerMovingControl.move();
+        }
+        function load() {
+            // 创建移动控件
+            var lineArr = [];
+            lineArr.push(new AMap.LngLat(lngX, latY));
+            for (var i = 1; i < 50; i++) {
+                lngX = lngX + Math.random() * 0.05;
+                if (i % 2) {
+                    latY = latY + Math.random() * 0.0001;
+                } else {
+                    latY = latY + Math.random() * 0.06;
+                }
+                lineArr.push(new AMap.LngLat(lngX, latY));
+            }
+            var polyline = new AMap.Polyline({
+                map: mapObj,
+                path: lineArr,
+                strokeColor: "#F00", //线颜色
+                strokeOpacity: 0.4, //线透明度
+                strokeWeight: 3, //线宽
+                strokeStyle: "dashed", //线样式
+                strokeDasharray: [10, 5] //补充线样式
+            });
+            //根据地图上添加的覆盖物分布情况，缩放平移地图到合适的视野级别，参数overlayList默认为当前地图上添加的所有覆盖物图层
+            mapObj.setFitView();
+            markerMovingControl = new MarkerMovingControl(mapObj, marker, lineArr);
+
+        }
+
+    </script>
+}
 
