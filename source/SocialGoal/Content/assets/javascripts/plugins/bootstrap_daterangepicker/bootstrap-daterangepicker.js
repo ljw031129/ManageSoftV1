@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @version: 1.2
  * @author: Dan Grossman http://www.dangrossman.info/
  * @date: 2013-07-25
@@ -37,12 +37,12 @@
         this.separator = ' - ';
 
         this.locale = {
-            applyLabel: 'Apply',
-            cancelLabel: 'Cancel',
-            fromLabel: 'From',
-            toLabel: 'To',
+            applyLabel: '确认',
+            cancelLabel: '取消',
+            fromLabel: '起始',
+            toLabel: '结束',
             weekLabel: 'W',
-            customRangeLabel: 'Custom Range',
+            customRangeLabel: '自定义',
             daysOfWeek: moment()._lang._weekdaysMin.slice(),
             monthNames: moment()._lang._monthsShort.slice(),
             firstDay: 0

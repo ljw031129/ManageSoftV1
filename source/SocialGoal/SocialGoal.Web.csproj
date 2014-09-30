@@ -259,6 +259,7 @@
     <Compile Include="Controllers\ApiEquipmentController.cs" />
     <Compile Include="Controllers\ApiOrgEnterpriseController.cs" />
     <Compile Include="Controllers\ApiOrgStructureController.cs" />
+    <Compile Include="Controllers\ApiReceiveDataController.cs" />
     <Compile Include="Controllers\ApiTerminalController.cs" />
     <Compile Include="Controllers\ApiTerminalSimCardController.cs" />
     <Compile Include="Controllers\EquipmentController.cs" />
@@ -775,6 +776,8 @@
     <Content Include="Content\assets\stylesheets\plugins\bootstrap_datetimepicker\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\assets\stylesheets\plugins\bootstrap_switch\bootstrap-switch.css" />
     <Content Include="Content\assets\stylesheets\plugins\common\bootstrap-wysihtml5.css" />
+    <Content Include="Content\assets\stylesheets\plugins\csspinner\csspinner.css" />
+    <Content Include="Content\assets\stylesheets\plugins\csspinner\csspinner.min.css" />
     <Content Include="Content\assets\stylesheets\plugins\datatables\bootstrap-datatable.css" />
     <Content Include="Content\assets\stylesheets\plugins\dynatree\ui.dynatree.css" />
     <Content Include="Content\assets\stylesheets\plugins\flags\flags.css" />

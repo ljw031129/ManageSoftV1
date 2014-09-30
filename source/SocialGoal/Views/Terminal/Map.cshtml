@@ -4,6 +4,9 @@
 }
 @section styles{
     <link href="~/Content/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
+    <link href="~/Content/assets/stylesheets/plugins/bootstrap_daterangepicker/bootstrap-daterangepicker.css" rel="stylesheet" />
+    <link href="~/Content/assets/stylesheets/plugins/csspinner/csspinner.css" rel="stylesheet" />
+    <link href="~/Scripts/plugins/artDialog/css/ui-dialog.css" rel="stylesheet" />
     <style type="text/css">
         #iCenter {
             border: 1px solid #f6f6f6;
@@ -61,7 +64,35 @@
                         <div class="pull-left">
                             <ul class="list-unstyled list-inline" style="margin-top:10px;">
                                 <li>
-                                    <i class=" icon-ellipsis-horizontal"></i>
+                                    <i class=" icon-time  "></i>
+                                    时间范围：
+                                </li>
+                                <li>
+                                    <div class='btn-group'>
+                                        <a class="btn btn-white" id="daterange" href="#">
+                                            <i class='icon-calendar'></i>
+                                            <span>选择时间</span>
+                                            <b class='caret'></b>
+                                        </a>
+
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="btn btn-white" onclick="loadAjax()">
+                                        <i class="icon-download-alt "></i>加载数据
+                                    </a>
+                                </li>
+                                <li>
+
+                                </li>
+
+                            </ul>
+
+                        </div>
+                        <div class="pull-right">
+                            <ul class="list-unstyled list-inline" style="margin-top:10px;">
+                                <li>
+                                    <i class=" icon-fighter-jet "></i>
                                     当前播放速度：
                                 </li>
                                 <li>
@@ -70,17 +101,20 @@
                                 <li>
                                     <small id='slider-example1-amount'></small>
                                 </li>
+                                <li>
+                                    <a class="btn btn-white">
+                                        <i class="icon-play-circle " onclick="startAnimation()"></i>
+                                    </a>
+                                    <a class="btn btn-white">
+                                        <i class="icon-play " onclick="continueAnimation()"></i>
+                                    </a>
+                                    <a class="btn btn-white">
+                                        <i class="icon-pause  " onclick="pauseAnimation()"></i>
+                                    </a>
+                                </li>
 
                             </ul>
 
-                        </div>
-                        <div class="pull-right">
-                            <a class="btn btn-white" onclick="javascript:startRuler()">
-                                <i class="icon-bold"></i>测距
-                            </a>
-                            <a class="btn btn-white">
-                                <i class="icon-eye-open"></i>
-                            </a>
                         </div>
                     </div>
                     <div id="iCenter"></div>
@@ -90,26 +124,45 @@
         </div>
     </div>
 </div>
-<div style="padding:2px 0px 0px 5px;font-size:12px">
-    <input type="button" value="从头开始动画" onclick="startAnimation()" style="margin-left:5px;" />
-    <input type="button" value="暂停" onclick="pauseAnimation()" style="margin-left:5px;" />
-    <input type="button" value="继续" onclick="continueAnimation()" style="margin-left:5px;" />
-    <input type="button" value="加载数据" onclick="load()" style="margin-left:5px;" />
-</div>
 
 @section scripts{
+    <script src="~/Content/assets/javascripts/plugins/common/moment.min.js"></script>
+    <script src="~/Content/assets/javascripts/plugins/bootstrap_daterangepicker/bootstrap-daterangepicker.js"></script>
     <script language="javascript" src="http://webapi.amap.com/maps?v=1.2&key=990f8ec17963b0c7a507f9c74d275568"></script>
+    <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
     <script language="javascript">
-        var mapObj, marker, markerMovingControl;
+        var mapObj, marker,markerCurrent, markerMovingControl, polyline;
         var lngX = 116.373881;
         var latY = 39.907409;
+
+        var rangeTime = "";
+        var Num = 1;
+        var Size = 5000;
         $(document).ready(function () {
+            $("#daterange").daterangepicker({
+                timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm ',
+                ranges: {
+                    "昨天": [moment().subtract("days", 1), moment().subtract("days", 1)],
+                    '今天': [moment(), moment()],
+                    '最近7天': [moment().subtract('days', 6), moment()],
+                    "最近30天": [moment().subtract("days", 29), moment()],
+                    "本月": [moment().startOf("month"), moment().endOf("month")]
+                },
+                startDate: moment().subtract("days", 29),
+                endDate: moment(),
+                opens: "left",
+                cancelClass: "btn-danger",
+                buttonClasses: ['btn', 'btn-sm']
+            }, function (start, end) {
+                rangeTime = start.format("YYYY-MM-DD h:mm") + " $ " + end.format("YYYY-MM-DD h:mm");
+                return $("#daterange span").html(start.format("YYYY/MM/DD h:mm") + " - " + end.format("YYYY/MM/DD h:mm"));
+            });
             mapInit();
             $("#slider-example1").slider({
-                value: 500,
+                value: 100,
                 min: 0,
-                max: 5000,
-                step: 50,
+                max: 8000,
+                step: 10,
                 slide: function (event, ui) {
                     markerMovingControl.setSpeed(ui.value);
                     return $("#slider-example1-amount").text(ui.value + "千米/小时");
@@ -152,7 +205,7 @@
             this._marker = marker;
             this._path = path;
             this._currentIndex = 0;
-            this._speed = 500;
+            this._speed = 100;
             //为Marker指定目标显示地图。当参数值取null时，地图上移除当前Marker：setMap(null)
             marker.setMap(map);
             marker.setPosition(path[0]);
@@ -194,15 +247,42 @@
             var nextIndex = this._currentIndex + 1;
             if (nextIndex < this._path.length) {
                 if (!this._listenToMoveend) {
+                    //点标记执行moveTo动画结束时触发事件
                     this._listenToMoveend = AMap.event.addListener(this._marker, 'moveend', function () {
                         this._currentIndex++;
+                        //触发指定事件。
                         AMap.event.trigger(this, 'stepend');
                     }, this);
                 }
                 // console.log(nextIndex);
+              
+                //addMarker(this._path[nextIndex]);
                 this._marker.moveTo(this._path[nextIndex], this._speed);
+                mapObj.setZoomAndCenter(14, this._path[nextIndex]);
+
+            } else {
+                if (this._path.length < Size) {
+                    var d = dialog({
+                        title: '提示',
+                        content: '轨迹全部播放完毕'
+                    });
+                    d.show();
+
+                } else {
+                    var d = dialog({
+                        title: '提示',
+                        content: '此次播放轨迹为前5000条！'
+                    });
+                    d.show();
+                    //加载下一页数据
+                    // Num = Num + 1;
+                    //  loadAjax();
+                    //  markerMovingControl.restart();
+                }
             }
         };
+
+
         MarkerMovingControl.prototype.setSpeed = function (value) {
             this._speed = value;
         };
@@ -220,31 +300,40 @@
         function continueAnimation() {
             markerMovingControl.move();
         }
-        function load() {
-            // 创建移动控件
-            var lineArr = [];
-            lineArr.push(new AMap.LngLat(lngX, latY));
-            for (var i = 1; i < 50; i++) {
-                lngX = lngX + Math.random() * 0.05;
-                if (i % 2) {
-                    latY = latY + Math.random() * 0.0001;
-                } else {
-                    latY = latY + Math.random() * 0.06;
-                }
-                lineArr.push(new AMap.LngLat(lngX, latY));
-            }
-            var polyline = new AMap.Polyline({
-                map: mapObj,
-                path: lineArr,
-                strokeColor: "#F00", //线颜色
-                strokeOpacity: 0.4, //线透明度
-                strokeWeight: 3, //线宽
-                strokeStyle: "dashed", //线样式
-                strokeDasharray: [10, 5] //补充线样式
+        function addMarker(ALngLat) {
+            markerCurrent = new AMap.Marker({
+                icon: "http://webapi.amap.com/images/marker_sprite.png",
+                position: ALngLat
             });
-            //根据地图上添加的覆盖物分布情况，缩放平移地图到合适的视野级别，参数overlayList默认为当前地图上添加的所有覆盖物图层
-            mapObj.setFitView();
-            markerMovingControl = new MarkerMovingControl(mapObj, marker, lineArr);
+            markerCurrent.setMap(mapObj);  //在地图上添加点
+        }
+        function loadAjax() {
+            var lineArr = [];
+            var devid = "C2340008";
+            //加载过程中地图添加csspinner
+            $("#iCenter").addClass("csspinner ringed");
+            $.get("/api/ApiReceiveData/GetReceiveDataMap",
+                { devId: devid, dateRange: rangeTime, pageNum: Num, pageSize: Size }, function (result) {
+                    $.each(result.rows, function (index, element) {
+                        lineArr.push(new AMap.LngLat(element["GpsPlog"], element["GpsPlat"]));
+                    });
+                    //加载完毕移除
+                    $("#iCenter").removeClass("csspinner ringed");
+                    polyline = new AMap.Polyline({
+                        map: mapObj,
+                        path: lineArr,
+                        strokeColor: "#F00", //线颜色
+                        strokeOpacity: 0.4, //线透明度
+                        strokeWeight: 3, //线宽
+                        strokeStyle: "dashed", //线样式
+                        strokeDasharray: [10, 5] //补充线样式
+                    });
+                    //根据地图上添加的覆盖物分布情况，缩放平移地图到合适的视野级别，参数overlayList默认为当前地图上添加的所有覆盖物图层
+                    mapObj.setFitView();
+                    markerMovingControl = new MarkerMovingControl(mapObj, marker, lineArr);
+
+
+                });
 
         }
 
