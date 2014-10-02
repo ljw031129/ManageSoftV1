@@ -832,9 +832,12 @@
     <Content Include="Content\fuelux.css" />
     <Content Include="Content\fuelux.min.css" />
     <Content Include="Content\HomePage.css" />
+    <Content Include="Content\ICON\b.ico" />
+    <Content Include="Content\ICON\a.ico" />
     <Content Include="Content\ICON\car.ico" />
     <Content Include="Content\ICON\car.png" />
     <Content Include="Content\ICON\car1.png" />
+    <Content Include="Content\ICON\car_03.png" />
     <Content Include="Content\ICON\g.png" />
     <Content Include="Content\ICON\start.png" />
     <Content Include="Content\ICON\stop.png" />
@@ -1839,6 +1842,8 @@
     <Content Include="Scripts\jquery.jqGrid.src.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\json3.js" />
+    <Content Include="Scripts\json3.min.js" />
     <Content Include="Scripts\NgGridThemes\cellTemplate.html" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\ProfilePics\3cad5400-6a85-4b49-b682-4e6c8ee002ef.png" />

@@ -24,15 +24,14 @@ namespace SocialGoal.Data.Repository
             {
                 DateTime startTime = DateTime.Parse(dataTime[0]);
                 DateTime endTime = DateTime.Parse(dataTime[1]);
+                total = this.DataContext.ReceiveDatas.OrderBy(d => d.ReceiveTime).Where(p => p.DevId.Contains(devid) && p.ReceiveTime >= startTime && p.ReceiveTime < endTime).Count();
                 return this.DataContext.ReceiveDatas.OrderBy(d => d.ReceiveTime).Where(p => p.DevId.Contains(devid) && p.ReceiveTime >= startTime && p.ReceiveTime < endTime).Skip((pageNum - 1) * pageSize).Take(pageSize);
             }
             else
             {
+                total = this.DataContext.ReceiveDatas.OrderBy(d => d.ReceiveTime).Where(p => p.DevId.Contains(devid)).Count();
                 return this.DataContext.ReceiveDatas.OrderBy(d => d.ReceiveTime).Where(p => p.DevId.Contains(devid)).Skip((pageNum - 1) * pageSize).Take(pageSize);
-
             }
-
-
         }
 
 
