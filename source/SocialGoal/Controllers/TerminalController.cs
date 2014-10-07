@@ -25,14 +25,13 @@ namespace SocialGoal.Controllers
             return View();
         }
         public ActionResult Detail(string Id)
-        {
-            ViewBag.DevId = Id;
+        {          
             ReceiveDataLast rdl = _receiveDataLastService.GetReceiveDataLastByTerminalNum(Id);
             return View(rdl);
         }
-        public ActionResult Map(string id)
+        public ActionResult Map()
         {
-            ViewBag.DevId = id;
+           
             return View();
         }
         public JsonResult GetreceiveDataLast(string terminalNum)
