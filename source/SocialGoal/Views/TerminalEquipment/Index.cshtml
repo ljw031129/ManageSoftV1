@@ -214,9 +214,11 @@
                     datatype: "json",
                     mtype: "get",
                     colNames:
-                        ['Id', '终端编号', '终端类型', '所属企业', '协议名称', 'SIM', '创建时间', '更新时间'],
+                        ['Id','设备编号','最近信息Id','终端编号', '终端类型', '所属企业', '协议名称', 'SIM', '创建时间', '更新时间'],
                     colModel: [
                         { name: 'TerminalEquipmentId', key: true, index: 'TerminalEquipmentId', editable: true, editoptions: { readonly: true }, width: 55, hidden: true },
+                         { name: 'EquipmentId', index: 'EquipmentId', editable: true, editoptions: { readonly: true }, width: 55, hidden: true },
+                          { name: 'ReceiveDataLastId', index: 'ReceiveDataLastId', editable: true, editoptions: { readonly: true }, width: 55, hidden: true },
                         { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: true, width: 90 },
                         { name: 'TerminalEquipmentType', index: 'EquipmentName', editable: true, width: 100, edittype: "select", formatter: 'select', editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" } },
                         { name: 'OrgEnterpriseId', index: 'OrgEnterpriseId', editable: true, width: 100, edittype: "select", editoptions: { dataUrl: '/api/ApiOrgEnterprise/GetAll' }, stype: "select", searchoptions: { dataUrl: '/api/ApiOrgEnterprise/GetAll' } },

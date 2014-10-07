@@ -51,7 +51,7 @@
     </Reference>
     <Reference Include="Autofac.Integration.Mvc, Version=3.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Autofac.Mvc5.3.3.2\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+      <HintPath>..\packages\Autofac.Mvc5.3.3.3\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Integration.WebApi, Version=3.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -937,6 +937,10 @@
     <Content Include="Scripts\angular-scenario.js" />
     <Content Include="Scripts\angular-touch.js" />
     <Content Include="Scripts\angular-touch.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\AngularCtrlJs\ProtocolManageJs.js" />
@@ -1942,10 +1946,6 @@
     <Content Include="img\glyphicons-halflings.png" />
     <Content Include="Json\JsonData.js" />
     <Content Include="Scripts\AjaxLogin.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="Scripts\bootstrap-alert.js" />
     <Content Include="Scripts\bootstrap-collapse.js" />
     <Content Include="Scripts\bootstrap-dropdown.js" />
@@ -2203,7 +2203,6 @@
     <Content Include="Scripts\plugins\select2-3.5.1\select2_locale_vi.js" />
     <Content Include="Scripts\plugins\select2-3.5.1\select2_locale_zh-CN.js" />
     <Content Include="Scripts\plugins\select2-3.5.1\select2_locale_zh-TW.js" />
-    <Content Include="Scripts\version.json" />
     <Content Include="Scripts\plugins\artDialog\doc\index.md" />
     <Content Include="Scripts\plugins\artDialog\LICENSE.md" />
     <Content Include="Scripts\plugins\artDialog\package.json" />
@@ -2217,6 +2216,7 @@
     <Content Include="Scripts\plugins\select2-3.5.1\release.sh" />
     <Content Include="Scripts\plugins\select2-3.5.1\select2.jquery.json" />
     <Content Include="Scripts\plugins\select2-3.5.1\select2_locale_en.js.template" />
+    <Content Include="Scripts\version.json" />
     <None Include="Scripts\_references.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />

@@ -32,17 +32,17 @@ namespace SocialGoal.Controllers
                 rows = (from item in orgStructure.ToList()
                         select new
                         {
-                            EquipmentTypeId = item.Equipment!=null ? item.Equipment.EquipmentTypeId : "",
-                            EquipmentNum = item.Equipment!=null ?item.Equipment.EquipmentNum: "",
+                            EquipmentTypeId = item.Equipment != null ? item.Equipment.EquipmentTypeId : "",
+                            EquipmentNum = item.Equipment != null ? item.Equipment.EquipmentNum : "",
                             EquipmentName = item.Equipment != null ? item.Equipment.EquipmentName : "",
                             TerminalEquipmentId = item.TerminalEquipmentId,
                             TerminalEquipmentNum = item.TerminalEquipmentNum,
-                            TerminalEquipmentType=item.TerminalEquipmentType,
+                            TerminalEquipmentType = item.TerminalEquipmentType,
                             //最新信息
-                           TotalWorkTime = item.ReceiveDataLast.TotalWorkTime,
-                            ReceiveTime = item.ReceiveDataLast.ReceiveTime,
-                            AccStatus = item.ReceiveDataLast.AccStatus,
-                            GpsPos = item.ReceiveDataLast.GpsPos                           
+                            TotalWorkTime = item.ReceiveDataLast != null ? item.ReceiveDataLast.TotalWorkTime.ToString() : "",
+                            ReceiveTime = item.ReceiveDataLast.ReceiveTime != null ? item.ReceiveDataLast.ReceiveTime.ToString() : "",
+                            AccStatus = item.ReceiveDataLast.AccStatus != null ? item.ReceiveDataLast.AccStatus.ToString() : "",
+                            GpsPos = item.ReceiveDataLast.GpsPos != null ? item.ReceiveDataLast.GpsPos.ToString() : ""
                         }).ToArray()
             };
             return result;

@@ -217,6 +217,10 @@
     <Compile Include="Migrations\201409280627234_addlast.Designer.cs">
       <DependentUpon>201409280627234_addlast.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410060333159_updateSim.cs" />
+    <Compile Include="Migrations\201410060333159_updateSim.Designer.cs">
+      <DependentUpon>201410060333159_updateSim.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CommentRepository.cs" />
@@ -355,6 +359,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201409280627234_addlast.resx">
       <DependentUpon>201409280627234_addlast.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410060333159_updateSim.resx">
+      <DependentUpon>201410060333159_updateSim.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

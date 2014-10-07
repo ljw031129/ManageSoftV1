@@ -33,6 +33,8 @@ namespace SocialGoal.Controllers
                 rows = (from item in orgStructure.ToList()
                         select new
                         {
+                            EquipmentId = item.Equipment != null ? item.Equipment.EquipmentId : null,
+                            ReceiveDataLastId = item.ReceiveDataLast != null ? item.ReceiveDataLast.ReceiveDataLastId : null,
                             TerminalEquipmentId = item.TerminalEquipmentId,
                             TerminalEquipmentNum = item.TerminalEquipmentNum,
                             TerminalEquipmentType = item.TerminalEquipmentType,
