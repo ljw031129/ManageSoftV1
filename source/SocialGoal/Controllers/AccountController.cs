@@ -13,7 +13,7 @@ using SocialGoal.Models;
 using SocialGoal.Data.Models;
 using SocialGoal.Model.Models;
 using SocialGoal.Service;
-using SocialGoal.Web.Mailers;
+//using SocialGoal.Web.Mailers;
 using SocialGoal.Web.ViewModels;
 using AutoMapper;
 using System.Drawing;
@@ -36,7 +36,7 @@ namespace SocialGoal.Web.Controllers
         private IFollowRequestService followRequestService;
         private IFollowUserService followUserService;
         private ISecurityTokenService securityTokenService;
-        private IUserMailer userMailer = new UserMailer();
+       // private IUserMailer userMailer = new UserMailer();
         private UserManager<ApplicationUser> UserManager;
         public AccountController(IUserService userService, IUserProfileService userProfileService, IGoalService goalService, IUpdateService updateService, ICommentService commentService, IFollowRequestService followRequestService, IFollowUserService followUserService, ISecurityTokenService securityTokenService, UserManager<ApplicationUser> userManager)
         {

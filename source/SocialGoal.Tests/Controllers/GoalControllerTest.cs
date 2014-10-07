@@ -14,14 +14,14 @@ using SocialGoal.Web.Controllers;
 using NUnit.Framework;
 using AutoMapper;
 using Moq;
-using Mvc.Mailer;
+//using Mvc.Mailer;
 using System.Security;
 using System.Security.Principal;
 using System.Threading;
 using SocialGoal.Web.Core.Models;
 using System.Web;
 using System.Linq.Expressions;
-using SocialGoal.Web.Mailers;
+//using SocialGoal.Web.Mailers;
 using System.Net.Mail;
 using System.Web.Security;
 using SocialGoal.Web.Core.Authentication;
@@ -66,9 +66,9 @@ namespace SocialGoal.Tests.Controllers
         IUpdateSupportService updateSupportService;
 
         Mock<IUnitOfWork> unitOfWork;
-        Mock<IUserMailer> userMailer;
-        Mock<UserMailer> userMailerMock;
-        Mock<MailerBase> mailerBase;
+        //Mock<IUserMailer> userMailer;
+        //Mock<UserMailer> userMailerMock;
+        //Mock<MailerBase> mailerBase;
 
         Mock<ControllerContext> controllerContext;
         Mock<IIdentity> identity;
@@ -99,9 +99,9 @@ namespace SocialGoal.Tests.Controllers
             userProfileRepository = new Mock<IUserProfileRepository>();
             updateSupportRepository = new Mock<IUpdateSupportRepository>();
 
-            userMailer = new Mock<IUserMailer>();
-            userMailerMock = new Mock<UserMailer>();
-            mailerBase = new Mock<MailerBase>();
+            //userMailer = new Mock<IUserMailer>();
+            //userMailerMock = new Mock<UserMailer>();
+            //mailerBase = new Mock<MailerBase>();
             unitOfWork = new Mock<IUnitOfWork>();
 
             goalService = new GoalService(goalRepository.Object, followuserRepository.Object, unitOfWork.Object);
@@ -119,8 +119,8 @@ namespace SocialGoal.Tests.Controllers
             userProfileService = new UserProfileService(userProfileRepository.Object, unitOfWork.Object);
             updateSupportService = new UpdateSupportService(updateSupportRepository.Object, unitOfWork.Object);
 
-            MailerBase.IsTestModeEnabled = true;
-            userMailerMock.CallBase = true;
+            //MailerBase.IsTestModeEnabled = true;
+            //userMailerMock.CallBase = true;
 
             controllerContext = new Mock<ControllerContext>();
             contextBase = new Mock<HttpContextBase>();
@@ -135,7 +135,7 @@ namespace SocialGoal.Tests.Controllers
         [TearDown]
         public void TearDown()
         {
-            TestSmtpClient.SentMails.Clear();
+          //  TestSmtpClient.SentMails.Clear();
         }
 
 
@@ -1148,16 +1148,16 @@ namespace SocialGoal.Tests.Controllers
 
 
 
-            var mailMessage = new MvcMailMessage();
+           // var mailMessage = new MvcMailMessage();
             Guid goalIdToken = Guid.NewGuid();
 
 
             string email = "a@gmail.com";
 
             // userMailerMock.Setup(mailer => mailer.PopulateBody(It.IsAny<MvcMailMessage>(), "SupportGoal", null));
-            mailerBase.Setup(x => x.PopulateBody(It.IsAny<MailMessage>(), "SupportGoal", null));
+           // mailerBase.Setup(x => x.PopulateBody(It.IsAny<MailMessage>(), "SupportGoal", null));
 
-            userMailer.Setup(x => x.Support(email, goalIdToken)).Returns(mailMessage);
+           // userMailer.Setup(x => x.Support(email, goalIdToken)).Returns(mailMessage);
 
 
 

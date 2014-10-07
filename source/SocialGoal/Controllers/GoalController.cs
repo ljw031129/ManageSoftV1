@@ -9,7 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SocialGoal.Web.Core.Extensions;
-using SocialGoal.Web.Mailers;
+//using SocialGoal.Web.Mailers;
 using SocialGoal.Properties;
 using Microsoft.AspNet.Identity;
 
@@ -31,12 +31,12 @@ namespace SocialGoal.Web.Controllers
         private readonly ICommentUserService commentUserService;
         private readonly IUpdateSupportService updateSupportService;
 
-        private IUserMailer userMailer = new UserMailer();
-        public IUserMailer UserMailer
-        {
-            get { return userMailer; }
-            set { userMailer = value; }
-        }
+        //private IUserMailer userMailer = new UserMailer();
+        //public IUserMailer UserMailer
+        //{
+        //    get { return userMailer; }
+        //    set { userMailer = value; }
+        //}
 
         public GoalController(IGoalService goalService, IMetricService metricService, IFocusService focusService, ISupportService supportService, IUpdateService updateService, ICommentService commentService, IUserService userService, ISecurityTokenService securityTokenService, ISupportInvitationService supportInvitationService, IGoalStatusService goalStatusService, ICommentUserService commentUserService, IUpdateSupportService updateSupportService)
         {
@@ -380,7 +380,7 @@ namespace SocialGoal.Web.Controllers
                     ActualID = inviteEmail.GrouporGoalId
                 };
                 securityTokenService.CreateSecurityToken(goalIdSecurity);
-                UserMailer.Support(inviteEmail.Email, goalIdToken).Send();
+              //  UserMailer.Support(inviteEmail.Email, goalIdToken).Send();
                 return Resources.InvitationSent;
 
             }

@@ -12,7 +12,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SocialGoal.Web.Core.Extensions;
-using SocialGoal.Web.Mailers;
+//using SocialGoal.Web.Mailers;
 using SocialGoal.Properties;
 using Microsoft.AspNet.Identity;
 
@@ -38,12 +38,12 @@ namespace SocialGoal.Web.Controllers
         private readonly IGroupUpdateSupportService groupUpdateSupportService;
         private readonly IGroupUpdateUserService groupUpdateUserService;
 
-        private IUserMailer userMailer = new UserMailer();
-        public IUserMailer UserMailer
-        {
-            get { return userMailer; }
-            set { userMailer = value; }
-        }
+        //private IUserMailer userMailer = new UserMailer();
+        //public IUserMailer UserMailer
+        //{
+        //    get { return userMailer; }
+        //    set { userMailer = value; }
+        //}
 
         public GroupController(IGroupService groupService, IGroupUserService groupUserService, IUserService userService, IMetricService metricService, IFocusService focusService, IGroupGoalService groupgoalService, IGroupInvitationService groupInvitationService, ISecurityTokenService securityTokenService, IGroupUpdateService groupUpdateService, IGroupCommentService groupCommentService, IGoalStatusService goalStatusService, IGroupRequestService groupRequestService, IFollowUserService followUserService, IGroupCommentUserService groupCommentUserService, IGroupUpdateSupportService groupUpdateSupportService, IGroupUpdateUserService groupUpdateUserService)
         {
@@ -701,7 +701,7 @@ namespace SocialGoal.Web.Controllers
                     ActualID = inviteUser.GrouporGoalId
                 };
                 securityTokenService.CreateSecurityToken(groupIdSecurity);
-                UserMailer.Invite(inviteUser.Email, groupIdToken).Send();
+               // UserMailer.Invite(inviteUser.Email, groupIdToken).Send();
                 return Resources.InvitationSent;
             }
             else

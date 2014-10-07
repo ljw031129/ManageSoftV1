@@ -17,8 +17,8 @@ using System.Web;
 using System.IO;
 using SocialGoal.Web.Core.Authentication;
 using SocialGoal.Service;
-using SocialGoal.Web.Mailers;
-using Mvc.Mailer;
+//using SocialGoal.Web.Mailers;
+//using Mvc.Mailer;
 using SocialGoal.Models;
 using System.Linq.Expressions;
 using Microsoft.Owin.Security;
@@ -63,7 +63,7 @@ namespace SocialGoal.Web.Controllers.Test
         IFollowRequestService followRequestService;
         IFollowUserService followUserService;
         ISecurityTokenService securityTokenService;
-        IUserMailer userMailer = new UserMailer();
+       // IUserMailer userMailer = new UserMailer();
         Mock<AccountController> accountController;
 
 
@@ -106,7 +106,7 @@ namespace SocialGoal.Web.Controllers.Test
         [TearDown]
         public void TearDown()
         {
-            TestSmtpClient.SentMails.Clear();
+           // TestSmtpClient.SentMails.Clear();
         }
 
         [Test]
