@@ -82,8 +82,8 @@
             <div class='col-sm-12'>
                 <div class='page-header'>
                     <h1 class='pull-left'>
-                        <i class='icon-user'></i>
-                        <span>终端详细信息</span>
+                        <i class='icon-facetime-video '></i>
+                        <span>设备监控</span>
                     </h1>
                     <div class='pull-right'>
                         <ul class='breadcrumb'>
@@ -107,9 +107,27 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-sm-12 box">
+                <ul class="nav nav-tabs nav-tabs-simple">
+                    <li>
+                        <a href="@Url.Action("Detail", "Terminal", new { id = ViewBag.DevId })">
+                            <i class="icon-indent-left"></i>
+                            车况一览
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="@Url.Action("Map", "Terminal", new { id = ViewBag.DevId })" class="green-border">
+                            <i class="icon-map-marker  text-red"></i>
+                            行驶轨迹
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
             <div class='col-sm-12 box'>
                 <div class='box-header blue-background'>
-                    <div class='title'><i class="icon-star-empty"></i>位置信息</div>
+                    <div class='title'><i class="icon-map-marker "></i>  行驶轨迹：终端编号 @ViewBag.DevId</div>
                     <div class='actions'>
                         <a class="btn box-remove btn-xs btn-link" href="#">
                             <i class='icon-remove'></i>
@@ -325,8 +343,8 @@
                     //设置中心点
                     mapObj.setZoomAndCenter(14, new AMap.LngLat(this._path[0].GpsPlog, this._path[0].GpsPlat));
                     //添加停留点
-                   
-                    var distance = getFlatternDistance(parseFloat(this._path[0].GpsPlog), parseFloat(this._path[0].GpsPlat), parseFloat(this._path[1].GpsPlog),parseFloat(this._path[1].GpsPlat));
+
+                    var distance = getFlatternDistance(parseFloat(this._path[0].GpsPlog), parseFloat(this._path[0].GpsPlat), parseFloat(this._path[1].GpsPlog), parseFloat(this._path[1].GpsPlat));
                     addMarker(this._path[0], distance);
                     //移动到下一点
                     this._marker.moveTo(new AMap.LngLat(this._path[1].GpsPlog, this._path[1].GpsPlat), this._speed);
@@ -493,7 +511,7 @@
         }
         function load() {
             var arr = [];
-            var devid = "C2340008";
+            var devid = "@ViewBag.DevId";
             //加载过程中地图添加csspinner
             $("#iCenter").addClass("csspinner ringed");
             $.get("/api/ApiReceiveData/GetReceiveDataMap",
@@ -566,4 +584,3 @@
         }
     </script>
 }
-

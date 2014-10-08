@@ -12,8 +12,8 @@
             <div class='col-sm-12'>
                 <div class='page-header'>
                     <h1 class='pull-left'>
-                        <i class='icon-user'></i>
-                        <span>终端详细信息</span>
+                        <i class='icon-facetime-video '></i>
+                        <span>设备监控</span>
                     </h1>
                     <div class='pull-right'>
                         <ul class='breadcrumb'>
@@ -36,10 +36,34 @@
 
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-12 box">
+                <ul class="nav nav-tabs nav-tabs-simple">
+                    <li>
+                        <a href="@Url.Action("Index", "Terminal",null)" class="green-border">
+                            <i class="icon-indent-left  text-red"></i>
+                            车辆列表
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="#" class="green-border">
+                            <i class="icon-indent-left  text-red"></i>
+                            车况一览
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Map", "Terminal", new { id = ViewBag.DevId })">
+                            <i class=" icon-map-marker "></i>
+                            行驶轨迹
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
         <div class="row" ng-controller="TerminalCtrl">
             <div class='col-sm-12 box' style='margin-bottom: 0'>
                 <div class='box-header blue-background'>
-                    <div class='title'>数据信息</div>
+                    <div class='title'><i class=" icon-desktop "></i>  数据信息</div>
                     <div class='actions'>
                         <a class="btn box-remove btn-xs btn-link" href="#">
                             <i class='icon-remove'></i>
@@ -51,201 +75,178 @@
                     </div>
                 </div>
                 <div class='box-content'>
-                    <div class='tabbable'>
-                        <ul class='nav nav-tabs nav-tabs-simple'>
-                            <li class='active'>
-                                <a class='green-border' data-toggle='tab' href='#tabsimple1'>
-                                    <i class='icon-indent-left'></i>
-                                    车况一览
-                                </a>
-                            </li>
-                            <li>
-                                <a data-toggle='tab' href='#tabsimple2'>
-                                    <i class='icon-edit text-red'></i>
-                                    报警
-                                </a>
-                            </li>
-                        </ul>
-                        <div class='tab-content'>
-                            <div class='tab-pane active' id='tabsimple1'>
-                                <div class="row">
-                                    <div class='col-sm-6'>
-                                        <div class='box box-nomargin'>
-                                            <div class='box-header'>
-                                                <div class='title'>档案信息</div>
-                                                <div class='actions'>
-                                                    <span class='label label-success'>
-                                                        31%
-                                                        <i class='icon-arrow-up'></i>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class='box-content'>
-                                                <table class='table' style='margin-bottom:5px;'>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>
-                                                                Name
-                                                            </th>
-                                                            <th>
-                                                                E-mail
-                                                            </th>
-                                                            <th>
-                                                                Status
-                                                            </th>
-                                                            <th></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Zelma Langosh</td>
-                                                            <td>berta@hotmail.com</td>
-                                                            <td>
-                                                                <span class='label label-important'>Important</span>
-                                                            </td>
-                                                            <td>
-                                                                <div class='text-right'>
-                                                                    <a class='btn btn-success btn-xs' href='#'>
-                                                                        <i class='icon-ok'></i>
-                                                                    </a>
-                                                                    <a class='btn btn-danger btn-xs' href='#'>
-                                                                        <i class='icon-remove'></i>
-                                                                    </a>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Jackson Yundt</td>
-                                                            <td>seth@yahoo.com</td>
-                                                            <td>
-                                                                <span class='label label-success'>Success</span>
-                                                            </td>
-                                                            <td>
-                                                                <div class='text-right'>
-                                                                    <a class='btn btn-success btn-xs' href='#'>
-                                                                        <i class='icon-ok'></i>
-                                                                    </a>
-                                                                    <a class='btn btn-danger btn-xs' href='#'>
-                                                                        <i class='icon-remove'></i>
-                                                                    </a>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Rey Fadel</td>
-                                                            <td>macey@yahoo.com</td>
-                                                            <td>
-                                                                <span class='label label-warning'>Warning</span>
-                                                            </td>
-                                                            <td>
-                                                                <div class='text-right'>
-                                                                    <a class='btn btn-success btn-xs' href='#'>
-                                                                        <i class='icon-ok'></i>
-                                                                    </a>
-                                                                    <a class='btn btn-danger btn-xs' href='#'>
-                                                                        <i class='icon-remove'></i>
-                                                                    </a>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Jaquelin Koelpin</td>
-                                                            <td>celia@hotmail.com</td>
-                                                            <td>
-                                                                <span class='label label-success'>Success</span>
-                                                            </td>
-                                                            <td>
-                                                                <div class='text-right'>
-                                                                    <a class='btn btn-success btn-xs' href='#'>
-                                                                        <i class='icon-ok'></i>
-                                                                    </a>
-                                                                    <a class='btn btn-danger btn-xs' href='#'>
-                                                                        <i class='icon-remove'></i>
-                                                                    </a>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class='col-sm-6'>
-                                        <div class='box'>
-                                            <div class='box-header'>
-                                                <div class='title'>
-                                                    <i class='icon-dashboard'></i>
-                                                    工况信息
-                                                </div>
-                                            </div>
-                                            <div class='row'>
-                                                <div class='col-sm-6'>
-                                                    <div class='box-content box-statistic text-right'>
-                                                        <h3 class='title text-error'>9100</h3>
-                                                        <small>累计工时</small>
-                                                        <div class='text-error icon-user align-left'></div>
-                                                    </div>
-                                                    <div class='box-content box-statistic text-right'>
-                                                        <h3 class='title text-warning'>41 000</h3>
-                                                        <small>累计耗油量</small>
-                                                        <div class='text-warning icon-book align-left'></div>
-                                                    </div>
-                                                    <div class='box-content box-statistic text-right'>
-                                                        <h3 class='title text-primary'>2014/09/16 12:21:12</h3>
-                                                        <small>最后更新时间</small>
-                                                        <div class='text-primary icon-time align-left'></div>
-                                                    </div>
-                                                </div>
-                                                <div class='col-sm-6'>
-                                                    <div class='box-content box-statistic red-background'>
-                                                        <h3 class='title text-primary'>3</h3>
-                                                        <small>行驶里程</small>
-                                                        <div class='text-primary icon-truck align-right'></div>
-                                                    </div>
-                                                    <div class='box-content box-statistic green-background'>
-                                                        <h3 class='title text-success'>工作</h3>
-                                                        <small>工作状态</small>
-                                                        <div class='text-success icon-flag align-right'></div>
-                                                    </div>
-                                                    <div class='box-content box-statistic muted-background'>
-                                                        <h3 class='title text-muted'>150</h3>
-                                                        <small>报警统计</small>
-                                                        <div class='text-muted icon-remove align-right'></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                    <div class="row">
+                        <div class='col-sm-6'>
+                            <div class='box box-nomargin'>
+                                <div class='box-header'>
+                                    <div class='title'>档案信息</div>
+                                    <div class='actions'>
+                                        <span class='label label-success'>
+                                            31%
+                                            <i class='icon-arrow-up'></i>
+                                        </span>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class='col-sm-12'>
-                                        <div class='box box-nomargin'>
-                                            <div class='box-header'>
-                                                <div class='title'><i class="icon-book"></i>详细工况信息</div>
-                                                <div class='actions'>
-                                                    <a class="btn box-remove btn-xs btn-link" href="#">
-                                                        <i class='icon-remove'></i>
-                                                    </a>
-
-                                                    <a class="btn box-collapse btn-xs btn-link" href="#">
-                                                        <i></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class='box-content'>
-                                                <ul class='list-unstyled list-inline'>
-                                                    <li ng-repeat="rd in ReceiveDataLasts">
-                                                        <i ng-class="rd.ShowIcon"></i>
-                                                        {{rd.DictionaryKey}}：<span style="color:{{rd.ShowColor}}">{{rd.DictionaryValue}}{{rd.ShowUnit}}</span>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                <div class='box-content'>
+                                    <table class='table' style='margin-bottom:5px;'>
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Name
+                                                </th>
+                                                <th>
+                                                    E-mail
+                                                </th>
+                                                <th>
+                                                    Status
+                                                </th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Zelma Langosh</td>
+                                                <td>berta@hotmail.com</td>
+                                                <td>
+                                                    <span class='label label-important'>Important</span>
+                                                </td>
+                                                <td>
+                                                    <div class='text-right'>
+                                                        <a class='btn btn-success btn-xs' href='#'>
+                                                            <i class='icon-ok'></i>
+                                                        </a>
+                                                        <a class='btn btn-danger btn-xs' href='#'>
+                                                            <i class='icon-remove'></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Jackson Yundt</td>
+                                                <td>seth@yahoo.com</td>
+                                                <td>
+                                                    <span class='label label-success'>Success</span>
+                                                </td>
+                                                <td>
+                                                    <div class='text-right'>
+                                                        <a class='btn btn-success btn-xs' href='#'>
+                                                            <i class='icon-ok'></i>
+                                                        </a>
+                                                        <a class='btn btn-danger btn-xs' href='#'>
+                                                            <i class='icon-remove'></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Rey Fadel</td>
+                                                <td>macey@yahoo.com</td>
+                                                <td>
+                                                    <span class='label label-warning'>Warning</span>
+                                                </td>
+                                                <td>
+                                                    <div class='text-right'>
+                                                        <a class='btn btn-success btn-xs' href='#'>
+                                                            <i class='icon-ok'></i>
+                                                        </a>
+                                                        <a class='btn btn-danger btn-xs' href='#'>
+                                                            <i class='icon-remove'></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Jaquelin Koelpin</td>
+                                                <td>celia@hotmail.com</td>
+                                                <td>
+                                                    <span class='label label-success'>Success</span>
+                                                </td>
+                                                <td>
+                                                    <div class='text-right'>
+                                                        <a class='btn btn-success btn-xs' href='#'>
+                                                            <i class='icon-ok'></i>
+                                                        </a>
+                                                        <a class='btn btn-danger btn-xs' href='#'>
+                                                            <i class='icon-remove'></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='col-sm-6'>
+                            <div class='box'>
+                                <div class='box-header'>
+                                    <div class='title'>
+                                        <i class='icon-dashboard'></i>
+                                        工况信息
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class='col-sm-6'>
+                                        <div class='box-content box-statistic text-right'>
+                                            <h3 class='title text-error'>9100</h3>
+                                            <small>累计工时</small>
+                                            <div class='text-error icon-user align-left'></div>
+                                        </div>
+                                        <div class='box-content box-statistic text-right'>
+                                            <h3 class='title text-warning'>41 000</h3>
+                                            <small>累计耗油量</small>
+                                            <div class='text-warning icon-book align-left'></div>
+                                        </div>
+                                        <div class='box-content box-statistic text-right'>
+                                            <h3 class='title text-primary'>2014/09/16 12:21:12</h3>
+                                            <small>最后更新时间</small>
+                                            <div class='text-primary icon-time align-left'></div>
+                                        </div>
+                                    </div>
+                                    <div class='col-sm-6'>
+                                        <div class='box-content box-statistic red-background'>
+                                            <h3 class='title text-primary'>3</h3>
+                                            <small>行驶里程</small>
+                                            <div class='text-primary icon-truck align-right'></div>
+                                        </div>
+                                        <div class='box-content box-statistic green-background'>
+                                            <h3 class='title text-success'>工作</h3>
+                                            <small>工作状态</small>
+                                            <div class='text-success icon-flag align-right'></div>
+                                        </div>
+                                        <div class='box-content box-statistic muted-background'>
+                                            <h3 class='title text-muted'>150</h3>
+                                            <small>报警统计</small>
+                                            <div class='text-muted icon-remove align-right'></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class='tab-pane' id='tabsimple2'>
-                                <p>Howdy, I'm in Section 2.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class='col-sm-12'>
+                            <div class='box box-nomargin'>
+                                <div class='box-header'>
+                                    <div class='title'><i class="icon-book"></i>详细工况信息</div>
+                                    <div class='actions'>
+                                        <a class="btn box-remove btn-xs btn-link" href="#">
+                                            <i class='icon-remove'></i>
+                                        </a>
+
+                                        <a class="btn box-collapse btn-xs btn-link" href="#">
+                                            <i></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class='box-content'>
+                                    <ul class='list-unstyled list-inline'>
+                                        <li ng-repeat="rd in ReceiveDataLasts">
+                                            <i ng-class="rd.ShowIcon"></i>
+                                            {{rd.DictionaryKey}}：<span style="color:{{rd.ShowColor}}">{{rd.DictionaryValue}}{{rd.ShowUnit}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -325,7 +326,7 @@
                                     </div>
                                 </div>
                                 <div class="box-content" id="result">
-                                  
+
                                 </div>
                             </div>
                         </div>
@@ -494,14 +495,14 @@
             //返回周边道路信息
             roadinfo +="<table class='table table-bordered table-hover table-condensed'>";
             for(var i=0;i<data.regeocode.roads.length;i++){
-                
+
                 roadinfo += "<tr><td>道路：" + data.regeocode.roads[i].name + "</td><td>方向：" + data.regeocode.roads[i].direction + "</td><td>距离：" + data.regeocode.roads[i].distance + "米</td></tr>";
             }
             roadinfo +="</table>"
             //返回周边兴趣点信息
             poiinfo += "<table  class='table table-bordered table-hover table-condensed'>";
             for(var j=0;j<data.regeocode.pois.length;j++){
-              
+
                 poiinfo += "<tr onmouseover='onMouseOver(\"" + data.regeocode.pois[j].location.toString() + "\")'><td>兴趣点：" + data.regeocode.pois[j].name + "</td><td>类型：" + data.regeocode.pois[j].type + "</td><td>距离：" + data.regeocode.pois[j].distance + "米</td></tr>";
             }
             poiinfo += "</table>";

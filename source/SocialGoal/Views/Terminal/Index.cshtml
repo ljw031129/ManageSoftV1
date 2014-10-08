@@ -18,8 +18,8 @@
             <div class='col-sm-12'>
                 <div class='page-header'>
                     <h1 class='pull-left'>
-                        <i class='icon-user'></i>
-                        <span>机械监控</span>
+                        <i class='icon-facetime-video '></i>
+                        <span>设备监控</span>
                     </h1>
                     <div class='pull-right'>
                         <ul class='breadcrumb'>
@@ -43,9 +43,33 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-sm-12 box">
+                <ul class="nav nav-tabs nav-tabs-simple">
+                    <li class="active">
+                        <a href="#" class="green-border">
+                            <i class="icon-list  text-red"></i>
+                            设备列表
+                        </a>
+                    </li>
+                    <li >
+                        <a href="#" class="green-border">
+                            <i class="icon-indent-left "></i>
+                            设备工况一览
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="green-border">
+                            <i class=" icon-map-marker "></i>
+                            行驶轨迹
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
             <div style="margin-bottom: 0" class="col-sm-12 box">
-                <div class="box-header red-background">
-                    <div class="title">监控信息</div>
+                <div class="box-header blue-background">
+                    <div class="title"><i class=" icon-list "></i>  设备列表</div>
                     <div class="actions">
                         <a href="#" class="btn box-remove btn-xs btn-link">
                             <i class="icon-remove"></i>
@@ -106,7 +130,7 @@
                         { name: 'AccStatus', index: 'AccStatus', editable: false, width: 100 },
                         { name: 'TotalWorkTime', index: 'TotalWorkTime', editable: false, width: 100 },
                         { name: 'ReceiveTime', index: 'ReceiveTime', editable: false, width: 100, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
-                        { name: 'GpsPos', index: 'GpsPos',  editable: false, width: 80, align: "right" }
+                        { name: 'GpsPos', index: 'GpsPos', editable: false, width: 80, align: "right" }
 
                     ],
                     //   multiselect: true,
@@ -132,7 +156,7 @@
                     editurl: '/api/ApiTerminalEquipment' // this is dummy existing url
                 });
             jQuery("#grps").jqGrid('navGrid', '#pgrps',
-                { edit: true, add: true, del: true },
+                { edit: false, add: false, del: false },
                 {
                     editCaption: "编辑",
                     top: "5",
@@ -197,7 +221,7 @@
             }
             function LinkFmatter(cellvalue, options, rowObject) {
                 var rec = '<a href="../../Terminal/Detail/' + cellvalue + '">' + cellvalue + '</a>';
-                       
+
                 return rec;
             }
             function CurentTime() {
