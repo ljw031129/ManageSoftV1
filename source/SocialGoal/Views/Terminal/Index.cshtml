@@ -51,14 +51,14 @@
                             设备列表
                         </a>
                     </li>
-                    <li >
-                        <a href="#" class="green-border">
+                    <li>
+                        <a href="#" class="green-border" id="equipmentDetail">
                             <i class="icon-indent-left "></i>
                             设备工况一览
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="green-border">
+                        <a href="#" class="green-border" id="equipmentMap">
                             <i class=" icon-map-marker "></i>
                             行驶轨迹
                         </a>
@@ -81,21 +81,6 @@
                     </div>
                 </div>
                 <div class="box-content">
-                    <div class="box-toolbox box-toolbox-top">
-                        <div class="pull-left">
-                            <a class="btn btn-white">
-                                <i class="icon-bold"></i>
-                            </a>
-                            <a class="btn btn-white">
-                                <i class="icon-italic"></i>
-                            </a>
-                        </div>
-                        <div class="pull-right">
-                            <a class="btn btn-white">
-                                <i class="icon-eye-open"></i>
-                            </a>
-                        </div>
-                    </div>
                     <table id="grps"></table> <div id="pgrps"></div>
 
                 </div>
@@ -113,6 +98,35 @@
     <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+            //点击事件
+            $("#equipmentDetail").click(function () {
+                var rowId = $("#grps").jqGrid("getGridParam", "selrow");
+                if (rowId == null) {
+                    var d = dialog({
+                        title: '提示',
+                        content: '请选择设备！'
+                    });
+                    d.show();
+                    return;
+                } else {
+                    var rowData = $("#grps").jqGrid("getRowData", rowId);
+                    window.location.href = "../../Terminal/Detail/" + rowData.TerminalEquipmentNum;
+                }
+            });
+            $("#equipmentMap").click(function () {
+                var rowId = $("#grps").jqGrid("getGridParam", "selrow");
+                if (rowId == null) {
+                    var d = dialog({
+                        title: '提示',
+                        content: '请选择设备！'
+                    });
+                    d.show();
+                    return;
+                } else {
+                    var rowData = $("#grps").jqGrid("getRowData", rowId);
+                    window.location.href = "../../Terminal/Map/" + rowData.TerminalEquipmentNum;
+                }
+            });
             jQuery("#grps").jqGrid(
                 {
                     url: '/api/ApiTerminal/GetTerminalEquipmentDetail',
@@ -125,12 +139,12 @@
                         { name: 'EquipmentTypeId', index: 'EquipmentTypeId', editable: false, width: 100, edittype: "select", formatter: IconyFmatter, editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" }, align: "center" },
                         { name: 'EquipmentNum', index: 'EquipmentNum', editable: false, width: 90 },
                         { name: 'EquipmentName', index: 'EquipmentName', editable: false, width: 90 },
-                        { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: false, width: 90, formatter: LinkFmatter },
+                        { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: false, width: 90, formatter: LinkFmatter, unformat: imageUnFormat },
                         { name: 'TerminalEquipmentType', index: 'EquipmentName', editable: false, width: 100, edittype: "select", formatter: "select", editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" }, align: "center" },
-                        { name: 'AccStatus', index: 'AccStatus', editable: false, width: 100 },
-                        { name: 'TotalWorkTime', index: 'TotalWorkTime', editable: false, width: 100 },
-                        { name: 'ReceiveTime', index: 'ReceiveTime', editable: false, width: 100, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
-                        { name: 'GpsPos', index: 'GpsPos', editable: false, width: 80, align: "right" }
+                        { name: 'AccStatus', index: 'AccStatus', editable: false, width: 60 },
+                        { name: 'TotalWorkTime', index: 'TotalWorkTime', editable: false, width: 60 },
+                        { name: 'ReceiveTime', index: 'ReceiveTime', editable: false, align: "left", width: 180, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
+                        { name: 'GpsPos', index: 'GpsPos', editable: false, align: "left", width: 200 }
 
                     ],
                     //   multiselect: true,
@@ -152,6 +166,8 @@
                         userdata: "userdata"
                     },
                     // caption: "终端信息表",
+                    shrinkToFit: false,
+                    width: 'auto',
                     height: '100%',
                     editurl: '/api/ApiTerminalEquipment' // this is dummy existing url
                 });
@@ -220,9 +236,12 @@
                 return rec;
             }
             function LinkFmatter(cellvalue, options, rowObject) {
-                var rec = '<a href="../../Terminal/Detail/' + cellvalue + '">' + cellvalue + '</a>';
+                var rec = '<a href="../../Terminal/Detail/' + cellvalue + '" id="' + cellvalue + '">' + cellvalue + '</a>';
 
                 return rec;
+            }
+            function imageUnFormat(cellvalue, options, cell) {
+                return $('a', cell).attr('id');
             }
             function CurentTime() {
                 var now = new Date();

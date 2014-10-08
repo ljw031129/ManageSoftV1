@@ -110,9 +110,15 @@
             <div class="col-sm-12 box">
                 <ul class="nav nav-tabs nav-tabs-simple">
                     <li>
+                        <a href="@Url.Action("Index", "Terminal",null)" class="green-border">
+                            <i class="icon-list  "></i>
+                            设备列表
+                        </a>
+                    </li>
+                    <li>
                         <a href="@Url.Action("Detail", "Terminal", new { id = ViewBag.DevId })">
                             <i class="icon-indent-left"></i>
-                            车况一览
+                            设备工况一览
                         </a>
                     </li>
                     <li class="active">
@@ -333,7 +339,7 @@
                 if (this._path.length == 1) {
                     var d = dialog({
                         title: '提示',
-                        content: '"轨迹播放完毕！'
+                        content: '轨迹播放完毕！'
                     });
                     d.show();
                 } else {
