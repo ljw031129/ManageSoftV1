@@ -273,6 +273,7 @@
     <Compile Include="Controllers\TerminalController.cs" />
     <Compile Include="Controllers\ApiTerminalEquipmentController.cs" />
     <Compile Include="Controllers\TerminalEquipmentController.cs" />
+    <Compile Include="Controllers\TerminalSimCardController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2336,11 +2337,11 @@
     <Content Include="Views\Terminal\Index.cshtml" />
     <Content Include="Views\Terminal\Map.cshtml" />
     <Content Include="Views\Shared\_PartialMap.cshtml" />
+    <Content Include="Views\TerminalSimCard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\FunctionScripts\" />
-    <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

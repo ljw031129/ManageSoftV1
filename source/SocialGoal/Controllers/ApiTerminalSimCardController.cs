@@ -52,6 +52,7 @@ namespace SocialGoal.Controllers
                             TerminalSimCardId = item.TerminalSimCardId,
                             TerminalSimCardNum = item.TerminalSimCardNum,
                             TerminalSimCardSerialNum = item.TerminalSimCardSerialNum,
+                            TerminalSimCardState=item.TerminalSimCardState,
                             TerminalSimCardUpdateTime = item.TerminalSimCardUpdateTime,
                             TerminalSimCardCreateTime = item.TerminalSimCardCreateTime
                         }).ToArray()
@@ -91,6 +92,16 @@ namespace SocialGoal.Controllers
                 }
 
             }
+            //if (viewModel.ReturnStatus == true)
+            //{
+            //    var response = Request.CreateResponse<CustomerMaintenanceViewModel>
+            //                   (HttpStatusCode.OK, viewModel);
+
+            //    return response;
+            //}
+
+            //var badResponse = Request.CreateResponse<CustomerMaintenanceViewModel>
+            //                  (HttpStatusCode.BadRequest, viewModel);
             // ModelState.AddModelErrors(errors);
             return BadRequest(ModelState);
         }

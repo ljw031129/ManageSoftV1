@@ -12,7 +12,7 @@ namespace SocialGoal.ViewModels
         public string TerminalSimCardSerialNum { get; set; }
         public DateTime TerminalSimCardCreateTime { get; set; }
         public DateTime TerminalSimCardUpdateTime { get; set; }
-
+        public string TerminalSimCardState { get; set; }
         //del  edit  add
         public string oper { get; set; }
         public string id { get; set; }

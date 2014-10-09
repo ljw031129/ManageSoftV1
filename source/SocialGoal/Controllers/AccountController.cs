@@ -36,7 +36,7 @@ namespace SocialGoal.Web.Controllers
         private IFollowRequestService followRequestService;
         private IFollowUserService followUserService;
         private ISecurityTokenService securityTokenService;
-       // private IUserMailer userMailer = new UserMailer();
+        // private IUserMailer userMailer = new UserMailer();
         private UserManager<ApplicationUser> UserManager;
         public AccountController(IUserService userService, IUserProfileService userProfileService, IGoalService goalService, IUpdateService updateService, ICommentService commentService, IFollowRequestService followRequestService, IFollowUserService followUserService, ISecurityTokenService securityTokenService, UserManager<ApplicationUser> userManager)
         {
@@ -139,7 +139,7 @@ namespace SocialGoal.Web.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-        
+
         //
         // POST: /Account/Disassociate
         [HttpPost]
@@ -692,24 +692,29 @@ namespace SocialGoal.Web.Controllers
         //}
 
         // Add this private variable
-      private IAuthenticationManager _authnManager;
+        private IAuthenticationManager _authnManager;
 
         // Modified this from private to public and add the setter
-      public IAuthenticationManager AuthenticationManager
-      {
-          get
-          {
-              if (_authnManager == null)
-                  _authnManager = HttpContext.GetOwinContext().Authentication;
-              return _authnManager;
-          }
-          set { _authnManager = value; }
-      }
+        public IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                if (_authnManager == null)
+                    _authnManager = HttpContext.GetOwinContext().Authentication;
+                return _authnManager;
+            }
+            set { _authnManager = value; }
+        }
 
         private async Task SignInAsync(ApplicationUser user, bool isPersistent)
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            //生成了一个 ClaimsIdentity。
+            //由于 ASP.NET Identity 和 OWIN Cookie 身份验证是基于“声明” (claims) 的系统，
+            //所以框架要求应用程序为用户生成一个 ClaimsIdentity。ClaimsIdentity 包含有关于用户的所有声明信息，
+            //例如用户所属的角色。你也可以在这个阶段为用户添加更多的声明。
             var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+            //完成了用户的登录操作。它使用来自 OWIN 的 AuthenticationManager，调用它的 SignIn 方法，并传入生成的 ClaimsIdentity。
             AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);
         }
 
@@ -753,7 +758,8 @@ namespace SocialGoal.Web.Controllers
 
         private class ChallengeResult : HttpUnauthorizedResult
         {
-            public ChallengeResult(string provider, string redirectUri) : this(provider, redirectUri, null)
+            public ChallengeResult(string provider, string redirectUri)
+                : this(provider, redirectUri, null)
             {
             }
 
