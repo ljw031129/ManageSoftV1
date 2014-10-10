@@ -101,9 +101,14 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\EquipmentListViewModel.cs" />
+    <Compile Include="ViewModels\EquipmentViewModel.cs" />
+    <Compile Include="ViewModels\OrgEnterpriseViewModel.cs" />
     <Compile Include="ViewModels\ProtocolTestViewModel.cs" />
     <Compile Include="ViewModels\SelectKeyValue.cs" />
     <Compile Include="ViewModels\TerminalDataViewModel.cs" />
+    <Compile Include="ViewModels\TerminalEquipmentViewModel.cs" />
+    <Compile Include="ViewModels\TerminalSimCardViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SocialGoal.Core\SocialGoal.Core.csproj">

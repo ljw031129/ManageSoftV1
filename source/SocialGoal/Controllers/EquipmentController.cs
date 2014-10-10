@@ -8,7 +8,7 @@ using SocialGoal.Model.Models;
 using SocialGoal.Models;
 using SocialGoal.Service;
 using SocialGoal.Web.Core.Extensions;
-using SocialGoal.Web.ViewModels;
+using SocialGoal.Model.ViewModels;
 using SocialGoal.Core.xFilter.Expressions;
 using SocialGoal.Web.Core.Models;
 using PagedList;

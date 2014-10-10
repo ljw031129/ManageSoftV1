@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using SocialGoal.Model.Models;
-using SocialGoal.ViewModels;
+using SocialGoal.Model.ViewModels;
 using SocialGoal.Web.ViewModels;
 using System;
 using System.Collections.Generic;

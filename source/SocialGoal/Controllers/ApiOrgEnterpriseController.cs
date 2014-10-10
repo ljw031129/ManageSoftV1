@@ -6,7 +6,7 @@ using SocialGoal.Model.Models;
 using SocialGoal.Service;
 using SocialGoal.Web.Core.Extensions;
 using SocialGoal.Web.Core.Models;
-using SocialGoal.Web.ViewModels;
+using SocialGoal.Model.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

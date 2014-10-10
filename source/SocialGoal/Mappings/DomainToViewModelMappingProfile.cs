@@ -4,6 +4,7 @@ using SocialGoal.Model.Models;
 using SocialGoal.Web.Core.AutoMapperConverters;
 using SocialGoal.Web.Core.Models;
 using SocialGoal.Web.ViewModels;
+using SocialGoal.Model.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

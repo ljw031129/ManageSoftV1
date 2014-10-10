@@ -2,7 +2,7 @@
 using SocialGoal.Core.xFilter.Expressions;
 using SocialGoal.Model.Models;
 using SocialGoal.Service;
-using SocialGoal.ViewModels;
+using SocialGoal.Model.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

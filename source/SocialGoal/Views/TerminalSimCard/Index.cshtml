@@ -63,6 +63,18 @@
                             行驶轨迹
                         </a>
                     </li>
+                    <li>
+                        <a href="#" class="green-border" id="getAll">
+                            <i class=" icon-map-marker "></i>
+                            测试
+                        </a>
+                    </li>
+                    <li id="result">
+                        <a href="#" class="green-border" id="getAll">
+                            <i class=" icon-map-marker "></i>
+                            测试
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -97,7 +109,24 @@
     <script src="~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"></script>
     <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function () {              
+            var valuesAddress = localApi + 'api/ApiTerminalSimCard?_search=false&nd=1412923495442&rows=10&page=1&sidx=TerminalSimCardUpdateTime&sord=desc';
+           // var valuesAddress = localApi + 'api/Values';
+            $("#getAll").click(function () {
+                $.ajax({
+                    url: valuesAddress,
+                    type: "GET",
+                    success: function (result) {
+                       
+
+                        $("#result").text(result);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $("#result").text(textStatus);
+                    }
+                });
+            });
+
             //点击事件
             $("#equipmentDetail").click(function () {
                 var rowId = $("#grps").jqGrid("getGridParam", "selrow");
@@ -129,9 +158,10 @@
             });
             jQuery("#grps").jqGrid(
                 {
-                    url: '/api/ApiTerminalSimCard',
+                    url: localApi+'api/ApiTerminalSimCard3333',
                     datatype: "json",
                     mtype: "get",
+                   // ajaxGridOptions: { contentType: 'application/json; charset=utf-8' },
                     colNames:
                         ['Id', 'SIM卡号', '序列号', '当前状态', '更新时间', '创建时间'],
                     colModel: [
@@ -164,7 +194,7 @@
                     // shrinkToFit: false,
                     //width: 'auto',
                     height: '100%',
-                    editurl: '/api/ApiTerminalSimCard' // this is dummy existing url
+                    editurl: localApi + 'api/ApiTerminalSimCard' // this is dummy existing url
                 });
             jQuery("#grps").jqGrid('navGrid', '#pgrps',
                 { edit: true, add: true, del: true },
@@ -176,7 +206,6 @@
                     reloadAfterSubmit: true,
                     afterShowForm: function (form) {
                         $("#PmFInterpreterId").select2();
-
                     }
                 },
                 {
@@ -187,7 +216,6 @@
                     reloadAfterSubmit: true,
                     afterShowForm: function (form) {
                         $("#PmFInterpreterId").select2();
-
                     }
                 },
                 {},
@@ -205,38 +233,7 @@
                     $("#grps").setGridWidth(w);
                     console.log("new width " + w);
                 }
-
-            }).trigger('resize');
-            function CurentTime() {
-                var now = new Date();
-
-                var year = now.getFullYear();       //年
-                var month = now.getMonth() + 1;     //月
-                var day = now.getDate();            //日
-
-                var hh = now.getHours();            //时
-                var mm = now.getMinutes();          //分
-
-                var clock = year + "-";
-
-                if (month < 10)
-                    clock += "0";
-
-                clock += month + "-";
-
-                if (day < 10)
-                    clock += "0";
-
-                clock += day + " ";
-
-                if (hh < 10)
-                    clock += "0";
-
-                clock += hh + ":";
-                if (mm < 10) clock += '0';
-                clock += mm;
-                return (clock);
-            }
+            }).trigger('resize');            
         });
 
     </script>

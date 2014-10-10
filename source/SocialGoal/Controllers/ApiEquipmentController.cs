@@ -17,10 +17,10 @@ using SocialGoal.Model.Models;
 using SocialGoal.Service;
 using SocialGoal.Web.Core.Extensions;
 using SocialGoal.Web.Core.Models;
-using SocialGoal.Web.ViewModels;
 using xFilter.Expressions;
 using Newtonsoft.Json.Linq;
 using SocialGoal.Core.xFilter.Expressions;
+using SocialGoal.Model.ViewModels;
 
 namespace SocialGoal.Controllers
 {

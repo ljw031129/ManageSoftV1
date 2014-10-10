@@ -3,7 +3,6 @@ using SocialGoal.Core.xFilter.Expressions;
 using SocialGoal.Model.Models;
 using SocialGoal.Model.ViewModels;
 using SocialGoal.Service;
-using SocialGoal.ViewModels;
 using SocialGoal.Web.ViewModels;
 using System;
 using System.Collections.Generic;
