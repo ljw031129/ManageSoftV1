@@ -3,7 +3,6 @@ using SocialGoal.Core.xFilter.Expressions;
 using SocialGoal.Model.Models;
 using SocialGoal.Model.ViewModels;
 using SocialGoal.Service;
-using SocialGoal.Model.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,13 +15,25 @@ using Newtonsoft.Json;
 
 namespace SocialGoal.Web.API.Controllers
 {
+    /// <summary>
+    /// SIM卡管理
+    /// </summary>
     public class ApiTerminalSimCardController : ApiController
     {
         private readonly ITerminalSimCardService _terminalSimCardService;
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="terminalSimCardService"></param>
         public ApiTerminalSimCardController(ITerminalSimCardService terminalSimCardService)
         {
             this._terminalSimCardService = terminalSimCardService;
         }
+        /// <summary>
+        /// 获取SIM卡列表
+        /// </summary>
+        /// <param name="terminalEquipmentId"></param>
+        /// <returns></returns>
         [Route("api/ApiTerminalSimCard/{terminalEquipmentId}")]
         public async Task<string> GetAll(string terminalEquipmentId)
         {
@@ -37,7 +48,12 @@ namespace SocialGoal.Web.API.Controllers
             st.Append("</select>"); ;
             return st.ToString();
         }
-        public async Task<string> Get([FromUri]JqGridSetting jqGridSetting)
+        /// <summary>
+        /// 获取SIM卡数据
+        /// </summary>
+        /// <param name="jqGridSetting"></param>
+        /// <returns></returns>
+        public async Task<object> Get([FromUri]JqGridSetting jqGridSetting)
         {
             int count = 0;
             IEnumerable<TerminalSimCard> orgStructure = await _terminalSimCardService.GeTerminalSimCard(jqGridSetting, out count);
@@ -46,6 +62,7 @@ namespace SocialGoal.Web.API.Controllers
                 total = (int)Math.Ceiling((double)count / jqGridSetting.rows),
                 page = jqGridSetting.page,
                 records = count,
+                userdata = "{totalinvoice:240.00}",
                 rows = (from item in orgStructure
                         select new
                         {
@@ -59,7 +76,7 @@ namespace SocialGoal.Web.API.Controllers
             };
 
             // var response = Request.CreateResponse(HttpStatusCode.Created, result);
-            return JsonConvert.SerializeObject(result);
+            return result;
         }
         [HttpPost]
         public async Task<IHttpActionResult> Post(TerminalSimCardViewModel newTerminalSimCardViewModel)

@@ -63,18 +63,7 @@
                             行驶轨迹
                         </a>
                     </li>
-                    <li>
-                        <a href="#" class="green-border" id="getAll">
-                            <i class=" icon-map-marker "></i>
-                            测试
-                        </a>
-                    </li>
-                    <li id="result">
-                        <a href="#" class="green-border" id="getAll">
-                            <i class=" icon-map-marker "></i>
-                            测试
-                        </a>
-                    </li>
+
                 </ul>
             </div>
         </div>
@@ -109,24 +98,7 @@
     <script src="~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"></script>
     <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {              
-            var valuesAddress = localApi + 'api/ApiTerminalSimCard?_search=false&nd=1412923495442&rows=10&page=1&sidx=TerminalSimCardUpdateTime&sord=desc';
-           // var valuesAddress = localApi + 'api/Values';
-            $("#getAll").click(function () {
-                $.ajax({
-                    url: valuesAddress,
-                    type: "GET",
-                    success: function (result) {
-                       
-
-                        $("#result").text(result);
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        $("#result").text(textStatus);
-                    }
-                });
-            });
-
+        $(document).ready(function () {
             //点击事件
             $("#equipmentDetail").click(function () {
                 var rowId = $("#grps").jqGrid("getGridParam", "selrow");
@@ -158,10 +130,10 @@
             });
             jQuery("#grps").jqGrid(
                 {
-                    url: localApi+'api/ApiTerminalSimCard3333',
+                    url: localApi + 'api/ApiTerminalSimCard',
                     datatype: "json",
                     mtype: "get",
-                   // ajaxGridOptions: { contentType: 'application/json; charset=utf-8' },
+                    // ajaxGridOptions: { contentType: 'application/json; charset=utf-8' },
                     colNames:
                         ['Id', 'SIM卡号', '序列号', '当前状态', '更新时间', '创建时间'],
                     colModel: [
@@ -190,6 +162,7 @@
                         repeatitems: false,
                         userdata: "userdata"
                     },
+                    postData: { userId: '123456' },
                     // caption: "终端信息表",
                     // shrinkToFit: false,
                     //width: 'auto',
@@ -233,7 +206,7 @@
                     $("#grps").setGridWidth(w);
                     console.log("new width " + w);
                 }
-            }).trigger('resize');            
+            }).trigger('resize');
         });
 
     </script>
