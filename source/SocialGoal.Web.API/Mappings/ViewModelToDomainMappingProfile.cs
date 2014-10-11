@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SocialGoal.Domain.Commands;
 using SocialGoal.Model.Models;
 using SocialGoal.Model.ViewModels;
 using System;
@@ -22,9 +23,9 @@ namespace SocialGoal.SocialGoal.Web.API.Mappings
             //测试
             Mapper.CreateMap<EquipmentViewModel,Equipment>();
 
-            Mapper.CreateMap<OrgEnterpriseViewModel, OrgEnterprise>();
-            Mapper.CreateMap<TerminalSimCardViewModel, TerminalSimCard>();
+            Mapper.CreateMap<OrgEnterpriseViewModel, OrgEnterprise>();           
             Mapper.CreateMap<TerminalEquipmentViewModel, TerminalEquipment>();
+            Mapper.CreateMap<TerminalSimCardViewModel, CreateOrUpdateTerminalSimCardCommand>();
             //Mapper.CreateMap<XViewModel, X()
             //    .ForMember(x => x.PropertyXYZ, opt => opt.MapFrom(source => source.Property1));     
         }

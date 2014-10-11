@@ -12,6 +12,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Newtonsoft.Json;
+using SocialGoal.CommandProcessor.Dispatcher;
+using SocialGoal.Domain.Commands;
+using SocialGoal.Data.Repository;
+using SocialGoal.Core.Common;
+using SocialGoal.Web.Core.Extensions;
 
 namespace SocialGoal.Web.API.Controllers
 {
@@ -20,14 +25,17 @@ namespace SocialGoal.Web.API.Controllers
     /// </summary>
     public class ApiTerminalSimCardController : ApiController
     {
-        private readonly ITerminalSimCardService _terminalSimCardService;
+        private readonly ICommandBus commandBus;
+        private readonly ITerminalSimCardRepository _terminalSimCardRepository;
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="terminalSimCardService"></param>
-        public ApiTerminalSimCardController(ITerminalSimCardService terminalSimCardService)
+        /// <param name="commandBus"></param>
+        /// <param name="terminalSimCardRepository"></param>
+        public ApiTerminalSimCardController(ICommandBus commandBus, ITerminalSimCardRepository terminalSimCardRepository)
         {
-            this._terminalSimCardService = terminalSimCardService;
+            this.commandBus = commandBus;
+            this._terminalSimCardRepository = terminalSimCardRepository;
         }
         /// <summary>
         /// 获取SIM卡列表
@@ -35,10 +43,10 @@ namespace SocialGoal.Web.API.Controllers
         /// <param name="terminalEquipmentId"></param>
         /// <returns></returns>
         [Route("api/ApiTerminalSimCard/{terminalEquipmentId}")]
-        public async Task<string> GetAll(string terminalEquipmentId)
+        public string GetAll(string terminalEquipmentId)
         {
             StringBuilder st = new StringBuilder();
-            IEnumerable<TerminalSimCard> re = await _terminalSimCardService.GetAll();
+            IEnumerable<TerminalSimCard> re = _terminalSimCardRepository.GetAll();
             st.Append("<select>");
             foreach (var item in re)
             {
@@ -53,10 +61,10 @@ namespace SocialGoal.Web.API.Controllers
         /// </summary>
         /// <param name="jqGridSetting"></param>
         /// <returns></returns>
-        public async Task<object> Get([FromUri]JqGridSetting jqGridSetting)
+        public object Get([FromUri]JqGridSetting jqGridSetting)
         {
             int count = 0;
-            IEnumerable<TerminalSimCard> orgStructure = await _terminalSimCardService.GeTerminalSimCard(jqGridSetting, out count);
+            IEnumerable<TerminalSimCard> orgStructure = _terminalSimCardRepository.GetPageJqGrid<TerminalSimCard>(jqGridSetting, out count);
             var result = new
             {
                 total = (int)Math.Ceiling((double)count / jqGridSetting.rows),
@@ -78,51 +86,41 @@ namespace SocialGoal.Web.API.Controllers
             // var response = Request.CreateResponse(HttpStatusCode.Created, result);
             return result;
         }
+        /// <summary>
+        /// 执行增删改查操作
+        /// </summary>
+        /// <param name="sendForm"></param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<IHttpActionResult> Post(TerminalSimCardViewModel newTerminalSimCardViewModel)
+        public HttpResponseMessage Post(TerminalSimCardViewModel sendForm)
         {
             if (ModelState.IsValid)
             {
+                CreateOrUpdateTerminalSimCardCommand command = Mapper.Map<TerminalSimCardViewModel, CreateOrUpdateTerminalSimCardCommand>(sendForm);
+                IEnumerable<ValidationResult> errors = commandBus.Validate(command);
+                
+               // ModelState.AddModelErrors(errors);
 
-                TerminalSimCard terminalSimCard = Mapper.Map<TerminalSimCardViewModel, TerminalSimCard>(newTerminalSimCardViewModel);
-                switch (newTerminalSimCardViewModel.oper)
+
+                var result = commandBus.Submit(command);
+                if (result.Success)
                 {
-                    case "add":
-                        terminalSimCard.TerminalSimCardId = Guid.NewGuid().ToString();
-                        terminalSimCard.TerminalSimCardUpdateTime = DateTime.Now;
-                        terminalSimCard.TerminalSimCardCreateTime = DateTime.Now;
-                        // var errors = _orgEnterpriseService.CanAdd(equipment).ToList();
-                        await _terminalSimCardService.CreateAsync(terminalSimCard);
-                        return Ok();
-
-                    case "edit":
-                        terminalSimCard.TerminalSimCardUpdateTime = DateTime.Now;
-                        await _terminalSimCardService.UpdateAsync(terminalSimCard);
-                        return Ok();
-
-                    case "del":
-                        bool rec = await _terminalSimCardService.DeleteAsync(newTerminalSimCardViewModel.id);
-                        if (rec)
-                        {
-                            return Ok();
-                        }
-                        break;
-
+                    var response = Request.CreateResponse(HttpStatusCode.Created, sendForm);
+                    string uri = Url.Link("DefaultApi", new { id = sendForm.TerminalSimCardId });
+                    response.Headers.Location = new Uri(uri);
+                    return response;
                 }
-
             }
-            //if (viewModel.ReturnStatus == true)
-            //{
-            //    var response = Request.CreateResponse<CustomerMaintenanceViewModel>
-            //                   (HttpStatusCode.OK, viewModel);
-
-            //    return response;
-            //}
-
-            //var badResponse = Request.CreateResponse<CustomerMaintenanceViewModel>
-            //                  (HttpStatusCode.BadRequest, viewModel);
-            // ModelState.AddModelErrors(errors);
-            return BadRequest(ModelState);
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+            throw new HttpResponseException(HttpStatusCode.BadRequest);
         }
+        private IEnumerable<string> GetErrorsFromModelState()
+        {
+            return ModelState.SelectMany(x => x.Value.Errors.Select(error => error.ErrorMessage));
+        }
+
     }
 }

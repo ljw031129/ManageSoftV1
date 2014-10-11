@@ -52,11 +52,12 @@ namespace SocialGoal.Data.Infrastructure
                 dbset.Remove(obj);
         }
         public virtual T GetById(long id)
-        {
+        {            
             return dbset.Find(id);
         }
         public virtual T GetById(string id)
         {
+           
             return dbset.Find(id);
         }
         public virtual IEnumerable<T> GetAll()
@@ -65,7 +66,7 @@ namespace SocialGoal.Data.Infrastructure
         }
 
         public virtual IQueryable<T> GetIQueryableAll()
-        {
+        {            
             return dbset;
         }
 

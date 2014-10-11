@@ -2,6 +2,8 @@
 using Autofac.Integration.WebApi;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using SocialGoal.CommandProcessor.Command;
+using SocialGoal.CommandProcessor.Dispatcher;
 using SocialGoal.Data.Infrastructure;
 using SocialGoal.Data.Models;
 using SocialGoal.Data.Repository;
@@ -33,7 +35,7 @@ namespace SocialGoal.Web.API.App_Start
             var builder = new ContainerBuilder();           
             //注入API
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-
+            builder.RegisterType<DefaultCommandBus>().As<ICommandBus>().InstancePerRequest();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
             builder.RegisterType<DatabaseFactory>().As<IDatabaseFactory>().InstancePerRequest();
             builder.RegisterAssemblyTypes(typeof(FocusRepository).Assembly)
@@ -49,7 +51,13 @@ namespace SocialGoal.Web.API.App_Start
 
             builder.Register(c => new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new SocialGoalEntities())))
                 .As<UserManager<ApplicationUser>>().InstancePerRequest();
-           
+
+            var services = Assembly.Load("SocialGoal.Domain");
+            builder.RegisterAssemblyTypes(services)
+            .AsClosedTypesOf(typeof(ICommandHandler<>)).InstancePerRequest();
+            builder.RegisterAssemblyTypes(services)
+            .AsClosedTypesOf(typeof(IValidationHandler<>)).InstancePerRequest();            
+
             IContainer container = builder.Build();
             var resolver = new AutofacWebApiDependencyResolver(container);
             configuration.DependencyResolver = resolver;            

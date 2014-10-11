@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtocolsManage", "Src\Prot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialGoal.Web.API", "SocialGoal.Web.API\SocialGoal.Web.API.csproj", "{EFC22390-DCDB-413D-87C6-CE6DAE606E07}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialGoal.Domain", "SocialGoal.Domain\SocialGoal.Domain.csproj", "{C666AA63-5920-417B-8172-19FE9C344DBC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialGoal.CommandProcessor", "SocialGoal.CommandProcessor\SocialGoal.CommandProcessor.csproj", "{7EFA3605-00C9-4C74-812A-A44CE97CC9B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +67,14 @@ Global
 		{EFC22390-DCDB-413D-87C6-CE6DAE606E07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFC22390-DCDB-413D-87C6-CE6DAE606E07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFC22390-DCDB-413D-87C6-CE6DAE606E07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C666AA63-5920-417B-8172-19FE9C344DBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C666AA63-5920-417B-8172-19FE9C344DBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C666AA63-5920-417B-8172-19FE9C344DBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C666AA63-5920-417B-8172-19FE9C344DBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EFA3605-00C9-4C74-812A-A44CE97CC9B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EFA3605-00C9-4C74-812A-A44CE97CC9B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EFA3605-00C9-4C74-812A-A44CE97CC9B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EFA3605-00C9-4C74-812A-A44CE97CC9B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -230,7 +230,6 @@
     <Compile Include="Controllers\ApiOrgStructureController.cs" />
     <Compile Include="Controllers\ApiReceiveDataController.cs" />
     <Compile Include="Controllers\ApiTerminalController.cs" />
-    <Compile Include="Controllers\ApiTerminalSimCardController.cs" />
     <Compile Include="Controllers\EquipmentController.cs" />
     <Compile Include="Controllers\JqGridController.cs" />
     <Compile Include="Controllers\OrgEnterpriseController.cs" />
@@ -2287,7 +2286,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\" />
     <Folder Include="Scripts\FunctionScripts\" />
   </ItemGroup>
   <ItemGroup>

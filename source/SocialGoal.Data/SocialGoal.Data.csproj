@@ -276,10 +276,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="CodeTemplates\ReverseEngineerCodeFirst\Context.tt" />
-    <None Include="CodeTemplates\ReverseEngineerCodeFirst\Entity.tt" />
-    <None Include="CodeTemplates\ReverseEngineerCodeFirst\Mapping.tt" />
-    <None Include="CodeTemplates\Scaffolders\T4Scaffolding.EFRepository\Repository.cs.t4" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

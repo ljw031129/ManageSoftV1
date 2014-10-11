@@ -188,26 +188,7 @@
                         return { results: data.Results, more: more };
                     }
                 }
-            });
-            //function myelem(value, options) {
-            //    var el = document.createElement("SELECT");
-            //    el.type = "text";
-            //    el.value = value;
-            //    var opt = new Option("xx", "xx");
-            //    el.options.add(opt);
-            //    opt = new Option("ccc", "ccc");
-            //    el.options.add(opt);
-            //    $("#" + options.id).select2();
-            //    return el;
-            //}
-            //function myvalue(elem, operation, value) {
-
-            //    if (operation === 'get') {
-            //        return $(elem).val();
-            //    } else if (operation === 'set') {
-            //        $('SELECT', elem).val(value);
-            //    }
-            //}
+            });           
             jQuery("#grps").jqGrid(
                 {
                     url: '/api/ApiTerminalEquipment',
@@ -223,7 +204,7 @@
                         { name: 'TerminalEquipmentType', index: 'EquipmentName', editable: true, width: 100, edittype: "select", formatter: 'select', editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" } },
                         { name: 'OrgEnterpriseId', index: 'OrgEnterpriseId', editable: true, width: 100, edittype: "select", editoptions: { dataUrl: '/api/ApiOrgEnterprise/GetAll' }, stype: "select", searchoptions: { dataUrl: '/api/ApiOrgEnterprise/GetAll' } },
                         { name: 'PmFInterpreterId', index: 'PmFInterpreterId', editable: true, width: 100, edittype: "select", editoptions: { dataUrl: '/ProtocolManage/GetAllList' }, stype: "select", searchoptions: { dataUrl: '/ProtocolManage/GetAllList' } },
-                        { name: 'TerminalSimCardId', index: 'TerminalSimCardId', editable: true, width: 100, edittype: "select", editoptions: { dataUrl: '/api/ApiTerminalSimCard/123' }, stype: "select", searchoptions: { dataUrl: '/api/ApiTerminalSimCard/123' } },
+                        { name: 'TerminalSimCardId', index: 'TerminalSimCardId', editable: true, width: 100, edittype: "select", editoptions: { dataUrl: '/api/ApiTerminalSimCard/123' }, stype: "select", searchoptions: { dataUrl: localApi + 'api/ApiTerminalSimCard/123' } },
                         { name: 'TerminalEquipmentCreateTime', index: 'EquipmentCreatTime', sorttype: 'date', editable: true, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, width: 80, align: "right", editoptions: { readonly: true, defaultValue: CurentTime() } },
                         { name: 'TerminalEquipmentUpdateTime', index: 'EquipmentUpDateTime', sorttype: 'date', editable: false, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, editoptions: { readonly: true }, editrules: { date: true }, width: 80, align: "right" }
                     ],

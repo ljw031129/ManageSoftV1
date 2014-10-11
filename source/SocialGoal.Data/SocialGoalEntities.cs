@@ -72,7 +72,9 @@ namespace SocialGoal.Data.Models
 
         public virtual void Commit()
         {
-            base.SaveChanges();
+            //异步保存
+            //base.SaveChangesAsync();
+           base.SaveChanges();
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

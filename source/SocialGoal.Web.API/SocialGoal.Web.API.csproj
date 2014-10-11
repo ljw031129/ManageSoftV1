@@ -256,6 +256,10 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SocialGoal.CommandProcessor\SocialGoal.CommandProcessor.csproj">
+      <Project>{7efa3605-00c9-4c74-812a-a44ce97cc9b4}</Project>
+      <Name>SocialGoal.CommandProcessor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SocialGoal.Core\SocialGoal.Core.csproj">
       <Project>{b1053a2d-a1ea-412f-ba95-19ce794f8891}</Project>
       <Name>SocialGoal.Core</Name>
@@ -263,6 +267,10 @@
     <ProjectReference Include="..\SocialGoal.Data\SocialGoal.Data.csproj">
       <Project>{23b3d0d9-0f5c-4fd7-ba7e-a9e0c53a86c9}</Project>
       <Name>SocialGoal.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocialGoal.Domain\SocialGoal.Domain.csproj">
+      <Project>{c666aa63-5920-417b-8172-19fe9c344dbc}</Project>
+      <Name>SocialGoal.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\SocialGoal.Model\SocialGoal.Model.csproj">
       <Project>{4d4923f5-548c-4d13-859d-7f5e9699facd}</Project>
