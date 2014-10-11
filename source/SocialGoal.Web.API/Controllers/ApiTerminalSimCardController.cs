@@ -97,19 +97,25 @@ namespace SocialGoal.Web.API.Controllers
             if (ModelState.IsValid)
             {
                 CreateOrUpdateTerminalSimCardCommand command = Mapper.Map<TerminalSimCardViewModel, CreateOrUpdateTerminalSimCardCommand>(sendForm);
-                IEnumerable<ValidationResult> errors = commandBus.Validate(command);
-                
+                //IEnumerable<ValidationResult> errors = commandBus.Validate(command);
+               // ModelState.AddModelError("","sss");
                // ModelState.AddModelErrors(errors);
-
-
-                var result = commandBus.Submit(command);
-                if (result.Success)
+                if (ModelState.IsValid)
                 {
-                    var response = Request.CreateResponse(HttpStatusCode.Created, sendForm);
-                    string uri = Url.Link("DefaultApi", new { id = sendForm.TerminalSimCardId });
-                    response.Headers.Location = new Uri(uri);
-                    return response;
+                    var result = commandBus.Submit(command);
+                    if (result.Success)
+                    {
+                        var response = Request.CreateResponse(HttpStatusCode.Created, sendForm);
+                        string uri = Url.Link("DefaultApi", new { id = sendForm.TerminalSimCardId });
+                        response.Headers.Location = new Uri(uri);
+                        return response;
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "An unknown error occurred.");
+                    }
                 }
+               
             }
             else
             {

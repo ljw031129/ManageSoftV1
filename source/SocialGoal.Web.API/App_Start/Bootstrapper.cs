@@ -1,7 +1,7 @@
-﻿using Autofac;
+﻿using System.Web.Mvc;
+using Autofac;
 using Autofac.Integration.WebApi;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+using System.Reflection;
 using SocialGoal.CommandProcessor.Command;
 using SocialGoal.CommandProcessor.Dispatcher;
 using SocialGoal.Data.Infrastructure;
@@ -11,13 +11,7 @@ using SocialGoal.Model.Models;
 using SocialGoal.Service;
 using SocialGoal.SocialGoal.Web.API.Mappings;
 using SocialGoal.Web.Core.Authentication;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Web;
 using System.Web.Http;
-using System.Web.Mvc;
 
 namespace SocialGoal.Web.API.App_Start
 {
@@ -26,16 +20,17 @@ namespace SocialGoal.Web.API.App_Start
         public static void Run()
         {
             SetAutofacWebAPIServices();
-           
+            //Configure AutoMapper
+            AutoMapperConfiguration.Configure();
         }
         private static void SetAutofacWebAPIServices()
         {
-            //Configure AutoMapper
-            var configuration = GlobalConfiguration.Configuration;
+            
+            //容器建立者
             var builder = new ContainerBuilder();           
-            //注入API
+            //注册web api Controllers
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-            builder.RegisterType<DefaultCommandBus>().As<ICommandBus>().InstancePerRequest();
+            builder.RegisterType<DefaultCommandBus>().As<ICommandBus>().InstancePerApiRequest();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
             builder.RegisterType<DatabaseFactory>().As<IDatabaseFactory>().InstancePerRequest();
             builder.RegisterAssemblyTypes(typeof(FocusRepository).Assembly)
@@ -49,8 +44,8 @@ namespace SocialGoal.Web.API.App_Start
          .Where(t => t.Name.EndsWith("Authentication"))
          .AsImplementedInterfaces().InstancePerRequest();
 
-            builder.Register(c => new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new SocialGoalEntities())))
-                .As<UserManager<ApplicationUser>>().InstancePerRequest();
+            //builder.Register(c => new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new SocialGoalEntities())))
+            //    .As<UserManager<ApplicationUser>>().InstancePerRequest();
 
             var services = Assembly.Load("SocialGoal.Domain");
             builder.RegisterAssemblyTypes(services)
@@ -58,9 +53,12 @@ namespace SocialGoal.Web.API.App_Start
             builder.RegisterAssemblyTypes(services)
             .AsClosedTypesOf(typeof(IValidationHandler<>)).InstancePerRequest();            
 
+            //建立容器
             IContainer container = builder.Build();
+            //建立相依解析器
             var resolver = new AutofacWebApiDependencyResolver(container);
-            configuration.DependencyResolver = resolver;            
+            //组成web api 相依解析器
+            GlobalConfiguration.Configuration.DependencyResolver = resolver;            
         }
     }
 }
