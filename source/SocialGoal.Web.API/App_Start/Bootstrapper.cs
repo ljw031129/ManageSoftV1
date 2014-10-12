@@ -30,7 +30,7 @@ namespace SocialGoal.Web.API.App_Start
             var builder = new ContainerBuilder();           
             //注册web api Controllers
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-            builder.RegisterType<DefaultCommandBus>().As<ICommandBus>().InstancePerApiRequest();
+            builder.RegisterType<DefaultCommandBus>().As<ICommandBus>().InstancePerRequest();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
             builder.RegisterType<DatabaseFactory>().As<IDatabaseFactory>().InstancePerRequest();
             builder.RegisterAssemblyTypes(typeof(FocusRepository).Assembly)

@@ -22,8 +22,10 @@ namespace SocialGoal.Web.API
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             Bootstrapper.Run();
-
+            //解决跨域问题，自定义Handlers的方式
             GlobalConfiguration.Configuration.MessageHandlers.Add(new CorsHandler());
+            //使用自带的功能，开启跨域功能
+            // GlobalConfiguration.Configuration.EnableCors();
         }
     }
 }

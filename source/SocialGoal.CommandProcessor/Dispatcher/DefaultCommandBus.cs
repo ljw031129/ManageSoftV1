@@ -8,7 +8,12 @@ namespace SocialGoal.CommandProcessor.Dispatcher
     public class DefaultCommandBus : ICommandBus
     {
         public ICommandResult Submit<TCommand>(TCommand command) where TCommand: ICommand
-        {    
+        {
+            
+            //IDependencyScope dependencyScope=this.Request.GetDependencyScope();;
+            //ILifetimeScope requestLifetimeScope = dependencyScope.GetRequestLifetimeScope();
+            //var customerService = requestLifetimeScope.Resolve<ICommandHandler<TCommand>>();
+            
             var handler = DependencyResolver.Current.GetService<ICommandHandler<TCommand>>();
             if (!((handler != null) && handler is ICommandHandler<TCommand>))
             {
