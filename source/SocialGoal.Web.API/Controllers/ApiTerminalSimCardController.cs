@@ -27,7 +27,7 @@ namespace SocialGoal.Web.API.Controllers
     /// <summary>
     /// SIM卡管理
     /// </summary>
-   // [EnableCors(origins: "http://localhost:5002", headers: "*", methods: "*")]
+    // [EnableCors(origins: "http://localhost:5002", headers: "*", methods: "*")]
     public class ApiTerminalSimCardController : ApiController
     {
         private readonly ICommandBus commandBus;
@@ -102,24 +102,8 @@ namespace SocialGoal.Web.API.Controllers
             if (ModelState.IsValid)
             {
                 CreateOrUpdateTerminalSimCardCommand command = Mapper.Map<TerminalSimCardViewModel, CreateOrUpdateTerminalSimCardCommand>(sendForm);
-
-                //IDependencyScope dependencyScope = this.Request.GetDependencyScope(); ;
-                //ILifetimeScope requestLifetimeScope = dependencyScope.GetRequestLifetimeScope();
-                //var customerService = requestLifetimeScope.Resolve<ICommandHandler<command>>();
-
-
-                //var handler = DependencyResolver.Current.GetService<IValidationHandler<command>>();
-
-                //if (!((handler != null) && handler is IValidationHandler<TCommand>))
-                //{
-                //    throw new ValidationHandlerNotFoundException(typeof(TCommand));
-                //}
-                //return handler.Validate(command);
-
-
-                //IEnumerable<ValidationResult> errors = commandBus.Validate(command);
-               // ModelState.AddModelError("","sss");
-               // ModelState.AddModelErrors(errors);
+                IEnumerable<ValidationResult> errors = commandBus.Validate(command);
+                ModelState.AddModelErrors(errors);
                 if (ModelState.IsValid)
                 {
                     var result = commandBus.Submit(command);
@@ -132,16 +116,20 @@ namespace SocialGoal.Web.API.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("", "An unknown error occurred.");
+                        ModelState.AddModelError("", "保存失败请重试！");
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
                     }
                 }
-               
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                }
             }
             else
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
-            throw new HttpResponseException(HttpStatusCode.BadRequest);
+            // throw new HttpResponseException(HttpStatusCode.BadRequest);
         }
         private IEnumerable<string> GetErrorsFromModelState()
         {

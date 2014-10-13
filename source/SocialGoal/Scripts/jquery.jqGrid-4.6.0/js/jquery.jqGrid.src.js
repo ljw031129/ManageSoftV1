@@ -7915,7 +7915,8 @@ $.jgrid.extend({
 						url: rp_ge[$t.p.id].url || $($t).jqGrid('getGridParam','editurl'),
 						type: rp_ge[$t.p.id].mtype,
 						data: $.isFunction(rp_ge[$t.p.id].serializeEditData) ? rp_ge[$t.p.id].serializeEditData.call($t,postdata) :  postdata,
-						complete:function(data,status){
+						complete: function (data, status) {
+                            //修改表单提交后错误的响应信息                          
 							var key;
 							postdata[idname] = $t.p.idPrefix + postdata[idname];
 							if(data.status >= 300 && data.status !== 304) {
@@ -7924,7 +7925,12 @@ $.jgrid.extend({
 								if ($.isFunction(rp_ge[$t.p.id].errorTextFormat)) {
 									ret[1] = rp_ge[$t.p.id].errorTextFormat.call($t, data, frmoper);
 								} else {
-									ret[1] = status + " Status: '" + data.statusText + "'. Error code: " + data.status;
+								    var result = "";                                  
+								    $.each(data.responseJSON.ModelState, function (index, item) {                                       
+                                        result += item;
+								    })
+								   // ret[1] = status + " 状态: '" + data.statusText + "'. 错误信息: " + result;
+								    ret[1] ="错误信息: " + result;
 								}
 							} else {
 								// data is posted successful

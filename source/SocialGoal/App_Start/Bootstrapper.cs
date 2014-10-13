@@ -47,6 +47,7 @@ namespace SocialGoal
             builder.Register(c => new UserManager<ApplicationUser>(new UserStore<ApplicationUser>( new SocialGoalEntities())))
                 .As<UserManager<ApplicationUser>>().InstancePerRequest();
 
+            //要使用的筛选器属性的属性注入，只需调用 RegisterFilterProvider 方法提供的 Autofac.MVC5
             builder.RegisterFilterProvider();
             IContainer container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

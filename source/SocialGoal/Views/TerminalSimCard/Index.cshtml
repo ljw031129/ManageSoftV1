@@ -98,6 +98,13 @@
     <script src="~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"></script>
     <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
     <script type="text/javascript">
+        //$(document).ajaxError(function (e, xhr, opt) {
+        //    $.each(xhr.responseJSON.ModelState, function (index, item) {
+        //        debugger;
+        //        alert(index);
+        //    })
+
+        //});
         $(document).ready(function () {
             //点击事件
             $("#equipmentDetail").click(function () {
@@ -132,8 +139,7 @@
                 {
                     url: localApi + 'api/ApiTerminalSimCard',
                     datatype: "json",
-                    mtype: "get",
-                    // ajaxGridOptions: { contentType: 'application/json; charset=utf-8' },
+                    mtype: "get",                   
                     colNames:
                         ['Id', 'SIM卡号', '序列号', '当前状态', '更新时间', '创建时间'],
                     colModel: [
@@ -168,6 +174,8 @@
                     //width: 'auto',
                     height: '100%',
                     editurl: localApi + 'api/ApiTerminalSimCard' // this is dummy existing url
+                  //  closeAfterAdd: true,                   
+                   
                 });
             jQuery("#grps").jqGrid('navGrid', '#pgrps',
                 { edit: true, add: true, del: true },
@@ -177,6 +185,9 @@
                     left: "5",
                     jqModal: false,
                     reloadAfterSubmit: true,
+                    closeAfterEdit:true,
+                    recreateForm: true,
+                    clearAfterAdd:true,//保存后清空数据
                     afterShowForm: function (form) {
                         $("#PmFInterpreterId").select2();
                     }
@@ -187,6 +198,7 @@
                     left: "5",
                     jqModal: false,
                     reloadAfterSubmit: true,
+                    recreateForm: true,
                     afterShowForm: function (form) {
                         $("#PmFInterpreterId").select2();
                     }
