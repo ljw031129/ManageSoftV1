@@ -104,6 +104,7 @@
     <Compile Include="ViewModels\EquipmentListViewModel.cs" />
     <Compile Include="ViewModels\EquipmentViewModel.cs" />
     <Compile Include="ViewModels\OrgEnterpriseViewModel.cs" />
+    <Compile Include="ViewModels\OrgStructureViewModel.cs" />
     <Compile Include="ViewModels\ProtocolTestViewModel.cs" />
     <Compile Include="ViewModels\SelectKeyValue.cs" />
     <Compile Include="ViewModels\TerminalDataViewModel.cs" />

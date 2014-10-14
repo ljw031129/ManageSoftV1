@@ -43,8 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\DynatreeNode.cs" />
     <Compile Include="Common\Md5Encrypt.cs" />
     <Compile Include="Common\Select2PagedResult.cs" />
+    <Compile Include="Common\TreeItem.cs" />
     <Compile Include="Common\ValidationResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="xFilter.Expressions\GridSettings.cs" />

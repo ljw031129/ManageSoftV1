@@ -1,4 +1,5 @@
-﻿using SocialGoal.Core.xFilter.Expressions;
+﻿using SocialGoal.Core.Common;
+using SocialGoal.Core.xFilter.Expressions;
 using SocialGoal.Model.Models;
 using SocialGoal.Service;
 using System;
@@ -49,6 +50,11 @@ namespace SocialGoal.Web.API.Controllers
             };
             return result;
         }
-
+        [Route("api/ApiOrgStructure/GetOrgStructureTree/{userId}")]
+        public async Task<Object> GetOrgStructureTree(string userId)
+        {
+            List<DynatreeNode> orgStructure = await _orgStructureService.GetOrgStructuresByUserId(userId);
+            return orgStructure;
+        }
     }
 }

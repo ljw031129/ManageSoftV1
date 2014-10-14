@@ -227,7 +227,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApiEquipmentController.cs" />
     <Compile Include="Controllers\ApiOrgEnterpriseController.cs" />
-    <Compile Include="Controllers\ApiOrgStructureController.cs" />
     <Compile Include="Controllers\ApiReceiveDataController.cs" />
     <Compile Include="Controllers\ApiTerminalController.cs" />
     <Compile Include="Controllers\EquipmentController.cs" />
@@ -883,6 +882,7 @@
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Json\MenuData.js" />
+    <Content Include="Scripts\Ajax\AjaxLogin.js" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-cookies.js" />
@@ -2283,6 +2283,7 @@
     <Content Include="Views\Terminal\Map.cshtml" />
     <Content Include="Views\Shared\_PartialMap.cshtml" />
     <Content Include="Views\TerminalSimCard\Index.cshtml" />
+    <Content Include="Views\OrgStructure\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

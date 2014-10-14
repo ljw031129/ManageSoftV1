@@ -22,6 +22,13 @@ namespace SocialGoal.Controllers
         {
             return View();
         }
+        /// <summary>
+        /// 采用JSONP方式加载select2数据
+        /// </summary>
+        /// <param name="pageSize"></param>
+        /// <param name="pageNum"></param>
+        /// <param name="searchTerm"></param>
+        /// <returns></returns>
         public async Task<JsonpResult> GetOrgEnterprises(int pageSize, int pageNum, string searchTerm)
         {
             Select2PagedResult orgEnterprises = await _orgEnterpriseService.GetSelect2PagedResult(searchTerm, pageSize, pageNum);

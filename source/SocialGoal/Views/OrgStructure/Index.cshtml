@@ -57,8 +57,8 @@
                     <div class="box-content">
                         <div class="box-toolbox box-toolbox-top">
                             <div class="pull-left">
-                                <a class="btn btn-white">
-                                    <i class="icon-bold"  id="Create"></i>
+                                <a class="btn btn-white" id="Create">
+                                    <i class="icon-bold"></i> 添加
                                 </a>
                                 <a class="btn btn-white">
                                     <i class="icon-italic"></i>
@@ -66,7 +66,7 @@
                             </div>
                             <div class="pull-right">
                                 <a class="btn btn-white">
-                                    <i class="icon-eye-open"></i>
+                                    <i class="icon-eye-open"></i> 修改
                                 </a>
                             </div>
                         </div>
@@ -87,15 +87,15 @@
 
             jQuery("#grps").jqGrid(
                 {
-                    url: '/api/ApiOrgStructure',
+                    url: localApi+'/api/ApiOrgStructure',
                     datatype: "json",
                     mtype: "get",
                     colNames:
                         ['Id', 'Pid', '企业ID', '组织编号', '组织名称', '描述', '更新时间', '创建时间'],
                     colModel: [
                         { name: 'OrgStructureId', key: true, index: 'EquipmentId', editable: true, editoptions: { readonly: true }, width: 55, hidden: true },
-                        { name: 'OrgStructurePId', index: 'EquipmentNum', editable: true, width: 90 },
-                        { name: 'OrgEnterpriseId', index: 'EquipmentName', editable: true, width: 100 },
+                        { name: 'OrgStructurePId', index: 'EquipmentNum', editable: true, width: 90, hidden: true },
+                        { name: 'OrgEnterpriseId', index: 'EquipmentName', editable: true, width: 100, hidden: true },
                         { name: 'OrgStructureNum', index: 'EquipmentNum', editable: true, width: 90 },
                         { name: 'OrgStructureName', index: 'EquipmentName', editable: true, width: 100 },
                          { name: 'OrgStructureDescribe', index: 'EquipmentName', editable: true, width: 100 },
@@ -143,14 +143,31 @@
             }).trigger('resize');
             $("#Create").click(function () {
                 var d = dialog({
+                    id: 'OrgStructure-Create',
                     title: '欢迎',
-                    content: '欢迎使用 artDialog 对话框组件！',
-                    ok: function () { },
-                    statusbar: '<label><input type="checkbox">不再提醒</label>'
+                    width: 450,
+                    fixed: true,
+                    url: '@Url.Action("Create", "OrgStructure", new { id = "123" })',
+                    //quickClose: true,
+                    onshow: function () {
+                        console.log('onshow');
+                    },
+                    oniframeload: function () {
+                        console.log('oniframeload');
+                    },
+                    onclose: function () {
+                        if (this.returnValue) {
+                            $('#value').html(this.returnValue);
+                        }
+                        console.log('onclose');
+                    },
+                    onremove: function () {
+                        console.log('onremove');
+                    }
                 });
                 d.show();
             });
-        });       
+        });
     </script>
 }
 

@@ -51,6 +51,23 @@ namespace SocialGoal.Web.API.Controllers
             st.Append("</select>"); ;
             return st.ToString();
         }
+        /// <summary>
+        /// 采用JSON方式加载select2数据
+        /// </summary>
+        /// <param name="pageSize"></param>
+        /// <param name="pageNum"></param>
+        /// <param name="searchTerm"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [Route("api/ApiOrgEnterprise/GetOrgEnterprisesSelect")]
+        public async Task<Object> GetOrgEnterprisesSelect(int pageSize, int pageNum, string searchTerm, string userId)
+        {
+            if (string.IsNullOrWhiteSpace(searchTerm)) searchTerm = "";
+            Select2PagedResult orgEnterprises = await _orgEnterpriseService.GetSelect2PagedResult(searchTerm, pageSize, pageNum);
+            //Return the data as a jsonp result
+
+            return orgEnterprises;
+        }
         public async Task<Object> Get([FromUri]JqGridSetting jqGridSetting)
         {
             int count = 0;

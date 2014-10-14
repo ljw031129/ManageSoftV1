@@ -13,5 +13,23 @@ namespace SocialGoal.Controllers
         {
             return View();
         }
+        public ActionResult Create()
+        {
+            return PartialView();
+        }
+        private ActionResult ContextDependentView()
+        {
+            string actionName = ControllerContext.RouteData.GetRequiredString("action");
+            if (Request.QueryString["content"] != null)
+            {
+                ViewBag.FormAction = "Json" + actionName;
+                return PartialView();
+            }
+            else
+            {
+                ViewBag.FormAction = actionName;
+                return View();
+            }
+        }
     }
 }
