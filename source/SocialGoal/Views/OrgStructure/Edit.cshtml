@@ -11,15 +11,16 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            @using (Ajax.BeginForm("Create", "OrgStructure", null, new AjaxOptions
-      {          
+            @using (Ajax.BeginForm("Creat", "OrgStructure", null, new AjaxOptions
+      {
+          InsertionMode = InsertionMode.Replace,
           HttpMethod = "Post",
           OnSuccess = "ShowResult",
       },
      new { @class = "form form-horizontal" })
    )
             {
-                 <div class="alert alert-success alert-dismissable">
+                <div class="alert alert-success alert-dismissable">
                     <a href="#" data-dismiss="alert" class="close">
                         ×
                     </a>
@@ -27,6 +28,7 @@
                     <i class="icon-ok-sign"></i>
                     <span id="detailsID"></span>
                 </div>
+
                 @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
                 <div class='form-group'>
                     <label class="col-xs-4 control-label">所属企业</label>
@@ -36,7 +38,7 @@
                     </div>
                 </div>
                 <div class='form-group'>
-                    <label class="col-xs-4 control-label">所属组织机构</label>
+                    <label class="col-xs-4 control-label">所属组织机构 @ViewBag.Id</label>
                     <div class='col-xs-8'>
                         <input type="hidden" name="OrgStructurePId" id="OrgStructurePId" value="0">
                         <input id="OrgStructurePIdSel" type="text" readonly value="" onclick="showMenu();" class="form-control" />
@@ -152,21 +154,12 @@
             hideMenu();
         }
     }
-
     //提交后ajax返回信息
     function ShowResult(data) {
-       
         $("#detailsID").html("返回信息：" + data);
-        var dialog = top.dialog.get(window);
-        setTimeout(function () {
-            dialog.close().remove();
-        }, 2000);
     }
 
     $(document).ready(function () {
-        var dialog = top.dialog.get(window);        
-        var data = dialog.data; // 获取对话框传递过来的数据
-
         $.fn.zTree.init($("#treeDemo"), setting);
 
         @*var attendeeUrl = '@Url.Action("GetOrgEnterprises", "OrgEnterprise")';*@
@@ -202,7 +195,7 @@
                    }
                })
             .on("select2-selecting", function (e) {
-                $("#OrgEnterpriseId").val(e.val);               
+                $("#OrgEnterpriseId").val(e.val);
             })
             .on("select2-removed", function (e) {
                 $("#OrgEnterpriseId").val("");

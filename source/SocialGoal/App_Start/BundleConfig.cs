@@ -10,8 +10,9 @@ namespace SocialGoal
         {
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
-
+                        "~/Scripts/jquery.validate.js",
+                        "~/Scripts/jquery.validate.unobtrusive.js", 
+                         "~/Scripts/jquery.unobtrusive-ajax.js"));
             bundles.Add(new ScriptBundle("~/Scripts/HomeLayout").Include(
                     "~/Scripts/jquery-1.7.2.min.js",
                     "~/Scripts/jquery-ui-1.8.21.custom.min.js",
@@ -162,6 +163,26 @@ namespace SocialGoal
                "~/Scripts/angular.js",
                "~/Content/assets/javascripts/theme.js"
                ));
+
+            //select2
+            bundles.Add(new ScriptBundle("~/bundles/select2/js").Include(
+                      "~/Scripts/plugins/select2-3.5.1/select2.js",
+                      "~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"
+                      ));
+
+            bundles.Add(new StyleBundle("~/Content/select2/css").Include(
+                   "~/Scripts/plugins/select2-3.5.1/select2.css",
+                    "~/Scripts/plugins/select2-3.5.1/select2-bootstrap.css"
+                    ));
+
+            //ztree
+
+            bundles.Add(new ScriptBundle("~/bundles/ztree/js").Include(
+                       "~/Content/assets/javascripts/plugins/ztree/jquery.ztree.all-3.5.js"));
+
+            bundles.Add(new StyleBundle("~/Content/ztrtee/css").Include(
+                   "~/Content/assets/stylesheets/plugins/zTreeStyle/zTreeStyle.css"
+                    ));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SocialGoal.Model.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,6 +18,22 @@ namespace SocialGoal.Controllers
         {
             return PartialView();
         }
+        [HttpPost]
+        public ActionResult Create(OrgStructureViewModel org)
+        {
+            return Content("true");
+        }
+        public ActionResult Edit(string id)
+        {
+            ViewBag.Id = id;
+            return PartialView();
+        }
+        [HttpPost]
+        public JsonResult Edit(OrgStructureViewModel org)
+        {
+            return Json(true);
+        }
+
         private ActionResult ContextDependentView()
         {
             string actionName = ControllerContext.RouteData.GetRequiredString("action");

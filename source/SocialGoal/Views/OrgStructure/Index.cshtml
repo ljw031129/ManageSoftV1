@@ -142,11 +142,13 @@
 
             }).trigger('resize');
             $("#Create").click(function () {
-                var d = dialog({
+                var pid = "123";
+                var top = dialog({
                     id: 'OrgStructure-Create',
-                    title: '欢迎',
+                    title: '添加组织机构信息',
                     width: 450,
                     fixed: true,
+                    data:123,
                     url: '@Url.Action("Create", "OrgStructure", new { id = "123" })',
                     //quickClose: true,
                     onshow: function () {
@@ -165,7 +167,7 @@
                         console.log('onremove');
                     }
                 });
-                d.show();
+                top.show();
             });
         });
     </script>

@@ -321,6 +321,17 @@
     <Content Include="Content\angular-xeditable\js\xeditable.min.js" />
     <Content Include="Content\angularplugins\tree-control-attribute.css" />
     <Content Include="Content\angularplugins\tree-control.css" />
+    <Content Include="Content\assets\javascripts\plugins\ztree\jquery.ztree.all-3.5.js" />
+    <Content Include="Content\assets\javascripts\plugins\ztree\jquery.ztree.all-3.5.min.js" />
+    <Content Include="Content\assets\javascripts\plugins\ztree\jquery.ztree.core-3.5.js" />
+    <Content Include="Content\assets\javascripts\plugins\ztree\jquery.ztree.core-3.5.min.js" />
+    <Content Include="Content\assets\javascripts\plugins\ztree\jquery.ztree.excheck-3.5.js" />
+    <Content Include="Content\assets\javascripts\plugins\ztree\jquery.ztree.excheck-3.5.min.js" />
+    <Content Include="Content\assets\javascripts\plugins\ztree\jquery.ztree.exedit-3.5.js" />
+    <Content Include="Content\assets\javascripts\plugins\ztree\jquery.ztree.exedit-3.5.min.js" />
+    <Content Include="Content\assets\javascripts\plugins\ztree\jquery.ztree.exedit.js" />
+    <Content Include="Content\assets\javascripts\plugins\ztree\jquery.ztree.exhide-3.5.js" />
+    <Content Include="Content\assets\javascripts\plugins\ztree\jquery.ztree.exhide-3.5.min.js" />
     <Content Include="Content\assets\map.Default.css" />
     <Content Include="Content\assets\images\ajax-loaders\1.gif" />
     <Content Include="Content\assets\images\ajax-loaders\10.gif" />
@@ -752,6 +763,21 @@
     <Content Include="Content\assets\stylesheets\plugins\select2\select2.css" />
     <Content Include="Content\assets\stylesheets\plugins\slider_nav\slidernav.css" />
     <Content Include="Content\assets\stylesheets\plugins\tabdrop\tabdrop.css" />
+    <Content Include="Content\assets\stylesheets\plugins\zTreeStyle\img\diy\1_close.png" />
+    <Content Include="Content\assets\stylesheets\plugins\zTreeStyle\img\diy\1_open.png" />
+    <Content Include="Content\assets\stylesheets\plugins\zTreeStyle\img\diy\2.png" />
+    <Content Include="Content\assets\stylesheets\plugins\zTreeStyle\img\diy\3.png" />
+    <Content Include="Content\assets\stylesheets\plugins\zTreeStyle\img\diy\4.png" />
+    <Content Include="Content\assets\stylesheets\plugins\zTreeStyle\img\diy\5.png" />
+    <Content Include="Content\assets\stylesheets\plugins\zTreeStyle\img\diy\6.png" />
+    <Content Include="Content\assets\stylesheets\plugins\zTreeStyle\img\diy\7.png" />
+    <Content Include="Content\assets\stylesheets\plugins\zTreeStyle\img\diy\8.png" />
+    <Content Include="Content\assets\stylesheets\plugins\zTreeStyle\img\diy\9.png" />
+    <Content Include="Content\assets\stylesheets\plugins\zTreeStyle\img\line_conn.gif" />
+    <Content Include="Content\assets\stylesheets\plugins\zTreeStyle\img\loading.gif" />
+    <Content Include="Content\assets\stylesheets\plugins\zTreeStyle\img\zTreeStandard.gif" />
+    <Content Include="Content\assets\stylesheets\plugins\zTreeStyle\img\zTreeStandard.png" />
+    <Content Include="Content\assets\stylesheets\plugins\zTreeStyle\zTreeStyle.css" />
     <Content Include="Content\assets\stylesheets\theme-colors.css" />
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />
@@ -2284,6 +2310,7 @@
     <Content Include="Views\Shared\_PartialMap.cshtml" />
     <Content Include="Views\TerminalSimCard\Index.cshtml" />
     <Content Include="Views\OrgStructure\Create.cshtml" />
+    <Content Include="Views\OrgStructure\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

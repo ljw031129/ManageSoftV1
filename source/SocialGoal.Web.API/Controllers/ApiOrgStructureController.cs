@@ -56,5 +56,30 @@ namespace SocialGoal.Web.API.Controllers
             List<DynatreeNode> orgStructure = await _orgStructureService.GetOrgStructuresByUserId(userId);
             return orgStructure;
         }
+
+        [Route("api/ApiOrgStructure/GetOrgStructureZtree/{userId}")]
+        public async Task<Object> GetOrgStructureZtree(string userId)
+        {
+            IEnumerable<OrgStructure> orgStructure = await _orgStructureService.GetOrgStructuresZtree(userId);
+
+            var result = (from item in orgStructure
+                          select new
+                          {                            
+                              OrgStructureId = item.OrgStructureId,
+                              OrgStructurePId = item.OrgStructurePId,
+                              OrgStructureNum = item.OrgStructureNum,
+                              OrgStructureName = item.OrgStructureName,
+                              OrgStructureDescribe = item.OrgStructureDescribe,
+                              OrgStructureUpdateTime = item.OrgStructureUpdateTime,
+                              OrgStructureCreateTime = item.OrgStructureCreateTime,
+                              level = item.level,
+                              parent = item.parent,
+                              isLeaf = item.isLeaf,
+                              expanded = item.expanded,
+                              loaded = item.loaded,
+                              icon = item.icon
+                          }).ToArray();
+            return result;
+        }
     }
 }

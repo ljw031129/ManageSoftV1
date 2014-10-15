@@ -14,6 +14,7 @@ namespace SocialGoal.Service
     {
         Task<IEnumerable<OrgStructure>> GetOrgStructures(Core.xFilter.Expressions.JqGridSetting jqGridSetting, out int count);
         Task<List<DynatreeNode>> GetOrgStructuresByUserId(string userId);
+        Task<IEnumerable<OrgStructure>> GetOrgStructuresZtree(string userId);
         void Save();
     }
     public class OrgStructureService : IOrgStructureService
@@ -86,6 +87,13 @@ namespace SocialGoal.Service
                     node.Add(nodeCh);
                 }               
             }
+        }
+
+
+        public Task<IEnumerable<OrgStructure>> GetOrgStructuresZtree(string userId)
+        {
+            IEnumerable<OrgStructure> orgList = _orgStructureRepository.GetAll();
+            return Task.FromResult(orgList);
         }
     }
 }
