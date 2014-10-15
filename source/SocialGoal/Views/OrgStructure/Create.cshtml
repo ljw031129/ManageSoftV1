@@ -139,7 +139,7 @@
     function showMenu() {
         var cityObj = $("#OrgStructurePIdSel");
         var cityOffset = $("#OrgStructurePIdSel").offset();
-        $("#menuContent").css({ left: cityOffset.left - 141 + "px", top: cityOffset.top - 49 + cityObj.outerHeight() + "px" }).slideDown("fast");
+        $("#menuContent").css({ left: cityOffset.left - 141 + "px", top: cityOffset.top - 120 + cityObj.outerHeight() + "px" }).slideDown("fast");
 
         $("body").bind("mousedown", onBodyDown);
     }

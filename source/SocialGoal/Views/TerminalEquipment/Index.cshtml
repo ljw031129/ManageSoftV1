@@ -205,7 +205,7 @@
                     { name: 'TerminalEquipmentId', key: true, index: 'TerminalEquipmentId', editable: true, editoptions: { readonly: true }, width: 55, hidden: true },
                      { name: 'EquipmentId', index: 'EquipmentId', editable: true, editoptions: { readonly: true }, width: 55, hidden: true },
                       { name: 'ReceiveDataLastId', index: 'ReceiveDataLastId', editable: true, editoptions: { readonly: true }, width: 55, hidden: true },
-                    { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: true, width: 90 },
+                    { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: true, width: 60 },
                     { name: 'TerminalEquipmentType', index: 'EquipmentName', editable: true, width: 100, edittype: "select", formatter: 'select', editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" } },
                     { name: 'OrgEnterpriseId', index: 'OrgEnterpriseId', editable: true, width: 100, edittype: "select", editoptions: { dataUrl: '/api/ApiOrgEnterprise/GetAll' }, stype: "select", searchoptions: { dataUrl: '/api/ApiOrgEnterprise/GetAll' } },
                     {
@@ -214,8 +214,8 @@
                         //dataInit: function(elem) { $(elem).css("margin-top", "8px" ); }
                     },
                     { name: 'TerminalSimCardId', index: 'TerminalSimCardId', editable: true, width: 100, edittype: "select", editoptions: { dataUrl: localApi + '/api/ApiTerminalSimCard/123' }, stype: "select", searchoptions: { dataUrl: localApi + 'api/ApiTerminalSimCard/123' } },
-                    { name: 'TerminalEquipmentCreateTime', index: 'EquipmentCreatTime', sorttype: 'date', editable: true, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, width: 80, align: "right", editoptions: { readonly: true, defaultValue: CurentTime() } },
-                    { name: 'TerminalEquipmentUpdateTime', index: 'EquipmentUpDateTime', sorttype: 'date', editable: false, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, editoptions: { readonly: true }, editrules: { date: true }, width: 80, align: "right" }
+                    { name: 'TerminalEquipmentCreateTime', index: 'EquipmentCreatTime', sorttype: 'date', editable: true, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, width: 80, align: "left", editoptions: { readonly: true, defaultValue: CurentTime() } },
+                    { name: 'TerminalEquipmentUpdateTime', index: 'EquipmentUpDateTime', sorttype: 'date', editable: false, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, editoptions: { readonly: true }, editrules: { date: true }, width: 80, align: "left" }
                 ],
                 multiselect: true,
                 rowNum: 10,
@@ -270,38 +270,7 @@
                 $("#grps").setGridWidth(w);
                 console.log("new width " + w);
             }
-
-        }).trigger('resize');
-        function CurentTime() {
-            var now = new Date();
-
-            var year = now.getFullYear();       //年
-            var month = now.getMonth() + 1;     //月
-            var day = now.getDate();            //日
-
-            var hh = now.getHours();            //时
-            var mm = now.getMinutes();          //分
-
-            var clock = year + "-";
-
-            if (month < 10)
-                clock += "0";
-
-            clock += month + "-";
-
-            if (day < 10)
-                clock += "0";
-
-            clock += day + " ";
-
-            if (hh < 10)
-                clock += "0";
-
-            clock += hh + ":";
-            if (mm < 10) clock += '0';
-            clock += mm;
-            return (clock);
-        }
+        }).trigger('resize');      
     });
 
     </script>

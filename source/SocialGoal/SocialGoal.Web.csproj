@@ -2311,6 +2311,7 @@
     <Content Include="Views\TerminalSimCard\Index.cshtml" />
     <Content Include="Views\OrgStructure\Create.cshtml" />
     <Content Include="Views\OrgStructure\Edit.cshtml" />
+    <Content Include="Views\Shared\_PartialOrg.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
