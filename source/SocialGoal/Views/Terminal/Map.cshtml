@@ -520,7 +520,7 @@
             var devid = "@ViewBag.DevId";
             //加载过程中地图添加csspinner
             $("#iCenter").addClass("csspinner ringed");
-            $.get("/api/ApiReceiveData/GetReceiveDataMap",
+            $.get("@Url.Action("GetReceiveDataMap", "ReceiveData")",
                { devId: devid, dateRange: rangeTime, pageNum: markerMovingControl.getPageNum(), pageSize: markerMovingControl.getPageSize() }, function (result) {
                    if (result.total == 0) {
                        $("#iCenter").removeClass("csspinner ringed");
