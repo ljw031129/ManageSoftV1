@@ -11,7 +11,7 @@
 }
 <div class='row' id='content-wrapper'>
     <div class='col-xs-12'>    
-      @Html.Partial("_PartialOrg")
+      @Html.Partial("_PartialOrgNav")
         <div class="row">
             <div class="col-sm-12">
                 <div style="margin-bottom:0;" class="box bordered-box blue-border">
@@ -58,7 +58,7 @@
 
             jQuery("#grps").jqGrid(
                 {
-                    url: localApi+'/api/ApiOrgStructure',
+                    url: '@Url.Action("Get", "OrgStructure")',
                     datatype: "json",
                     mtype: "get",
                     colNames:

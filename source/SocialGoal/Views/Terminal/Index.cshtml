@@ -129,7 +129,7 @@
             });
             jQuery("#grps").jqGrid(
                 {
-                    url: '/api/ApiTerminal/GetTerminalEquipmentDetail',
+                    url: '@Url.Action("GetTerminalEquipmentDetail", "Terminal")',
                     datatype: "json",
                     mtype: "get",
                     colNames:
@@ -144,7 +144,7 @@
                         { name: 'AccStatus', index: 'AccStatus', editable: false, width: 60 },
                         { name: 'TotalWorkTime', index: 'TotalWorkTime', editable: false, width: 60 },
                         { name: 'ReceiveTime', index: 'ReceiveTime', editable: false, align: "left", width: 180, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
-                        { name: 'GpsPos', index: 'GpsPos', editable: false, align: "left", width: 200 }
+                        { name: 'GpsPos', index: 'GpsPos', editable: false, align: "left", width: 300 }
 
                     ],
                     //   multiselect: true,

@@ -10,8 +10,7 @@
 }
 <div class='row' id='content-wrapper'>
     <div class='col-xs-12'>
-
-        @Html.Partial("_PartialOrg")
+        @Html.Partial("_PartialOrgNav")
         <div class="row">
             <div style="margin-bottom: 0" class="col-sm-12 box">
                 <div class="box-header blue-background">
@@ -55,7 +54,7 @@
         $(document).ready(function () {
             jQuery("#grps").jqGrid(
                 {
-                    url: '/api/ApiOrgEnterprise',
+                    url: '@Url.Action("Get", "OrgEnterprise")',
                     datatype: "json",
                     mtype: "get",
                     colNames:
@@ -85,7 +84,7 @@
                     },
                     //caption: "企业信息表",
                     height: '100%',
-                    editurl: '/api/ApiOrgEnterprise' // this is dummy existing url
+                    editurl: '@Url.Action("Post", "OrgEnterprise")' // this is dummy existing url
                 });
             jQuery("#grps").jqGrid('navGrid', '#pgrps',
                 { edit: true, add: true, del: true },

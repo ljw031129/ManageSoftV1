@@ -12,21 +12,13 @@
     <div class="row">
         <div class="col-sm-12">
             @using (Ajax.BeginForm("Create", "OrgStructure", null, new AjaxOptions
-      {          
+      {
           HttpMethod = "Post",
           OnSuccess = "ShowResult",
       },
      new { @class = "form form-horizontal" })
    )
             {
-                 <div class="alert alert-success alert-dismissable">
-                    <a href="#" data-dismiss="alert" class="close">
-                        ×
-                    </a>
-
-                    <i class="icon-ok-sign"></i>
-                    <span id="detailsID"></span>
-                </div>
                 @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
                 <div class='form-group'>
                     <label class="col-xs-4 control-label">所属企业</label>
@@ -108,7 +100,7 @@
             enable: true,
             type: "get",
             dataType: "json",
-            url: "http://localhost:9898/api/ApiOrgStructure/GetOrgStructureZtree/" + userId
+            url: "@Url.Action("GetOrgStructureZtree", "OrgStructure")" + '?userId=' + userId
         },
         callback: {
             // beforeClick: beforeClick,
@@ -155,7 +147,7 @@
 
     //提交后ajax返回信息
     function ShowResult(data) {
-       
+
         $("#detailsID").html("返回信息：" + data);
         var dialog = top.dialog.get(window);
         setTimeout(function () {
@@ -164,13 +156,12 @@
     }
 
     $(document).ready(function () {
-        var dialog = top.dialog.get(window);        
+        var dialog = top.dialog.get(window);
         var data = dialog.data; // 获取对话框传递过来的数据
 
         $.fn.zTree.init($("#treeDemo"), setting);
-
-        @*var attendeeUrl = '@Url.Action("GetOrgEnterprises", "OrgEnterprise")';*@
-        var attendeeUrl = "http://localhost:9898/api/ApiOrgEnterprise/GetOrgEnterprisesSelect";
+        var attendeeUrl = '@Url.Action("GetOrgEnterprises", "OrgEnterprise")';
+        //var attendeeUrl = "http://localhost:9898/api/ApiOrgEnterprise/GetOrgEnterprisesSelect";
         var pageSize = 20;
         $('#OrgEnterpriseIdSel').select2(
                {
@@ -202,7 +193,7 @@
                    }
                })
             .on("select2-selecting", function (e) {
-                $("#OrgEnterpriseId").val(e.val);               
+                $("#OrgEnterpriseId").val(e.val);
             })
             .on("select2-removed", function (e) {
                 $("#OrgEnterpriseId").val("");
