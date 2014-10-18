@@ -23,7 +23,7 @@ namespace SocialGoal.Controllers
         // GET: Terminal
         public ActionResult Index()
         {
-
+            ViewBag.DevId = "";
             return View();
         }
         public ActionResult Detail(string Id)

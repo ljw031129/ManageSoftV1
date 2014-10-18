@@ -227,6 +227,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EquipmentController.cs" />
     <Compile Include="Controllers\JqGridController.cs" />
+    <Compile Include="Controllers\JqGridSetting.cs" />
     <Compile Include="Controllers\OrgEnterpriseController.cs" />
     <Compile Include="Controllers\OrgStructureController.cs" />
     <Compile Include="Controllers\ProtocolManageController.cs" />
@@ -2309,6 +2310,7 @@
     <Content Include="Views\OrgStructure\Edit.cshtml" />
     <Content Include="Views\Shared\_PartialOrgNav.cshtml" />
     <Content Include="Views\Shared\_PartialTerminalEquipmentNav.cshtml" />
+    <Content Include="Views\Shared\_PartialTerminalNav.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

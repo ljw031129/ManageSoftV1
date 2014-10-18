@@ -8,58 +8,7 @@
 }
 <div class='row' id='content-wrapper'>
     <div class='col-xs-12'>
-        <div class='row'>
-            <div class='col-sm-12'>
-                <div class='page-header'>
-                    <h1 class='pull-left'>
-                        <i class='icon-facetime-video '></i>
-                        <span>设备监控</span>
-                    </h1>
-                    <div class='pull-right'>
-                        <ul class='breadcrumb'>
-                            <li>
-                                <a href='index.html'>
-                                    <i class='icon-bar-chart'></i>
-                                </a>
-                            </li>
-                            <li class='separator'>
-                                <i class='icon-angle-right'></i>
-                            </li>
-                            <li>Example pages</li>
-                            <li class='separator'>
-                                <i class='icon-angle-right'></i>
-                            </li>
-                            <li class='active'>User profile</li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12 box">
-                <ul class="nav nav-tabs nav-tabs-simple">
-                    <li>
-                        <a href="@Url.Action("Index", "Terminal",null)" class="green-border">
-                            <i class="icon-list  "></i>
-                            设备列表
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="#" class="green-border">
-                            <i class="icon-indent-left  text-red"></i>
-                            设备工况一览
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Map", "Terminal", new { id = ViewBag.DevId })">
-                            <i class=" icon-map-marker "></i>
-                            行驶轨迹
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        @Html.Partial("_PartialTerminalNav")
         <div class="row" ng-controller="TerminalCtrl">
             <div class='col-sm-12 box' style='margin-bottom: 0'>
                 <div class='box-header blue-background'>
