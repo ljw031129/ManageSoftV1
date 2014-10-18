@@ -156,6 +156,11 @@ namespace SocialGoal.Controllers
             // ModelState.AddModelErrors(errors);
             return Json(new { errors = GetErrorsFromModelState() });
         }
+        public ActionResult Monitor()
+        {
+           
+            return View();
+        }
         private IEnumerable<string> GetErrorsFromModelState()
         {
             return ModelState.SelectMany(x => x.Value.Errors.Select(error => error.ErrorMessage));

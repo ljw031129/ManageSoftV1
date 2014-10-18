@@ -54,6 +54,7 @@ namespace SocialGoal.Controllers
                             TerminalSimCardId = item.TerminalSimCardId,
                             TerminalSimCardNum = item.TerminalSimCardNum,
                             TerminalSimCardSerialNum = item.TerminalSimCardSerialNum,
+                            TerminalSimCardState=item.TerminalSimCardState,
                             TerminalSimCardUpdateTime = item.TerminalSimCardUpdateTime,
                             TerminalSimCardCreateTime = item.TerminalSimCardCreateTime
                         }).ToArray()

@@ -35,13 +35,13 @@
                     设备列表
                 </a>
             </li>
-            <li>
+            <li id="equipmentDetail">
                 <a href="@Url.Action("Detail", "Terminal", new { id = ViewBag.DevId })">
                     <i class="icon-indent-left"></i>
                     设备工况一览
                 </a>
             </li>
-            <li class="active">
+            <li class="active" id="equipmentMap">
                 <a href="@Url.Action("Map", "Terminal", new { id = ViewBag.DevId })" class="green-border">
                     <i class="icon-map-marker  text-red"></i>
                     行驶轨迹

@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "机械监控";
+    ViewBag.Title = "终端设备监控";
     Layout = "~/Views/Shared/_LayoutFlattyMain.cshtml";
 }
 
@@ -19,7 +19,7 @@
                 <div class='page-header'>
                     <h1 class='pull-left'>
                         <i class='icon-facetime-video '></i>
-                        <span>设备监控</span>
+                        <span>终端设备监控</span>
                     </h1>
                     <div class='pull-right'>
                         <ul class='breadcrumb'>
@@ -48,7 +48,7 @@
                     <li class="active">
                         <a href="@Url.Action("Index", "Terminal",null)" class="green-border">
                             <i class="icon-list  text-red "></i>
-                            设备列表
+                            终端设备列表
                         </a>
                     </li>
                     <li id="equipmentDetail">
@@ -57,7 +57,7 @@
                             设备工况一览
                         </a>
                     </li>
-                    <li  id="equipmentMap">
+                    <li id="equipmentMap">
                         <a href="#" class="green-border">
                             <i class="icon-map-marker "></i>
                             行驶轨迹
@@ -133,18 +133,15 @@
                     datatype: "json",
                     mtype: "get",
                     colNames:
-                        ['Id', '设备类型', '设备编号', '发动机编号', '终端编号', '终端类型', '工作状态', '小时表', '信息最后更新时间', '位置'],
+                        ['Id','终端编号', '终端类型', '工作状态', '小时表', '信息最后更新时间', '位置'],
                     colModel: [
-                        { name: 'TerminalEquipmentId', key: true, index: 'TerminalEquipmentId', editable: false, editoptions: { readonly: true }, width: 55, hidden: true },
-                        { name: 'EquipmentTypeId', index: 'EquipmentTypeId', editable: false, width: 100, edittype: "select", formatter: IconyFmatter, editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" }, align: "center" },
-                        { name: 'EquipmentNum', index: 'EquipmentNum', editable: false, width: 90 },
-                        { name: 'EquipmentName', index: 'EquipmentName', editable: false, width: 90 },
+                        { name: 'TerminalEquipmentId', key: true, index: 'TerminalEquipmentId', editable: false, editoptions: { readonly: true }, width: 55, hidden: true },                        
                         { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: false, width: 90, formatter: LinkFmatter, unformat: imageUnFormat },
                         { name: 'TerminalEquipmentType', index: 'EquipmentName', editable: false, width: 100, edittype: "select", formatter: "select", editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" }, align: "center" },
                         { name: 'AccStatus', index: 'AccStatus', editable: false, width: 60 },
                         { name: 'TotalWorkTime', index: 'TotalWorkTime', editable: false, width: 60 },
-                        { name: 'ReceiveTime', index: 'ReceiveTime', editable: false, align: "left", width: 180, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
-                        { name: 'GpsPos', index: 'GpsPos', editable: false, align: "left", width: 300 }
+                        { name: 'ReceiveTime', index: 'ReceiveTime', editable: false, align: "left", width: 140, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
+                        { name: 'GpsPos', index: 'GpsPos', editable: false, align: "left" }
 
                     ],
                     //   multiselect: true,
@@ -166,7 +163,7 @@
                         userdata: "userdata"
                     },
                     // caption: "终端信息表",
-                    //shrinkToFit: false,
+                   // shrinkToFit: false,
                   //  width: 'auto',
                     height: '100%',
                     editurl: '/api/ApiTerminalEquipment' // this is dummy existing url
@@ -242,13 +239,8 @@
             }
             function imageUnFormat(cellvalue, options, cell) {
                 return $('a', cell).attr('id');
-            }           
+            }         
         });
 
     </script>
 }
-
-
-
-
-
