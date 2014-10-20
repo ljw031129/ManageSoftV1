@@ -3,6 +3,7 @@ using SocialGoal.Model.Models;
 using SocialGoal.Model.ViewModels;
 using SocialGoal.Service;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,8 +16,10 @@ namespace SocialGoal.Controllers
     {
         private readonly ITerminalEquipmentService _terminalEquipmentService;
         private readonly IReceiveDataLastService _receiveDataLastService;
-        public TerminalController(IReceiveDataLastService eceiveDataLastService, ITerminalEquipmentService terminalEquipmentService)
+        private readonly IReceiveDataDisplayService _receiveDataDisplayService;
+        public TerminalController(IReceiveDataDisplayService receiveDataDisplayService,IReceiveDataLastService eceiveDataLastService, ITerminalEquipmentService terminalEquipmentService)
         {
+            this._receiveDataDisplayService = receiveDataDisplayService;
             this._receiveDataLastService = eceiveDataLastService;
             this._terminalEquipmentService = terminalEquipmentService;
         }
@@ -51,6 +54,8 @@ namespace SocialGoal.Controllers
         public ActionResult HistoryTableSet(string id)
         {
             ViewBag.DevId = id;
+            ArrayList ColNs = new ArrayList();
+            List<ReceiveDataDisplay> tdLs = _receiveDataDisplayService.GetDataByPmFInterpreterByDevid(id).ToList();
             return View();
         }
         public JsonResult GetreceiveDataLast(string terminalNum)

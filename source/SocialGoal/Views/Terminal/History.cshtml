@@ -85,10 +85,10 @@
                         ['Id', '设备类型', '设备编号', '发动机编号', '终端编号', '终端类型', '工作状态', '小时表', '信息最后更新时间', '位置'],
                     colModel: [
                         { name: 'TerminalEquipmentId', key: true, index: 'TerminalEquipmentId', editable: false, editoptions: { readonly: true }, width: 55, hidden: true },
-                        { name: 'EquipmentTypeId', index: 'EquipmentTypeId', editable: false, width: 100, edittype: "select", formatter: IconyFmatter, editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" }, align: "center" },
+                        { name: 'EquipmentTypeId', index: 'EquipmentTypeId', editable: false, width: 100, edittype: "select", editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" }, align: "center" },
                         { name: 'EquipmentNum', index: 'EquipmentNum', editable: false, width: 90 },
                         { name: 'EquipmentName', index: 'EquipmentName', editable: false, width: 90 },
-                        { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: false, width: 90, formatter: LinkFmatter, unformat: imageUnFormat },
+                        { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: false, width: 90 },
                         { name: 'TerminalEquipmentType', index: 'EquipmentName', editable: false, width: 100, edittype: "select", formatter: "select", editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" }, align: "center" },
                         { name: 'AccStatus', index: 'AccStatus', editable: false, width: 60 },
                         { name: 'TotalWorkTime', index: 'TotalWorkTime', editable: false, width: 60 },

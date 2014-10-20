@@ -13,6 +13,7 @@ namespace SocialGoal.Service
     {
         void Delete(ReceiveDataDisplay data);
         IEnumerable<ReceiveDataDisplay> GetDataByPmFInterpreterId(string id);
+        IEnumerable<ReceiveDataDisplay> GetDataByPmFInterpreterByDevid(string devId);
         void Save();
         Task<bool> UpdateReceiveData(ReceiveDataDisplay rd);
     }
@@ -20,9 +21,11 @@ namespace SocialGoal.Service
     {
         private readonly IReDataDisplayFormatRepository _reDataDisplayFormatRepository;
         private readonly IReceiveDataDisplayRepository _receiveDataDisplayRepository;
+        private readonly ITerminalEquipmentRepository _terminalEquipmentRepository;
         private readonly IUnitOfWork _unitOfWork;
-        public ReceiveDataDisplayService(IReDataDisplayFormatRepository reDataDisplayFormatRepository, IReceiveDataDisplayRepository receiveDataDisplayRepository, IUnitOfWork unitOfWork)
+        public ReceiveDataDisplayService(ITerminalEquipmentRepository terminalEquipmentRepository, IReDataDisplayFormatRepository reDataDisplayFormatRepository, IReceiveDataDisplayRepository receiveDataDisplayRepository, IUnitOfWork unitOfWork)
         {
+            this._terminalEquipmentRepository = terminalEquipmentRepository;
             this._receiveDataDisplayRepository = receiveDataDisplayRepository;
             this._reDataDisplayFormatRepository = reDataDisplayFormatRepository;
             this._unitOfWork = unitOfWork;
@@ -63,7 +66,7 @@ namespace SocialGoal.Service
             {
                 _receiveDataDisplayRepository.Add(rd);
             }
-            if (rd.ReDataDisplayFormats!=null && rd.ReDataDisplayFormats.Count() > 0)
+            if (rd.ReDataDisplayFormats != null && rd.ReDataDisplayFormats.Count() > 0)
             {
                 foreach (var item in rd.ReDataDisplayFormats)
                 {
@@ -79,6 +82,14 @@ namespace SocialGoal.Service
             }
             Save();
             return Task.FromResult(true);
+        }
+
+
+        public IEnumerable<ReceiveDataDisplay> GetDataByPmFInterpreterByDevid(string devId)
+        {
+            string id = _terminalEquipmentRepository.Get(t => t.TerminalEquipmentNum == devId).PmFInterpreterId;
+            IEnumerable<ReceiveDataDisplay> rd = _receiveDataDisplayRepository.GetDataByPmFInterpreterId(id);
+            return rd;
         }
     }
 }
