@@ -1,6 +1,9 @@
-﻿using SocialGoal.Data.Infrastructure;
+﻿using SocialGoal.Core.Common;
+using SocialGoal.Data.Infrastructure;
 using SocialGoal.Data.Repository;
 using SocialGoal.Model.Models;
+using SocialGoal.Model.ViewModels;
+using SocialGoal.Service.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +24,10 @@ namespace SocialGoal.Service
         Task<bool> DeleteAsync(string p);
 
         Task UpdateAsync(TerminalSimCard terminalSimCard);
+
+        IEnumerable<Core.Common.ValidationResult> Validate(TerminalSimCardViewModel terminalSimCard);
+
+        Task<IEnumerable<TerminalSimCard>> GetAllByTerminalEquipment();
     }
     public class TerminalSimCardService : ITerminalSimCardService
     {
@@ -69,6 +76,27 @@ namespace SocialGoal.Service
             _terminalSimCardRepository.Update(terminalSimCard);
             Save();
             return Task.FromResult(true);
+        }
+
+
+        public IEnumerable<Core.Common.ValidationResult> Validate(TerminalSimCardViewModel terminalSimCard)
+        {
+            TerminalSimCard isTerminalSimCardExists = null;
+            if (terminalSimCard.oper == "add")
+                isTerminalSimCardExists = _terminalSimCardRepository.Get(c => c.TerminalSimCardNum == terminalSimCard.TerminalSimCardNum);
+            else
+                isTerminalSimCardExists = _terminalSimCardRepository.Get(c => c.TerminalSimCardNum == terminalSimCard.TerminalSimCardNum && c.TerminalSimCardId != terminalSimCard.TerminalSimCardId);
+            if (isTerminalSimCardExists != null)
+            {
+                yield return new ValidationResult("Name", "SIM卡已存在");
+            }
+        }
+
+
+        public Task<IEnumerable<TerminalSimCard>> GetAllByTerminalEquipment()
+        {
+            IEnumerable<TerminalSimCard> result = _terminalSimCardRepository.GetMany(t => t.TerminalSimCardState == "1");
+            return Task.FromResult(result);
         }
     }
 }

@@ -7925,10 +7925,13 @@ $.jgrid.extend({
 								if ($.isFunction(rp_ge[$t.p.id].errorTextFormat)) {
 									ret[1] = rp_ge[$t.p.id].errorTextFormat.call($t, data, frmoper);
 								} else {
-								    var result = "";                                  
-								    $.each(data.responseJSON.ModelState, function (index, item) {                                       
+								    var result = "";								  
+								    //data.responseJSON.ModelState--------webapi使用
+								    //data.responseJSON.errors---web使用
+								    $.each(data.responseJSON.errors, function (index, item) {
                                         result += item;
 								    })
+								    //errors
 								   // ret[1] = status + " 状态: '" + data.statusText + "'. 错误信息: " + result;
 								    ret[1] ="错误信息: " + result;
 								}

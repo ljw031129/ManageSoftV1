@@ -28,15 +28,19 @@ namespace SocialGoal.Service
         Task<Core.Common.Select2PagedResult> GetSelect2PagedResult(string searchTerm, int pageSize, int pageNum);
 
         void UpdateEquipmentId(string TerminalEquipmentId, string EquipmentIds);
+
+        IEnumerable<ValidationResult> Validate(Model.ViewModels.TerminalEquipmentViewModel newTerminalEquipment);
     }
     public class TerminalEquipmentService : ITerminalEquipmentService
     {
         private readonly IReceiveDataLastRepository _receiveDataLastRepository;
-         private readonly ITerminalEquipmentRepository _terminalEquipmentRepository;
+        private readonly ITerminalEquipmentRepository _terminalEquipmentRepository;
+        private readonly ITerminalSimCardRepository _terminalSimCardRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public TerminalEquipmentService(ITerminalEquipmentRepository terminalEquipmentRepository, IUnitOfWork unitOfWork, IReceiveDataLastRepository receiveDataLastRepository)
+        public TerminalEquipmentService(ITerminalSimCardRepository terminalSimCardRepository, ITerminalEquipmentRepository terminalEquipmentRepository, IUnitOfWork unitOfWork, IReceiveDataLastRepository receiveDataLastRepository)
         {
+            this._terminalSimCardRepository = terminalSimCardRepository;
             this._terminalEquipmentRepository = terminalEquipmentRepository;
             this._receiveDataLastRepository = receiveDataLastRepository;
             this._unitOfWork = unitOfWork;
@@ -55,6 +59,8 @@ namespace SocialGoal.Service
 
         public Task CreateAsync(TerminalEquipment terminalEquipment)
         {
+            //更新卡状态
+            _terminalSimCardRepository.UpdateStatue(terminalEquipment.TerminalSimCardId, "2");
             string guid = Guid.NewGuid().ToString();
             terminalEquipment.ReceiveDataLastId = guid;
             _terminalEquipmentRepository.Add(terminalEquipment);
@@ -68,14 +74,33 @@ namespace SocialGoal.Service
 
         public Task UpdateAsync(TerminalEquipment terminalEquipment)
         {
-            _terminalEquipmentRepository.Update(terminalEquipment);
-            Save();
+            TerminalEquipment oldData = _terminalEquipmentRepository.GetById(terminalEquipment.TerminalEquipmentId);
+            if (oldData.TerminalSimCardId != terminalEquipment.TerminalSimCardId)
+            {
+                //弃用旧卡，使用新卡
+                _terminalSimCardRepository.UpdateStatue(oldData.TerminalSimCardId, "3");
+                _terminalSimCardRepository.UpdateStatue(terminalEquipment.TerminalSimCardId, "2");
+            }
+
+            try
+            {
+                _terminalEquipmentRepository.Update(terminalEquipment);
+                Save();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
             return Task.FromResult(true);
         }
 
         public Task<bool> DeleteAsync(string id)
         {
-            var orgEnterprise = _terminalEquipmentRepository.GetById(id);           
+            var orgEnterprise = _terminalEquipmentRepository.GetById(id);
+            //更新SIM卡状态
+            _terminalSimCardRepository.UpdateStatue(orgEnterprise.TerminalSimCardId, "4");
             _receiveDataLastRepository.Delete(_receiveDataLastRepository.GetById(orgEnterprise.ReceiveDataLastId));
             _terminalEquipmentRepository.Delete(orgEnterprise);
             Save();
@@ -121,6 +146,27 @@ namespace SocialGoal.Service
         public void UpdateEquipmentId(string TerminalEquipmentId, string EquipmentIds)
         {
             _terminalEquipmentRepository.UpdateEquipmentId(TerminalEquipmentId, EquipmentIds);
+        }
+
+
+        public IEnumerable<ValidationResult> Validate(Model.ViewModels.TerminalEquipmentViewModel newTerminalEquipment)
+        {
+            TerminalEquipment eExists = null;
+            switch (newTerminalEquipment.oper)
+            {
+                case "add":
+                    eExists = _terminalEquipmentRepository.Get(c => c.TerminalEquipmentNum == newTerminalEquipment.TerminalEquipmentNum);
+                    break;
+                case "edit":
+                    eExists = _terminalEquipmentRepository.Get(c => c.TerminalEquipmentNum == newTerminalEquipment.TerminalEquipmentNum && c.TerminalEquipmentId != newTerminalEquipment.TerminalEquipmentId);
+                    break;
+                default:
+                    break;
+            }
+            if (eExists != null)
+            {
+                yield return new ValidationResult("Name", "终端设备编号已存在");
+            }
         }
     }
 }

@@ -123,42 +123,46 @@ namespace SocialGoal.Controllers
         [HttpPost]
         public async Task<ActionResult> Post(TerminalEquipmentViewModel newTerminalEquipment)
         {
+            if (newTerminalEquipment.oper == "del")
+            {
+                bool rec = await _terminalEquipmentService.DeleteAsync(newTerminalEquipment.id);
+                if (rec)
+                {
+                    return Json(new { success = true });
+                }
+            }
             if (ModelState.IsValid)
             {
-
-                TerminalEquipment terminalEquipment = Mapper.Map<TerminalEquipmentViewModel, TerminalEquipment>(newTerminalEquipment);
-                switch (newTerminalEquipment.oper)
+                IEnumerable<ValidationResult> errors = _terminalEquipmentService.Validate(newTerminalEquipment);
+                ModelState.AddModelErrors(errors);
+                if (ModelState.IsValid)
                 {
-                    case "add":
-                        terminalEquipment.TerminalEquipmentId = Guid.NewGuid().ToString();
-                        terminalEquipment.TerminalEquipmentUpdateTime = DateTime.Now;
-                        terminalEquipment.TerminalEquipmentCreateTime = DateTime.Now;
-                        // var errors = _orgEnterpriseService.CanAdd(equipment).ToList();
-                        await _terminalEquipmentService.CreateAsync(terminalEquipment);
-                        return Json(new { success = true });
-
-                    case "edit":
-                        terminalEquipment.TerminalEquipmentUpdateTime = DateTime.Now;
-                        await _terminalEquipmentService.UpdateAsync(terminalEquipment);
-                        return Json(new { success = true });
-
-                    case "del":
-                        bool rec = await _terminalEquipmentService.DeleteAsync(newTerminalEquipment.id);
-                        if (rec)
-                        {
+                    TerminalEquipment terminalEquipment = Mapper.Map<TerminalEquipmentViewModel, TerminalEquipment>(newTerminalEquipment);
+                    switch (newTerminalEquipment.oper)
+                    {
+                        case "add":
+                            terminalEquipment.TerminalEquipmentId = Guid.NewGuid().ToString();
+                            terminalEquipment.TerminalEquipmentUpdateTime = DateTime.Now;
+                            terminalEquipment.TerminalEquipmentCreateTime = DateTime.Now;
+                            // var errors = _orgEnterpriseService.CanAdd(equipment).ToList();
+                            await _terminalEquipmentService.CreateAsync(terminalEquipment);
                             return Json(new { success = true });
-                        }
-                        break;
 
+                        case "edit":
+                            terminalEquipment.TerminalEquipmentUpdateTime = DateTime.Now;
+                            await _terminalEquipmentService.UpdateAsync(terminalEquipment);
+                            return Json(new { success = true });
+
+                    }
                 }
-
             }
-            // ModelState.AddModelErrors(errors);
-            return Json(new { errors = GetErrorsFromModelState() });
+            HttpContext.Response.StatusCode = 400;
+            return Json(new { success = false, errors = GetErrorsFromModelState() });
+
         }
         public ActionResult Monitor()
         {
-           
+
             return View();
         }
         private IEnumerable<string> GetErrorsFromModelState()

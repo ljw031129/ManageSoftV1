@@ -9,6 +9,7 @@ using SocialGoal.Data.Models;
 using xFilter.Expressions;
 using Newtonsoft.Json.Linq;
 using SocialGoal.Core.xFilter.Expressions;
+using System.Data.Entity.Infrastructure;
 
 namespace SocialGoal.Data.Infrastructure
 {
@@ -38,12 +39,31 @@ namespace SocialGoal.Data.Infrastructure
         }
         public virtual void Update(T entity)
         {
+            RemoveHoldingEntityInContext(entity);
             dbset.Attach(entity);
             dataContext.Entry(entity).State = EntityState.Modified;
         }
         public virtual void Delete(T entity)
         {
+          //  RemoveHoldingEntityInContext(entity);
             dbset.Remove(entity);
+        }
+        //用于监测Context中的Entity是否存在，如果存在，将其Detach，防止出现问题。
+        private Boolean RemoveHoldingEntityInContext(T entity)
+        {
+            var objContext = ((IObjectContextAdapter)dataContext).ObjectContext;
+            var objSet = objContext.CreateObjectSet<T>();
+            var entityKey = objContext.CreateEntityKey(objSet.EntitySet.Name, entity);
+
+            Object foundEntity;
+            var exists = objContext.TryGetObjectByKey(entityKey, out foundEntity);
+
+            if (exists)
+            {
+                objContext.Detach(foundEntity);
+            }
+
+            return (exists);
         }
         public virtual void Delete(Expression<Func<T, bool>> where)
         {

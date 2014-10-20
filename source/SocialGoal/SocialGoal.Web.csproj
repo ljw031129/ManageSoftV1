@@ -2312,6 +2312,7 @@
     <Content Include="Views\Shared\_PartialTerminalEquipmentNav.cshtml" />
     <Content Include="Views\Shared\_PartialTerminalNav.cshtml" />
     <Content Include="Views\TerminalEquipment\Monitor.cshtml" />
+    <Content Include="Views\Terminal\History.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

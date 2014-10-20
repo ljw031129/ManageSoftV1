@@ -37,6 +37,22 @@ namespace SocialGoal.Controllers
             ViewBag.DevId = id;
             return View();
         }
+        public ActionResult History(string id)
+        {
+            ViewBag.DevId = id;
+            return View();
+        }
+        public ActionResult HistoryTableData(string id)
+        {
+            ViewBag.DevId = id;
+
+            return View();
+        }
+        public ActionResult HistoryTableSet(string id)
+        {
+            ViewBag.DevId = id;
+            return View();
+        }
         public JsonResult GetreceiveDataLast(string terminalNum)
         {
             List<TerminalDataViewModel> tdLs = _receiveDataLastService.GetTerminalDataByTerminalNum(terminalNum);

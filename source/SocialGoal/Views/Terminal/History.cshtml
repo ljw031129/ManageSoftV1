@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "SIM卡管理";
+    ViewBag.Title = "机械监控";
     Layout = "~/Views/Shared/_LayoutFlattyMain.cshtml";
 }
 
@@ -14,11 +14,11 @@
 }
 <div class='row' id='content-wrapper'>
     <div class='col-xs-12'>
-      @Html.Partial("_PartialTerminalEquipmentNav")
+        @Html.Partial("_PartialTerminalNav")
         <div class="row">
             <div style="margin-bottom: 0" class="col-sm-12 box">
                 <div class="box-header blue-background">
-                    <div class="title"><i class=" icon-list "></i>  SIM卡列表</div>
+                    <div class="title"><i class=" icon-list "></i>  设备列表</div>
                     <div class="actions">
                         <a href="#" class="btn box-remove btn-xs btn-link">
                             <i class="icon-remove"></i>
@@ -46,13 +46,6 @@
     <script src="~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"></script>
     <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
     <script type="text/javascript">
-        //$(document).ajaxError(function (e, xhr, opt) {
-        //    $.each(xhr.responseJSON.ModelState, function (index, item) {
-        //        debugger;
-        //        alert(index);
-        //    })
-
-        //});
         $(document).ready(function () {
             //点击事件
             $("#equipmentDetail").click(function () {
@@ -85,18 +78,23 @@
             });
             jQuery("#grps").jqGrid(
                 {
-                    url: '@Url.Action("Get", "TerminalSimCard")',
+                    url: '@Url.Action("GetTerminalEquipmentDetail", "Terminal")',
                     datatype: "json",
-                    mtype: "get",                   
+                    mtype: "get",
                     colNames:
-                        ['Id', 'SIM卡号', '序列号', '当前状态', '更新时间', '创建时间'],
+                        ['Id', '设备类型', '设备编号', '发动机编号', '终端编号', '终端类型', '工作状态', '小时表', '信息最后更新时间', '位置'],
                     colModel: [
-                        { name: 'TerminalSimCardId', key: true, index: 'TerminalSimCardId', editable: true, width: 55, hidden: true },
-                        { name: 'TerminalSimCardNum', index: 'TerminalSimCardNum', editable: true, width: 60 },
-                        { name: 'TerminalSimCardSerialNum', index: 'TerminalSimCardSerialNum', editable: true, width: 120 },
-                        { name: 'TerminalSimCardState', index: 'TerminalSimCardState', editable: true, width: 90, edittype: "select", formatter: "select", editoptions: { value: "1:未使用; 2:已使用; 3:被更换; 4:原设备已删除" }, align: "left" },
-                        { name: 'TerminalSimCardUpdateTime', index: 'TerminalSimCardUpdateTime', editable: true, editoptions: { readonly: true, defaultValue: CurentTime() }, align: "left", width: 180, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
-                        { name: 'TerminalSimCardCreateTime', index: 'TerminalSimCardCreateTime', editable: true, editoptions: { readonly: true, defaultValue: CurentTime() }, align: "left", width: 180, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } }
+                        { name: 'TerminalEquipmentId', key: true, index: 'TerminalEquipmentId', editable: false, editoptions: { readonly: true }, width: 55, hidden: true },
+                        { name: 'EquipmentTypeId', index: 'EquipmentTypeId', editable: false, width: 100, edittype: "select", formatter: IconyFmatter, editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" }, align: "center" },
+                        { name: 'EquipmentNum', index: 'EquipmentNum', editable: false, width: 90 },
+                        { name: 'EquipmentName', index: 'EquipmentName', editable: false, width: 90 },
+                        { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: false, width: 90, formatter: LinkFmatter, unformat: imageUnFormat },
+                        { name: 'TerminalEquipmentType', index: 'EquipmentName', editable: false, width: 100, edittype: "select", formatter: "select", editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" }, align: "center" },
+                        { name: 'AccStatus', index: 'AccStatus', editable: false, width: 60 },
+                        { name: 'TotalWorkTime', index: 'TotalWorkTime', editable: false, width: 60 },
+                        { name: 'ReceiveTime', index: 'ReceiveTime', editable: false, align: "left", width: 180, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
+                        { name: 'GpsPos', index: 'GpsPos', editable: false, align: "left", width: 300 }
+
                     ],
                     //   multiselect: true,
                     //  rownumbers: true,//添加左侧行号
@@ -105,7 +103,7 @@
                     width: 700,
                     rowList: [10, 20, 30],
                     pager: '#pgrps',
-                    sortname: 'TerminalSimCardUpdateTime',
+                    sortname: 'TerminalEquipmentUpdateTime',
                     viewrecords: true,//定义是否要显示总记录数
                     sortorder: "desc",
                     jsonReader: {
@@ -116,28 +114,23 @@
                         repeatitems: false,
                         userdata: "userdata"
                     },
-                    postData: { userId: '123456' },
                     // caption: "终端信息表",
-                    // shrinkToFit: false,
-                    //width: 'auto',
+                    //shrinkToFit: false,
+                  //  width: 'auto',
                     height: '100%',
-                    editurl: '@Url.Action("Post", "TerminalSimCard")' // this is dummy existing url
-                               
-                   
+                    editurl: '/api/ApiTerminalEquipment' // this is dummy existing url
                 });
             jQuery("#grps").jqGrid('navGrid', '#pgrps',
-                { edit: true, add: true, del: true },
+                { edit: false, add: false, del: false },
                 {
                     editCaption: "编辑",
                     top: "5",
                     left: "5",
                     jqModal: false,
                     reloadAfterSubmit: true,
-                    closeAfterEdit:true,
-                    recreateForm: true,
-                    clearAfterAdd:true,//保存后清空数据
                     afterShowForm: function (form) {
                         $("#PmFInterpreterId").select2();
+
                     }
                 },
                 {
@@ -146,9 +139,9 @@
                     left: "5",
                     jqModal: false,
                     reloadAfterSubmit: true,
-                    recreateForm: true,
                     afterShowForm: function (form) {
                         $("#PmFInterpreterId").select2();
+
                     }
                 },
                 {},
@@ -166,7 +159,48 @@
                     $("#grps").setGridWidth(w);
                     console.log("new width " + w);
                 }
+
             }).trigger('resize');
+
+            function GetDynamicCols() {
+                $.ajax({
+                    type: "GET",
+                    async: false,
+                    contentType: "application/json;utf-8",
+                    url: "@Url.Action("HistoryTableSet", "Terminal", new { id = ViewBag.DevId })",
+                    success: function (data) {
+                        creategrid(data);
+                    },
+                    beforeSend: function () {
+                        //$.jBox.tip("正在查询数据...", 'loading');
+                    }
+                });
+            }
+            function creategrid(data) {
+                $("#gridTable").jqGrid({
+                    url: '@Url.Action("HistoryTableData", "Terminal", new { id = ViewBag.DevId })',
+                    width: 1200,
+                    height: 465,
+                    rowNum: 25,
+                    rowList: [25, 30, 50],
+                    shrinkToFit: true, //自动调整列宽
+                    altRows: true, //隔行变色
+                    altclass: 'altclass', //隔行变色样式
+                    colNames: data.ColNs,
+                    colModel: data.ColMs,
+                    viewrecords: true,
+                    caption: "内容列表",
+                    hidegrid: false,
+                    ondblClickRow: function (ID) { //行点击事件
+                        var rowData = $("#gridTable").jqGrid("getRowData", ID);
+                        var id = rowData.OgCode;
+                        alert(id);
+                    },
+                    loadtext: "正在加载数据......"
+                });
+
+                gridTable.addJSONData(data);
+            }
         });
 
     </script>
