@@ -19,7 +19,10 @@ namespace SocialGoal.Core.xFilter.Expressions
         public string searchOper { get; set; }
         public string searchString { get; set; }
         public string subRowId { get; set; }
+        //用户ID
         public string userId { get; set; }
+        //设备ID
+        public string devId { get; set; }
         public Group Where { get; set; }
     }
 }

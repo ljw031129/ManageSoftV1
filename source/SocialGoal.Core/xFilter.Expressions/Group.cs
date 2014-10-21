@@ -12,6 +12,7 @@ namespace xFilter.Expressions
         public Group() {
             this.Groups = new List<Group>();
             this.Rules = new List<Rule>();
+            this.Operator = GroupOperator.And;
         }
 
         public GroupOperator Operator { get; set; }

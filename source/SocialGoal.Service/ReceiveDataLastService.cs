@@ -65,7 +65,7 @@ namespace SocialGoal.Service
             {
                 TerminalDataViewModel tdv = new TerminalDataViewModel();
                 tdv.DictionaryKey = itemRd.DictionaryValue;
-                tdv.DictionaryValue = (string)type.GetProperty(itemRd.DictionaryKey).GetValue(rl, null);
+                tdv.DictionaryValue = type.GetProperty(itemRd.DictionaryKey).GetValue(rl, null) != null ? type.GetProperty(itemRd.DictionaryKey).GetValue(rl, null).ToString() : "";
                 tdv.ShowPostion = itemRd.ShowPostion;
                 tdv.ShowIcon = itemRd.ShowIcon;
                 tdv.ShowUnit = itemRd.ShowUnit;
@@ -114,7 +114,7 @@ namespace SocialGoal.Service
 
         public ReceiveDataLast GetReceiveDataLastByTerminalNum(string num)
         {
-           return _receiveDataLastRepository.GetReceiveDataLastByTerminalNum(num);
+            return _receiveDataLastRepository.GetReceiveDataLastByTerminalNum(num);
         }
     }
 }

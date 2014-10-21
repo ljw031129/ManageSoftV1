@@ -21,7 +21,7 @@ namespace SocialGoal.Data.Repository
         }
         public IEnumerable<ReceiveDataDisplay> GetDataByPmFInterpreterId(string id)
         {
-            return this.DataContext.ReceiveDataDisplays.Where(m => m.PmFInterpreterId == id);
+            return this.DataContext.ReceiveDataDisplays.OrderBy(m=>m.ShowOrder).Where(m => m.PmFInterpreterId == id);
         }
 
 

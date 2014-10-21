@@ -45,7 +45,7 @@ namespace SocialGoal.Data.Infrastructure
         }
         public virtual void Delete(T entity)
         {
-          //  RemoveHoldingEntityInContext(entity);
+            //  RemoveHoldingEntityInContext(entity);
             dbset.Remove(entity);
         }
         //用于监测Context中的Entity是否存在，如果存在，将其Detach，防止出现问题。
@@ -72,12 +72,12 @@ namespace SocialGoal.Data.Infrastructure
                 dbset.Remove(obj);
         }
         public virtual T GetById(long id)
-        {            
+        {
             return dbset.Find(id);
         }
         public virtual T GetById(string id)
         {
-           
+
             return dbset.Find(id);
         }
         public virtual IEnumerable<T> GetAll()
@@ -86,7 +86,7 @@ namespace SocialGoal.Data.Infrastructure
         }
 
         public virtual IQueryable<T> GetIQueryableAll()
-        {            
+        {
             return dbset;
         }
 
@@ -132,7 +132,7 @@ namespace SocialGoal.Data.Infrastructure
                     sortOrder = false;
                     break;
             }
-            if (container["Where"].ToString()!= "")
+            if (container["Where"].ToString() != "")
             {
                 xFilter.Expressions.Group g = WebHelper.DeserializeGroupFromJSON(container["Where"]);
                 var results = dbset.OrderByExtensions(sortColumn, sortOrder).Where<T>(g.ToExpressionTree<T>().Compile()).Skip(currentPage).Take(pageSize).ToList();
@@ -155,16 +155,15 @@ namespace SocialGoal.Data.Infrastructure
         }
 
         //select2返回结果
-        public IEnumerable<T> GetSelect2(Expression<Func<T, bool>> where,string sortColumn,bool sortOrder,  int pageSize, int pageNum, out int reTotal)
+        public IEnumerable<T> GetSelect2(Expression<Func<T, bool>> where, string sortColumn, bool sortOrder, int pageSize, int pageNum, out int reTotal)
         {
             reTotal = dbset.Where(where).Count();
             return dbset.OrderByExtensions(sortColumn, sortOrder).Where(where).Skip((pageNum - 1) * pageSize).Take(pageSize);
         }
 
         public virtual IEnumerable<T> GetPageJqGrid<TOrder>(JqGridSetting jqGridSetting, out int count)
-        {           
-            //JSON字符串转化       
-
+        {
+            //JSON字符串转化 
             bool sortOrder = true;
             switch (jqGridSetting.sord)
             {
@@ -182,16 +181,34 @@ namespace SocialGoal.Data.Infrastructure
             {
                 JObject container = JObject.Parse(jqGridSetting.filters);
                 xFilter.Expressions.Group g = WebHelper.DeserializeGroupFromJSON(container);
+                //补充Where条件
+                if (jqGridSetting.Where != null)
+                {
+                    foreach (var item in jqGridSetting.Where.Rules)
+                    {
+                        g.Rules.Add(item);
+                    }
+
+                }
                 var results = dbset.OrderByExtensions(jqGridSetting.sidx, sortOrder).Where<T>(g.ToExpressionTree<T>().Compile()).Skip((jqGridSetting.page - 1) * jqGridSetting.rows).Take(jqGridSetting.rows);
                 count = dbset.Where<T>(g.ToExpressionTree<T>().Compile()).Count();
                 return results;
             }
             else
             {
-                var results = dbset.OrderByExtensions(jqGridSetting.sidx, sortOrder).Skip((jqGridSetting.page-1)*jqGridSetting.rows).Take(jqGridSetting.rows).ToList();
-                count = dbset.Count();
-                return results;
-
+                if (jqGridSetting.Where != null)
+                {
+                    count = dbset.Where<T>(jqGridSetting.Where.ToExpressionTree<T>().Compile()).Count();
+                    var results = dbset.OrderByExtensions(jqGridSetting.sidx, sortOrder).Where<T>(jqGridSetting.Where.ToExpressionTree<T>().Compile()).Skip((jqGridSetting.page - 1) * jqGridSetting.rows).Take(jqGridSetting.rows);
+                  
+                    return results;
+                }
+                else
+                {
+                    var results = dbset.OrderByExtensions(jqGridSetting.sidx, sortOrder).Skip((jqGridSetting.page - 1) * jqGridSetting.rows).Take(jqGridSetting.rows).ToList();
+                    count = dbset.Count();
+                    return results;
+                }
             }
         }
     }

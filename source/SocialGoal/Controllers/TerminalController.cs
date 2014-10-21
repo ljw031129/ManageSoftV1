@@ -17,8 +17,11 @@ namespace SocialGoal.Controllers
         private readonly ITerminalEquipmentService _terminalEquipmentService;
         private readonly IReceiveDataLastService _receiveDataLastService;
         private readonly IReceiveDataDisplayService _receiveDataDisplayService;
-        public TerminalController(IReceiveDataDisplayService receiveDataDisplayService,IReceiveDataLastService eceiveDataLastService, ITerminalEquipmentService terminalEquipmentService)
+        private readonly IReceiveDataService _receiveDataService;
+
+        public TerminalController(IReceiveDataService receiveDataService, IReceiveDataDisplayService receiveDataDisplayService, IReceiveDataLastService eceiveDataLastService, ITerminalEquipmentService terminalEquipmentService)
         {
+            this._receiveDataService = receiveDataService;
             this._receiveDataDisplayService = receiveDataDisplayService;
             this._receiveDataLastService = eceiveDataLastService;
             this._terminalEquipmentService = terminalEquipmentService;
@@ -43,6 +46,7 @@ namespace SocialGoal.Controllers
         public ActionResult History(string id)
         {
             ViewBag.DevId = id;
+
             return View();
         }
         public ActionResult HistoryTableData(string id)
@@ -51,22 +55,39 @@ namespace SocialGoal.Controllers
 
             return View();
         }
-        public ActionResult HistoryTableSet(string id)
+        public JsonResult HistoryTableSet(string id)
         {
             ViewBag.DevId = id;
             ArrayList ColNs = new ArrayList();
             List<ReceiveDataDisplay> tdLs = _receiveDataDisplayService.GetDataByPmFInterpreterByDevid(id).ToList();
-            return View();
+            IList<object> ColMs = new List<object>();
+            foreach (var item in tdLs)
+            {
+                ColNs.Add(item.DictionaryValue);
+                var colms = new
+                {
+
+                    name = item.DictionaryKey,
+                    index = item.DictionaryKey//,
+                   // width = 100
+                };
+                ColMs.Add(colms);
+            }
+            var resultObj = new
+            {
+                ColNs = ColNs,    // 总页数
+                ColMs = ColMs
+            };
+            return Json(resultObj, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult GetreceiveDataLast(string terminalNum)
-        {
-            List<TerminalDataViewModel> tdLs = _receiveDataLastService.GetTerminalDataByTerminalNum(terminalNum);
-            return Json(tdLs, JsonRequestBehavior.AllowGet);
-        }
+       
         public async Task<ActionResult> GetTerminalEquipmentDetail(JqGridSetting jqGridSetting)
         {
             int count = 0;
             IEnumerable<TerminalEquipment> orgStructure = await _terminalEquipmentService.GetOrgStructures(jqGridSetting, out count);
+
+
+
             var result = new
             {
                 total = (int)Math.Ceiling((double)count / jqGridSetting.rows),
@@ -88,7 +109,28 @@ namespace SocialGoal.Controllers
                             GpsPos = item.ReceiveDataLast.GpsPos != null ? item.ReceiveDataLast.GpsPos.ToString() : ""
                         }).ToArray()
             };
-            return Json(result,JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+        public async Task<ActionResult> GetTerminalEquipmentHistory(JqGridSetting jqGridSetting)
+        {
+            int count = 0;
+            IEnumerable<ReceiveData> orgStructure = await _receiveDataService.GetReceiveDataHistory(jqGridSetting, out count);
+            IList<object> ColMs = new List<object>();
+            ArrayList rowArray = new ArrayList();
+            foreach (var item in orgStructure.ToList())
+            {
+                rowArray.Add(item);
+
+            }
+            var result = new
+            {
+                total = (int)Math.Ceiling((double)count / jqGridSetting.rows),
+                page = jqGridSetting.page,
+                records = count,
+                rows = rowArray
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
 
         }
     }

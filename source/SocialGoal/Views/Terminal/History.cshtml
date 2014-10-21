@@ -47,105 +47,9 @@
     <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            //点击事件
-            $("#equipmentDetail").click(function () {
-                var rowId = $("#grps").jqGrid("getGridParam", "selrow");
-                if (rowId == null) {
-                    var d = dialog({
-                        title: '提示',
-                        content: '请选择设备！'
-                    });
-                    d.show();
-                    return;
-                } else {
-                    var rowData = $("#grps").jqGrid("getRowData", rowId);
-                    window.location.href = "../../Terminal/Detail/" + rowData.TerminalEquipmentNum;
-                }
-            });
-            $("#equipmentMap").click(function () {
-                var rowId = $("#grps").jqGrid("getGridParam", "selrow");
-                if (rowId == null) {
-                    var d = dialog({
-                        title: '提示',
-                        content: '请选择设备！'
-                    });
-                    d.show();
-                    return;
-                } else {
-                    var rowData = $("#grps").jqGrid("getRowData", rowId);
-                    window.location.href = "../../Terminal/Map/" + rowData.TerminalEquipmentNum;
-                }
-            });
-            jQuery("#grps").jqGrid(
-                {
-                    url: '@Url.Action("GetTerminalEquipmentDetail", "Terminal")',
-                    datatype: "json",
-                    mtype: "get",
-                    colNames:
-                        ['Id', '设备类型', '设备编号', '发动机编号', '终端编号', '终端类型', '工作状态', '小时表', '信息最后更新时间', '位置'],
-                    colModel: [
-                        { name: 'TerminalEquipmentId', key: true, index: 'TerminalEquipmentId', editable: false, editoptions: { readonly: true }, width: 55, hidden: true },
-                        { name: 'EquipmentTypeId', index: 'EquipmentTypeId', editable: false, width: 100, edittype: "select", editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" }, align: "center" },
-                        { name: 'EquipmentNum', index: 'EquipmentNum', editable: false, width: 90 },
-                        { name: 'EquipmentName', index: 'EquipmentName', editable: false, width: 90 },
-                        { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: false, width: 90 },
-                        { name: 'TerminalEquipmentType', index: 'EquipmentName', editable: false, width: 100, edittype: "select", formatter: "select", editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" }, align: "center" },
-                        { name: 'AccStatus', index: 'AccStatus', editable: false, width: 60 },
-                        { name: 'TotalWorkTime', index: 'TotalWorkTime', editable: false, width: 60 },
-                        { name: 'ReceiveTime', index: 'ReceiveTime', editable: false, align: "left", width: 180, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
-                        { name: 'GpsPos', index: 'GpsPos', editable: false, align: "left", width: 300 }
+            //初始化表格
+            GetDynamicCols();
 
-                    ],
-                    //   multiselect: true,
-                    //  rownumbers: true,//添加左侧行号
-                    altRows: true,//设置为交替行表格,默认为false
-                    rowNum: 10,
-                    width: 700,
-                    rowList: [10, 20, 30],
-                    pager: '#pgrps',
-                    sortname: 'TerminalEquipmentUpdateTime',
-                    viewrecords: true,//定义是否要显示总记录数
-                    sortorder: "desc",
-                    jsonReader: {
-                        root: "rows",
-                        page: "page",
-                        total: "total",
-                        records: "records",
-                        repeatitems: false,
-                        userdata: "userdata"
-                    },
-                    // caption: "终端信息表",
-                    //shrinkToFit: false,
-                  //  width: 'auto',
-                    height: '100%',
-                    editurl: '/api/ApiTerminalEquipment' // this is dummy existing url
-                });
-            jQuery("#grps").jqGrid('navGrid', '#pgrps',
-                { edit: false, add: false, del: false },
-                {
-                    editCaption: "编辑",
-                    top: "5",
-                    left: "5",
-                    jqModal: false,
-                    reloadAfterSubmit: true,
-                    afterShowForm: function (form) {
-                        $("#PmFInterpreterId").select2();
-
-                    }
-                },
-                {
-                    editCaption: "添加",
-                    top: "5",
-                    left: "5",
-                    jqModal: false,
-                    reloadAfterSubmit: true,
-                    afterShowForm: function (form) {
-                        $("#PmFInterpreterId").select2();
-
-                    }
-                },
-                {},
-                { multipleSearch: true, multipleGroup: true });
             //test responsiveness
             $(window).on('resize', function (event, ui) {
                 // Get width of parent container
@@ -177,29 +81,42 @@
                 });
             }
             function creategrid(data) {
-                $("#gridTable").jqGrid({
-                    url: '@Url.Action("HistoryTableData", "Terminal", new { id = ViewBag.DevId })',
-                    width: 1200,
-                    height: 465,
-                    rowNum: 25,
-                    rowList: [25, 30, 50],
-                    shrinkToFit: true, //自动调整列宽
-                    altRows: true, //隔行变色
-                    altclass: 'altclass', //隔行变色样式
+                $("#grps").jqGrid(
+                {
+                    url: '@Url.Action("GetTerminalEquipmentHistory", "Terminal", new { id = ViewBag.DevId })',
+                    datatype: "json",
+                    mtype: "get",
                     colNames: data.ColNs,
                     colModel: data.ColMs,
-                    viewrecords: true,
-                    caption: "内容列表",
-                    hidegrid: false,
-                    ondblClickRow: function (ID) { //行点击事件
-                        var rowData = $("#gridTable").jqGrid("getRowData", ID);
-                        var id = rowData.OgCode;
-                        alert(id);
+                    //   multiselect: true,
+                    //  rownumbers: true,//添加左侧行号
+                    altRows: true,//设置为交替行表格,默认为false
+                    rowNum: 10,
+                    width: 700,
+                    rowList: [10, 20, 30],
+                    pager: '#pgrps',
+                    sortname: 'ReceiveTime',
+                    viewrecords: true,//定义是否要显示总记录数
+                    sortorder: "desc",
+                    jsonReader: {
+                        root: "rows",
+                        page: "page",
+                        total: "total",
+                        records: "records",
+                        repeatitems: false,
+                        userdata: "userdata"
                     },
-                    loadtext: "正在加载数据......"
+                    postData: { devId: '@ViewBag.DevId' },
+                    // caption: "终端信息表",
+                    //shrinkToFit: false,
+                    //  width: 'auto',
+                    height: '100%',
+                    editurl: '/api/ApiTerminalEquipment' // this is dummy existing url
                 });
+                jQuery("#grps").jqGrid('navGrid', '#pgrps',
+                    { multipleSearch: true, multipleGroup: true });
 
-                gridTable.addJSONData(data);
+
             }
         });
 

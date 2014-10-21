@@ -68,7 +68,8 @@ namespace SocialGoal.Service
             }
             if (rd.ReDataDisplayFormats != null && rd.ReDataDisplayFormats.Count() > 0)
             {
-                foreach (var item in rd.ReDataDisplayFormats)
+                List<ReDataDisplayFormat> rdList = rd.ReDataDisplayFormats.ToList();
+                foreach (var item in rdList)
                 {
                     if (_reDataDisplayFormatRepository.CanUpDate(item.ReDataDisplayFormatId))
                     {
