@@ -38,6 +38,7 @@ namespace SocialGoal.Web.Controllers
         private ISecurityTokenService securityTokenService;
         // private IUserMailer userMailer = new UserMailer();
         private UserManager<ApplicationUser> UserManager;
+        //private RoleManager<IdentityRole> RoleManager;
         public AccountController(IUserService userService, IUserProfileService userProfileService, IGoalService goalService, IUpdateService updateService, ICommentService commentService, IFollowRequestService followRequestService, IFollowUserService followUserService, ISecurityTokenService securityTokenService, UserManager<ApplicationUser> userManager)
         {
             this.userService = userService;

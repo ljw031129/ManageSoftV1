@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 
 namespace SocialGoal.Data.Configuration
 {
-    public class ReceiveDataLastConfiguration : EntityTypeConfiguration<ReceiveDataLast>
+
+    public class ReceiveDataHistoryConfiguration : EntityTypeConfiguration<ReceiveDataHistory>
     {
-        public ReceiveDataLastConfiguration()
+        public ReceiveDataHistoryConfiguration()
         {
 
-            Property(g => g.ReceiveDataLastId).IsRequired();
+            Property(g => g.ReceiveDataHistoryId).IsRequired();
 
         }
     }

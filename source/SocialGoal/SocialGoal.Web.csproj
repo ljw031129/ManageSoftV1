@@ -225,6 +225,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminRolesController.cs" />
+    <Compile Include="Controllers\AdminUsersController.cs" />
     <Compile Include="Controllers\EquipmentController.cs" />
     <Compile Include="Controllers\JqGridController.cs" />
     <Compile Include="Controllers\JqGridSetting.cs" />
@@ -2313,10 +2315,12 @@
     <Content Include="Views\Shared\_PartialTerminalNav.cshtml" />
     <Content Include="Views\TerminalEquipment\Monitor.cshtml" />
     <Content Include="Views\Terminal\History.cshtml" />
+    <Content Include="Views\AdminRoles\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\FunctionScripts\" />
+    <Folder Include="Views\AdminUsers\" />
     <Folder Include="Views\ReceiveData\" />
   </ItemGroup>
   <ItemGroup>

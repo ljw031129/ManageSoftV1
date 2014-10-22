@@ -6,6 +6,7 @@ using SocialGoal.Model.Models;
 using SocialGoal.Core.Common;
 using SocialGoal.Service.Properties;
 using System;
+using System.Threading.Tasks;
 
 namespace SocialGoal.Service
 {
@@ -28,6 +29,8 @@ namespace SocialGoal.Service
 
 
        void SaveImageURL(string userId, string imageUrl);
+
+       System.Threading.Tasks.Task<IEnumerable<ApplicationUser>> GeApplicationUser(Core.xFilter.Expressions.JqGridSetting jqGridSetting, out int count);
     }
 
     public class UserService : IUserService
@@ -138,5 +141,12 @@ namespace SocialGoal.Service
         }
 
         #endregion
+
+
+        public System.Threading.Tasks.Task<IEnumerable<ApplicationUser>> GeApplicationUser(Core.xFilter.Expressions.JqGridSetting jqGridSetting, out int count)
+        {
+            IEnumerable<ApplicationUser> equipments = userRepository.GetPageJqGrid<Equipment>(jqGridSetting, out count);
+            return Task.FromResult(equipments);
+        }
     }
 }

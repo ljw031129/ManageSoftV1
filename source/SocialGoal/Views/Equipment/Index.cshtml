@@ -144,10 +144,12 @@
                         ok: function () {
                             var that = this;
                             this.title('正在提交..');
-                            $.post("/api/ApiTerminalEquipment/UpdateEquipmentId/" + TerminalEquipmentId + "/" + ids + "", function (result) {
-                                that.close().remove();
-                                $("#grps").trigger("reloadGrid");
-                            });
+                            $.post("@Url.Action("UpdateEquipmentId", "TerminalEquipment")",
+                                { TerminalEquipmentId: TerminalEquipmentId, EquipmentIds: ids },
+                                function (result) {
+                                    that.close().remove();
+                                    $("#grps").trigger("reloadGrid");
+                                });
                             return false;
                         },
                         cancelValue: '取消',
@@ -193,11 +195,11 @@
             //表格数据
             jQuery("#grps").jqGrid(
                 {
-                    url: '/api/ApiEquipment',
+                    url: '@Url.Action("Get", "Equipment")',
                     datatype: "json",
                     mtype: "get",
                     colNames:
-                        ['Id','设备类型', '设备ID', '发动机型号', '创建时间', '更新时间'],
+                        ['Id', '设备类型', '设备ID', '发动机型号', '创建时间', '更新时间'],
                     colModel: [
                         { name: 'EquipmentId', key: true, index: 'EquipmentId', editable: true, editoptions: { readonly: true }, width: 55, hidden: true },
                         { name: 'EquipmentTypeId', index: 'EquipmentTypeId', editable: true, width: 90 },
@@ -224,7 +226,7 @@
                     },
                     // caption: "终端信息表",
                     height: '100%',
-                    editurl: '/api/ApiEquipment', // this is dummy existing url
+                    editurl: '@Url.Action("Post", "Equipment")', // this is dummy existing url
                     subGrid: true,
                     subGridRowExpanded: function (subgrid_id, row_id) {  // (2)子表格容器的id和需要展开子表格的行id，将传入此事件函数
                         var subgrid_table_id;
@@ -235,17 +237,17 @@
 
                         // (5)动态添加子报表的table和pager
                         $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='" + subgrid_pager_id + "' class='scroll'></div>");
-
+                        var ss = 9;
                         // (6)创建jqGrid对象
                         $("#" + subgrid_table_id).jqGrid({
-                            url: "api/ApiTerminalEquipment/GetSubGrid?subRowId=" + row_id,  // (7)子表格数据对应的url，注意传入的contact.id参数
+                            url: '@Url.Action("GetSubGrid", "TerminalEquipment")',  // (7)子表格数据对应的url，注意传入的contact.id参数
                             datatype: "json",
                             colNames: ['Id', '终端编号', 'SIM卡号', '绑定时间'],
                             colModel: [
                                 { name: "TerminalEquipmentId", index: "TerminalEquipmentId", width: 80, key: true, hidden: true },
                                 { name: "TerminalEquipmentNum", index: "TerminalEquipmentNum", width: 130 },
                                 { name: "TerminalSimCardId", index: "TerminalSimCardId", width: 130, align: "center" },
-                                { name: "TerminalEquipmentUpdateTime", index: "TerminalEquipmentUpdateTime", width: 200, align: "center" }
+                                { name: "TerminalEquipmentUpdateTime", index: "TerminalEquipmentUpdateTime", width: 200, align: "center", sorttype: 'date', editable: false, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } }
                             ],
                             jsonReader: {   // (8)针对子表格的jsonReader设置
                                 root: "rows",
@@ -254,9 +256,8 @@
                                 records: "records",
                                 repeatitems: false,
                                 userdata: "userdata"
-                            },
-                            //  prmNames: { search: "search" },
-                            //  pager: subgrid_pager_id,
+                            },                            
+                            postData: { subRowId: row_id },
                             viewrecords: true,
                             height: "100%",
                             rowNum: 5,
@@ -285,36 +286,6 @@
                 }
 
             }).trigger('resize');
-            function CurentTime() {
-                var now = new Date();
-
-                var year = now.getFullYear();       //年
-                var month = now.getMonth() + 1;     //月
-                var day = now.getDate();            //日
-
-                var hh = now.getHours();            //时
-                var mm = now.getMinutes();          //分
-
-                var clock = year + "-";
-
-                if (month < 10)
-                    clock += "0";
-
-                clock += month + "-";
-
-                if (day < 10)
-                    clock += "0";
-
-                clock += day + " ";
-
-                if (hh < 10)
-                    clock += "0";
-
-                clock += hh + ":";
-                if (mm < 10) clock += '0';
-                clock += mm;
-                return (clock);
-            }
         });
 
     </script>

@@ -87,6 +87,7 @@
     <Compile Include="Models\ProfilePic.cs" />
     <Compile Include="Models\ReceiveData.cs" />
     <Compile Include="Models\ReceiveDataDisplay.cs" />
+    <Compile Include="Models\ReceiveDataHistory.cs" />
     <Compile Include="Models\ReceiveDataLast.cs" />
     <Compile Include="Models\ReDataDisplayFormat.cs" />
     <Compile Include="Models\RegistrationToken.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ApplicationUserViewModel.cs" />
     <Compile Include="ViewModels\EquipmentListViewModel.cs" />
     <Compile Include="ViewModels\EquipmentViewModel.cs" />
     <Compile Include="ViewModels\OrgEnterpriseViewModel.cs" />

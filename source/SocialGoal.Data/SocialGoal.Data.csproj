@@ -89,6 +89,7 @@
     <Compile Include="Configuration\PmSpeciaCalculationConfiguration.cs" />
     <Compile Include="Configuration\ReceiveDataConfiguration.cs" />
     <Compile Include="Configuration\ReceiveDataDisplayConfiguration.cs" />
+    <Compile Include="Configuration\ReceiveDataHistoryConfiguration.cs" />
     <Compile Include="Configuration\ReceiveDataLastConfiguration.cs" />
     <Compile Include="Configuration\ReDataDisplayFormatConfiguration.cs" />
     <Compile Include="Configuration\SmartConfiguration.cs" />
@@ -220,6 +221,10 @@
     <Compile Include="Migrations\201410060333159_updateSim.cs" />
     <Compile Include="Migrations\201410060333159_updateSim.Designer.cs">
       <DependentUpon>201410060333159_updateSim.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410220310468_updateHistoryData.cs" />
+    <Compile Include="Migrations\201410220310468_updateHistoryData.Designer.cs">
+      <DependentUpon>201410220310468_updateHistoryData.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -359,6 +364,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410060333159_updateSim.resx">
       <DependentUpon>201410060333159_updateSim.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410220310468_updateHistoryData.resx">
+      <DependentUpon>201410220310468_updateHistoryData.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

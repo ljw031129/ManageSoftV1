@@ -44,9 +44,13 @@ namespace SocialGoal
          .Where(t => t.Name.EndsWith("Authentication"))
          .AsImplementedInterfaces().InstancePerRequest();
 
+            //注册UserManager
             builder.Register(c => new UserManager<ApplicationUser>(new UserStore<ApplicationUser>( new SocialGoalEntities())))
                 .As<UserManager<ApplicationUser>>().InstancePerRequest();
+            builder.Register(c => new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new SocialGoalEntities())))
+               .As<RoleManager<IdentityRole>>().InstancePerRequest();
 
+          
             //要使用的筛选器属性的属性注入，只需调用 RegisterFilterProvider 方法提供的 Autofac.MVC5
             builder.RegisterFilterProvider();
             IContainer container = builder.Build();

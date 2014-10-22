@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using xFilter.Expressions;
 
 namespace SocialGoal.Service
 {
@@ -117,8 +118,13 @@ namespace SocialGoal.Service
         public Task<IEnumerable<TerminalEquipment>> GetSubGridByEquipmentId(Core.xFilter.Expressions.JqGridSetting jqGridSetting, out int count)
         {
             //动态补充条件
-            jqGridSetting._search = true;
-            jqGridSetting.filters = "{\"groupOp\":\"AND\",\"rules\":[{\"field\":\"EquipmentId\",\"op\":\"eq\",\"data\":\"" + jqGridSetting.subRowId + "\"}]}";
+            xFilter.Expressions.Group g = new xFilter.Expressions.Group();
+            Rule dr = new Rule();
+            dr.Data = jqGridSetting.subRowId;
+            dr.Field = "EquipmentId";
+            dr.Operator = xFilter.Expressions.RuleOperator.Equals;
+            g.Rules.Add(dr);
+            jqGridSetting.Where = g;           
             IEnumerable<TerminalEquipment> terminalEquipment = _terminalEquipmentRepository.GetPageJqGrid<TerminalEquipment>(jqGridSetting, out count);
             return Task.FromResult(terminalEquipment.Where(p => p.EquipmentId.Contains(jqGridSetting.subRowId)));
         }

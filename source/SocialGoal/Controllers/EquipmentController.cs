@@ -35,7 +35,11 @@ namespace SocialGoal.Controllers
             return View();
         }
 
-
+        /// <summary>
+        /// 获取设备列表
+        /// </summary>
+        /// <param name="jqGridSetting"></param>
+        /// <returns></returns>             
         public async Task<JsonResult> Get(JqGridSetting jqGridSetting)
         {
             int count = 0;
@@ -46,10 +50,11 @@ namespace SocialGoal.Controllers
                 total = (int)Math.Ceiling((double)count / jqGridSetting.rows),
                 page = jqGridSetting.page,
                 records = count,
-                rows = (from item in data
+                rows = (from item in data.ToList()
                         select new
                         {
                             EquipmentId = item.EquipmentId,
+                            EquipmentTypeId = item.EquipmentTypeId,
                             EquipmentNum = item.EquipmentNum,
                             EquipmentName = item.EquipmentName,
                             EquipmentCreatTime = item.EquipmentCreatTime,
@@ -58,6 +63,53 @@ namespace SocialGoal.Controllers
             };
 
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        // POST api/<controller>
+        /// <summary>
+        /// 添加修改删除
+        /// </summary>
+        /// <param name="newEquipment"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ActionResult> Post(EquipmentViewModel newEquipment)
+        {
+            if (ModelState.IsValid)
+            {
+                Equipment equipment = Mapper.Map<EquipmentViewModel, Equipment>(newEquipment);
+                switch (newEquipment.oper)
+                {
+                    case "add":
+                        equipment.EquipmentId = Guid.NewGuid().ToString();
+                        equipment.EquipmentUpDateTime = DateTime.Now;
+                        equipment.EquipmentCreatTime = DateTime.Now;
+                        var errors = _equipmentService.CanAddEquipment(equipment).ToList();
+                        await _equipmentService.CreateEquipmentAsync(equipment, "");
+                        return Json(new { success = true });
+
+                    case "edit":
+                        equipment.EquipmentUpDateTime = DateTime.Now;
+                        await _equipmentService.UpdateEquipmentAsync(equipment);
+                        return Json(new { success = true });
+
+                    case "del":
+                        bool rec = await _equipmentService.DeleteEquipmentAsync(newEquipment.id);
+                        if (rec)
+                        {
+                            return Json(new { success = true });
+                        }
+                        break;
+                }
+            }
+            // ModelState.AddModelErrors(errors);
+            HttpContext.Response.StatusCode = 400;
+            return Json(new { success = false, errors = GetErrorsFromModelState() });
+        }
+        private IEnumerable<string> GetErrorsFromModelState()
+        {
+            return ModelState.SelectMany(x => x.Value.Errors.Select(error => error.ErrorMessage));
         }
 
         public PartialViewResult Create()
