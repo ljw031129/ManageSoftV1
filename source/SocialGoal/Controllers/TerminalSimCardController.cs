@@ -25,7 +25,7 @@ namespace SocialGoal.Controllers
         // GET: TerminalSimCard
         public ActionResult Index()
         {
-            return View();
+            return PartialView();
         }
 
         public async Task<string> GetAll()
