@@ -1,64 +1,100 @@
 ﻿@{
     ViewBag.Title = "终端管理";
-    Layout = "~/Views/Shared/_LayoutFlattyMain.cshtml";
+    Layout = "~/Views/Shared/_LayoutSmartAdmin.cshtml";
 }
 
 @section styles{
-
-    <link href="~/Content/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
-    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
-    <link href="~/Content/jquery.jqGrid/jqGrid.overrides.css" rel="stylesheet" />
     <link href="~/Scripts/plugins/select2-3.5.1/select2.css" rel="stylesheet" />
     <link href="~/Scripts/plugins/select2-3.5.1/select2-bootstrap.css" rel="stylesheet" />
     <link href="~/Scripts/plugins/artDialog/css/ui-dialog.css" rel="stylesheet" />
 }
-<div class='row' id='content-wrapper'>
-    <div class='col-xs-12'>
-        @Html.Partial("_PartialTerminalEquipmentNav")
-        <div class="row">
-            <div style="margin-bottom: 0" class="col-sm-12 box">
-                <div class="box-header  blue-background">
-                    <div class="title">终端设备管理与调度</div>
-                    <div class="actions">
-                        <a href="#" class="btn box-remove btn-xs btn-link">
-                            <i class="icon-remove"></i>
-                        </a>
+<!-- row -->
+<div class="row">
 
-                        <a href="#" class="btn box-collapse btn-xs btn-link">
-                            <i></i>
-                        </a>
+    <!-- col -->
+    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+        <h1 class="page-title txt-color-blueDark">
+
+            <!-- PAGE HEADER -->
+            <i class="fa-fw fa fa-table"></i>
+            终端设备管理
+            <span>
+                >
+                终端管理
+            </span>
+        </h1>
+    </div>
+    <!-- end col -->
+    <!-- right side of the page with the sparkline graphs -->
+</div>
+<!-- end row -->
+<!--
+    The ID "widget-grid" will start to initialize all widgets below
+    You do not need to use widgets if you dont want to. Simply remove
+    the <section></section> and you can use wells or panels instead
+    -->
+<!-- widget grid -->
+<section id="widget-grid" class="">
+    <!-- row -->
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+                <!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+                -->
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>终端信息</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
                     </div>
-                </div>
-                <div class="box-content">
-                    <div class="box-toolbox box-toolbox-top">
-                        <div class="pull-left col-sm-6">
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body  no-padding">
+                        <div class="widget-body-toolbar">
                             <div class="row">
-                                <div class="input-group  col-sm-6">
-                                    <span class="input-group-addon">企业</span>
-                                    <input type="text" placeholder="搜索企业" id="OrgEnterpriseId" class="form-control">
+                                <div class="col-xs-9 col-sm-5 col-md-5 col-lg-5">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                        <input type="text" placeholder="搜索企业" id="OrgEnterpriseId" class="form-control">
+                                    </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <button type="submit" class="btn btn-primary" id="SetOrgEnterprise">
-                                        <i class="icon-save"></i>
-                                        分配
+                                <div class="col-xs-3 col-sm-7 col-md-7 col-lg-7 text-right">
+                                    <button class="btn btn-success" id="SetOrgEnterprise">
+                                        <i class="fa fa-plus"></i> <span class="hidden-mobile">分配</span>
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <div class="pull-right">
-                            @*<a class="btn btn-white">
-                                <i class="icon-eye-open"></i>
-                            </a>*@
+                        <div class="table-responsive">
+                            <table id="grps"></table>
+                            <div id="pgrps"></div>
                         </div>
                     </div>
-                    <table id="grps"></table> <div id="pgrps"></div>
-
+                    <!-- end widget content -->
                 </div>
+                <!-- end widget div -->
             </div>
-
-        </div>
+            <!-- end widget -->
+        </article>
     </div>
-</div>
+
+    <!-- end row -->
+</section>
+<!-- end widget grid -->
 @section scripts{
 
     <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
@@ -69,6 +105,7 @@
     <script type="text/javascript">
         var d, OrgEnterpriseId, ids;
         $(document).ready(function () {
+            pageSetUp();
             var initSelect2 = function (elem) {
                 setTimeout(function () {
                     $(elem).select2();
@@ -172,6 +209,8 @@
                     ],
                     multiselect: true,
                     rowNum: 10,
+                    height: 'auto',
+                    autowidth: true,
                     width: 700,
                     rowList: [10, 20, 30],
                     pager: '#pgrps',
@@ -186,50 +225,58 @@
                         repeatitems: false,
                         userdata: "userdata"
                     },
-                    // caption: "终端信息表",
+                    // caption: "终端信息",
                     height: '100%',
                     editurl: '@Url.Action("post", "TerminalEquipment")' // this is dummy existing url
                 });
             jQuery("#grps").jqGrid('navGrid', '#pgrps',
-                { edit: true, add: true, del: true },
-                {
-                    editCaption: "编辑",
-                    top: "5",
-                    left: "5",
-                    jqModal: false,
-                    reloadAfterSubmit: true,
-                    recreateForm: true
-                },
-                {
-                    editCaption: "添加",
-                    top: "5",
-                    left: "5",
-                    jqModal: false,
-                    reloadAfterSubmit: true,
-                    recreateForm: true
-                },
+                { edit: false, add: false, del: true },
+                {},
+                {},
                 {},
                 { multipleSearch: true, multipleGroup: true });
             //test responsiveness
-            $(window).on('resize', function (event, ui) {
-                // Get width of parent container
-                var parWidth = $("#gbox_grps").parent().width();
-                var curWidth = $("#gbox_grps").width();
-                //console.log("span width " + parWidth + " gridWidth " + gWidth);
-                var w = parWidth - 1; // Fudge factor to prevent horizontal scrollbars
-                if (Math.abs(w - curWidth) > 2) {
-                    //alert("resize to " + width);
-                    console.log("span width " + parWidth + " gridWidth " + curWidth);
-                    $("#grps").setGridWidth(w);
-                    console.log("new width " + w);
-                }
-            }).trigger('resize');
-        });
+            jQuery("#grps").jqGrid('inlineNav', "#pgrps");
+            /* Add tooltips */
+            $('.navtable .ui-pg-button').tooltip({
+                container: 'body'
+            });
+            // remove classes
+            $(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
+            $(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
+            $(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
+            $(".ui-jqgrid-pager").removeClass("ui-state-default");
+            $(".ui-jqgrid").removeClass("ui-widget-content");
 
+            // add classes
+            $(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
+            $(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
+
+            $(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
+            $(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
+            $(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
+            $(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
+            $(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
+            $(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
+            $(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
+            $(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
+
+            $(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
+
+            $(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
+
+            $(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
+
+            $(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
+            // update buttons
+
+            $(window).on('resize.jqGrid', function () {
+                jQuery("#grps").jqGrid('setGridWidth', $("#content").width());
+            })
+        });
     </script>
 }
-
-
-
-
-

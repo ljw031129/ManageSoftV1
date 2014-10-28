@@ -6,9 +6,7 @@
 }
 @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "smart-form client-form" }))
 {
-    @Html.AntiForgeryToken()
-
-    @Html.ValidationSummary(true)
+   
     <header>
         用户登录
     </header>
@@ -34,6 +32,10 @@
             <div class="note">
                 <a href="forgotpassword.html">忘记密码?</a>
             </div>
+        </section>
+        <section>
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
         </section>
 
         <section>
