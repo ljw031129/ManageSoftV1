@@ -1,463 +1,519 @@
 ﻿@{
     ViewBag.Title = "协议管理";
-    Layout = "../Shared/_LayoutFlattyMain.cshtml";
+    Layout = "~/Views/Shared/_LayoutSmartAdmin.cshtml";
 }
 @section styles{
     <link href="~/Content/assets/stylesheets/plugins/bootstrap_colorpicker/bootstrap-colorpicker.css" rel="stylesheet" />
+    <link href="~/Content/angular-xeditable/css/xeditable.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
 }
+<!-- row -->
+<div class="row">
+    <!-- col -->
+    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+        <h1 class="page-title txt-color-blueDark">
+            <!-- PAGE HEADER -->
+            <i class="fa-fw fa fa-table"></i>
+            协议管理
+        </h1>
+    </div>
+    <!-- end col -->
+    <!-- right side of the page with the sparkline graphs -->
+    <!-- col -->
+    <!-- end col -->
 
-<div class='row' id='content-wrapper'>
-    <div class='col-xs-12' ng-controller="ProCtrl">
-        <div class='row'>
-            <div class='col-sm-12'>
-                <div class='page-header'>
-                    <h1 class='pull-left'>
-                        <i class='icon-user'></i>
-                        <span>协议管理</span>
-                    </h1>
-                    <div class='pull-right'>
-                        <ul class='breadcrumb'>
-                            <li>
-                                <a href='index.html'>
-                                    <i class='icon-bar-chart'></i>
-                                </a>
-                            </li>
-                            <li class='separator'>
-                                <i class='icon-angle-right'></i>
-                            </li>
-                            <li>Example pages</li>
-                            <li class='separator'>
-                                <i class='icon-angle-right'></i>
-                            </li>
-                            <li class='active'>User profile</li>
-                        </ul>
+</div>
+<!-- end row -->
+<!-- widget grid -->
+<section id="widget-grid" class="" ng-app="App" ng-controller="ProCtrl">
+    <!-- row -->
+    <div class="row">
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false">
+                <!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+                -->
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>协议类型 </h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
                     </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped  table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>
+                                            协议名称
+                                        </th>
+                                        <th>
+                                            协议版本号
+                                        </th>
+                                        <th>
+                                            解析方式
+                                        </th>
+                                        <th>
+                                            信息体个数位置
+                                        </th>
+                                        <th>信息体开始位置</th>
+                                        <th>信息体标志位置</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="prData in PmFInterpreters">
+                                        <td>{{prData.PmFInterpreterId}}</td>
+                                        <td>{{prData.ProtocolName}}</td>
+                                        <td>{{prData.ProtocolVersion}}</td>
+                                        <td>{{prData.AnalysisWay}}</td>
+                                        <td>{{prData.InfoCountsPostion}}</td>
+                                        <td>{{prData.InfoSignStartPosition}}</td>
+                                        <td>
+                                            {{prData.InfoSignLength}}
+                                        </td>
+                                        <td>
+                                            <div class="text-center">
+                                                <a href="#" class="btn btn-default" ng-click="selectPmInterpreter(prData)">
+                                                    选择
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                    <!-- end widget content -->
+
                 </div>
+                <!-- end widget div -->
 
             </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div style="margin-bottom:0;" class="box bordered-box blue-border">
-                    <div class="box-header blue-background">
-                        <div class="title">基本类型</div>
-                        <div class="actions">
-                            <a href="#" class="btn box-remove btn-xs btn-link">
-                                <i class="icon-remove"></i>
-                            </a>
+            <!-- end widget -->
 
-                            <a href="#" class="btn box-collapse btn-xs btn-link">
-                                <i></i>
-                            </a>
-                        </div>
+        </article>
+        <!-- WIDGET END -->
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false">
+                <!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+                -->
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>解析协议配置</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
                     </div>
-                    <div class="box-content box-no-padding">
-                        <div class="responsive-table">
-                            <div class="scrollable-area">
-                                <table class="table table-bordered table-hover table-condensed">
-                                    <thead>
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>
-                                                协议名称
-                                            </th>
-                                            <th>
-                                                协议版本号
-                                            </th>
-                                            <th>
-                                                解析方式
-                                            </th>
-                                            <th>
-                                                信息体个数位置
-                                            </th>
-                                            <th>信息体开始位置</th>
-                                            <th>信息体标志位置</th>
-                                            <th>操作</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="prData in PmFInterpreters">
-                                            <td>{{prData.PmFInterpreterId}}</td>
-                                            <td>{{prData.ProtocolName}}</td>
-                                            <td>{{prData.ProtocolVersion}}</td>
-                                            <td>{{prData.AnalysisWay}}</td>
-                                            <td>{{prData.InfoCountsPostion}}</td>
-                                            <td>{{prData.InfoSignStartPosition}}</td>
-                                            <td>
-                                                {{prData.InfoSignLength}}
-                                            </td>
-                                            <td>
-                                                <div class="text-center">
-                                                    <a href="#" class="btn btn-success btn-xs">
-                                                        <i class=" icon-search " ng-click="selectPmInterpreter(prData)"></i>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+                        <div class="widget-body-toolbar">
+                            <div class="row">
+                                <div class="col-xs-9 col-sm-5 col-md-5 col-lg-5">
+                                    <span>当前协议类型：{{SelectpmFInterpreter.ProtocolName}}</span>
+                                    <button class="btn btn-success btn-xs" ng-click="loadDataBody(SelectpmFInterpreter)">
+                                        <i class="fa fa-plus"></i> <span class="hidden-mobile">加载</span>
+                                    </button>
+                                </div>
+                                <div class="col-xs-3 col-sm-7 col-md-7 col-lg-7 text-right">
+                                    <button class="btn btn-success btn-xs" ng-click="addDataBody()">
+                                        <i class="fa fa-plus"></i> <span class="hidden-mobile">添加解析协议</span>
+                                    </button>
+                                </div>
                             </div>
+
                         </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover table-condensed">
+                                <thead>
+                                    <tr style="font-weight: bold">
+                                        <td width="60">编号</td>
+                                        <td width="60">顺序</td>
+                                        <td width="60">信息体</td>
+                                        <td width="80">截取位置</td>
+                                        <td width="80">截取长度</td>
+                                        <td width="80">处理方式</td>
+                                        <td width="80">目标类型</td>
+                                        <td width="80">传输模式</td>
+                                        <td width="60">符号位</td>
+                                        <td width="80">计算公式</td>
+                                        <td width="90">存储Key值</td>
+                                        <td>bit数据</td>
+                                        <td>操作</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="dataBody in DataBodys">
+                                        <td>
+                                            <!-- editable username (text with validation) -->
+                                            <span class="label label-success"> {{ $index  }}</span>
+
+                                        </td>
+                                        <td>
+                                            <!-- editable username (text with validation) -->
+                                            <span editable-text="dataBody.OrderIndex" e-name="OrderIndex" e-form="rowform">
+                                                {{ dataBody.OrderIndex }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <!-- editable username (text with validation) -->
+                                            <span editable-text="dataBody.InfoTypeNumber" e-name="InfoTypeNumber" e-form="rowform">
+                                                {{ dataBody.InfoTypeNumber }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <!-- editable status (select-local) -->
+                                            <span editable-text="dataBody.StartPosition" e-name="StartPosition" e-form="rowform">
+                                                {{ dataBody.StartPosition }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <!-- editable group (select-remote) -->
+                                            <span editable-text="dataBody.DataLength" e-name="DataLength" e-form="rowform">
+                                                {{ dataBody.DataLength }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <!-- editable status (select-local) -->
+                                            <span editable-select="dataBody.DataType" e-name="DataType" e-form="rowform" e-ng-options="s.value as s.text for s in DataTypes">
+                                                {{ showTypes(dataBody.DataType) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <!-- editable status (select-local) -->
+                                            <span editable-select="dataBody.PmDataByte.Representation" e-name="Representation" e-form="rowform" e-ng-options="s.value as s.text for s in Representations">
+                                                {{ showRepresentations(dataBody.PmDataByte.Representation) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <!-- editable status (select-local) -->
+                                            <span editable-select="dataBody.PmDataByte.IsBigEndian" e-name="IsBigEndian" e-form="rowform" e-ng-options="s.value as s.text for s in boolData">
+                                                {{ showBool(dataBody.PmDataByte.IsBigEndian) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <!-- editable status (select-local) -->
+                                            <span editable-select="dataBody.PmDataByte.IsUnsigned" e-name="IsUnsigned" e-form="rowform" e-ng-options="s.value as s.text for s in boolData">
+                                                {{ showBool(dataBody.PmDataByte.IsUnsigned) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <!-- editable status (select-local) -->
+                                            <span editable-text="dataBody.PmDataByte.Formula" e-name="Formula" e-form="rowform">
+                                                {{ dataBody.PmDataByte.Formula }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <!-- editable status (select-local) -->
+                                            <span editable-select="dataBody.PmDataByte.DictionaryKey" e-name="DictionaryKey" e-form="rowform" e-ng-options="m for m in SelectReceiveData">
+                                                {{ dataBody.PmDataByte.DictionaryKey }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <table class="table table-bordered table-hover" ng-show="dataBody.DataType==2">
+                                                <thead>
+                                                    <tr>
+                                                        <td width="60">编号</td>
+                                                        <td width="60">开始位置</td>
+                                                        <td width="60">长度</td>
+                                                        <td width="60">存储字段</td>
+                                                        <td><button class="btn btn-primary btn-xs" ng-click="addBitDatas(dataBody)" ng-disabled="!rowform.$visible"><span class="glyphicon  glyphicon-plus"></span></button></td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="bitData in dataBody.PmDataBits">
+                                                        <td><span class="label label-success">{{$index}}</span></td>
+                                                        <td><span editable-text="bitData.ChildStartPostion" e-name="ChildStartPostion" e-form="rowform">{{bitData.ChildStartPostion}}</span></td>
+                                                        <td><span editable-text="bitData.ChildDataLength" e-name="ChildDataLength" e-form="rowform">{{bitData.ChildDataLength}}</span></td>
+                                                        <td><span editable-select="bitData.DictionaryKey" e-name="DictionaryKey" e-form="rowform" e-ng-options="m for m in SelectReceiveData">{{bitData.DictionaryKey}}</span></td>
+                                                        <td><button class="btn btn-danger btn-xs" ng-click="delBitDatas(dataBody,$index,bitData)"><span class="glyphicon  glyphicon-trash"></span></button></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td style="white-space: nowrap">
+                                            <!-- form -->
+                                            <form editable-form name="rowform" onaftersave="pmDataBodySave($data, dataBody.PmDataBodyId)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == dataBody">
+                                                <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-success btn-xs">
+                                                    <span class="glyphicon glyphicon-ok"></span>
+                                                </button>
+                                                <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-danger  btn-xs">
+                                                    <span class="glyphicon  glyphicon-remove"></span>
+                                                </button>
+                                            </form>
+                                            <div class="buttons" ng-show="!rowform.$visible">
+                                                <button ng-click="rowform.$show()" class="btn btn-primary btn-xs" type="submit"><span class="glyphicon glyphicon-pencil"></span> </button>
+                                                <button ng-click="removePro($index)" class="btn btn-danger  btn-xs" type="submit"><span class="glyphicon  glyphicon-trash"></span> </button>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
                     </div>
+                    <!-- end widget content -->
+
                 </div>
+                <!-- end widget div -->
+
             </div>
-        </div>
-        <hr class="hr-double">
-        <div class="row">
-            <div class="col-sm-12">
-                <div style="margin-bottom:0;" class="box purple-border blue-border">
-                    <div class="box-header  purple-background">
-                        <div class="title"><i class="icon-book"></i>解析协议配置信息</div>
-                        <div class="actions">
-                            <a href="#" class="btn box-remove btn-xs btn-link">
-                                <i class="icon-remove"></i>
-                            </a>
+            <!-- end widget -->
 
-                            <a href="#" class="btn box-collapse btn-xs btn-link">
-                                <i></i>
-                            </a>
-                        </div>
+        </article>
+        <!-- WIDGET END -->
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-3" data-widget-editbutton="false">
+                <!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+                -->
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>显示协议配置 </h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
                     </div>
-                    <div class="box-content">
-                        <div class="box-toolbox box-toolbox-top">
-                            <div class="pull-left">
-                                <span class="label label-important">当前协议类型：{{SelectpmFInterpreter.ProtocolName}}</span>
-
-                                <a class="btn btn-white" ng-click="loadDataBody(SelectpmFInterpreter)">
-
-                                    <i class="icon-refresh"></i>
-                                </a>
-                                <a class="btn btn-white" ng-click="addDataBody()">
-                                    <i class="icon-plus"></i>
-                                </a>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+                        <div class="widget-body-toolbar">
+                            <div class="row">
+                                <div class="col-xs-9 col-sm-5 col-md-5 col-lg-5">
+                                    <span>当前协议类型：{{SelectpmFInterpreter.ProtocolName}}</span>
+                                    <button class="btn btn-success btn-xs" ng-click="loadReceiveDataDisplay(SelectpmFInterpreter)">
+                                        <i class="fa fa-plus"></i> <span class="hidden-mobile">加载</span>
+                                    </button>
+                                </div>
+                                <div class="col-xs-3 col-sm-7 col-md-7 col-lg-7 text-right">
+                                    <button class="btn btn-success btn-xs" ng-click="addReceiveDataDisplay()">
+                                        <i class="fa fa-plus"></i> <span class="hidden-mobile">添加</span>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="pull-right">
-                                <a class="btn btn-white">
-                                    <i class="icon-eye-open"></i>
-                                </a>
-                            </div>
+
                         </div>
-                        <div class="responsive-table">
-                            <div class="scrollable-area">
-                                <table class="table table-bordered table-hover table-condensed">
-                                    <thead>
-                                        <tr style="font-weight: bold">
-                                            <td width="60">编号</td>
-                                            <td width="60">顺序</td>
-                                            <td width="60">信息体</td>
-                                            <td width="80">截取位置</td>
-                                            <td width="80">截取长度</td>
-                                            <td width="80">处理方式</td>
-                                            <td width="80">目标类型</td>
-                                            <td width="80">传输模式</td>
-                                            <td width="60">符号位</td>
-                                            <td width="80">计算公式</td>
-                                            <td width="90">存储Key值</td>
-                                            <td>bit数据</td>
-                                            <td>操作</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="dataBody in DataBodys">
-                                            <td>
-                                                <!-- editable username (text with validation) -->
-                                                <span class="label label-success"> {{ $index  }}</span>
+                        <div class="table-responsive">
+                            <table class='table table-bordered table-hover table-condensed' style='margin-bottom:0;'>
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            顺序
+                                        </th>
+                                        <th>
+                                            存储Key值
+                                        </th>
+                                        <th>
+                                            显示名称
+                                        </th>
+                                        <th style="width:120px;">
+                                            格式化类型
+                                        </th>
+                                        <th>
+                                            显示类型
+                                        </th>
+                                        <th>
+                                            单位
+                                        </th>
+                                        <th>
+                                            显示图标
+                                        </th>
+                                        <th>显示位置</th>
+                                        <th>常用</th>
+                                        <th>显示格式</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="rd in ReceiveDataDisplays">
+                                        <td>
+                                            <span editable-number="rd.ShowOrder" e-name="ShowOrder" e-form="rowformDisplay">
+                                                {{rd.ShowOrder}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span editable-select="rd.DictionaryKey" e-name="DictionaryKey" e-form="rowformDisplay" e-ng-options="m for m in SelectReceiveData">
+                                                {{rd.DictionaryKey}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span editable-text="rd.DictionaryValue" e-name="DictionaryValue" e-form="rowformDisplay">
+                                                {{rd.DictionaryValue}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span editable-select="rd.FormatType" e-name="FormatType" e-form="rowformDisplay" e-ng-options="s.value as s.text for s in FormatTypes">
+                                                {{ SetFormatTypes(rd.FormatType) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span editable-text="rd.ShowType" e-name="ShowType" e-form="rowformDisplay">
+                                                {{rd.ShowType}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span editable-text="rd.ShowUnit" e-name="ShowUnit" e-form="rowformDisplay">
+                                                {{rd.ShowUnit}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span editable-text="rd.ShowIcon" e-name="ShowIcon" e-form="rowformDisplay">
+                                                {{rd.ShowIcon}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span editable-text="rd.ShowPostion" e-name="ShowPostion" e-form="rowformDisplay">
+                                                {{rd.ShowPostion}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span editable-select="rd.ShowCommon" e-name="ShowCommon" e-form="rowformDisplay" e-ng-options="s.value as s.text for s in boolData">
+                                                {{ showBool(rd.ShowCommon) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <table class="table table-bordered table-hover">
 
-                                            </td>
-                                            <td>
-                                                <!-- editable username (text with validation) -->
-                                                <span editable-text="dataBody.OrderIndex" e-name="OrderIndex" e-form="rowform">
-                                                    {{ dataBody.OrderIndex }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <!-- editable username (text with validation) -->
-                                                <span editable-text="dataBody.InfoTypeNumber" e-name="InfoTypeNumber" e-form="rowform">
-                                                    {{ dataBody.InfoTypeNumber }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <!-- editable status (select-local) -->
-                                                <span editable-text="dataBody.StartPosition" e-name="StartPosition" e-form="rowform">
-                                                    {{ dataBody.StartPosition }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <!-- editable group (select-remote) -->
-                                                <span editable-text="dataBody.DataLength" e-name="DataLength" e-form="rowform">
-                                                    {{ dataBody.DataLength }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <!-- editable status (select-local) -->
-                                                <span editable-select="dataBody.DataType" e-name="DataType" e-form="rowform" e-ng-options="s.value as s.text for s in DataTypes">
-                                                    {{ showTypes(dataBody.DataType) }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <!-- editable status (select-local) -->
-                                                <span editable-select="dataBody.PmDataByte.Representation" e-name="Representation" e-form="rowform" e-ng-options="s.value as s.text for s in Representations">
-                                                    {{ showRepresentations(dataBody.PmDataByte.Representation) }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <!-- editable status (select-local) -->
-                                                <span editable-select="dataBody.PmDataByte.IsBigEndian" e-name="IsBigEndian" e-form="rowform" e-ng-options="s.value as s.text for s in boolData">
-                                                    {{ showBool(dataBody.PmDataByte.IsBigEndian) }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <!-- editable status (select-local) -->
-                                                <span editable-select="dataBody.PmDataByte.IsUnsigned" e-name="IsUnsigned" e-form="rowform" e-ng-options="s.value as s.text for s in boolData">
-                                                    {{ showBool(dataBody.PmDataByte.IsUnsigned) }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <!-- editable status (select-local) -->
-                                                <span editable-text="dataBody.PmDataByte.Formula" e-name="Formula" e-form="rowform">
-                                                    {{ dataBody.PmDataByte.Formula }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <!-- editable status (select-local) -->
-                                                <span editable-select="dataBody.PmDataByte.DictionaryKey" e-name="DictionaryKey" e-form="rowform" e-ng-options="m for m in SelectReceiveData">
-                                                    {{ dataBody.PmDataByte.DictionaryKey }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <table class="table table-bordered table-hover" ng-show="dataBody.DataType==2">
-                                                    <thead>
-                                                        <tr>
-                                                            <td width="60">编号</td>
-                                                            <td width="60">开始位置</td>
-                                                            <td width="60">长度</td>
-                                                            <td width="60">存储字段</td>
-                                                            <td><button class="btn btn-primary btn-xs" ng-click="addBitDatas(dataBody)" ng-disabled="!rowform.$visible"><span class="glyphicon  glyphicon-plus"></span></button></td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr ng-repeat="bitData in dataBody.PmDataBits">
-                                                            <td><span class="label label-success">{{$index}}</span></td>
-                                                            <td><span editable-text="bitData.ChildStartPostion" e-name="ChildStartPostion" e-form="rowform">{{bitData.ChildStartPostion}}</span></td>
-                                                            <td><span editable-text="bitData.ChildDataLength" e-name="ChildDataLength" e-form="rowform">{{bitData.ChildDataLength}}</span></td>
-                                                            <td><span editable-select="bitData.DictionaryKey" e-name="DictionaryKey" e-form="rowform" e-ng-options="m for m in SelectReceiveData">{{bitData.DictionaryKey}}</span></td>
-                                                            <td><button class="btn btn-danger btn-xs" ng-click="delBitDatas(dataBody,$index,bitData)"><span class="glyphicon  glyphicon-trash"></span></button></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                            <td style="white-space: nowrap">
-                                                <!-- form -->
-                                                <form editable-form name="rowform" onaftersave="pmDataBodySave($data, dataBody.PmDataBodyId)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == dataBody">
-                                                    <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-success btn-xs">
-                                                        <span class="glyphicon glyphicon-ok"></span>
-                                                    </button>
-                                                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-danger  btn-xs">
-                                                        <span class="glyphicon  glyphicon-remove"></span>
-                                                    </button>
-                                                </form>
-                                                <div class="buttons" ng-show="!rowform.$visible">
-                                                    <button ng-click="rowform.$show()" class="btn btn-primary btn-xs" type="submit"><span class="glyphicon glyphicon-pencil"></span> </button>
-                                                    <button ng-click="removePro($index)" class="btn btn-danger  btn-xs" type="submit"><span class="glyphicon  glyphicon-trash"></span> </button>
+                                                <tr>
+                                                    <th>表达式</th>
+                                                    <th>显示值</th>
+                                                    <th>颜色</th>
+                                                    <td><button class="btn btn-primary btn-xs" ng-click="addReDataDisplayFormat(rd)" ng-disabled="!rowformDisplay.$visible"><span class="glyphicon  glyphicon-plus"></span></button></td>
+                                                </tr>
 
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                                <tr ng-repeat="df in rd.ReDataDisplayFormats">
+                                                    <td>
+                                                        <span editable-text="df.FormatExpression" e-name="FormatExpression" e-form="rowformDisplay">
+                                                            {{df.FormatExpression}}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span editable-text="df.FormatValue" e-name="FormatValue" e-form="rowformDisplay">
+                                                            {{df.FormatValue}}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+
+                                                        <span editable-color="df.FormatColor" e-name="FormatColor" e-form="rowformDisplay">
+                                                            {{df.FormatColor}}
+                                                        </span>
+                                                    </td>
+                                                    <td><button class="btn btn-danger btn-xs" ng-click="delReDataDisplayFormat(rd,$index,df)"><span class="glyphicon  glyphicon-trash"></span></button></td>
+
+                                                </tr>
+
+                                            </table>
+
+                                        </td>
+                                        <td style="white-space: nowrap">
+                                            <!-- form -->
+                                            <form editable-form name="rowformDisplay" onaftersave="ReceiveDataSave($data, rd.ReceiveDataDisplayId)" ng-show="rowformDisplay.$visible" class="form-buttons form-inline" shown="inserted == ReceiveDataDisplays">
+                                                <button type="submit" ng-disabled="rowformDisplay.$waiting" class="btn btn-success btn-xs">
+                                                    <span class="glyphicon glyphicon-ok"></span>
+                                                </button>
+                                                <button type="button" ng-disabled="rowformDisplay.$waiting" ng-click="rowformDisplay.$cancel()" class="btn btn-danger  btn-xs">
+                                                    <span class="glyphicon  glyphicon-remove"></span>
+                                                </button>
+                                            </form>
+                                            <div class="buttons" ng-show="!rowformDisplay.$visible">
+                                                <button ng-click="rowformDisplay.$show()" class="btn btn-primary btn-xs" type="submit"><span class="glyphicon glyphicon-pencil"></span> </button>
+                                                <button ng-click="removeReceiveDataDisplays($index)" class="btn btn-danger  btn-xs" type="submit"><span class="glyphicon  glyphicon-trash"></span> </button>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
+
                     </div>
+                    <!-- end widget content -->
+
                 </div>
+                <!-- end widget div -->
+
             </div>
-        </div>
-        <hr class="hr-double">
-        <div class='row'>
-            <div class='col-sm-12'>
-                <div class='box bordered-box purple-border' style='margin-bottom:0;'>
-                    <div class='box-header purple-background'>
-                        <div class='title'><i class="icon-book"></i>显示协议配置信息</div>
-                        <div class='actions'>
-                            <a class="btn box-remove btn-xs btn-link" href="#">
-                                <i class='icon-remove'></i>
-                            </a>
+            <!-- end widget -->
 
-                            <a class="btn box-collapse btn-xs btn-link" href="#">
-                                <i></i>
-                            </a>
-                        </div>
+        </article>
+        <!-- WIDGET END -->
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-5" data-widget-editbutton="false">
+                <!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+                -->
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>协议测试 </h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
                     </div>
-                    <div class='box-content'>
-                        <div class="box-toolbox box-toolbox-top">
-                            <div class="pull-left">
-                                <span class="label label-important">当前协议类型：{{SelectpmFInterpreter.ProtocolName}}</span>
-
-                                <a class="btn btn-white" ng-click="loadReceiveDataDisplay(SelectpmFInterpreter)">
-
-                                    <i class="icon-refresh"></i>
-                                </a>
-                                <a class="btn btn-white" ng-click="addReceiveDataDisplay()">
-                                    <i class="icon-plus"></i>
-                                </a>
-                            </div>
-                            <div class="pull-right">
-                                <a class="btn btn-white">
-                                    <i class="icon-eye-open"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <table class='table table-bordered table-hover table-condensed' style='margin-bottom:0;'>
-                            <thead>
-                                <tr>
-                                    <th>
-                                        顺序
-                                    </th>
-                                    <th>
-                                        存储Key值
-                                    </th>
-                                    <th>
-                                        显示名称
-                                    </th>
-                                    <th style="width:120px;">
-                                        格式化类型
-                                    </th>
-                                    <th>
-                                        显示类型
-                                    </th>
-                                    <th>
-                                        单位
-                                    </th>
-                                    <th>
-                                        显示图标
-                                    </th>
-                                    <th>显示位置</th>
-                                    <th>常用</th>
-                                    <th>显示格式</th>
-                                    <th>操作</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="rd in ReceiveDataDisplays">
-                                    <td>
-                                        <span editable-number="rd.ShowOrder" e-name="ShowOrder" e-form="rowformDisplay">
-                                            {{rd.ShowOrder}}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span editable-select="rd.DictionaryKey" e-name="DictionaryKey" e-form="rowformDisplay" e-ng-options="m for m in SelectReceiveData">
-                                            {{rd.DictionaryKey}}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span editable-text="rd.DictionaryValue" e-name="DictionaryValue" e-form="rowformDisplay">
-                                            {{rd.DictionaryValue}}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span editable-select="rd.FormatType" e-name="FormatType" e-form="rowformDisplay" e-ng-options="s.value as s.text for s in FormatTypes">
-                                            {{ SetFormatTypes(rd.FormatType) }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span editable-text="rd.ShowType" e-name="ShowType" e-form="rowformDisplay">
-                                            {{rd.ShowType}}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span editable-text="rd.ShowUnit" e-name="ShowUnit" e-form="rowformDisplay">
-                                            {{rd.ShowUnit}}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span editable-text="rd.ShowIcon" e-name="ShowIcon" e-form="rowformDisplay">
-                                            {{rd.ShowIcon}}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span editable-text="rd.ShowPostion" e-name="ShowPostion" e-form="rowformDisplay">
-                                            {{rd.ShowPostion}}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span editable-select="rd.ShowCommon" e-name="ShowCommon" e-form="rowformDisplay" e-ng-options="s.value as s.text for s in boolData">
-                                            {{ showBool(rd.ShowCommon) }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <table class="table table-bordered table-hover">
-
-                                            <tr>
-                                                <th>表达式</th>
-                                                <th>显示值</th>
-                                                <th>颜色</th>
-                                                <td><button class="btn btn-primary btn-xs" ng-click="addReDataDisplayFormat(rd)" ng-disabled="!rowformDisplay.$visible"><span class="glyphicon  glyphicon-plus"></span></button></td>
-                                            </tr>
-
-                                            <tr ng-repeat="df in rd.ReDataDisplayFormats">
-                                                <td>
-                                                    <span editable-text="df.FormatExpression" e-name="FormatExpression" e-form="rowformDisplay">
-                                                        {{df.FormatExpression}}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <span editable-text="df.FormatValue" e-name="FormatValue" e-form="rowformDisplay">
-                                                        {{df.FormatValue}}
-                                                    </span>
-                                                </td>
-                                                <td>
-
-                                                    <span editable-color="df.FormatColor" e-name="FormatColor" e-form="rowformDisplay">
-                                                        {{df.FormatColor}}
-                                                    </span>
-                                                </td>
-                                                <td><button class="btn btn-danger btn-xs" ng-click="delReDataDisplayFormat(rd,$index,df)"><span class="glyphicon  glyphicon-trash"></span></button></td>
-
-                                            </tr>
-
-                                        </table>
-
-                                    </td>
-                                    <td style="white-space: nowrap">
-                                        <!-- form -->
-                                        <form editable-form name="rowformDisplay" onaftersave="ReceiveDataSave($data, rd.ReceiveDataDisplayId)" ng-show="rowformDisplay.$visible" class="form-buttons form-inline" shown="inserted == ReceiveDataDisplays">
-                                            <button type="submit" ng-disabled="rowformDisplay.$waiting" class="btn btn-success btn-xs">
-                                                <span class="glyphicon glyphicon-ok"></span>
-                                            </button>
-                                            <button type="button" ng-disabled="rowformDisplay.$waiting" ng-click="rowformDisplay.$cancel()" class="btn btn-danger  btn-xs">
-                                                <span class="glyphicon  glyphicon-remove"></span>
-                                            </button>
-                                        </form>
-                                        <div class="buttons" ng-show="!rowformDisplay.$visible">
-                                            <button ng-click="rowformDisplay.$show()" class="btn btn-primary btn-xs" type="submit"><span class="glyphicon glyphicon-pencil"></span> </button>
-                                            <button ng-click="removeReceiveDataDisplays($index)" class="btn btn-danger  btn-xs" type="submit"><span class="glyphicon  glyphicon-trash"></span> </button>
-
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <hr class="hr-double">
-        <div class='row'>
-            <div class='col-sm-12'>
-                <div class='box bordered-box purple-border' style='margin-bottom:0;'>
-                    <div class='box-header purple-background'>
-                        <div class='title'><i class="icon-book"></i>协议测试</div>
-                        <div class='actions'>
-                            <a class="btn box-remove btn-xs btn-link" href="#">
-                                <i class='icon-remove'></i>
-                            </a>
-
-                            <a class="btn box-collapse btn-xs btn-link" href="#">
-                                <i></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class='box-content'>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body ">
                         <div class="row">
                             <div class="col-sm-4 box box-nomargin">
                                 <div class="box-header">
@@ -541,7 +597,7 @@
                                                         </tr>
 
                                                     </tbody>
-                                                </table>                                              
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -571,18 +627,34 @@
                                             </div>
                                         </div>
                                     </div>
-                                 </div>
+                                </div>
                             </div>
                         </div>
 
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                    <!-- end widget content -->
 
+                </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+
+        </article>
+        <!-- WIDGET END -->
+
+    </div>
+    <!-- end row -->
+
+</section>
+<!-- end widget grid -->
 @section scripts{
     <script src="~/Content/assets/javascripts/plugins/bootstrap_colorpicker/bootstrap-colorpicker.min.js"></script>
     <script src="~/Scripts/AngularCtrlJs/ProtocolManageJs.js"></script>
+    <script type="text/javascript">
+        // DO NOT REMOVE : GLOBAL FUNCTIONS!
+        $(document).ready(function () {
+            pageSetUp();
+        })
+    </script>
 }

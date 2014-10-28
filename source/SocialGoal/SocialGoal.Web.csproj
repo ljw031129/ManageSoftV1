@@ -873,13 +873,21 @@
     <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Content\ng-grid.css" />
     <Content Include="Content\ng-grid.min.css" />
+    <Content Include="Content\SmartAdmin\css\bootstrap.css" />
     <Content Include="Content\SmartAdmin\css\bootstrap.min.css" />
+    <Content Include="Content\SmartAdmin\css\demo.css" />
     <Content Include="Content\SmartAdmin\css\demo.min.css" />
+    <Content Include="Content\SmartAdmin\css\font-awesome.css" />
     <Content Include="Content\SmartAdmin\css\font-awesome.min.css" />
+    <Content Include="Content\SmartAdmin\css\invoice.css" />
     <Content Include="Content\SmartAdmin\css\invoice.min.css" />
+    <Content Include="Content\SmartAdmin\css\lockscreen.css" />
     <Content Include="Content\SmartAdmin\css\lockscreen.min.css" />
+    <Content Include="Content\SmartAdmin\css\smartadmin-production.css" />
     <Content Include="Content\SmartAdmin\css\smartadmin-production.min.css" />
+    <Content Include="Content\SmartAdmin\css\smartadmin-rtl.css" />
     <Content Include="Content\SmartAdmin\css\smartadmin-rtl.min.css" />
+    <Content Include="Content\SmartAdmin\css\smartadmin-skins.css" />
     <Content Include="Content\SmartAdmin\css\smartadmin-skins.min.css" />
     <Content Include="Content\SmartAdmin\css\your_style.css" />
     <Content Include="Content\SmartAdmin\fonts\fontawesome-webfont.svg" />
@@ -1067,6 +1075,7 @@
     <Content Include="Content\SmartAdmin\js\demo.min.js" />
     <Content Include="Content\SmartAdmin\js\libs\jquery-2.0.2.min.js" />
     <Content Include="Content\SmartAdmin\js\libs\jquery-ui-1.10.3.min.js" />
+    <Content Include="Content\SmartAdmin\js\notification\SmartNotification.js" />
     <Content Include="Content\SmartAdmin\js\notification\SmartNotification.min.js" />
     <Content Include="Content\SmartAdmin\js\plugin\bootstrap-progressbar\bootstrap-progressbar.min.js" />
     <Content Include="Content\SmartAdmin\js\plugin\bootstrap-slider\bootstrap-slider.min.js" />
@@ -1457,7 +1466,9 @@
     <Content Include="Content\SmartAdmin\js\plugin\x-editable\jquery.mockjax.min.js" />
     <Content Include="Content\SmartAdmin\js\plugin\x-editable\moment.min.js" />
     <Content Include="Content\SmartAdmin\js\plugin\x-editable\x-editable.min.js" />
+    <Content Include="Content\SmartAdmin\js\smartwidgets\jarvis.widget.js" />
     <Content Include="Content\SmartAdmin\js\smartwidgets\jarvis.widget.min.js" />
+    <Content Include="Content\SmartAdmin\js\speech\voicecommand.js" />
     <Content Include="Content\SmartAdmin\js\speech\voicecommand.min.js" />
     <Content Include="Content\SmartAdmin\sound\bigbox.mp3" />
     <Content Include="Content\SmartAdmin\sound\license.txt" />
@@ -2656,6 +2667,7 @@
     <Content Include="Content\SmartAdmin\sound\voice_alert.ogg" />
     <Content Include="Content\SmartAdmin\sound\voice_off.ogg" />
     <Content Include="Content\SmartAdmin\sound\voice_on.ogg" />
+    <Content Include="Content\SmartAdmin\css\bootstrap.css.map" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
@@ -2944,6 +2956,12 @@
     <Content Include="Views\Terminal\History.cshtml" />
     <Content Include="Views\AdminRoles\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutSmartAdmin.cshtml" />
+    <Content Include="Views\Shared\_PartialSmartAdminHeader.cshtml" />
+    <Content Include="Views\Shared\_PartialSmartAdminFooter.cshtml" />
+    <Content Include="Views\Shared\_PartialSmartAdminLeft.cshtml" />
+    <Content Include="Views\Shared\_PartialSmartAdminRibbon.cshtml" />
+    <Content Include="Views\Shared\_PartialSmartAdminShortcut.cshtml" />
+    <Content Include="Views\Shared\_LayoutSmartAdminLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

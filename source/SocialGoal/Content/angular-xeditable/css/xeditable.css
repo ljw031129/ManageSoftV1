@@ -16,6 +16,7 @@ Build date: 2014-01-10
 
         .editable-wrap .editable-controls > input, .editable-wrap .editable-controls > select, .editable-wrap .editable-controls > textarea {
             margin-bottom: 0;
+            width: 50px;
         }
 
     .editable-wrap .editable-input {

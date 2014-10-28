@@ -188,12 +188,14 @@ namespace SocialGoal
 
             //SmartAdmin
             bundles.Add(new StyleBundle("~/Content/SmartAdmin/css").Include(
+                "~/Content/SmartAdmin/css/your_style.css",
                       "~/Content/SmartAdmin/css/bootstrap.min.css",
                       "~/Content/SmartAdmin/css/font-awesome.min.css",
                       "~/Content/SmartAdmin/css/smartadmin-production.min.css",
                       "~/Content/SmartAdmin/css/smartadmin-skins.min.css",
-                      "~/Content/SmartAdmin/css/your_style.css",
                       "~/Content/SmartAdmin/css/demo.min.css"));
+
+
             bundles.Add(new ScriptBundle("~/bundles/SmartAdmin/jquery").Include(
                   "~/Content/SmartAdmin/js/libs/jquery-2.0.2.min.js",
                   "~/Content/SmartAdmin/js/libs/jquery-ui-1.10.3.min.js"
@@ -223,9 +225,16 @@ namespace SocialGoal
                 //FastClick: For mobile devices: you can disable this in app.js
                   "~/Content/SmartAdmin/js/plugin/fastclick/fastclick.min.js",
                   "~/Content/SmartAdmin/js/demo.min.js",
-                  "~/Content/SmartAdmin/js/appDes.js",
-                  "~/Content/SmartAdmin/js/speech/voicecommand.min.js"
+                  "~/Content/SmartAdmin/js/app.js",
+                  "~/Content/SmartAdmin/js/speech/voicecommand.min.js",
+                   "~/Scripts/angular.js"
                     ));
+
+            bundles.Add(new ScriptBundle("~/bundles/SmartAdminLogin/js").Include(
+                "~/Content/SmartAdmin/js/bootstrap/bootstrap.min.js",
+               "~/Content/SmartAdmin/js/app.config.js",
+                "~/Content/SmartAdmin/js/app.js"
+                 ));
         }
     }
 }

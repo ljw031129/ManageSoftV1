@@ -2,93 +2,89 @@
 
 @{
     ViewBag.Title = "Log in";
-    Layout = "../Shared/_LayoutFlatty.cshtml";
+    Layout = "../Shared/_LayoutSmartAdminLogin.cshtml";
 }
-@section styles{
-    <style type="text/css">
-      .controls   .input-validation-error {
-            border-color: #b94a48;
-            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-        }
-        .field-validation-error {
-        color: #b94a48;
-        }
-    </style>
+@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "smart-form client-form" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true)
+    <header>
+        用户登录
+    </header>
+    <fieldset>
+        <section>
+            <label class="label">登录名</label>
+            <label class="input">
+                <i class="icon-append fa fa-user"></i>
+                @Html.TextBoxFor(m => m.Email)
+                @Html.ValidationMessageFor(m => m.Email, null, new { @class = "note note-error" })
+                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> 输入您的用户名</b>
+            </label>
+        </section>
+
+        <section>
+            <label class="label">密码</label>
+            <label class="input">
+                <i class="icon-append fa fa-lock"></i>
+                @Html.PasswordFor(m => m.Password)
+                @Html.ValidationMessageFor(m => m.Password, null, new { @class = "note note-error" })
+                <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> 输入您的密码</b>
+            </label>
+            <div class="note">
+                <a href="forgotpassword.html">忘记密码?</a>
+            </div>
+        </section>
+
+        <section>
+            <label class="checkbox">
+                @Html.CheckBoxFor(m => m.RememberMe)
+                <i></i>Stay signed in
+            </label>
+        </section>
+    </fieldset>
+    <footer>
+        <button type="submit" class="btn btn-primary">
+            Sign in
+        </button>
+    </footer>
+
 }
-<div class='middle-container'>
-    <div class='middle-row'>
-        <div class='middle-wrapper'>
-            <div class='login-container-header'>
-                <div class='container'>
-                    <div class='row'>
-                        <div class='col-sm-12'>
-                            <div class='text-center'>
-                                <img width="121" height="31" src="~/Content/assets/images/logo_lg.svg" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class='login-container'>
-                <div class='container'>
-                    <div class='row'>
-                        <div class='col-sm-4 col-sm-offset-4'>
-                            <h1 class='text-center title'>Sign in</h1>
-                            <section id="loginForm">
-                                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = " " }))
-                                {
-                                    @Html.AntiForgeryToken()
+@section scripts{
+    <script type="text/javascript">
+        runAllForms();
+        $(function () {
+            // Validation
+            $("#login-form").validate({
+                // Rules for form validation
+                rules: {
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true,
+                        minlength: 3,
+                        maxlength: 20
+                    }
+                },
 
-                                    @Html.ValidationSummary(true)
-                                    <div class="form-group">
-                                        <div class="controls with-icon-over-input">
-                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "E-mail" })
-                                            @Html.ValidationMessageFor(m => m.Email)
-                                            <i class="icon-user text-muted"></i>
-                                        </div>
+                // Messages for form validation
+                messages: {
+                    email: {
+                        required: 'Please enter your email address',
+                        email: 'Please enter a VALID email address'
+                    },
+                    password: {
+                        required: 'Please enter your password'
+                    }
+                },
 
-                                    </div>
-                                    <br />
-                                    <div class="form-group">
-                                        <div class='controls with-icon-over-input'>
-                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
-                                            @Html.ValidationMessageFor(m => m.Password)
-                                            <i class='icon-lock text-muted'></i>
-                                        </div>
-                                    </div>
-
-                                    <div class='checkbox'>
-                                        <label for='remember_me'>
-                                            @Html.CheckBoxFor(m => m.RememberMe)
-                                            Remember me
-                                        </label>
-                                    </div>
-                                    <button type="submit" class='btn btn-block'>Sign in</button>
-                                }
-                            </section>
-                            <div class='text-center'>
-                                <hr class='hr-normal'>
-                                <a href='forgot_password.html'>Forgot your password?</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class='login-container-footer'>
-                <div class='container'>
-                    <div class='row'>
-                        <div class='col-sm-12'>
-                            <div class='text-center'>
-                                <a href='@Url.Action("Register", "Account")'>
-                                    <i class='icon-user'></i>
-                                    New to Flatty?
-                                    <strong>Sign up</strong>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                // Do not change code below
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
+                }
+            });
+        });
+    </script>
+}

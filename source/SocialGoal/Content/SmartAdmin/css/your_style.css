@@ -17,3 +17,8 @@
  * - BODY
  * - CUSTOM STYLES
  */
+
+.smart-form .input .input-validation-error{
+    background: #fff0f0;
+    border-color: #A90329;
+}
