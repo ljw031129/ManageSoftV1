@@ -2962,6 +2962,7 @@
     <Content Include="Views\Shared\_PartialSmartAdminRibbon.cshtml" />
     <Content Include="Views\Shared\_PartialSmartAdminShortcut.cshtml" />
     <Content Include="Views\Shared\_LayoutSmartAdminLogin.cshtml" />
+    <Content Include="Views\Shared\_PartialSmartAdminTENav.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,96 +1,97 @@
 ﻿@{
     ViewBag.Title = "终端设备监控";
-    Layout = "~/Views/Shared/_LayoutFlattyMain.cshtml";
+    Layout = "~/Views/Shared/_LayoutSmartAdmin.cshtml";
 }
 
 @section styles{
-
-    <link href="~/Content/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
-    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
-    <link href="~/Content/jquery.jqGrid/jqGrid.overrides.css" rel="stylesheet" />
-    <link href="~/Scripts/plugins/select2-3.5.1/select2.css" rel="stylesheet" />
-    <link href="~/Scripts/plugins/select2-3.5.1/select2-bootstrap.css" rel="stylesheet" />
     <link href="~/Scripts/plugins/artDialog/css/ui-dialog.css" rel="stylesheet" />
 }
-<div class='row' id='content-wrapper'>
-    <div class='col-xs-12'>
-        <div class='row'>
-            <div class='col-sm-12'>
-                <div class='page-header'>
-                    <h1 class='pull-left'>
-                        <i class='icon-facetime-video '></i>
-                        <span>终端设备监控</span>
-                    </h1>
-                    <div class='pull-right'>
-                        <ul class='breadcrumb'>
-                            <li>
-                                <a href='index.html'>
-                                    <i class='icon-bar-chart'></i>
-                                </a>
-                            </li>
-                            <li class='separator'>
-                                <i class='icon-angle-right'></i>
-                            </li>
-                            <li>Example pages</li>
-                            <li class='separator'>
-                                <i class='icon-angle-right'></i>
-                            </li>
-                            <li class='active'>User profile</li>
-                        </ul>
-                    </div>
-                </div>
+<!-- row -->
+<div class="row">
 
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12 box">
-                <ul class="nav nav-tabs nav-tabs-simple">
-                    <li class="active">
-                        <a href="@Url.Action("Index", "Terminal",null)" class="green-border">
-                            <i class="icon-list  text-red "></i>
-                            终端设备列表
-                        </a>
-                    </li>
-                    <li id="equipmentDetail">
-                        <a href="#">
-                            <i class="icon-indent-left"></i>
-                            设备工况一览
-                        </a>
-                    </li>
-                    <li id="equipmentMap">
-                        <a href="#" class="green-border">
-                            <i class="icon-map-marker "></i>
-                            行驶轨迹
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="row">
-            <div style="margin-bottom: 0" class="col-sm-12 box">
-                <div class="box-header blue-background">
-                    <div class="title"><i class=" icon-list "></i>  设备列表</div>
-                    <div class="actions">
-                        <a href="#" class="btn box-remove btn-xs btn-link">
-                            <i class="icon-remove"></i>
-                        </a>
-
-                        <a href="#" class="btn box-collapse btn-xs btn-link">
-                            <i></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="box-content">
-                    <table id="grps"></table> <div id="pgrps"></div>
-
-                </div>
-            </div>
-
+    <!-- col -->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="collapse navbar-collapse bg-color-white">
+            <ul class="nav navbar-nav">               
+                <li >
+                    <a href="@Url.Action("Index", "TerminalEquipment", null)" class="green-border">
+                        <i class="icon-list  text-red "></i>
+                        终端设备列表
+                    </a>
+                </li>
+                <li id="equipmentDetail">
+                    <a href="#">
+                        <i class="icon-indent-left"></i>
+                        设备工况一览
+                    </a>
+                </li>
+                <li id="equipmentMap">
+                    <a href="#" class="green-border">
+                        <i class="icon-map-marker "></i>
+                        行驶轨迹
+                    </a>
+                </li>                
+            </ul>
         </div>
     </div>
+    <!-- end col -->
+    <!-- right side of the page with the sparkline graphs -->
 </div>
-@section scripts{
+<!-- end row -->
+<!--
+    The ID "widget-grid" will start to initialize all widgets below
+    You do not need to use widgets if you dont want to. Simply remove
+    the <section></section> and you can use wells or panels instead
+    -->
+<!-- widget grid -->
+<section id="widget-grid" class="">
+    <!-- row -->
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+                <!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+                -->
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>终端设备监控</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body  no-padding">
+                        <div class="table-responsive">
+                            <table id="grps"></table>
+                            <div id="pgrps"></div>
+                        </div>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+            <!-- end widget -->
+        </article>
+    </div>
 
+    <!-- end row -->
+</section>
+<!-- end widget grid -->
+
+@section scripts{
     <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
     <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
     <script src="~/Scripts/plugins/select2-3.5.1/select2.js"></script>
@@ -133,9 +134,9 @@
                     datatype: "json",
                     mtype: "get",
                     colNames:
-                        ['Id','终端编号', '终端类型', '工作状态', '小时表', '信息最后更新时间', '位置'],
+                        ['Id', '终端编号', '终端类型', '工作状态', '小时表', '信息最后更新时间', '位置'],
                     colModel: [
-                        { name: 'TerminalEquipmentId', key: true, index: 'TerminalEquipmentId', editable: false, editoptions: { readonly: true }, width: 55, hidden: true },                        
+                        { name: 'TerminalEquipmentId', key: true, index: 'TerminalEquipmentId', editable: false, editoptions: { readonly: true }, width: 55, hidden: true },
                         { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: false, width: 90, formatter: LinkFmatter, unformat: imageUnFormat },
                         { name: 'TerminalEquipmentType', index: 'EquipmentName', editable: false, width: 100, edittype: "select", formatter: "select", editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" }, align: "center" },
                         { name: 'AccStatus', index: 'AccStatus', editable: false, width: 60 },
@@ -148,7 +149,8 @@
                     //  rownumbers: true,//添加左侧行号
                     altRows: true,//设置为交替行表格,默认为false
                     rowNum: 10,
-                    width: 700,
+                    height: 'auto',
+                    autowidth: true,
                     rowList: [10, 20, 30],
                     pager: '#pgrps',
                     sortname: 'TerminalEquipmentUpdateTime',
@@ -163,52 +165,59 @@
                         userdata: "userdata"
                     },
                     // caption: "终端信息表",
-                   // shrinkToFit: false,
-                  //  width: 'auto',
+                    // shrinkToFit: false,
+                    //  width: 'auto',
                     height: '100%',
                     editurl: '/api/ApiTerminalEquipment' // this is dummy existing url
                 });
             jQuery("#grps").jqGrid('navGrid', '#pgrps',
                 { edit: false, add: false, del: false },
-                {
-                    editCaption: "编辑",
-                    top: "5",
-                    left: "5",
-                    jqModal: false,
-                    reloadAfterSubmit: true,
-                    afterShowForm: function (form) {
-                        $("#PmFInterpreterId").select2();
-
-                    }
-                },
-                {
-                    editCaption: "添加",
-                    top: "5",
-                    left: "5",
-                    jqModal: false,
-                    reloadAfterSubmit: true,
-                    afterShowForm: function (form) {
-                        $("#PmFInterpreterId").select2();
-
-                    }
-                },
+                {},
+                {},
                 {},
                 { multipleSearch: true, multipleGroup: true });
             //test responsiveness
-            $(window).on('resize', function (event, ui) {
-                // Get width of parent container
-                var parWidth = $("#gbox_grps").parent().width();
-                var curWidth = $("#gbox_grps").width();
-                //console.log("span width " + parWidth + " gridWidth " + gWidth);
-                var w = parWidth - 1; // Fudge factor to prevent horizontal scrollbars
-                if (Math.abs(w - curWidth) > 2) {
-                    //alert("resize to " + width);
-                    console.log("span width " + parWidth + " gridWidth " + curWidth);
-                    $("#grps").setGridWidth(w);
-                    console.log("new width " + w);
-                }
+          //  jQuery("#grps").jqGrid('inlineNav', "#pgrps");
+            /* Add tooltips */
+            $('.navtable .ui-pg-button').tooltip({
+                container: 'body'
+            });
+            // remove classes
+            $(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
+            $(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
+            $(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
+            $(".ui-jqgrid-pager").removeClass("ui-state-default");
+            $(".ui-jqgrid").removeClass("ui-widget-content");
 
-            }).trigger('resize');
+            // add classes
+            $(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
+            $(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
+
+            $(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
+            $(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
+            $(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
+            $(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
+            $(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
+            $(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
+            $(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
+            $(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
+
+            $(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
+
+            $(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
+
+            $(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
+
+            $(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
+            $(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
+            // update buttons
+
+            $(window).on('resize.jqGrid', function () {
+                jQuery("#grps").jqGrid('setGridWidth', $("#content").width());
+            })
             //自定义的格式化方法
             //cellvalue - 当前cell的值
             //options - 该cell的options设置，包括{rowId, colModel,pos,gid}
@@ -239,7 +248,7 @@
             }
             function imageUnFormat(cellvalue, options, cell) {
                 return $('a', cell).attr('id');
-            }         
+            }
         });
 
     </script>

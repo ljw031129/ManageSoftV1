@@ -1,81 +1,109 @@
 ﻿@{
-    ViewBag.Title = "Map";
-    Layout = "~/Views/Shared/_LayoutFlattyMain.cshtml";
+    ViewBag.Title = "轨迹回放";
+    Layout = "~/Views/Shared/_LayoutSmartAdmin.cshtml";
 }
 @section styles{
-    <link href="~/Content/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
     <link href="~/Content/assets/stylesheets/plugins/bootstrap_daterangepicker/bootstrap-daterangepicker.css" rel="stylesheet" />
     <link href="~/Content/assets/stylesheets/plugins/csspinner/csspinner.css" rel="stylesheet" />
-    <link href="~/Scripts/plugins/artDialog/css/ui-dialog.css" rel="stylesheet" />
-    <style type="text/css">
-        #iCenter {
-            border: 1px solid #f6f6f6;
-            height: 400px;
-            width: 100%;
-        }
-        /*** copied from demo #43 添加自定义信息窗体 ***/
-        /* 定义自定义信息窗体样式 */
-        div.info {
-            position: relative;
-            z-index: 100;
-            border: 1px solid #BCBCBC;
-            box-shadow: 0 0 10px #B7B6B6;
-            /*border-radius: 8px;*/
-            background-color: rgba(255,255,255,0.9);
-            transition-duration: 0.25s;
-        }
-
-            div.info:hover {
-                box-shadow: 0px 0px 15px #0CF;
-            }
-
-        div.info-top {
-            position: relative;
-            background: none repeat scroll 0 0 #F9F9F9;
-            border-bottom: 1px solid #CCC;
-            border-radius: 5px 5px 0 0;
-        }
-
-            div.info-top div {
-                display: inline-block;
-                color: #333333;
-                font-size: 14px;
-                font-weight: bold;
-                line-height: 31px;
-                padding: 0 10px;
-            }
-
-            div.info-top img {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                transition-duration: 0.25s;
-            }
-
-                div.info-top img:hover {
-                    box-shadow: 0px 0px 5px #000;
-                }
-
-        div.info-middle {
-            font-size: 12px;
-            padding: 10px;
-            line-height: 21px;
-        }
-
-        div.info-bottom {
-            height: 0px;
-            width: 100%;
-            clear: both;
-            text-align: center;
-        }
-
-            div.info-bottom img {
-                position: relative;
-                z-index: 104;
-            }
-        /*** -------------------------***/
-    </style>
+    <link href="~/Scripts/plugins/artDialog/css/ui-dialog.css" rel="stylesheet" />   
 }
+<!-- row -->
+<div class="row">
+
+    <!-- col -->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="collapse navbar-collapse bg-color-white">
+           @Html.Partial("_PartialSmartAdminTENav")
+        </div>
+    </div>
+    <!-- end col -->
+    <!-- right side of the page with the sparkline graphs -->
+</div>
+<!-- end row -->
+<!--
+    The ID "widget-grid" will start to initialize all widgets below
+    You do not need to use widgets if you dont want to. Simply remove
+    the <section></section> and you can use wells or panels instead
+    -->
+<!-- widget grid -->
+<section id="widget-grid" class="">
+    <!-- row -->
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+                <!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+                -->
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>行驶轨迹</h2>
+                    <ul class="list-inline">
+                        <li class="text-success">
+                            <i class=" icon-time  "></i>
+                            时间范围：
+                        </li>
+                        <li class="text-success">
+                            <div class='btn-group'>
+                                <a class="btn btn-white" id="daterange" href="#">
+                                    <i class='icon-calendar'></i>
+                                    <span>选择时间</span>
+                                    <b class='caret'></b>
+                                </a>
+
+                            </div>
+                        </li>
+                        <li class="text-success">
+                            <a class="btn btn-white" onclick="InitMarkerMovingControl()">
+                                <i class="icon-download-alt "></i>加载数据
+                            </a>
+                        </li> 
+                    </ul>
+                    <div class="widget-toolbar" role="menu">
+                        <div data-toggle="buttons" class="btn-group">
+                            <label class="btn btn-default btn-xs active">
+                                <input type="radio" id="style-a1" name="style-a1"> <i class="fa fa-play"></i>
+                            </label>
+                            <label class="btn btn-default btn-xs">
+                                <input type="radio" id="style-a2" name="style-a2"> <i class="fa fa-pause"></i>
+                            </label>
+                            <label class="btn btn-default btn-xs">
+                                <input type="radio" id="style-a3" name="style-a2"> <i class="fa fa-stop"></i>
+                            </label>
+                        </div>
+                    </div>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body  no-padding">
+                        <div id="iCenter"></div>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+            <!-- end widget -->
+        </article>
+    </div>
+
+    <!-- end row -->
+</section>
+<!-- end widget grid -->
+
 <div class='row' id='content-wrapper'>
     <div class='col-xs-12'>
         @Html.Partial("_PartialTerminalNav")
@@ -95,32 +123,7 @@
                 </div>
                 <div class='box-content'>
                     <div class="box-toolbox box-toolbox-top">
-                        <div class="pull-left">
-                            <ul class="list-unstyled list-inline" style="margin-top:10px;">
-                                <li>
-                                    <i class=" icon-time  "></i>
-                                    时间范围：
-                                </li>
-                                <li>
-                                    <div class='btn-group'>
-                                        <a class="btn btn-white" id="daterange" href="#">
-                                            <i class='icon-calendar'></i>
-                                            <span>选择时间</span>
-                                            <b class='caret'></b>
-                                        </a>
-
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="btn btn-white" onclick="InitMarkerMovingControl()">
-                                        <i class="icon-download-alt "></i>加载数据
-                                    </a>
-                                </li>
-                                <li>
-
-                                </li>
-
-                            </ul>
+                        <div class="pull-left">                          
 
                         </div>
                         <div class="pull-right">
@@ -151,7 +154,7 @@
 
                         </div>
                     </div>
-                    <div id="iCenter"></div>
+                  
                 </div>
             </div>
 
@@ -171,6 +174,7 @@
         var IsEnd = false;
         var jsonResult;
         $(document).ready(function () {
+            pageSetUp();
             $("#daterange").daterangepicker({
                 timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm ',
                 ranges: {
