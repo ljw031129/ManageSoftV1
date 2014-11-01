@@ -219,7 +219,7 @@ namespace SocialGoal
                   "~/Content/SmartAdmin/js/plugin/masked-input/jquery.maskedinput.min.js",
                   //"~/Content/SmartAdmin/js/plugin/select2/select2.min.js",
                 //JQUERY UI + Bootstrap Slider
-                  "~/Content/SmartAdmin/js/plugin/bootstrap-slider/bootstrap-slider.min.js",
+                  //"~/Content/SmartAdmin/js/plugin/bootstrap-slider/bootstrap-slider.min.js",
                 // browser msie issue fix 
                   "~/Content/SmartAdmin/js/plugin/msie-fix/jquery.mb.browser.min.js",
                 //FastClick: For mobile devices: you can disable this in app.js

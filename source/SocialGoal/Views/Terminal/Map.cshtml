@@ -5,7 +5,7 @@
 @section styles{
     <link href="~/Content/assets/stylesheets/plugins/bootstrap_daterangepicker/bootstrap-daterangepicker.css" rel="stylesheet" />
     <link href="~/Content/assets/stylesheets/plugins/csspinner/csspinner.css" rel="stylesheet" />
-    <link href="~/Scripts/plugins/artDialog/css/ui-dialog.css" rel="stylesheet" />   
+    <link href="~/Scripts/plugins/artDialog/css/ui-dialog.css" rel="stylesheet" />
 }
 <!-- row -->
 <div class="row">
@@ -13,7 +13,7 @@
     <!-- col -->
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="collapse navbar-collapse bg-color-white">
-           @Html.Partial("_PartialSmartAdminTENav")
+            @Html.Partial("_PartialSmartAdminTENav")
         </div>
     </div>
     <!-- end col -->
@@ -45,41 +45,7 @@
                 -->
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                    <h2>行驶轨迹</h2>
-                    <ul class="list-inline">
-                        <li class="text-success">
-                            <i class=" icon-time  "></i>
-                            时间范围：
-                        </li>
-                        <li class="text-success">
-                            <div class='btn-group'>
-                                <a class="btn btn-white" id="daterange" href="#">
-                                    <i class='icon-calendar'></i>
-                                    <span>选择时间</span>
-                                    <b class='caret'></b>
-                                </a>
-
-                            </div>
-                        </li>
-                        <li class="text-success">
-                            <a class="btn btn-white" onclick="InitMarkerMovingControl()">
-                                <i class="icon-download-alt "></i>加载数据
-                            </a>
-                        </li> 
-                    </ul>
-                    <div class="widget-toolbar" role="menu">
-                        <div data-toggle="buttons" class="btn-group">
-                            <label class="btn btn-default btn-xs active">
-                                <input type="radio" id="style-a1" name="style-a1"> <i class="fa fa-play"></i>
-                            </label>
-                            <label class="btn btn-default btn-xs">
-                                <input type="radio" id="style-a2" name="style-a2"> <i class="fa fa-pause"></i>
-                            </label>
-                            <label class="btn btn-default btn-xs">
-                                <input type="radio" id="style-a3" name="style-a2"> <i class="fa fa-stop"></i>
-                            </label>
-                        </div>
-                    </div>
+                    <h2>行驶轨迹 终端编号 @ViewBag.DevId</h2>
                 </header>
                 <!-- widget div-->
                 <div>
@@ -90,7 +56,98 @@
                     <!-- end widget edit box -->
                     <!-- widget content -->
                     <div class="widget-body  no-padding">
+                        <div class="widget-body-toolbar">
+                            <ul class="list-inline ">
+                                <li class="text-success ">
+                                    <i class=" icon-time  "></i>
+                                    选择时间范围：
+                                </li>
+                                <li class="text-success ">
+                                    <div class='btn-group'>
+                                        <a class="btn btn-white" id="daterange" href="#">
+                                            <i class='icon-calendar'></i>
+                                            <span>选择时间</span>
+                                            <b class='caret'></b>
+                                        </a>
+
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);" class="btn btn-default" rel="tooltip" data-placement="top" data-original-title="加载数据" onclick="InitMarkerMovingControl()"><i class="fa fa-arrow-down"></i> 加载数据</a>
+
+                                </li>
+                                <li>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default" onclick="startAnimation()">
+                                            <i class="fa  fa-play-circle"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-default" onclick="pauseAnimation()">
+                                            <i class="fa fa-pause"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-default" onclick="continueAnimation()">
+                                            <i class="fa fa-play"></i>
+                                        </button>
+                                    </div>
+                                </li>
+                                <li class="text-success">播放速度：<input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold; width:80px;"></li>
+                                <li style="width:200px;">
+                                    <div class="well well-sm well-light">
+                                        <div id="slider-range-min"></div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <form class="form-inline" role="form">
+
+                                <fieldset>
+                                    <div class="form-group">
+                                        <label>是否过滤漂移点：</label>                                       
+                                        <span class="onoffswitch ">
+                                            <input type="checkbox" name="start_interval" class="onoffswitch-checkbox" id="start_interval">
+                                            <label class="onoffswitch-label" for="start_interval">
+                                                <span class="onoffswitch-inner" data-swchon-text="ON" data-swchoff-text="OFF"></span>
+                                                <span class="onoffswitch-switch"></span>
+                                            </label>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>漂移点有效距离：</label>
+                                        <div class="input-group">
+                                            <input class="form-control" id="append" type="text">
+                                            <span class="input-group-addon">千米/小时</span>
+                                        </div>
+                                    </div> 
+                                    <div class="form-group">
+                                        <label>是否合并停留点：</label>
+                                        <span class="onoffswitch ">
+                                            <input type="checkbox" name="start_interval" class="onoffswitch-checkbox" id="start_interval">
+                                            <label class="onoffswitch-label" for="start_interval">
+                                                <span class="onoffswitch-inner" data-swchon-text="ON" data-swchoff-text="OFF"></span>
+                                                <span class="onoffswitch-switch"></span>
+                                            </label>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>合并最大距离：</label>
+                                        <div class="input-group">
+                                            <input class="form-control" id="append" type="text">
+                                            <span class="input-group-addon">千米/小时</span>
+                                        </div>
+                                    </div>                                
+                                </fieldset>
+                            </form>                           
+                        </div>
                         <div id="iCenter"></div>
+                        <div class="widget-footer">
+
+                            <button class="btn btn-sm btn-primary" type="button">
+                                Save
+                            </button>
+
+                            <button class="btn btn-sm btn-danger disabled pull-left" type="button">
+                                Delete
+                            </button>
+
+                        </div>
                     </div>
                     <!-- end widget content -->
                 </div>
@@ -103,65 +160,6 @@
     <!-- end row -->
 </section>
 <!-- end widget grid -->
-
-<div class='row' id='content-wrapper'>
-    <div class='col-xs-12'>
-        @Html.Partial("_PartialTerminalNav")
-        <div class="row">
-            <div class='col-sm-12 box'>
-                <div class='box-header blue-background'>
-                    <div class='title'><i class="icon-map-marker "></i>  行驶轨迹：终端编号 @ViewBag.DevId</div>
-                    <div class='actions'>
-                        <a class="btn box-remove btn-xs btn-link" href="#">
-                            <i class='icon-remove'></i>
-                        </a>
-
-                        <a class="btn box-collapse btn-xs btn-link" href="#">
-                            <i></i>
-                        </a>
-                    </div>
-                </div>
-                <div class='box-content'>
-                    <div class="box-toolbox box-toolbox-top">
-                        <div class="pull-left">                          
-
-                        </div>
-                        <div class="pull-right">
-                            <ul class="list-unstyled list-inline" style="margin-top:10px;">
-                                <li>
-                                    <i class=" icon-fighter-jet "></i>
-                                    当前播放速度：
-                                </li>
-                                <li>
-                                    <div id='slider-example1' style='width:160px;'></div>
-                                </li>
-                                <li>
-                                    <small id='slider-example1-amount'></small>
-                                </li>
-                                <li>
-                                    <a class="btn btn-white" onclick="startAnimation()">
-                                        <i class=" icon-refresh"></i>
-                                    </a>
-                                    <a class="btn btn-white" onclick="continueAnimation()">
-                                        <i class="icon-play "></i>
-                                    </a>
-                                    <a class="btn btn-white" onclick="pauseAnimation()">
-                                        <i class="icon-pause  "></i>
-                                    </a>
-                                </li>
-
-                            </ul>
-
-                        </div>
-                    </div>
-                  
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
 @section scripts{
     <script src="~/Scripts/json3.js"></script>
     <script src="~/Content/assets/javascripts/plugins/common/moment.min.js"></script>
@@ -194,18 +192,29 @@
                 return $("#daterange span").html(start.format("YYYY/MM/DD h:mm") + " - " + end.format("YYYY/MM/DD h:mm"));
             });
             mapInit();
-            $("#slider-example1").slider({
-                value: 100,
+            $("#slider-range-min").slider({
+                range: "min",
+                value: 37,
+                step: 50,
                 min: 0,
-                max: 800,
-                step: 10,
+                max: 700,
                 slide: function (event, ui) {
+                    $("#amount").val(ui.value + "千米/小时");
                     markerMovingControl.setSpeed(ui.value);
-                    return $("#slider-example1-amount").text(ui.value + "千米/小时");
                 }
             });
-
-            $("#slider-example1-amount").text($("#slider-example1").slider("value") + "千米/小时");
+            //$("#amount").text($("#slider-range-min").slider("value") + "千米/小时");
+        });
+        /* live switch */
+        $('input[type="checkbox"]#start_interval').click(function () {
+            if ($(this).prop('checked')) {
+                // $on = true;
+                // updateInterval = 1500;
+                //  update();
+            } else {
+                // clearInterval(updateInterval);
+                // $on = false;
+            }
         });
         //初始化地图对象，加载地图
         function mapInit() {

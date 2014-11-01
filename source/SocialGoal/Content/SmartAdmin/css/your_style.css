@@ -22,6 +22,9 @@
     background: #fff0f0;
     border-color: #A90329;
 }
+.well .slider {
+margin-bottom:0px;
+}
 /*¸ßµÂµØÍ¼*/
  #iCenter {
             border: 1px solid #f6f6f6;
