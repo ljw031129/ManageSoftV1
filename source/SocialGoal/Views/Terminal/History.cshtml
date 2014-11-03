@@ -1,71 +1,82 @@
 ﻿@{
     ViewBag.Title = "机械监控";
-    Layout = "~/Views/Shared/_LayoutFlattyMain.cshtml";
+    Layout = "~/Views/Shared/_LayoutSmartAdmin.cshtml";
 }
 
-@section styles{
+<!-- row -->
+<div class="row">
 
-    <link href="~/Content/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
-    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
-    <link href="~/Content/jquery.jqGrid/jqGrid.overrides.css" rel="stylesheet" />
-    <link href="~/Scripts/plugins/select2-3.5.1/select2.css" rel="stylesheet" />
-    <link href="~/Scripts/plugins/select2-3.5.1/select2-bootstrap.css" rel="stylesheet" />
-    <link href="~/Scripts/plugins/artDialog/css/ui-dialog.css" rel="stylesheet" />
-}
-<div class='row' id='content-wrapper'>
-    <div class='col-xs-12'>
-        @Html.Partial("_PartialTerminalNav")
-        <div class="row">
-            <div style="margin-bottom: 0" class="col-sm-12 box">
-                <div class="box-header blue-background">
-                    <div class="title"><i class=" icon-list "></i>  设备列表</div>
-                    <div class="actions">
-                        <a href="#" class="btn box-remove btn-xs btn-link">
-                            <i class="icon-remove"></i>
-                        </a>
-
-                        <a href="#" class="btn box-collapse btn-xs btn-link">
-                            <i></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="box-content">
-                    <table id="grps"></table> <div id="pgrps"></div>
-
-                </div>
-            </div>
-
+    <!-- col -->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="collapse navbar-collapse bg-color-white">
+            @Html.Partial("_PartialSmartAdminTENav")
         </div>
     </div>
+    <!-- end col -->
+    <!-- right side of the page with the sparkline graphs -->
 </div>
+<!-- end row -->
+<!--
+    The ID "widget-grid" will start to initialize all widgets below
+    You do not need to use widgets if you dont want to. Simply remove
+    the <section></section> and you can use wells or panels instead
+    -->
+<!-- widget grid -->
+<section id="widget-grid" class="">
+    <!-- row -->
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+                <!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+                -->
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>终端设备历史信息</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body  no-padding">
+                        <div class="table-responsive">
+                            <table id="grps"></table>
+                            <div id="pgrps"></div>
+                        </div>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+            <!-- end widget -->
+        </article>
+    </div>
+
+    <!-- end row -->
+</section>
+<!-- end widget grid -->
 @section scripts{
 
     <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
     <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
-    <script src="~/Scripts/plugins/select2-3.5.1/select2.js"></script>
-    <script src="~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"></script>
-    <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+            pageSetUp();
             //初始化表格
             GetDynamicCols();
-
-            //test responsiveness
-            $(window).on('resize', function (event, ui) {
-                // Get width of parent container
-                var parWidth = $("#gbox_grps").parent().width();
-                var curWidth = $("#gbox_grps").width();
-                //console.log("span width " + parWidth + " gridWidth " + gWidth);
-                var w = parWidth - 1; // Fudge factor to prevent horizontal scrollbars
-                if (Math.abs(w - curWidth) > 2) {
-                    //alert("resize to " + width);
-                    console.log("span width " + parWidth + " gridWidth " + curWidth);
-                    $("#grps").setGridWidth(w);
-                    console.log("new width " + w);
-                }
-
-            }).trigger('resize');
-
             function GetDynamicCols() {
                 $.ajax({
                     type: "GET",
@@ -88,11 +99,10 @@
                     mtype: "get",
                     colNames: data.ColNs,
                     colModel: data.ColMs,
-                    //   multiselect: true,
-                    //  rownumbers: true,//添加左侧行号
                     altRows: true,//设置为交替行表格,默认为false
                     rowNum: 10,
-                    width: 700,
+                    height: 'auto',
+                    autowidth: true,
                     rowList: [10, 20, 30],
                     pager: '#pgrps',
                     sortname: 'ReceiveTime',
@@ -107,15 +117,16 @@
                         userdata: "userdata"
                     },
                     postData: { devId: '@ViewBag.DevId' },
-                    // caption: "终端信息表",
-                    //shrinkToFit: false,
-                    //  width: 'auto',
-                    height: '100%',
                     editurl: '/api/ApiTerminalEquipment' // this is dummy existing url
                 });
                 jQuery("#grps").jqGrid('navGrid', '#pgrps',
-                    { multipleSearch: true, multipleGroup: true });
-
+               { edit: false, add: false, del: false },
+               {},
+               {},
+               {},
+               { multipleSearch: true, multipleGroup: true });
+                //替换样式
+                replaceJqgrid();
 
             }
         });
