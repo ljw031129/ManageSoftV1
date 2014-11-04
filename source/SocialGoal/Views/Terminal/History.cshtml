@@ -15,6 +15,11 @@
     <!-- end col -->
     <!-- right side of the page with the sparkline graphs -->
 </div>
+<div class="row">
+    <table id="grps"></table>
+    <div id="pgrps"></div>
+
+</div>
 <!-- end row -->
 <!--
     The ID "widget-grid" will start to initialize all widgets below
@@ -53,8 +58,7 @@
                     <!-- widget content -->
                     <div class="widget-body  no-padding">
                         <div class="table-responsive">
-                            <table id="grps"></table>
-                            <div id="pgrps"></div>
+                           
                         </div>
                     </div>
                     <!-- end widget content -->
@@ -74,7 +78,7 @@
     <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            pageSetUp();
+           // pageSetUp();
             //初始化表格
             GetDynamicCols();
             function GetDynamicCols() {
@@ -126,7 +130,7 @@
                {},
                { multipleSearch: true, multipleGroup: true });
                 //替换样式
-                replaceJqgrid();
+               // replaceJqgrid();
 
             }
         });
