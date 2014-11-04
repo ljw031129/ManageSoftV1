@@ -5106,7 +5106,7 @@ a.clearsearchclass {
 }
 .ui-jqgrid .ui-jqgrid-bdiv {
   overflow-x: hidden;
-  height: 300px !important;
+  /*height: 300px !important;*/
   background: #fff;
 }
 .ui-jqgrid .ui-state-hover td {
@@ -5128,6 +5128,8 @@ a.clearsearchclass {
 .ui-jqgrid .ui-state-highlight + .ui-widget-content > td {
   border-top-color: #bce8f1;
 }
+
+/*endJQ**/
 /*
 Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
 */

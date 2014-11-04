@@ -191,8 +191,8 @@ namespace SocialGoal
                 "~/Content/SmartAdmin/css/your_style.css",
                       "~/Content/SmartAdmin/css/bootstrap.min.css",
                       "~/Content/SmartAdmin/css/font-awesome.min.css",
-                      "~/Content/SmartAdmin/css/smartadmin-production.min.css",
-                      "~/Content/SmartAdmin/css/smartadmin-skins.min.css",
+                      "~/Content/SmartAdmin/css/smartadmin-production.css",
+                      "~/Content/SmartAdmin/css/smartadmin-skins.css",
                       "~/Content/SmartAdmin/css/demo.min.css"));
 
 

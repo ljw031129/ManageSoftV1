@@ -15,19 +15,29 @@ namespace SocialGoal.Model.Models
         public string DictionaryValue { get; set; }
         //排序
         public int ShowOrder { get; set; }
+        //显示单位
         public string ShowUnit { get; set; }
-        //input button select chart
-        //预留
-        public string ShowType { get; set; }
-        //格式化显示方式，数字、状态（范围）
-        public int FormatType { get; set; }
+        //显示图标
         public string ShowIcon { get; set; }
         //主页 页块中
         public string ShowPostion { get; set; }
+        //是否详细信息显示
         public bool ShowCommon { get; set; }
+        //表格显示具体设置
+        //对齐方式
+        public string Alignment { get; set; }
+        //显示数据类型
+        public string Formatter { get; set; }
+        //数据类型格式设置
+        public string Formatoptions { get; set; }
+        //显示宽度
+        public string ShowWidth { get; set; }
+        //是否表格显示
+        public bool ShowTable { get; set; }
+
+        public int FormatType { get; set; }
 
         public string PmFInterpreterId { get; set; }
-
 
         public virtual ICollection<ReDataDisplayFormat> ReDataDisplayFormats { get; set; }
 

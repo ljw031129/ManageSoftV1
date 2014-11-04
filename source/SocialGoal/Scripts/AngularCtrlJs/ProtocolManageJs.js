@@ -144,7 +144,8 @@
     $scope.FormatTypes = [
       { value: 0, text: '不设置' },
       { value: 1, text: '状态' },
-      { value: 2, text: '数值' }  
+      { value: 2, text: '数值' },
+       { value:3, text: '时间' }
     ];
     $scope.SetFormatTypes = function (currentType) {
         var selected = $filter('filter')($scope.FormatTypes, { value: currentType });
@@ -194,6 +195,7 @@
             ReceiveDataDisplayId: ReceiveDataDisplayId,
             DictionaryKey: "0",
             ShowType: 1,
+            Alignment:'',
             ShowIcon: "",
             ShowPostion: "",
             ShowOrder: "",

@@ -226,6 +226,18 @@
     <Compile Include="Migrations\201410220310468_updateHistoryData.Designer.cs">
       <DependentUpon>201410220310468_updateHistoryData.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411040307179_updateDis.cs" />
+    <Compile Include="Migrations\201411040307179_updateDis.Designer.cs">
+      <DependentUpon>201411040307179_updateDis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411040343018_updateDisFormoption.cs" />
+    <Compile Include="Migrations\201411040343018_updateDisFormoption.Designer.cs">
+      <DependentUpon>201411040343018_updateDisFormoption.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411040405551_updateDisFormoptionV1.cs" />
+    <Compile Include="Migrations\201411040405551_updateDisFormoptionV1.Designer.cs">
+      <DependentUpon>201411040405551_updateDisFormoptionV1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CommentRepository.cs" />
@@ -367,6 +379,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410220310468_updateHistoryData.resx">
       <DependentUpon>201410220310468_updateHistoryData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411040307179_updateDis.resx">
+      <DependentUpon>201411040307179_updateDis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411040343018_updateDisFormoption.resx">
+      <DependentUpon>201411040343018_updateDisFormoption.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411040405551_updateDisFormoptionV1.resx">
+      <DependentUpon>201411040405551_updateDisFormoptionV1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

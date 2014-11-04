@@ -68,7 +68,10 @@ namespace SocialGoal.Controllers
                 {
 
                     name = item.DictionaryKey,
-                    index = item.DictionaryKey//,
+                    index = item.DictionaryKey,
+                    formatter = item.Formatter,
+                    formatoptions=item.Formatoptions,
+                    align=item.Alignment
                    // width = 100
                 };
                 ColMs.Add(colms);
