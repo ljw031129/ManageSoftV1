@@ -34,7 +34,7 @@ namespace SocialGoal.Controllers
         // GET: ProtocolManage
         public ActionResult Index()
         {
-            _protocolManageService.GetPmFInterpreterById("1");
+           
 
             return View();
         }

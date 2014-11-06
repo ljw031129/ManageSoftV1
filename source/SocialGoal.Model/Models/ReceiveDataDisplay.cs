@@ -36,7 +36,18 @@ namespace SocialGoal.Model.Models
         public bool ShowTable { get; set; }
 
         public int FormatType { get; set; }
+        //宽度
+        public int Width { get; set; }
 
+        //搜索部分设置
+        //是否为搜索字段http://a3mao.iteye.com/blog/542642
+        public bool Search { get; set; }
+        public string Searchoptions { get; set; }
+
+       
+
+        //排序类型
+        public string sorttype { get; set; }
         public string PmFInterpreterId { get; set; }
 
         public virtual ICollection<ReDataDisplayFormat> ReDataDisplayFormats { get; set; }
