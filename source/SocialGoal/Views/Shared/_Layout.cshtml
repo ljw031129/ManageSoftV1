@@ -47,7 +47,7 @@
         Html.RenderPartial("_Footer");
         Html.RenderPartialIf("_Tiles", Settings.EnableTiles);
     }
-    @{ Html.RenderPartial("_Scripts", RenderSection("pagespecific", false)); }
-</body>
+    @{ Html.RenderPartial("_Scripts", RenderSection("scripts", false)); }
 
+</body>
 </html>

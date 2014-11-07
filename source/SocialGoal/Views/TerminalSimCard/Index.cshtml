@@ -1,67 +1,61 @@
-﻿@{
-    ViewBag.Title = "SIM卡管理";
-    Layout = "~/Views/Shared/_LayoutSmartAdmin.cshtml";
-}
-@section styles{
-   
-}
-<!-- Bread crumb is created dynamically -->
-<!-- row -->
-<div class="row">
-
-    <!-- col -->
-    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-        <h1 class="page-title txt-color-blueDark">
-
-            <!-- PAGE HEADER -->
-            <i class="fa-fw fa fa-table"></i>
-            终端设备管理
-            <span>
-                >
-                SIM卡管理
-            </span>
-        </h1>
-    </div>
-    <!-- end col -->
-    <!-- right side of the page with the sparkline graphs -->
-
-
-</div>
-<!-- end row -->
-<!--
-    The ID "widget-grid" will start to initialize all widgets below
-    You do not need to use widgets if you dont want to. Simply remove
-    the <section></section> and you can use wells or panels instead
-    -->
-<!-- widget grid -->
-<section id="widget-grid" class="">
-
+﻿<div id="content">
+    <!-- Bread crumb is created dynamically -->
     <!-- row -->
     <div class="row">
 
-        <!-- NEW WIDGET START -->
-        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <table id="jqgrid"></table>
-            <div id="pjqgrid"></div>
+        <!-- col -->
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+            <h1 class="page-title txt-color-blueDark">
 
-        </article>
-        <!-- WIDGET END -->
+                <!-- PAGE HEADER -->
+                <i class="fa-fw fa fa-table"></i>
+                终端设备管理
+                <span>
+                    >
+                    SIM卡管理
+                </span>
+            </h1>
+        </div>
+        <!-- end col -->
+        <!-- right side of the page with the sparkline graphs -->
+
 
     </div>
-
     <!-- end row -->
+    <!--
+        The ID "widget-grid" will start to initialize all widgets below
+        You do not need to use widgets if you dont want to. Simply remove
+        the <section></section> and you can use wells or panels instead
+        -->
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
 
-</section>
-<!-- end widget grid -->
+        <!-- row -->
+        <div class="row">
+
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <table id="jqgrid"></table>
+                <div id="pjqgrid"></div>
+
+            </article>
+            <!-- WIDGET END -->
+
+        </div>
+
+        <!-- end row -->
+
+    </section>
+    <!-- end widget grid -->
+</div>
 @section scripts{
 
-    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
+    @*<script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
     <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
     <script src="~/Scripts/plugins/select2-3.5.1/select2.js"></script>
-    <script src="~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"></script>
+    <script src="~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"></script>*@
     <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
     <script type="text/javascript">
-
         $(document).ready(function () {
             jQuery("#jqgrid").jqGrid(
                 {
@@ -82,7 +76,7 @@
                     //  rownumbers: true,//添加左侧行号
                     altRows: true,//设置为交替行表格,默认为false
                     rowNum: 10,
-                    height: 'auto',                  
+                    height: 'auto',
                     rowList: [10, 20, 30],
                     pager: '#pjqgrid',
                     sortname: 'TerminalSimCardUpdateTime',
