@@ -18,7 +18,7 @@ namespace SocialGoal.Service
         IEnumerable<ApplicationUser> GetUsers(string username);
         ApplicationUser GetUserProfile(string userid);
         ApplicationUser GetUsersByEmail(string email);
-        IEnumerable<ApplicationUser> GetInvitedUsers(string username, int groupId, IGroupInvitationService groupInvitationService);
+        //IEnumerable<ApplicationUser> GetInvitedUsers(string username, int groupId, IGroupInvitationService groupInvitationService);
         IEnumerable<ApplicationUser> GetUserByUserId(IEnumerable<string> userid);
         IEnumerable<ApplicationUser> SearchUser(string searchString);        
       
@@ -76,10 +76,10 @@ namespace SocialGoal.Service
 
             return users;
         }
-        public IEnumerable<ApplicationUser> GetInvitedUsers(string username, int groupId, IGroupInvitationService groupInvitationService)
-        {
-            return GetUsers(username).Join(groupInvitationService.GetGroupInvitationsForGroup(groupId).Where(inv => inv.Accepted == false), u => u.Id, i => i.ToUserId, (u, i) => u);
-        }
+        //public IEnumerable<ApplicationUser> GetInvitedUsers(string username, int groupId, IGroupInvitationService groupInvitationService)
+        //{
+        //    return GetUsers(username).Join(groupInvitationService.GetGroupInvitationsForGroup(groupId).Where(inv => inv.Accepted == false), u => u.Id, i => i.ToUserId, (u, i) => u);
+        //}
 
         public IEnumerable<ValidationResult> CanAddUser(string email)
         {

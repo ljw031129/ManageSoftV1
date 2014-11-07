@@ -9,5 +9,6 @@ namespace SocialGoal.Web.Core.Extensions
         {
             return new UserHtmlHelper(html, new UrlHelper(html.ViewContext.RequestContext));
         }
+
     }
 }

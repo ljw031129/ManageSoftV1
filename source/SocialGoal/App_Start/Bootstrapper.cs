@@ -33,10 +33,10 @@ namespace SocialGoal
 
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
             builder.RegisterType<DatabaseFactory>().As<IDatabaseFactory>().InstancePerRequest();
-            builder.RegisterAssemblyTypes(typeof(FocusRepository).Assembly)
+            builder.RegisterAssemblyTypes(typeof(EquipmentRepository).Assembly)
             .Where(t => t.Name.EndsWith("Repository"))
             .AsImplementedInterfaces().InstancePerRequest();
-            builder.RegisterAssemblyTypes(typeof(GoalService).Assembly)
+            builder.RegisterAssemblyTypes(typeof(EquipmentService).Assembly)
            .Where(t => t.Name.EndsWith("Service"))
            .AsImplementedInterfaces().InstancePerRequest();
 

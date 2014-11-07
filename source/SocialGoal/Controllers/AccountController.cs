@@ -29,25 +29,15 @@ namespace SocialGoal.Web.Controllers
     public class AccountController : Controller
     {
         private IUserService userService;
-        private IUserProfileService userProfileService;
-        private IGoalService goalService;
-        private IUpdateService updateService;
-        private ICommentService commentService;
-        private IFollowRequestService followRequestService;
-        private IFollowUserService followUserService;
+        private IUserProfileService userProfileService;      
         private ISecurityTokenService securityTokenService;
         // private IUserMailer userMailer = new UserMailer();
         private UserManager<ApplicationUser> UserManager;
         //private RoleManager<IdentityRole> RoleManager;
-        public AccountController(IUserService userService, IUserProfileService userProfileService, IGoalService goalService, IUpdateService updateService, ICommentService commentService, IFollowRequestService followRequestService, IFollowUserService followUserService, ISecurityTokenService securityTokenService, UserManager<ApplicationUser> userManager)
+        public AccountController(IUserService userService, IUserProfileService userProfileService,  ISecurityTokenService securityTokenService, UserManager<ApplicationUser> userManager)
         {
             this.userService = userService;
-            this.userProfileService = userProfileService;
-            this.goalService = goalService;
-            this.updateService = updateService;
-            this.commentService = commentService;
-            this.followRequestService = followRequestService;
-            this.followUserService = followUserService;
+            this.userProfileService = userProfileService;           
             this.securityTokenService = securityTokenService;
             this.UserManager = userManager;
         }
@@ -93,7 +83,9 @@ namespace SocialGoal.Web.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            EnsureLoggedOut();
+
+            return View(new RegisterViewModel());
         }
 
         //
@@ -339,7 +331,12 @@ namespace SocialGoal.Web.Controllers
             SocialGoalSessionFacade.Clear();
             return RedirectToAction("Index", "Home");
         }
-
+        private void EnsureLoggedOut()
+        {
+            // If the request is (still) marked as authenticated we send the user to the logout action
+            if (Request.IsAuthenticated)
+                LogOff();
+        }
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
@@ -539,15 +536,7 @@ namespace SocialGoal.Web.Controllers
                 Country = userdetail.Country,
                 ZipCode = userdetail.ZipCode,
                 ContactNo = userdetail.ContactNo,
-            };
-            if (followRequestService.RequestSent((User.Identity.GetUserId()), id))
-            {
-                userprofile.RequestSent = true;
-            }
-            if (followUserService.IsFollowing(currentuserid, id))
-            {
-                userprofile.Following = true;
-            }
+            };           
             return View(userprofile);
         }
 
@@ -591,93 +580,6 @@ namespace SocialGoal.Web.Controllers
             }
             return PartialView("EditProfile", editedProfile);
         }
-
-
-        public ActionResult FollowRequest(string id)
-        {
-            var followRequestFormModel = new FollowRequestFormModel()
-            {
-                FromUserId = User.Identity.GetUserId(),
-                ToUserId = id,
-                FromUser = userService.GetUser(User.Identity.GetUserId()),
-                ToUser = userService.GetUser(id)
-            };
-            var followRequest = Mapper.Map<FollowRequestFormModel, FollowRequest>(followRequestFormModel);
-            followRequestService.CreateFollowRequest(followRequest);
-            return RedirectToAction("UserProfile", new { id = followRequestFormModel.ToUserId });
-        }
-
-
-        public ActionResult AcceptRequest(string touserid, string fromuserid)
-        {
-            var newFollowUser = new FollowUser()
-            {
-                Accepted = true,
-                FromUserId = fromuserid,
-                ToUserId = touserid,
-                FromUser = userService.GetUser(fromuserid),
-                ToUser = userService.GetUser(touserid)
-            };
-            followUserService.CreateFollowUserFromRequest(newFollowUser, followRequestService);
-            return RedirectToAction("Index", "Notification");
-        }
-
-        public ActionResult RejectRequest(string toUserId, string fromuserId)
-        {
-            followRequestService.DeleteFollowRequest(fromuserId, toUserId);
-            return RedirectToAction("Index", "Notification");
-        }
-
-        public ActionResult Unfollow(string id)
-        {
-            followUserService.DeleteFollowUser(id, User.Identity.GetUserId());
-            return RedirectToAction("UserProfile", new { id = id });
-
-        }
-
-
-        /// <summary>
-        /// Followed users by page
-        /// </summary>
-        /// <param name="page"></param>
-        /// <returns></returns>
-        public ActionResult Followers(int page = 0)
-        {
-            var users = followUserService.GetFollowers(User.Identity.GetUserId(), page, 10);
-            var followers = Mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<FollowersViewModel>>(users);
-
-            if (Request.IsAjaxRequest())
-            {
-                if (followers.Count() != 0)
-                    return PartialView("_FollowersView", followers);
-                else
-                    return null;
-            }
-
-            return View("FollowerUsers", followers);
-        }
-
-        /// <summary>
-        /// following users by page
-        /// </summary>
-        /// <param name="page"></param>
-        /// <returns></returns>
-        public ActionResult Followings(int page = 0)
-        {
-            var users = followUserService.GetFollowings(User.Identity.GetUserId(), page, 10);
-            var followings = Mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<FollowingViewModel>>(users);
-
-            if (Request.IsAjaxRequest())
-            {
-                if (followings.Count() != 0)
-                    return PartialView("_FollowingsView", followings);
-                else
-                    return null;
-            }
-
-            return View("FollowingUsers", followings);
-        }
-
 
         #region Helpers
         // Used for XSRF protection when adding external logins

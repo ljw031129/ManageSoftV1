@@ -26,14 +26,7 @@ namespace SocialGoal.Model.Models
         public bool Activated { get; set; }
 
         public int RoleId { get; set; }
-
-        public virtual ICollection<Goal> Goals { get; set; }
-
-        public virtual ICollection<FollowUser> FollowFromUser { get; set; }
-
-        public virtual ICollection<FollowUser> FollowToUser { get; set; }
-
-        public virtual ICollection<GroupRequest> GroupRequests { get; set; }        
+            
 
         public string DisplayName
         {

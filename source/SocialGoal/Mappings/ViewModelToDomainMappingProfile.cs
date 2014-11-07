@@ -19,18 +19,9 @@ namespace SocialGoal.Mappings
 
         protected override void Configure()
         {
-            Mapper.CreateMap<CommentFormModel, Comment>();
-            Mapper.CreateMap<GroupFormModel, Group>();
-            Mapper.CreateMap<FocusFormModel, Focus>();
-            Mapper.CreateMap<UpdateFormModel, Update>();
+           
             Mapper.CreateMap<UserFormModel, ApplicationUser>();
-            Mapper.CreateMap<UserProfileFormModel, UserProfile>();
-            Mapper.CreateMap<GroupGoalFormModel, GroupGoal>();
-            Mapper.CreateMap<GroupUpdateFormModel, GroupUpdate>();
-            Mapper.CreateMap<GroupCommentFormModel, GroupComment>();
-            Mapper.CreateMap<GroupRequestFormModel, GroupRequest>();
-            Mapper.CreateMap<FollowRequestFormModel, FollowRequest>();
-            Mapper.CreateMap<GoalFormModel, Goal>();
+            Mapper.CreateMap<UserProfileFormModel, UserProfile>();           
 
             //测试
             Mapper.CreateMap<EquipmentViewModel,Equipment>();

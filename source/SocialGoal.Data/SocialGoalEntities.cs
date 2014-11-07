@@ -17,35 +17,15 @@ namespace SocialGoal.Data.Models
             : base("SocialGoalEntities")
         {
         }
-        public DbSet<Goal> Goals { get; set; }
-        public DbSet<Focus> Focuses { get; set; }
-        public DbSet<Comment> Comments { get; set; }
-        public DbSet<Update> Updates { get; set; }
-        // public DbSet<User> Users { get; set; }
-        public DbSet<Metric> Metrics { get; set; }
-        public DbSet<Group> Groups { get; set; }
-        public DbSet<GroupUser> GroupUsers { get; set; }
+      
         public DbSet<SecurityToken> SecurityTokens { get; set; }
-        public DbSet<Support> Support { get; set; }
-        public DbSet<GroupInvitation> GroupInvitation { get; set; }
-        public DbSet<SupportInvitation> SupportInvitation { get; set; }
-        public DbSet<GroupGoal> GroupGoal { get; set; }
+      
         public DbSet<UserProfile> UserProfile { get; set; }
-        public DbSet<GoalStatus> GoalStatus { get; set; }
-        public DbSet<GroupUpdate> GroupUpdate { get; set; }
-        public DbSet<GroupComment> GroupComment { get; set; }
-        public DbSet<GroupRequest> GroupRequests { get; set; }
-        public DbSet<FollowRequest> FollowRequest { get; set; }
-        public DbSet<FollowUser> FollowUser { get; set; }
-        public DbSet<GroupUpdateUser> GroupUpdateUsers { get; set; }
-        public DbSet<GroupCommentUser> GroupCommentUsers { get; set; }
-        public DbSet<CommentUser> CommentUsers { get; set; }
-        public DbSet<UpdateSupport> UpdateSupports { get; set; }
-        public DbSet<GroupUpdateSupport> GroupUpdateSupports { get; set; }
+      
 
         //测试数据
         public DbSet<Equipment> Equipments { get; set; }
-        public DbSet<Smart> Smarts { get; set; }
+       
 
         //协议管理部分
         public DbSet<PmFInterpreter> PmFInterpreters { get; set; }
@@ -83,32 +63,11 @@ namespace SocialGoal.Data.Models
             base.OnModelCreating(modelBuilder);
             // modelBuilder.Conventions.Remove<IncludeMetadataConvention>();
 
-            modelBuilder.Configurations.Add(new CommentConfiguration());
-            modelBuilder.Configurations.Add(new CommentUserConfiguration());
-            modelBuilder.Configurations.Add(new FocusConfiguration());
-            modelBuilder.Configurations.Add(new FollowRequestConfiguration());
-            modelBuilder.Configurations.Add(new FollowUserConfiguration());
-            modelBuilder.Configurations.Add(new GoalConfiguration());
-            modelBuilder.Configurations.Add(new GoalStatusConfiguration());
-            modelBuilder.Configurations.Add(new GroupCommentConfiguration());
-            modelBuilder.Configurations.Add(new GroupCommentUserConfguration());
-            modelBuilder.Configurations.Add(new GroupConfiguration());
-            modelBuilder.Configurations.Add(new GroupGoalConfiguration());
-            modelBuilder.Configurations.Add(new GroupInvitationConfiguration());
-            modelBuilder.Configurations.Add(new GroupRequestConfiguration());
-            modelBuilder.Configurations.Add(new GroupUpdateSupportConfiguration());
-            modelBuilder.Configurations.Add(new GroupUpdateUserConfiguration());
-            modelBuilder.Configurations.Add(new GroupUserConfiguration());
-            modelBuilder.Configurations.Add(new MetricConfiguration());
-            modelBuilder.Configurations.Add(new RegistrationTokenConfiguration());
-            modelBuilder.Configurations.Add(new SupportConfiguration());
-            modelBuilder.Configurations.Add(new SupportInvitationConfiguration());
-            modelBuilder.Configurations.Add(new UpdateConfiguration());
-            modelBuilder.Configurations.Add(new UpdateSupportConfiguration());
+          
+            modelBuilder.Configurations.Add(new RegistrationTokenConfiguration());          
             modelBuilder.Configurations.Add(new UserProfileConfiguration());
-
             modelBuilder.Configurations.Add(new EquipmentConfiguration());
-            modelBuilder.Configurations.Add(new SmartConfiguration());
+           
 
             //协议管理
             modelBuilder.Configurations.Add(new PmDataBitConfiguration());

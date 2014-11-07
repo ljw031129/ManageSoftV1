@@ -1,60 +1,65 @@
 ﻿@model SocialGoal.Models.LoginViewModel
 
 @{
-    ViewBag.Title = "Log in";
-    Layout = "../Shared/_LayoutSmartAdminLogin.cshtml";
+    ViewBag.PageId = "extr-page";
+    ViewBag.PageClass = "animated fadeInDown";
 }
-@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "smart-form client-form" }))
-{
-   
-    <header>
-        用户登录
-    </header>
-    <fieldset>
-        <section>
-            <label class="label">登录名</label>
-            <label class="input">
-                <i class="icon-append fa fa-user"></i>
-                @Html.TextBoxFor(m => m.Email)
-                @Html.ValidationMessageFor(m => m.Email, null, new { @class = "note note-error" })
-                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> 输入您的用户名</b>
-            </label>
-        </section>
-
-        <section>
-            <label class="label">密码</label>
-            <label class="input">
-                <i class="icon-append fa fa-lock"></i>
-                @Html.PasswordFor(m => m.Password)
-                @Html.ValidationMessageFor(m => m.Password, null, new { @class = "note note-error" })
-                <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> 输入您的密码</b>
-            </label>
-            <div class="note">
-                <a href="forgotpassword.html">忘记密码?</a>
+@section topright{
+    <span id="extr-page-header-space"> <span class="hidden-mobile">Need an account?</span> <a href="@Url.Action("register", "account")" class="btn btn-danger">Create account</a> </span>
+}
+<div id="content" class="container">
+    <div class="row">
+        @{ Html.RenderPartial("_LoginText"); }
+        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+            <div class="well no-padding">
+                <form action="@Url.Action("login", "account")" method="POST" id="login-form" class="smart-form client-form">
+                    <header>
+                        Sign In
+                    </header>
+                    @Html.HiddenFor(m => m.ReturnUrl)
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationBootstrap()
+                    <fieldset>
+                        <section>
+                            <label class="label">E-mail</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-user"></i>
+                                <input type="email" name="email" value="demo@email.com">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter email address/username</b>
+                            </label>
+                        </section>
+                        <section>
+                            <label class="label">Password</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-lock"></i>
+                                <input type="password" name="password" value="demo">
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter your password</b>
+                            </label>
+                            <div class="note">
+                                <a href="@Url.Action("forgotpassword", "account")"><i class="fa fa-frown-o"></i> Forgot password?</a>
+                            </div>
+                        </section>
+                        <section>
+                            <label class="checkbox">
+                                <input type="checkbox" name="rememberMe" value="true" checked="checked">
+                                <input type="hidden" name="rememberMe" value="false" />
+                                <i></i>Stay signed in
+                            </label>
+                        </section>
+                    </fieldset>
+                    <footer>
+                        <button type="submit" class="btn btn-primary">
+                            Sign in
+                        </button>
+                    </footer>
+                </form>
             </div>
-        </section>
-        <section>
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true)
-        </section>
-
-        <section>
-            <label class="checkbox">
-                @Html.CheckBoxFor(m => m.RememberMe)
-                <i></i>Stay signed in
-            </label>
-        </section>
-    </fieldset>
-    <footer>
-        <button type="submit" class="btn btn-primary">
-            Sign in
-        </button>
-    </footer>
-
-}
-@section scripts{
+            @{ Html.RenderPartial("_SocialMedia"); }
+        </div>
+    </div>
+</div>
+@section pagespecific {
     <script type="text/javascript">
-        runAllForms();
         $(function () {
             // Validation
             $("#login-form").validate({

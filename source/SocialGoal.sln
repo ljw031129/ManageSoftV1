@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialGoal.Service", "Socia
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialGoal.Web.Core", "SocialGoal.Web.Core\SocialGoal.Web.Core.csproj", "{AD4D8636-776D-4D8D-834F-0FDD132591F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialGoal.Tests", "SocialGoal.Tests\SocialGoal.Tests.csproj", "{D816D1FD-A3B8-4F5C-9AFD-E4F524E339D7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtocolsManage", "Src\ProtocolsManage\ProtocolsManage.csproj", "{807A0743-27E9-4DE6-9610-55FD105D55AE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialGoal.Web.API", "SocialGoal.Web.API\SocialGoal.Web.API.csproj", "{EFC22390-DCDB-413D-87C6-CE6DAE606E07}"
@@ -55,10 +53,6 @@ Global
 		{AD4D8636-776D-4D8D-834F-0FDD132591F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD4D8636-776D-4D8D-834F-0FDD132591F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD4D8636-776D-4D8D-834F-0FDD132591F8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D816D1FD-A3B8-4F5C-9AFD-E4F524E339D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D816D1FD-A3B8-4F5C-9AFD-E4F524E339D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D816D1FD-A3B8-4F5C-9AFD-E4F524E339D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D816D1FD-A3B8-4F5C-9AFD-E4F524E339D7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{807A0743-27E9-4DE6-9610-55FD105D55AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{807A0743-27E9-4DE6-9610-55FD105D55AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{807A0743-27E9-4DE6-9610-55FD105D55AE}.Release|Any CPU.ActiveCfg = Release|Any CPU

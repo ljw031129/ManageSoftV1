@@ -1,85 +1,100 @@
-﻿@using Microsoft.AspNet.Identity
-@if (Request.IsAuthenticated)
-{
-    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span
-        class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-    </a>
-    <a class="brand" href='@Url.Action("Index", "Home")'>Social Goal</a>
-    <div class="btn-group pull-right">
-        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-user">
-        </i>
-            @{
-    var name = User.Identity.Name;
-                <text> @name </text>
-            }
-            <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li>@Html.ActionLink("Profile", "UserProfile", "Account", new { id = User.Identity.GetUserId() }, new { @title = "View Profile" })
-            </li>
-            <li class="divider"></li>
-            @*<li><a href="/Account/LogOff">Sign Out</a></li>*@
-            <li>@Html.ActionLink("Sign Out","LogOff","Account")</li>
-        </ul>
-    </div>
-    
-    <div class="nav-collapse">
-        <ul class="nav">
-            <li><a href="/Home/Index">Home</a></li>
-            <li><a href="/Notification/Index">My Invitations
-                @{
-    var not = Html.Action("GetNumberOfInvitations", "Notification");
-    if (not.ToString() != "0")
-    { 
-                    <sup><span class="badge badge-important">@not</span> </sup>
-    }
-                }
-            </a></li>
-            @*<li><a href="/Goal/ListOfGoals">Goals</a></li>*@
-            <li><a href="/Goal/GoalList">Goals</a></li>
-            @*<li><a href="/Group/ListOfGroups">Groups</a></li>*@
-            <li><a href="/Group/GroupList">Groups</a></li>
-            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">People
-                <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li class=""><a href="/Account/Followers">Followers</a></li>@*onclick="GetFollowers();"*@
-                    <li class=""><a href="/Account/Followings">Following</a> </li>
-                </ul>
-            </li>
-            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Create
-                <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li class=""><a data-toggle="modal" href="#creategoal" onclick="CreateGoal();">Create
-                        Goal</a></li>
-                    <li class=""><a data-toggle="modal" href="#creategroup" onclick="CreateGroup();">Create
-                        Group</a> </li>
-                </ul>
-            </li>
-            <li>
-                <form action="/Search/SearchAll" class="navbar-search" id="searchform" method="post">
-                <input class="search-query span2" id="searchText" name="searchText" placeholder="Search"  type="text" value="@ViewBag.searchtext" />
-                <input type="submit" style="display: none;" />
-                </form>
-            </li>
-        </ul>
-    </div>
-    
-}
+﻿    <!-- HEADER -->
+<header id="header">
+    <div id="logo-group">
 
-<link href="/Content/CustomStyles.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(".nav-collapse .nav li a").click(function (e) {
-            $(".nav-collapse .nav .active").removeClass("active")
-            $(this).parent().addClass("active")
-        });
-    });
+        <!-- PLACE YOUR LOGO HERE -->
+        <span id="logo"> <img src="~/content/img/logo.png" alt="SmartAdmin"> </span>
+        <!-- END LOGO PLACEHOLDER -->
+        @if (Request.IsAuthenticated)
+        {
+            <!-- Note: The activity badge color changes when clicked and resets the number to 0
+            Suggestion: You may want to set a flag when this happens to tick off all checked messages / notifications -->
+            <span id="activity" class="activity-dropdown"> <i class="fa fa-user"></i> <b class="badge"> 21 </b> </span>
 
-    $('#searchText').keypress(function (e) {
-        var code = (e.keyCode ? e.keyCode : e.which);
-        if (code == 13 && $(this).val() != "") {
-            $('#searchform').submit();
+        <!-- AJAX-DROPDOWN : control this dropdown height, look and feel from the LESS variable file -->
+            <div class="ajax-dropdown">
+
+                <!-- the ID links are fetched via AJAX to the ajax container "ajax-notifications" -->
+                <div class="btn-group btn-group-justified" data-toggle="buttons">
+                    <label class="btn btn-default">
+                        <input type="radio" name="activity" id="~/content/ajax/notify/mail.html">
+                        Msgs (14)
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="activity" id="~/content/ajax/notify/notifications.html">
+                        notify (3)
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="activity" id="~/content/ajax/notify/tasks.html">
+                        Tasks (4)
+                    </label>
+                </div>
+
+                <!-- notification content -->
+                <div class="ajax-notifications custom-scroll">
+
+                    <div class="alert alert-transparent">
+                        <h4>Click a button to show messages here</h4>
+                        This blank page message helps protect your privacy, or you can show the first message here automatically.
+                    </div>
+
+                    <i class="fa fa-lock fa-4x fa-border"></i>
+
+                </div>
+                <!-- end notification content -->
+                <!-- footer: refresh area -->
+                <span>
+                    Last updated on: 12/12/2013 9:43AM
+                    <button type="button" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Loading..." class="btn btn-xs btn-default pull-right">
+                    <i class="fa fa-refresh"></i>
+                </button>
+                </span>
+                <!-- end footer -->
+
+            </div>
+            <!-- END AJAX-DROPDOWN -->
         }
+    </div>
+    @if (Request.IsAuthenticated)
+    {
+    <!-- projects dropdown -->
+        <div class="project-context hidden-xs">
 
-    });
+            <span class="label">Projects:</span>
+            <span class="project-selector dropdown-toggle" data-toggle="dropdown">Recent projects <i class="fa fa-angle-down"></i></span>
 
-</script>
+            <!-- Suggestion: populate this list with fetch and push technique -->
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="javascript:void(0);">Online e-merchant management system - attaching integration with the iOS</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Notes on pipeline upgradee</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Assesment Report for merchant account</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="javascript:void(0);"><i class="fa fa-power-off"></i> Clear</a>
+                </li>
+            </ul>
+            <!-- end dropdown-menu-->
+
+        </div>
+    <!-- end projects dropdown -->
+    }
+    <section id="top-right">
+        @if (@Model is HelperResult)
+        {
+            @Model
+        }
+        else
+        {
+            <div class="pull-right">
+                @Html.Partial("_TopRight")
+            </div>
+        }
+    </section>
+</header>
+<!-- END HEADER -->

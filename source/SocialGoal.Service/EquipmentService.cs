@@ -23,8 +23,7 @@ namespace SocialGoal.Service
         void UpdateEquipment(Equipment equipment);
         void DeleteEquipment(string id);
         void SaveEquipment();
-        IEnumerable<ValidationResult> CanAddEquipment(Equipment equipment);
-        IPagedList<Equipment> GetEquipments(string userId, GroupFilter filter, Page page);
+        IEnumerable<ValidationResult> CanAddEquipment(Equipment equipment);        
         Task<bool> DeleteEquipmentAsync(string equipmentId);
 
         Task<bool> UpdateEquipmentAsync(Equipment equipment);
@@ -123,10 +122,7 @@ namespace SocialGoal.Service
             }
         }
 
-        public IPagedList<Equipment> GetEquipments(string userId, GroupFilter filter, Page page)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public Task<bool> DeleteEquipmentAsync(string id)
         {

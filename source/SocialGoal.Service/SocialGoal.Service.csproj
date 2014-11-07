@@ -61,26 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommentService.cs" />
-    <Compile Include="CommentUserService.cs" />
-    <Compile Include="Enums.cs" />
     <Compile Include="EquipmentService.cs" />
-    <Compile Include="FocusService.cs" />
-    <Compile Include="FollowRequestService.cs" />
-    <Compile Include="FollowUserService.cs" />
-    <Compile Include="GoalService.cs" />
-    <Compile Include="GoalStatusService.cs" />
-    <Compile Include="GroupCommentService.cs" />
-    <Compile Include="GroupCommentUserService.cs" />
-    <Compile Include="GroupGoalService.cs" />
-    <Compile Include="GroupInvitationService.cs" />
-    <Compile Include="GroupRequestService.cs" />
-    <Compile Include="GroupService.cs" />
-    <Compile Include="GroupUpdateServices.cs" />
-    <Compile Include="GroupUpdateSupportService.cs" />
-    <Compile Include="GroupUpdateUserService.cs" />
-    <Compile Include="GroupUserService.cs" />
-    <Compile Include="MetricService.cs" />
     <Compile Include="OrgEnterpriseService.cs" />
     <Compile Include="OrgStructureService.cs" />
     <Compile Include="PmDataBodiesService.cs" />
@@ -97,12 +78,8 @@
     <Compile Include="ReceiveDataService.cs" />
     <Compile Include="ReDataDisplayFormatService.cs" />
     <Compile Include="SecurityTockenService.cs" />
-    <Compile Include="SupportInvitationService.cs" />
-    <Compile Include="SupportService.cs" />
     <Compile Include="TerminalEquipmentService.cs" />
     <Compile Include="TerminalSimCardService.cs" />
-    <Compile Include="UpdateService.cs" />
-    <Compile Include="UpdateSupportService.cs" />
     <Compile Include="UserProfileService.cs" />
     <Compile Include="UserService.cs" />
   </ItemGroup>

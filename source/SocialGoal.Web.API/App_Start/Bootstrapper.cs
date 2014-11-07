@@ -37,10 +37,10 @@ namespace SocialGoal.Web.API.App_Start
             builder.RegisterType<DatabaseFactory>().As<IDatabaseFactory>().InstancePerRequest();
             
             //Autofac 会自动注册您的组件通过扫描程序集以下注册语法将注册所有类型在程序集类型名称。
-            builder.RegisterAssemblyTypes(typeof(FocusRepository).Assembly)
+            builder.RegisterAssemblyTypes(typeof(EquipmentRepository).Assembly)
             .Where(t => t.Name.EndsWith("Repository"))
             .AsImplementedInterfaces().InstancePerRequest();
-            builder.RegisterAssemblyTypes(typeof(GoalService).Assembly)
+            builder.RegisterAssemblyTypes(typeof(EquipmentService).Assembly)
            .Where(t => t.Name.EndsWith("Service"))
            .AsImplementedInterfaces().InstancePerRequest();
 
