@@ -1,4 +1,9 @@
-﻿app.controller('ProCtrl', function ($scope, $filter, $http) {
+﻿var app = angular.module("App", ["xeditable", "ui.bootstrap"]);
+app.run(function (editableOptions) {
+    editableOptions.theme = 'bs3';
+    //  editableOptions.theme.inputClass = "input-sm";
+});
+app.controller('ProCtrl', function ($scope, $filter, $http) {
     /******
    start-------解析协议数据加载
     ******/

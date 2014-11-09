@@ -1,25 +1,34 @@
 ﻿<div id="content">
-    <!-- Bread crumb is created dynamically -->
     <!-- row -->
     <div class="row">
 
         <!-- col -->
-        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-            <h1 class="page-title txt-color-blueDark">
-
-                <!-- PAGE HEADER -->
-                <i class="fa-fw fa fa-table"></i>
-                终端设备管理
-                <span>
-                    >
-                    SIM卡管理
-                </span>
-            </h1>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="collapse navbar-collapse bg-color-white">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="@Url.Action("Index", "TerminalEquipment", null)" class="green-border">
+                            <i class="icon-list  text-red "></i>
+                            终端设备列表
+                        </a>
+                    </li>
+                    <li id="equipmentDetail">
+                        <a href="#">
+                            <i class="icon-indent-left"></i>
+                            设备工况一览
+                        </a>
+                    </li>
+                    <li id="equipmentMap">
+                        <a href="#" class="green-border">
+                            <i class="icon-map-marker "></i>
+                            行驶轨迹
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
         <!-- end col -->
         <!-- right side of the page with the sparkline graphs -->
-
-
     </div>
     <!-- end row -->
     <!--
@@ -29,22 +38,49 @@
         -->
     <!-- widget grid -->
     <section id="widget-grid" class="">
-
         <!-- row -->
         <div class="row">
-
-            <!-- NEW WIDGET START -->
             <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <table id="jqgrid"></table>
-                <div id="pjqgrid"></div>
-
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+                    -->
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>SIM卡管理</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body  no-padding">
+                            <div class="table-responsive">
+                                <table id="jqgrid"></table>
+                                <div id="pjqgrid"></div>
+                            </div>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
             </article>
-            <!-- WIDGET END -->
-
         </div>
 
         <!-- end row -->
-
     </section>
     <!-- end widget grid -->
 </div>
@@ -105,8 +141,8 @@
                         }
                     },
                     editurl: '@Url.Action("Post", "TerminalSimCard")', // this is dummy existing url
-                    caption: "SIM卡管理",
-                    multiselect: true,
+                    //caption: "SIM卡管理",
+                    //multiselect: true,
                     autowidth: true
                 });
             jQuery("#jqgrid").jqGrid('navGrid', "#pjqgrid", {

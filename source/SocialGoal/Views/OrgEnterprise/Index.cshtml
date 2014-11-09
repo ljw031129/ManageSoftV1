@@ -1,100 +1,98 @@
-﻿@{
-    ViewBag.Title = "企业管理";
-    Layout = "~/Views/Shared/_LayoutSmartAdmin.cshtml";
-}
-<!-- Bread crumb is created dynamically -->
-<!-- row -->
-<div class="row">
-
-    <!-- col -->
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="collapse navbar-collapse bg-color-white">
-            <ul class="nav navbar-nav">
-                <li class="active">
-                    <a href="javascript:void(0);">Link</a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);">Link</a>
-                </li>
-                <li class="dropdown">
-                    <a href="javascript:void(0);" data-toggle="dropdown" class="dropdown-toggle"> Dropdown <b class="caret"></b> </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="javascript:void(0);">Action</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">Another action</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">Something else here</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">Separated link</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">One more separated link</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <!-- end col -->
-    <!-- right side of the page with the sparkline graphs -->
-</div>
-<!-- end row -->
-<!--
-    The ID "widget-grid" will start to initialize all widgets below
-    You do not need to use widgets if you dont want to. Simply remove
-    the <section></section> and you can use wells or panels instead
-    -->
-<!-- widget grid -->
-<section id="widget-grid" class="">
+﻿<div id="content">
+    <!-- Bread crumb is created dynamically -->
     <!-- row -->
     <div class="row">
-        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
-                <!-- widget options:
-                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-                data-widget-colorbutton="false"
-                data-widget-editbutton="false"
-                data-widget-togglebutton="false"
-                data-widget-deletebutton="false"
-                data-widget-fullscreenbutton="false"
-                data-widget-custombutton="false"
-                data-widget-collapsed="true"
-                data-widget-sortable="false"
-                -->
-                <header>
-                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                    <h2>企业信息</h2>
-                </header>
-                <!-- widget div-->
-                <div>
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                    </div>
-                    <!-- end widget edit box -->
-                    <!-- widget content -->
-                    <div class="widget-body  no-padding">                       
-                        <div class="table-responsive">
-                            <table id="grps"></table>
-                            <div id="pgrps"></div>
-                        </div>
-                    </div>
-                    <!-- end widget content -->
-                </div>
-                <!-- end widget div -->
-            </div>
-            <!-- end widget -->
-        </article>
-    </div>
 
+        <!-- col -->
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="collapse navbar-collapse bg-color-white">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="javascript:void(0);">Link</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);">Link</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" data-toggle="dropdown" class="dropdown-toggle"> Dropdown <b class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="javascript:void(0);">Action</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">Another action</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">Something else here</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">Separated link</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">One more separated link</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- end col -->
+        <!-- right side of the page with the sparkline graphs -->
+    </div>
     <!-- end row -->
-</section>
-<!-- end widget grid -->
+    <!--
+        The ID "widget-grid" will start to initialize all widgets below
+        You do not need to use widgets if you dont want to. Simply remove
+        the <section></section> and you can use wells or panels instead
+        -->
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+                    -->
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>企业信息</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body  no-padding">
+                            <div class="table-responsive">
+                                <table id="grps"></table>
+                                <div id="pgrps"></div>
+                            </div>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+        </div>
+
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>
 @section scripts{
     <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
     <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>

@@ -25,9 +25,14 @@
             <li class="@Html.RouteIf("ProtocolManage", "active")">
                 <a href="#"><i class="fa fa-lg fa-fw fa-cogs"></i> <span class="menu-item-parent">系统管理</span></a>
                 <ul>
-                    <li>
+                    <li class="@Html.RouteIf("ProtocolManage", "active")">
                         <a href='@Url.Action("Index", "ProtocolManage", null)'>
                             协议管理
+                        </a>
+                    </li>
+                    <li class="@Html.RouteIf("AdminUsers", "active")">
+                        <a href='@Url.Action("Index", "AdminUsers", null)'>
+                            用户管理
                         </a>
                     </li>
                 </ul>
@@ -35,17 +40,17 @@
             <li class="@Html.RouteIf("TerminalEquipment", "active")">
                 <a href="#"><i class="fa fa-lg fa-fw  fa-tablet"></i> <span class="menu-item-parent">终端管理</span></a>
                 <ul>
-                    <li>
+                    <li class="@Html.RouteIf("TerminalSimCard", "active")">
                         <a href='@Url.Action("Index", "TerminalSimCard", null)'>
                             SIM卡管理
                         </a>
                     </li>
-                    <li>
+                    <li class="@Html.RouteIf("TerminalEquipment", "active")">
                         <a href='@Url.Action("Index", "TerminalEquipment", null)'>
                             终端设备管理
                         </a>
                     </li>
-                    <li>
+                    <li class="@Html.RouteIf("TerminalEquipment", "active")">
                         <a href='@Url.Action("Monitor", "TerminalEquipment", null)'>
                             终端设备监控
                         </a>
@@ -55,12 +60,12 @@
             <li class="@Html.RouteIf("Terminal", "active")">
                 <a href="#"><i class="fa fa-lg fa-fw  fa-automobile"></i> <span class="menu-item-parent">机械设备管理</span></a>
                 <ul>
-                    <li>
+                    <li class="@Html.RouteIf("Equipment", "active")">
                         <a href='@Url.Action("Index", "Equipment", null)'>
                             设备管理
                         </a>
                     </li>
-                    <li>
+                    <li class="@Html.RouteIf("Terminal", "active")">
                         <a href='@Url.Action("Index", "Terminal", null)'>
                             机械监控
                         </a>
@@ -70,12 +75,12 @@
             <li class="@Html.RouteIf("OrgEnterprise", "active")">
                 <a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent">基础信息管理</span></a>
                 <ul>
-                    <li>
+                    <li class="@Html.RouteIf("OrgEnterprise", "active")">
                         <a href='@Url.Action("Index", "OrgEnterprise", null)'>
                             企业管理
                         </a>
                     </li>
-                    <li>
+                    <li class="@Html.RouteIf("OrgStructure", "active")">
                         <a href='@Url.Action("Index", "OrgStructure",null)'>
                             组织结构管理
                         </a>

@@ -1,139 +1,131 @@
-﻿@{
-    ViewBag.Title = "机械监控";
-    Layout = "~/Views/Shared/_LayoutSmartAdmin.cshtml";
-}
-
-<!-- row -->
-<div class="row">
-
-    <!-- col -->
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="collapse navbar-collapse bg-color-white">
-            @Html.Partial("_PartialSmartAdminTENav")
-        </div>
-    </div>
-    <!-- end col -->
-    <!-- right side of the page with the sparkline graphs -->
-</div>
-<!-- end row -->
-<!--
-    The ID "widget-grid" will start to initialize all widgets below
-    You do not need to use widgets if you dont want to. Simply remove
-    the <section></section> and you can use wells or panels instead
-    -->
-<!-- widget grid -->
-<section id="widget-grid" class="">
+﻿<div id="content">
     <!-- row -->
     <div class="row">
-        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
-                <!-- widget options:
-                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-                data-widget-colorbutton="false"
-                data-widget-editbutton="false"
-                data-widget-togglebutton="false"
-                data-widget-deletebutton="false"
-                data-widget-fullscreenbutton="false"
-                data-widget-custombutton="false"
-                data-widget-collapsed="true"
-                data-widget-sortable="false"
-                -->
-                <header>
-                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                    <h2>终端设备历史信息</h2>
-                </header>
-                <!-- widget div-->
-                <div>
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                    </div>
-                    <!-- end widget edit box -->
-                    <!-- widget content -->
-                    <div class="widget-body  no-padding">
-                        <div class="table-responsive">
-                            <table id="grps"></table>
-                            <div id="pgrps"></div> 
-                        </div>
-                    </div>
-                    <!-- end widget content -->
-                </div>
-                <!-- end widget div -->
+
+        <!-- col -->
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="collapse navbar-collapse bg-color-white">
+                @Html.Partial("_PartialSmartAdminTENav")
             </div>
-            <!-- end widget -->
-        </article>
+        </div>
+        <!-- end col -->
+        <!-- right side of the page with the sparkline graphs -->
     </div>
-
     <!-- end row -->
-</section>
-<!-- end widget grid -->
-@section scripts{
+    <!--
+        The ID "widget-grid" will start to initialize all widgets below
+        You do not need to use widgets if you dont want to. Simply remove
+        the <section></section> and you can use wells or panels instead
+        -->
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+                    -->
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>终端设备历史信息</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body  no-padding">
+                            <div class="table-responsive">
+                                <table id="grps"></table>
+                                <div id="pgrps"></div>
+                            </div>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+        </div>
 
-    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
-    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-           pageSetUp();
-            //初始化表格
-            GetDynamicCols();
-            function GetDynamicCols() {
-                $.ajax({
-                    type: "GET",
-                    async: false,
-                    contentType: "application/json;utf-8",
-                    url: "@Url.Action("HistoryTableSet", "Terminal", new { id = ViewBag.DevId })",
-                    success: function (data) {
-                        creategrid(data);
-                    },
-                    beforeSend: function () {
-                        //$.jBox.tip("正在查询数据...", 'loading');
-                    }
-                });
-            }
-            function creategrid(data) {
-                $("#grps").jqGrid(
-                {
-                    url: '@Url.Action("GetTerminalEquipmentHistory", "Terminal", new { id = ViewBag.DevId })',
-                    datatype: "json",
-                    mtype: "get",
-                    colNames: data.ColNs,
-                    colModel: data.ColMs,                   
-                    rowNum: 10,
-                    height: 'auto',
-                    autowidth: true,
-                    rowList: [10, 20, 30],
-                    pager: '#pgrps',
-                    sortname: 'ReceiveTime',
-                    viewrecords: true,//定义是否要显示总记录数
-                    sortorder: "desc",
-                    jsonReader: {
-                        root: "rows",
-                        page: "page",
-                        total: "total",
-                        records: "records",
-                        repeatitems: false,
-                        userdata: "userdata"
-                    },
-                    postData: { devId: '@ViewBag.DevId' },
-                    editurl: '/api/ApiTerminalEquipment' // this is dummy existing url
-                });
-                jQuery("#grps").jqGrid('navGrid', '#pgrps',
-               { edit: false, add: false, del: false },
-               {},
-               {},
-               {},
-               { multipleSearch: true, multipleGroup: true });
-                //替换样式
-               replaceJqgrid();
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>
+    @section scripts{
 
-            }
-        });
+        <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
+        <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                pageSetUp();
+                //初始化表格
+                GetDynamicCols();
+                function GetDynamicCols() {
+                    $.ajax({
+                        type: "GET",
+                        async: false,
+                        contentType: "application/json;utf-8",
+                        url: "@Url.Action("HistoryTableSet", "Terminal", new { id = ViewBag.DevId })",
+                        success: function (data) {
+                            creategrid(data);
+                        },
+                        beforeSend: function () {
+                            //$.jBox.tip("正在查询数据...", 'loading');
+                        }
+                    });
+                }
+                function creategrid(data) {
+                    $("#grps").jqGrid(
+                    {
+                        url: '@Url.Action("GetTerminalEquipmentHistory", "Terminal", new { id = ViewBag.DevId })',
+                        datatype: "json",
+                        mtype: "get",
+                        colNames: data.ColNs,
+                        colModel: data.ColMs,
+                        rowNum: 10,
+                        height: 'auto',
+                        autowidth: true,
+                        rowList: [10, 20, 30],
+                        pager: '#pgrps',
+                        sortname: 'ReceiveTime',
+                        viewrecords: true,//定义是否要显示总记录数
+                        sortorder: "desc",
+                        jsonReader: {
+                            root: "rows",
+                            page: "page",
+                            total: "total",
+                            records: "records",
+                            repeatitems: false,
+                            userdata: "userdata"
+                        },
+                        postData: { devId: '@ViewBag.DevId' },
+                        editurl: '/api/ApiTerminalEquipment' // this is dummy existing url
+                    });
+                    jQuery("#grps").jqGrid('navGrid', '#pgrps',
+                   { edit: false, add: false, del: false },
+                   {},
+                   {},
+                   {},
+                   { multipleSearch: true, multipleGroup: true });
+                    //替换样式
+                    replaceJqgrid();
 
-    </script>
-}
+                }
+            });
 
-
-
-
-
+        </script>
+    }

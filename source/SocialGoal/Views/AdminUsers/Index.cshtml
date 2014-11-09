@@ -1,6 +1,6 @@
-﻿ 
-    <link href="~/Scripts/plugins/select2-3.5.1/select2-bootstrap.css" rel="stylesheet" />
-    <link href="~/Scripts/plugins/artDialog/css/ui-dialog.css" rel="stylesheet" />
+﻿
+<link href="~/Scripts/plugins/select2-3.5.1/select2-bootstrap.css" rel="stylesheet" />
+<link href="~/Scripts/plugins/artDialog/css/ui-dialog.css" rel="stylesheet" />
 <div id="content">
     <!-- row -->
     <div class="row">
@@ -67,7 +67,7 @@
                     -->
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                        <h2>终端信息</h2>
+                        <h2>用户管理</h2>
                     </header>
                     <!-- widget div-->
                     <div>
@@ -110,13 +110,13 @@
     </section>
     <!-- end widget grid -->
 </div>
-    @section scripts{
-        <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
-        <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
-        <script src="~/Scripts/plugins/select2-3.5.1/select2.js"></script>
-        <script src="~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"></script>
-        <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
-        <script type="text/javascript">
+@section scripts{
+    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
+    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
+    <script src="~/Scripts/plugins/select2-3.5.1/select2.js"></script>
+    <script src="~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"></script>
+    <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
+    <script type="text/javascript">
             var d, OrgEnterpriseId, ids;
             $(document).ready(function () {
                 pageSetUp();
@@ -253,5 +253,5 @@
                 //替换样式
                 replaceJqgrid();
             });
-        </script>
-    }
+    </script>
+}

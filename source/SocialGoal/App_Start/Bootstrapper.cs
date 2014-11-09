@@ -3,7 +3,6 @@ using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using System.Reflection;
-using Autofac.Integration.WebApi;
 using SocialGoal.Data.Repository;
 using SocialGoal.Data.Infrastructure;
 using SocialGoal.Service;
@@ -27,10 +26,7 @@ namespace SocialGoal
         private static void SetAutofacContainer()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterControllers(Assembly.GetExecutingAssembly());
-            //注入API
-            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-
+            builder.RegisterControllers(Assembly.GetExecutingAssembly());     
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
             builder.RegisterType<DatabaseFactory>().As<IDatabaseFactory>().InstancePerRequest();
             builder.RegisterAssemblyTypes(typeof(EquipmentRepository).Assembly)
@@ -55,8 +51,6 @@ namespace SocialGoal
             builder.RegisterFilterProvider();
             IContainer container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
-
-            GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);//ApiController　WebApi注入 
         }
     }
 }

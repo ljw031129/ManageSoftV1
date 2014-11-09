@@ -53,10 +53,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Autofac.Mvc5.3.3.3\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac.Integration.WebApi, Version=3.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Autofac.WebApi2.3.4.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
-    </Reference>
     <Reference Include="AutoMapper, Version=3.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.dll</HintPath>
@@ -1707,8 +1703,10 @@
     <Content Include="Scripts\angularModule\MenuDataModule.js" />
     <Content Include="Scripts\angularplugins\angular-tree-control.js" />
     <Content Include="Scripts\app.config.js" />
+    <Content Include="Scripts\app.js" />
     <Content Include="Scripts\app.min.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\demo.js" />
     <Content Include="Scripts\demo.min.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-er.js" />
@@ -3493,12 +3491,6 @@
     <Content Include="Views\Account\_FollowingsView.cshtml" />
     <Content Include="Views\Account\AccessDenied.cshtml" />
     <Content Include="Views\Shared\_AlertInfo.cshtml" />
-    <Content Include="Views\Equipment\Create.cshtml" />
-    <Content Include="Views\Equipment\Edit.cshtml" />
-    <Content Include="Views\Equipment\Delete.cshtml" />
-    <Content Include="Views\Equipment\Details.cshtml" />
-    <Content Include="Views\Equipment\Index.cshtml" />
-    <Content Include="Views\Equipment\_CreateOrEdit.cshtml" />
     <Content Include="Views\Shared\_LayoutAngular.cshtml" />
     <Content Include="Views\ProtocolManage\Index.cshtml" />
     <Content Include="Views\ProtocolManage\Create.cshtml" />
@@ -3542,12 +3534,18 @@
     <Content Include="Views\Account\_ErrorText.cshtml" />
     <Content Include="Views\Account\_LoginText.cshtml" />
     <Content Include="Views\Account\_SocialMedia.cshtml" />
+    <Content Include="Views\Equipment\Create.cshtml" />
+    <Content Include="Views\Equipment\Delete.cshtml" />
+    <Content Include="Views\Equipment\Details.cshtml" />
+    <Content Include="Views\Equipment\Edit.cshtml" />
+    <Content Include="Views\Equipment\Index.cshtml" />
+    <Content Include="Views\Equipment\_CreateOrEdit.cshtml" />
+    <Content Include="Views\AdminUsers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\FunctionScripts\" />
     <Folder Include="Services\" />
-    <Folder Include="Views\AdminUsers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

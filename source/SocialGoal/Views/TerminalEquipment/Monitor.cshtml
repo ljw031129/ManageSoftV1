@@ -1,255 +1,250 @@
-﻿@{
-    ViewBag.Title = "终端设备监控";
-    Layout = "~/Views/Shared/_LayoutSmartAdmin.cshtml";
-}
-
-@section styles{
+﻿
     <link href="~/Scripts/plugins/artDialog/css/ui-dialog.css" rel="stylesheet" />
-}
-<!-- row -->
-<div class="row">
-
-    <!-- col -->
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="collapse navbar-collapse bg-color-white">
-            <ul class="nav navbar-nav">               
-                <li >
-                    <a href="@Url.Action("Index", "TerminalEquipment", null)" class="green-border">
-                        <i class="icon-list  text-red "></i>
-                        终端设备列表
-                    </a>
-                </li>
-                <li id="equipmentDetail">
-                    <a href="#">
-                        <i class="icon-indent-left"></i>
-                        设备工况一览
-                    </a>
-                </li>
-                <li id="equipmentMap">
-                    <a href="#" class="green-border">
-                        <i class="icon-map-marker "></i>
-                        行驶轨迹
-                    </a>
-                </li>                
-            </ul>
-        </div>
-    </div>
-    <!-- end col -->
-    <!-- right side of the page with the sparkline graphs -->
-</div>
-<!-- end row -->
-<!--
-    The ID "widget-grid" will start to initialize all widgets below
-    You do not need to use widgets if you dont want to. Simply remove
-    the <section></section> and you can use wells or panels instead
-    -->
-<!-- widget grid -->
-<section id="widget-grid" class="">
+<div id="content">
     <!-- row -->
     <div class="row">
-        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
-                <!-- widget options:
-                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-                data-widget-colorbutton="false"
-                data-widget-editbutton="false"
-                data-widget-togglebutton="false"
-                data-widget-deletebutton="false"
-                data-widget-fullscreenbutton="false"
-                data-widget-custombutton="false"
-                data-widget-collapsed="true"
-                data-widget-sortable="false"
-                -->
-                <header>
-                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                    <h2>终端设备监控</h2>
-                </header>
-                <!-- widget div-->
-                <div>
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                    </div>
-                    <!-- end widget edit box -->
-                    <!-- widget content -->
-                    <div class="widget-body  no-padding">
-                        <div class="table-responsive">
-                            <table id="grps"></table>
-                            <div id="pgrps"></div>
-                        </div>
-                    </div>
-                    <!-- end widget content -->
-                </div>
-                <!-- end widget div -->
+
+        <!-- col -->
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="collapse navbar-collapse bg-color-white">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="@Url.Action("Index", "TerminalEquipment", null)" class="green-border">
+                            <i class="icon-list  text-red "></i>
+                            终端设备列表
+                        </a>
+                    </li>
+                    <li id="equipmentDetail">
+                        <a href="#">
+                            <i class="icon-indent-left"></i>
+                            设备工况一览
+                        </a>
+                    </li>
+                    <li id="equipmentMap">
+                        <a href="#" class="green-border">
+                            <i class="icon-map-marker "></i>
+                            行驶轨迹
+                        </a>
+                    </li>
+                </ul>
             </div>
-            <!-- end widget -->
-        </article>
+        </div>
+        <!-- end col -->
+        <!-- right side of the page with the sparkline graphs -->
     </div>
-
     <!-- end row -->
-</section>
-<!-- end widget grid -->
+    <!--
+        The ID "widget-grid" will start to initialize all widgets below
+        You do not need to use widgets if you dont want to. Simply remove
+        the <section></section> and you can use wells or panels instead
+        -->
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+                    -->
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>终端设备监控</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body  no-padding">
+                            <div class="table-responsive">
+                                <table id="grps"></table>
+                                <div id="pgrps"></div>
+                            </div>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+        </div>
 
-@section scripts{
-    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
-    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
-    <script src="~/Scripts/plugins/select2-3.5.1/select2.js"></script>
-    <script src="~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"></script>
-    <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            //点击事件
-            $("#equipmentDetail").click(function () {
-                var rowId = $("#grps").jqGrid("getGridParam", "selrow");
-                if (rowId == null) {
-                    var d = dialog({
-                        title: '提示',
-                        content: '请选择设备！'
-                    });
-                    d.show();
-                    return;
-                } else {
-                    var rowData = $("#grps").jqGrid("getRowData", rowId);
-                    window.location.href = "../../Terminal/Detail/" + rowData.TerminalEquipmentNum;
-                }
-            });
-            $("#equipmentMap").click(function () {
-                var rowId = $("#grps").jqGrid("getGridParam", "selrow");
-                if (rowId == null) {
-                    var d = dialog({
-                        title: '提示',
-                        content: '请选择设备！'
-                    });
-                    d.show();
-                    return;
-                } else {
-                    var rowData = $("#grps").jqGrid("getRowData", rowId);
-                    window.location.href = "../../Terminal/Map/" + rowData.TerminalEquipmentNum;
-                }
-            });
-            jQuery("#grps").jqGrid(
-                {
-                    url: '@Url.Action("GetTerminalEquipmentDetail", "Terminal")',
-                    datatype: "json",
-                    mtype: "get",
-                    colNames:
-                        ['Id', '终端编号', '终端类型', '工作状态', '小时表', '信息最后更新时间', '位置'],
-                    colModel: [
-                        { name: 'TerminalEquipmentId', key: true, index: 'TerminalEquipmentId', editable: false, editoptions: { readonly: true }, width: 55, hidden: true },
-                        { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: false, width: 90, formatter: LinkFmatter, unformat: imageUnFormat },
-                        { name: 'TerminalEquipmentType', index: 'EquipmentName', editable: false, width: 100, edittype: "select", formatter: "select", editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" }, align: "center" },
-                        { name: 'AccStatus', index: 'AccStatus', editable: false, width: 60 },
-                        { name: 'TotalWorkTime', index: 'TotalWorkTime', editable: false, width: 60 },
-                        { name: 'ReceiveTime', index: 'ReceiveTime', editable: false, align: "left", width: 140, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
-                        { name: 'GpsPos', index: 'GpsPos', editable: false, align: "left" }
-
-                    ],
-                    //   multiselect: true,
-                    //  rownumbers: true,//添加左侧行号
-                    altRows: true,//设置为交替行表格,默认为false
-                    rowNum: 10,
-                    height: 'auto',
-                    autowidth: true,
-                    rowList: [10, 20, 30],
-                    pager: '#pgrps',
-                    sortname: 'TerminalEquipmentUpdateTime',
-                    viewrecords: true,//定义是否要显示总记录数
-                    sortorder: "desc",
-                    jsonReader: {
-                        root: "rows",
-                        page: "page",
-                        total: "total",
-                        records: "records",
-                        repeatitems: false,
-                        userdata: "userdata"
-                    },
-                    // caption: "终端信息表",
-                    // shrinkToFit: false,
-                    //  width: 'auto',
-                    height: '100%',
-                    editurl: '/api/ApiTerminalEquipment' // this is dummy existing url
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>
+    @section scripts{
+        <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
+        <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
+        <script src="~/Scripts/plugins/select2-3.5.1/select2.js"></script>
+        <script src="~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"></script>
+        <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                //点击事件
+                $("#equipmentDetail").click(function () {
+                    var rowId = $("#grps").jqGrid("getGridParam", "selrow");
+                    if (rowId == null) {
+                        var d = dialog({
+                            title: '提示',
+                            content: '请选择设备！'
+                        });
+                        d.show();
+                        return;
+                    } else {
+                        var rowData = $("#grps").jqGrid("getRowData", rowId);
+                        window.location.href = "../../Terminal/Detail/" + rowData.TerminalEquipmentNum;
+                    }
                 });
-            jQuery("#grps").jqGrid('navGrid', '#pgrps',
-                { edit: false, add: false, del: false },
-                {},
-                {},
-                {},
-                { multipleSearch: true, multipleGroup: true });
-            //test responsiveness
-          //  jQuery("#grps").jqGrid('inlineNav', "#pgrps");
-            /* Add tooltips */
-            $('.navtable .ui-pg-button').tooltip({
-                container: 'body'
-            });
-            // remove classes
-            $(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
-            $(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
-            $(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
-            $(".ui-jqgrid-pager").removeClass("ui-state-default");
-            $(".ui-jqgrid").removeClass("ui-widget-content");
+                $("#equipmentMap").click(function () {
+                    var rowId = $("#grps").jqGrid("getGridParam", "selrow");
+                    if (rowId == null) {
+                        var d = dialog({
+                            title: '提示',
+                            content: '请选择设备！'
+                        });
+                        d.show();
+                        return;
+                    } else {
+                        var rowData = $("#grps").jqGrid("getRowData", rowId);
+                        window.location.href = "../../Terminal/Map/" + rowData.TerminalEquipmentNum;
+                    }
+                });
+                jQuery("#grps").jqGrid(
+                    {
+                        url: '@Url.Action("GetTerminalEquipmentDetail", "Terminal")',
+                        datatype: "json",
+                        mtype: "get",
+                        colNames:
+                            ['Id', '终端编号', '终端类型', '工作状态', '小时表', '信息最后更新时间', '位置'],
+                        colModel: [
+                            { name: 'TerminalEquipmentId', key: true, index: 'TerminalEquipmentId', editable: false, editoptions: { readonly: true }, width: 55, hidden: true },
+                            { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: false, width: 90, formatter: LinkFmatter, unformat: imageUnFormat },
+                            { name: 'TerminalEquipmentType', index: 'EquipmentName', editable: false, width: 100, edittype: "select", formatter: "select", editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" }, align: "center" },
+                            { name: 'AccStatus', index: 'AccStatus', editable: false, width: 60 },
+                            { name: 'TotalWorkTime', index: 'TotalWorkTime', editable: false, width: 60 },
+                            { name: 'ReceiveTime', index: 'ReceiveTime', editable: false, align: "left", width: 140, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
+                            { name: 'GpsPos', index: 'GpsPos', editable: false, align: "left" }
 
-            // add classes
-            $(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
-            $(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
+                        ],
+                        //   multiselect: true,
+                        //  rownumbers: true,//添加左侧行号
+                        altRows: true,//设置为交替行表格,默认为false
+                        rowNum: 10,
+                        height: 'auto',
+                        autowidth: true,
+                        rowList: [10, 20, 30],
+                        pager: '#pgrps',
+                        sortname: 'TerminalEquipmentUpdateTime',
+                        viewrecords: true,//定义是否要显示总记录数
+                        sortorder: "desc",
+                        jsonReader: {
+                            root: "rows",
+                            page: "page",
+                            total: "total",
+                            records: "records",
+                            repeatitems: false,
+                            userdata: "userdata"
+                        },
+                        // caption: "终端信息表",
+                        // shrinkToFit: false,
+                        //  width: 'auto',
+                        height: '100%',
+                        editurl: '/api/ApiTerminalEquipment' // this is dummy existing url
+                    });
+                jQuery("#grps").jqGrid('navGrid', '#pgrps',
+                    { edit: false, add: false, del: false },
+                    {},
+                    {},
+                    {},
+                    { multipleSearch: true, multipleGroup: true });
+                //test responsiveness
+                //  jQuery("#grps").jqGrid('inlineNav', "#pgrps");
+                /* Add tooltips */
+                $('.navtable .ui-pg-button').tooltip({
+                    container: 'body'
+                });
+                // remove classes
+                $(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
+                $(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
+                $(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
+                $(".ui-jqgrid-pager").removeClass("ui-state-default");
+                $(".ui-jqgrid").removeClass("ui-widget-content");
 
-            $(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
-            $(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
-            $(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
-            $(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
-            $(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
-            $(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
-            $(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
-            $(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
+                // add classes
+                $(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
+                $(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
 
-            $(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
-            $(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
+                $(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
+                $(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
+                $(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
+                $(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
+                $(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
+                $(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
+                $(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
+                $(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
 
-            $(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
-            $(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
+                $(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
+                $(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
 
-            $(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
-            $(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
+                $(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
+                $(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
 
-            $(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
-            $(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
-            // update buttons
+                $(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
+                $(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
 
-            $(window).on('resize.jqGrid', function () {
-                jQuery("#grps").jqGrid('setGridWidth', $("#content").width());
-            })
-            //自定义的格式化方法
-            //cellvalue - 当前cell的值
-            //options - 该cell的options设置，包括{rowId, colModel,pos,gid}
-            //rowObject - 当前cell所在row的值，如{ id=1, name="name1", price=123.1, ...}
-            function IconyFmatter(cellvalue, options, rowObject) {
-                var rec = "";
-                switch (cellvalue) {
-                    case "1":
-                        rec = '<img src="../../Content/ICON/car.png" alt="" />';
-                        break;
-                    case "2":
-                        rec = '<img src="../..//Content/ICON/car1.png" alt="" />';
-                        break;
-                    case "3":
-                        rec = '<img src="../../Content/ICON/car1.png" alt="" />';
-                        break;
-                    default:
-                        rec = '<img src="../../Content/ICON/car1.png" alt="" />';
-                        break;
+                $(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
+                $(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
+                // update buttons
 
+                $(window).on('resize.jqGrid', function () {
+                    jQuery("#grps").jqGrid('setGridWidth', $("#content").width());
+                })
+                //自定义的格式化方法
+                //cellvalue - 当前cell的值
+                //options - 该cell的options设置，包括{rowId, colModel,pos,gid}
+                //rowObject - 当前cell所在row的值，如{ id=1, name="name1", price=123.1, ...}
+                function IconyFmatter(cellvalue, options, rowObject) {
+                    var rec = "";
+                    switch (cellvalue) {
+                        case "1":
+                            rec = '<img src="../../Content/ICON/car.png" alt="" />';
+                            break;
+                        case "2":
+                            rec = '<img src="../..//Content/ICON/car1.png" alt="" />';
+                            break;
+                        case "3":
+                            rec = '<img src="../../Content/ICON/car1.png" alt="" />';
+                            break;
+                        default:
+                            rec = '<img src="../../Content/ICON/car1.png" alt="" />';
+                            break;
+
+                    }
+                    return rec;
                 }
-                return rec;
-            }
-            function LinkFmatter(cellvalue, options, rowObject) {
-                var rec = '<a href="../../Terminal/Detail/' + cellvalue + '" id="' + cellvalue + '">' + cellvalue + '</a>';
+                function LinkFmatter(cellvalue, options, rowObject) {
+                    var rec = '<a href="../../Terminal/Detail/' + cellvalue + '" id="' + cellvalue + '">' + cellvalue + '</a>';
 
-                return rec;
-            }
-            function imageUnFormat(cellvalue, options, cell) {
-                return $('a', cell).attr('id');
-            }
-        });
+                    return rec;
+                }
+                function imageUnFormat(cellvalue, options, cell) {
+                    return $('a', cell).attr('id');
+                }
+            });
 
-    </script>
-}
+        </script>
+    }

@@ -30,8 +30,7 @@ namespace SocialGoal.Web.Controllers
     {
         private IUserService userService;
         private IUserProfileService userProfileService;      
-        private ISecurityTokenService securityTokenService;
-        // private IUserMailer userMailer = new UserMailer();
+        private ISecurityTokenService securityTokenService;       
         private UserManager<ApplicationUser> UserManager;
         //private RoleManager<IdentityRole> RoleManager;
         public AccountController(IUserService userService, IUserProfileService userProfileService,  ISecurityTokenService securityTokenService, UserManager<ApplicationUser> userManager)

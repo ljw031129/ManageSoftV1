@@ -1,210 +1,205 @@
-﻿@{
-    ViewBag.Title = "组织机构管理";
-    Layout = "~/Views/Shared/_LayoutSmartAdmin.cshtml";
-}
-@section styles{
+﻿<link href="~/Scripts/plugins/artDialog/css/ui-dialog.css" rel="stylesheet" />
 
-    <link href="~/Scripts/plugins/artDialog/css/ui-dialog.css" rel="stylesheet" />
-}
-<!-- Bread crumb is created dynamically -->
-<!-- row -->
-<div class="row">
-
-    <!-- col -->
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="collapse navbar-collapse bg-color-white">
-            <ul class="nav navbar-nav">
-                <li class="active">
-                    <a href="javascript:void(0);">Link</a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);">Link</a>
-                </li>
-                <li class="dropdown">
-                    <a href="javascript:void(0);" data-toggle="dropdown" class="dropdown-toggle"> Dropdown <b class="caret"></b> </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="javascript:void(0);">Action</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">Another action</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">Something else here</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">Separated link</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">One more separated link</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <!-- end col -->
-    <!-- right side of the page with the sparkline graphs -->
-</div>
-<!-- end row -->
-<!--
-    The ID "widget-grid" will start to initialize all widgets below
-    You do not need to use widgets if you dont want to. Simply remove
-    the <section></section> and you can use wells or panels instead
-    -->
-<!-- widget grid -->
-<section id="widget-grid" class="">
+<div id="content">
+    <!-- Bread crumb is created dynamically -->
     <!-- row -->
     <div class="row">
-        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
-                <!-- widget options:
-                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-                data-widget-colorbutton="false"
-                data-widget-editbutton="false"
-                data-widget-togglebutton="false"
-                data-widget-deletebutton="false"
-                data-widget-fullscreenbutton="false"
-                data-widget-custombutton="false"
-                data-widget-collapsed="true"
-                data-widget-sortable="false"
-                -->
-                <header>
-                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                    <h2>企业信息</h2>
-                </header>
-                <!-- widget div-->
-                <div>
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                    </div>
-                    <!-- end widget edit box -->
-                    <!-- widget content -->
-                    <div class="widget-body  no-padding">
-                        <div class="widget-body-toolbar">
-                            <div class="row">
-                                <a class="btn btn-white" id="Create">
-                                    <i class="icon-plus"></i> 添加
-                                </a>
-                                <a class="btn btn-white">
-                                    <i class="glyphicon glyphicon-pencil"></i> 修改
-                                </a>
-                                <a class="btn btn-white">
-                                    <i class="glyphicon  glyphicon-trash"></i> 删除
-                                </a>
+
+        <!-- col -->
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="collapse navbar-collapse bg-color-white">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="javascript:void(0);">Link</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);">Link</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" data-toggle="dropdown" class="dropdown-toggle"> Dropdown <b class="caret"></b> </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="javascript:void(0);">Action</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">Another action</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">Something else here</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">Separated link</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">One more separated link</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- end col -->
+        <!-- right side of the page with the sparkline graphs -->
+    </div>
+    <!-- end row -->
+    <!--
+        The ID "widget-grid" will start to initialize all widgets below
+        You do not need to use widgets if you dont want to. Simply remove
+        the <section></section> and you can use wells or panels instead
+        -->
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+                    -->
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>企业信息</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body  no-padding">
+                            <div class="widget-body-toolbar">
+                                <div class="row">
+                                    <a class="btn btn-white" id="Create">
+                                        <i class="icon-plus"></i> 添加
+                                    </a>
+                                    <a class="btn btn-white">
+                                        <i class="glyphicon glyphicon-pencil"></i> 修改
+                                    </a>
+                                    <a class="btn btn-white">
+                                        <i class="glyphicon  glyphicon-trash"></i> 删除
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="grps"></table>
+                                <div id="pgrps"></div>
                             </div>
                         </div>
-                        <div class="table-responsive">
-                            <table id="grps"></table>
-                            <div id="pgrps"></div>
-                        </div>
+                        <!-- end widget content -->
                     </div>
-                    <!-- end widget content -->
+                    <!-- end widget div -->
                 </div>
-                <!-- end widget div -->
-            </div>
-            <!-- end widget -->
-        </article>
-    </div>
+                <!-- end widget -->
+            </article>
+        </div>
 
-    <!-- end row -->
-</section>
-<!-- end widget grid -->
-  
-@section scripts{
-    <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
-    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
-    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>
+    @section scripts{
+        <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
+        <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
+        <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
 
-            jQuery("#grps").jqGrid(
-                {
-                    url: '@Url.Action("Get", "OrgStructure")',
-                    datatype: "json",
-                    mtype: "get",
-                    colNames:
-                        ['Id', 'Pid', '企业ID', '组织编号', '组织名称', '描述', '更新时间', '创建时间'],
-                    colModel: [
-                        { name: 'OrgStructureId', key: true, index: 'EquipmentId', editable: true, editoptions: { readonly: true }, width: 55, hidden: true },
-                        { name: 'OrgStructurePId', index: 'EquipmentNum', editable: true, width: 90, hidden: true },
-                        { name: 'OrgEnterpriseId', index: 'EquipmentName', editable: true, width: 100, hidden: true },
-                        { name: 'OrgStructureNum', index: 'EquipmentNum', editable: true, width: 90 },
-                        { name: 'OrgStructureName', index: 'EquipmentName', editable: true, width: 100 },
-                         { name: 'OrgStructureDescribe', index: 'EquipmentName', editable: true, width: 100 },
-                        { name: 'OrgStructureUpdateTime', index: 'EquipmentCreatTime', sorttype: 'date', editable: false, editrules: { date: true }, formatter: 'date', datefmt: 'Y-m-d', width: 80, align: "right" },
-                        { name: 'OrgStructureCreateTime', index: 'EquipmentUpDateTime', sorttype: 'date', editable: true, editoptions: { readonly: true }, editrules: { date: true }, formatter: 'date', datefmt: 'Y-m-d', width: 80, align: "right" }
-                    ],
-                    treeGrid: true,
-                    treeGridModel: "adjacency",
-                    ExpandColumn: "OrgStructureNum",
-                    rowNum: 1000,
-                    width: 700,
-                    // rowList: [10, 20, 30],
-                    // pager: '#pgrps',
-                    sortname: 'OrgStructureUpdateTime',
-                    // viewrecords: true,//定义是否要显示总记录数
-                    sortorder: "desc",
-                    treeIcons: { leaf: 'ui-icon-document-b' },
-                    jsonReader: {
-                        root: "rows",
-                        page: "page",
-                        total: "total",
-                        records: "records",
-                        repeatitems: false,
-                        userdata: "userdata"
-                    },
-                    //caption: "组织机构表",
-                    height: '100%',
-                    //   editurl: '/api/ApiOrgEnterprise' // this is dummy existing url
-                });
+                jQuery("#grps").jqGrid(
+                    {
+                        url: '@Url.Action("Get", "OrgStructure")',
+                        datatype: "json",
+                        mtype: "get",
+                        colNames:
+                            ['Id', 'Pid', '企业ID', '组织编号', '组织名称', '描述', '更新时间', '创建时间'],
+                        colModel: [
+                            { name: 'OrgStructureId', key: true, index: 'EquipmentId', editable: true, editoptions: { readonly: true }, width: 55, hidden: true },
+                            { name: 'OrgStructurePId', index: 'EquipmentNum', editable: true, width: 90, hidden: true },
+                            { name: 'OrgEnterpriseId', index: 'EquipmentName', editable: true, width: 100, hidden: true },
+                            { name: 'OrgStructureNum', index: 'EquipmentNum', editable: true, width: 90 },
+                            { name: 'OrgStructureName', index: 'EquipmentName', editable: true, width: 100 },
+                             { name: 'OrgStructureDescribe', index: 'EquipmentName', editable: true, width: 100 },
+                            { name: 'OrgStructureUpdateTime', index: 'EquipmentCreatTime', sorttype: 'date', editable: false, editrules: { date: true }, formatter: 'date', datefmt: 'Y-m-d', width: 80, align: "right" },
+                            { name: 'OrgStructureCreateTime', index: 'EquipmentUpDateTime', sorttype: 'date', editable: true, editoptions: { readonly: true }, editrules: { date: true }, formatter: 'date', datefmt: 'Y-m-d', width: 80, align: "right" }
+                        ],
+                        treeGrid: true,
+                        treeGridModel: "adjacency",
+                        ExpandColumn: "OrgStructureNum",
+                        rowNum: 1000,
+                        width: 700,
+                        // rowList: [10, 20, 30],
+                        // pager: '#pgrps',
+                        sortname: 'OrgStructureUpdateTime',
+                        // viewrecords: true,//定义是否要显示总记录数
+                        sortorder: "desc",
+                        treeIcons: { leaf: 'ui-icon-document-b' },
+                        jsonReader: {
+                            root: "rows",
+                            page: "page",
+                            total: "total",
+                            records: "records",
+                            repeatitems: false,
+                            userdata: "userdata"
+                        },
+                        //caption: "组织机构表",
+                        height: '100%',
+                        //   editurl: '/api/ApiOrgEnterprise' // this is dummy existing url
+                    });
 
-            //test responsiveness
-            $(window).on('resize', function (event, ui) {
-                // Get width of parent container
-                var parWidth = $("#gbox_grps").parent().width();
-                var curWidth = $("#gbox_grps").width();
-                //console.log("span width " + parWidth + " gridWidth " + gWidth);
-                var w = parWidth - 1; // Fudge factor to prevent horizontal scrollbars
-                if (Math.abs(w - curWidth) > 2) {
-                    //alert("resize to " + width);
-                    console.log("span width " + parWidth + " gridWidth " + curWidth);
-                    $("#grps").setGridWidth(w);
-                    console.log("new width " + w);
-                }
-
-            }).trigger('resize');
-            $("#Create").click(function () {
-                var pid = "123";
-                var top = dialog({
-                    id: 'OrgStructure-Create',
-                    title: '添加组织机构信息',
-                    width: 450,
-                    fixed: true,
-                    data:123,
-                    url: '@Url.Action("Create", "OrgStructure", new { id = "123" })',
-                    //quickClose: true,
-                    onshow: function () {
-                        console.log('onshow');
-                    },
-                    oniframeload: function () {
-                        console.log('oniframeload');
-                    },
-                    onclose: function () {
-                        if (this.returnValue) {
-                            $('#value').html(this.returnValue);
-                        }
-                        console.log('onclose');
-                    },
-                    onremove: function () {
-                        console.log('onremove');
+                //test responsiveness
+                $(window).on('resize', function (event, ui) {
+                    // Get width of parent container
+                    var parWidth = $("#gbox_grps").parent().width();
+                    var curWidth = $("#gbox_grps").width();
+                    //console.log("span width " + parWidth + " gridWidth " + gWidth);
+                    var w = parWidth - 1; // Fudge factor to prevent horizontal scrollbars
+                    if (Math.abs(w - curWidth) > 2) {
+                        //alert("resize to " + width);
+                        console.log("span width " + parWidth + " gridWidth " + curWidth);
+                        $("#grps").setGridWidth(w);
+                        console.log("new width " + w);
                     }
+
+                }).trigger('resize');
+                $("#Create").click(function () {
+                    var pid = "123";
+                    var top = dialog({
+                        id: 'OrgStructure-Create',
+                        title: '添加组织机构信息',
+                        width: 450,
+                        fixed: true,
+                        data: 123,
+                        url: '@Url.Action("Create", "OrgStructure", new { id = "123" })',
+                        //quickClose: true,
+                        onshow: function () {
+                            console.log('onshow');
+                        },
+                        oniframeload: function () {
+                            console.log('oniframeload');
+                        },
+                        onclose: function () {
+                            if (this.returnValue) {
+                                $('#value').html(this.returnValue);
+                            }
+                            console.log('onclose');
+                        },
+                        onremove: function () {
+                            console.log('onremove');
+                        }
+                    });
+                    top.show();
                 });
-                top.show();
             });
-        });
-    </script>
-}
+        </script>
+    }
 

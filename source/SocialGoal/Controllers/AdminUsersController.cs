@@ -39,6 +39,7 @@ namespace SocialGoal.Controllers
                             TerminalSimCardId = item.Id,
                             TerminalSimCardNum = item.UserName,
                             TerminalSimCardSerialNum = item.Email
+                          
                         }).ToArray()
             };
             return Json(result, JsonRequestBehavior.AllowGet);
