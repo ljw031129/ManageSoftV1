@@ -32,7 +32,7 @@ namespace SocialGoal.Web.API.Controllers
                 rows = (from item in orgStructure
                         select new
                         {
-                            OrgEnterpriseId = item.OrgEnterpriseId,
+                           
                             OrgStructureId = item.OrgStructureId,
                             OrgStructurePId = item.OrgStructurePId,
                             OrgStructureNum = item.OrgStructureNum,
@@ -40,12 +40,7 @@ namespace SocialGoal.Web.API.Controllers
                             OrgStructureDescribe = item.OrgStructureDescribe,
                             OrgStructureUpdateTime = item.OrgStructureUpdateTime,
                             OrgStructureCreateTime = item.OrgStructureCreateTime,
-                            level = item.level,
-                            parent = item.parent,
-                            isLeaf = item.isLeaf,
-                            expanded = item.expanded,
-                            loaded = item.loaded,
-                            icon = item.icon
+                            
                         }).ToArray()
             };
             return result;
@@ -72,12 +67,12 @@ namespace SocialGoal.Web.API.Controllers
                               OrgStructureDescribe = item.OrgStructureDescribe,
                               OrgStructureUpdateTime = item.OrgStructureUpdateTime,
                               OrgStructureCreateTime = item.OrgStructureCreateTime,
-                              level = item.level,
-                              parent = item.parent,
-                              isLeaf = item.isLeaf,
-                              expanded = item.expanded,
-                              loaded = item.loaded,
-                              icon = item.icon
+                              //level = item.level,
+                              //parent = item.parent,
+                              //isLeaf = item.isLeaf,
+                              //expanded = item.expanded,
+                              //loaded = item.loaded,
+                              //icon = item.icon
                           }).ToArray();
             return result;
         }

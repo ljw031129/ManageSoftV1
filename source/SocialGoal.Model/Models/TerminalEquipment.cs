@@ -24,7 +24,7 @@ namespace SocialGoal.Model.Models
         public string OrgEnterpriseId { get; set; }
         public virtual OrgEnterprise OrgEnterprise { get; set; }
 
-        public virtual ICollection<OrgStructure> OrgStructures { get; set; }
+      //  public virtual ICollection<OrgStructure> OrgStructures { get; set; }
 
         public string EquipmentId { get; set; }
         public virtual Equipment Equipment { get; set; }
@@ -35,5 +35,8 @@ namespace SocialGoal.Model.Models
 
         public DateTime TerminalEquipmentCreateTime { get; set; }
         public DateTime TerminalEquipmentUpdateTime { get; set; }
+        //用户ID
+        public string UserId { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }

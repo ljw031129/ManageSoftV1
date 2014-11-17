@@ -1,68 +1,28 @@
 ﻿<div id="content">
     <!-- Bread crumb is created dynamically -->
-    <!-- row -->
-    <div class="row">
-
-        <!-- col -->
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="collapse navbar-collapse bg-color-white">
-                <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a href="javascript:void(0);">Link</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);">Link</a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="javascript:void(0);" data-toggle="dropdown" class="dropdown-toggle"> Dropdown <b class="caret"></b> </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="javascript:void(0);">Action</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);">Another action</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);">Something else here</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);">Separated link</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);">One more separated link</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <!-- end col -->
-        <!-- right side of the page with the sparkline graphs -->
-    </div>
-    <!-- end row -->
     <!--
-        The ID "widget-grid" will start to initialize all widgets below
-        You do not need to use widgets if you dont want to. Simply remove
-        the <section></section> and you can use wells or panels instead
-        -->
+       The ID "widget-grid" will start to initialize all widgets below
+       You do not need to use widgets if you dont want to. Simply remove
+       the <section></section> and you can use wells or panels instead
+       -->
     <!-- widget grid -->
     <section id="widget-grid" class="">
         <!-- row -->
         <div class="row">
-            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <article class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                 <!-- Widget ID (each widget will need unique ID)-->
-                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+                <div class="jarviswidget " id="wid-id-1" data-widget-editbutton="false">
                     <!-- widget options:
-                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-                    data-widget-colorbutton="false"
-                    data-widget-editbutton="false"
-                    data-widget-togglebutton="false"
-                    data-widget-deletebutton="false"
-                    data-widget-fullscreenbutton="false"
-                    data-widget-custombutton="false"
-                    data-widget-collapsed="true"
-                    data-widget-sortable="false"
-                    -->
+        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+        data-widget-colorbutton="false"
+        data-widget-editbutton="false"
+        data-widget-togglebutton="false"
+        data-widget-deletebutton="false"
+        data-widget-fullscreenbutton="false"
+        data-widget-custombutton="false"
+        data-widget-collapsed="true"
+        data-widget-sortable="false"
+        -->
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                         <h2>企业信息</h2>
@@ -77,8 +37,7 @@
                         <!-- widget content -->
                         <div class="widget-body  no-padding">
                             <div class="table-responsive">
-                                <table id="grps"></table>
-                                <div id="pgrps"></div>
+                               
                             </div>
                         </div>
                         <!-- end widget content -->
@@ -86,8 +45,134 @@
                     <!-- end widget div -->
                 </div>
                 <!-- end widget -->
+
             </article>
-        </div>
+                <article class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                    <!-- Widget ID (each widget will need unique ID)-->
+                    <div class="jarviswidget " id="wid-id-0" data-widget-editbutton="false">
+                        <!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+                -->
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                            <h2>企业信息</h2>
+                        </header>
+                        <!-- widget div-->
+                        <div>
+                            <!-- widget edit box -->
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div>
+                            <!-- end widget edit box -->
+                            <!-- widget content -->
+                            <div class="widget-body">
+                                <form class="form-horizontal">
+
+                                    <fieldset>
+                                        <legend>Default Form Elements</legend>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Text field</label>
+                                            <div class="col-md-10">
+                                                <input class="form-control" placeholder="Default Text Field" type="text">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Auto Complete</label>
+                                            <div class="col-md-10">
+                                                <input class="form-control" placeholder="Type somethine..." type="text" list="list">
+                                                <datalist id="list">
+                                                    <option value="Alexandra">Alexandra</option>
+                                                    <option value="Alice">Alice</option>
+                                                    <option value="Anastasia">Anastasia</option>
+                                                    <option value="Avelina">Avelina</option>
+                                                    <option value="Basilia">Basilia</option>
+                                                    <option value="Beatrice">Beatrice</option>
+                                                    <option value="Cassandra">Cassandra</option>
+                                                    <option value="Cecil">Cecil</option>
+                                                    <option value="Clemencia">Clemencia</option>
+                                                    <option value="Desiderata">Desiderata</option>
+                                                    <option value="Dionisia">Dionisia</option>
+                                                    <option value="Edith">Edith</option>
+                                                    <option value="Eleanora">Eleanora</option>
+                                                    <option value="Elizabeth">Elizabeth</option>
+                                                    <option value="Emma">Emma</option>
+                                                    <option value="Felicia">Felicia</option>
+                                                    <option value="Florence">Florence</option>
+                                                    <option value="Galiana">Galiana</option>
+                                                    <option value="Grecia">Grecia</option>
+                                                    <option value="Helen">Helen</option>
+                                                    <option value="Helewisa">Helewisa</option>
+                                                    <option value="Idonea">Idonea</option>
+                                                    <option value="Isabel">Isabel</option>
+                                                    <option value="Joan">Joan</option>
+                                                    <option value="Juliana">Juliana</option>
+                                                    <option value="Karla">Karla</option>
+                                                    <option value="Karyn">Karyn</option>
+                                                    <option value="Kate">Kate</option>
+                                                    <option value="Lakisha">Lakisha</option>
+                                                    <option value="Lana">Lana</option>
+                                                    <option value="Laura">Laura</option>
+                                                    <option value="Leona">Leona</option>
+                                                    <option value="Mandy">Mandy</option>
+                                                    <option value="Margaret">Margaret</option>
+                                                    <option value="Maria">Maria</option>
+                                                    <option value="Nanacy">Nanacy</option>
+                                                    <option value="Nicole">Nicole</option>
+                                                    <option value="Olga">Olga</option>
+                                                    <option value="Pamela">Pamela</option>
+                                                    <option value="Patricia">Patricia</option>
+                                                    <option value="Qiana">Qiana</option>
+                                                    <option value="Rachel">Rachel</option>
+                                                    <option value="Ramona">Ramona</option>
+                                                    <option value="Samantha">Samantha</option>
+                                                    <option value="Sandra">Sandra</option>
+                                                    <option value="Tanya">Tanya</option>
+                                                    <option value="Teresa">Teresa</option>
+                                                    <option value="Ursula">Ursula</option>
+                                                    <option value="Valerie">Valerie</option>
+                                                    <option value="Veronica">Veronica</option>
+                                                    <option value="Wilma">Wilma</option>
+                                                    <option value="Yasmin">Yasmin</option>
+                                                    <option value="Zelma">Zelma</option>
+                                                </datalist>
+                                                <p class="note"><strong>Note:</strong> works in Chrome, Firefox, Opera and IE10.</p>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Password field</label>
+                                            <div class="col-md-10">
+                                                <input class="form-control" placeholder="Password field" type="password" value="mypassword">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Textarea</label>
+                                            <div class="col-md-10">
+                                                <textarea class="form-control" placeholder="Textarea" rows="4"></textarea>
+                                            </div>
+                                        </div>
+
+
+                                    </fieldset>
+</div>
+                            <!-- end widget content -->
+                        </div>
+                        <!-- end widget div -->
+                    </div>
+                    <!-- end widget -->
+                </article>
+</div>
 
         <!-- end row -->
     </section>

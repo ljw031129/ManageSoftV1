@@ -46,9 +46,9 @@ namespace SocialGoal.Web.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            if (Request.QueryString["guid"] != null)
-                SocialGoalSessionFacade.JoinGroupOrGoal = Request.QueryString["guid"];
-            ViewBag.ReturnUrl = returnUrl;
+            //if (Request.QueryString["guid"] != null)
+            //    SocialGoalSessionFacade.JoinGroupOrGoal = Request.QueryString["guid"];
+            //ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 

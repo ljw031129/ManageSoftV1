@@ -31,20 +31,15 @@ namespace SocialGoal.Controllers
                 rows = (from item in orgStructure
                         select new
                         {
-                            OrgEnterpriseId = item.OrgEnterpriseId,
+                           
                             OrgStructureId = item.OrgStructureId,
                             OrgStructurePId = item.OrgStructurePId,
                             OrgStructureNum = item.OrgStructureNum,
                             OrgStructureName = item.OrgStructureName,
                             OrgStructureDescribe = item.OrgStructureDescribe,
                             OrgStructureUpdateTime = item.OrgStructureUpdateTime,
-                            OrgStructureCreateTime = item.OrgStructureCreateTime,
-                            level = item.level,
-                            parent = item.parent,
-                            isLeaf = item.isLeaf,
-                            expanded = item.expanded,
-                            loaded = item.loaded,
-                            icon = item.icon
+                            OrgStructureCreateTime = item.OrgStructureCreateTime
+                            
                         }).ToArray()
             };
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -70,13 +65,8 @@ namespace SocialGoal.Controllers
                               OrgStructureName = item.OrgStructureName,
                               OrgStructureDescribe = item.OrgStructureDescribe,
                               OrgStructureUpdateTime = item.OrgStructureUpdateTime,
-                              OrgStructureCreateTime = item.OrgStructureCreateTime,
-                              level = item.level,
-                              parent = item.parent,
-                              isLeaf = item.isLeaf,
-                              expanded = item.expanded,
-                              loaded = item.loaded,
-                              icon = item.icon
+                              OrgStructureCreateTime = item.OrgStructureCreateTime
+                             
                           }).ToArray();
             return Json(result, JsonRequestBehavior.AllowGet);
         }

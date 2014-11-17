@@ -14,11 +14,12 @@ namespace SocialGoal.Model.Models
             OrgEnterpriseUpdateTime = DateTime.Now;
         }
         public string OrgEnterpriseId { get; set; }
+        public string OrgEnterprisePId { get; set; }
         public string OrgEnterpriseNum { get; set; }
         public string OrgEnterpriseName { get; set; }
         public string OrgEnterpriseDescribe { get; set; }
         public DateTime OrgEnterpriseCreateTime { get; set; }
         public DateTime OrgEnterpriseUpdateTime { get; set; }
-        public virtual ICollection<OrgStructure> OrgStructures { get; set; }
+      //  public virtual ICollection<OrgStructure> OrgStructures { get; set; }
     }
 }

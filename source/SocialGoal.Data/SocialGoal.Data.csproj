@@ -223,6 +223,14 @@
     <Compile Include="Migrations\201411070856082_updateUser.Designer.cs">
       <DependentUpon>201411070856082_updateUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411171248482_updateOrgStructure1.cs" />
+    <Compile Include="Migrations\201411171248482_updateOrgStructure1.Designer.cs">
+      <DependentUpon>201411171248482_updateOrgStructure1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411171307098_updateOrgStructure2.cs" />
+    <Compile Include="Migrations\201411171307098_updateOrgStructure2.Designer.cs">
+      <DependentUpon>201411171307098_updateOrgStructure2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\EquipmentRepository.cs" />
@@ -357,6 +365,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411070856082_updateUser.resx">
       <DependentUpon>201411070856082_updateUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411171248482_updateOrgStructure1.resx">
+      <DependentUpon>201411171248482_updateOrgStructure1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411171307098_updateOrgStructure2.resx">
+      <DependentUpon>201411171307098_updateOrgStructure2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
