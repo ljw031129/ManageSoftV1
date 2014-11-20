@@ -18,11 +18,37 @@ namespace SocialGoal.Data
     public class GoalsSampleData : DropCreateDatabaseIfModelChanges<SocialGoalEntities>
     {
         protected override void Seed(SocialGoalEntities context)
-        {
+        {           
+            //new List<Metric>
+            //{
+            //    new Metric { Type ="%"},
+            //    new Metric { Type ="$"},
+            //    new Metric { Type ="$ M"},
+            //    new Metric { Type ="Rs"},
+            //    new Metric { Type ="Hours"},
+            //    new Metric { Type ="Km"},
+            //    new Metric { Type ="Kg"},
+            //    new Metric { Type ="Years"}
 
+            //}.ForEach(m => context.Metrics.Add(m));
+
+            //new List<GoalStatus>
+            //{
+            //    new GoalStatus{GoalStatusType="In Progress"},
+            //    new GoalStatus{GoalStatusType="On Hold"},
+            //    new GoalStatus{GoalStatusType="Completed"}
+            //}.ForEach(m => context.GoalStatus.Add(m));
+
+            //context.Commit();
+            InitializeIdentityForEF(context);
+            base.Seed(context);
+        }
+        //Create User=Admin@Admin.com with password=Admin@123456 in the Admin role        
+        public static void InitializeIdentityForEF(SocialGoalEntities db)
+        {
             var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
-            const string name = "admin@example.com";
+            const string name = "340704008@qq.com";
             const string password = "Admin@123456";
             const string roleName = "Admin";
 
@@ -48,29 +74,6 @@ namespace SocialGoal.Data
             {
                 var result = userManager.AddToRole(user.Id, role.Name);
             }
-            context.Commit();
-            //new List<Metric>
-            //{
-            //    new Metric { Type ="%"},
-            //    new Metric { Type ="$"},
-            //    new Metric { Type ="$ M"},
-            //    new Metric { Type ="Rs"},
-            //    new Metric { Type ="Hours"},
-            //    new Metric { Type ="Km"},
-            //    new Metric { Type ="Kg"},
-            //    new Metric { Type ="Years"}
-
-            //}.ForEach(m => context.Metrics.Add(m));
-
-            //new List<GoalStatus>
-            //{
-            //    new GoalStatus{GoalStatusType="In Progress"},
-            //    new GoalStatus{GoalStatusType="On Hold"},
-            //    new GoalStatus{GoalStatusType="Completed"}
-            //}.ForEach(m => context.GoalStatus.Add(m));
-
-            //context.Commit();
-
         }
 
     }

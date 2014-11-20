@@ -14,8 +14,14 @@ namespace SocialGoal.Data.Models
     {
         //, throwIfV1Schema: false
         public SocialGoalEntities()
-            : base("SocialGoalEntities")
+            : base("SocialGoalEntities", throwIfV1Schema: false)
         {
+        }
+        static SocialGoalEntities()
+        {
+            // Set the database intializer which is run once during application start
+            // This seeds the database with admin user credentials and admin role
+            Database.SetInitializer<SocialGoalEntities>(new GoalsSampleData());
         }
         public static SocialGoalEntities Create()
         {
