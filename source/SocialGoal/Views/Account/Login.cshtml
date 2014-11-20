@@ -1,5 +1,4 @@
 ﻿@model SocialGoal.Models.LoginViewModel
-
 @{
     ViewBag.PageId = "extr-page";
     ViewBag.PageClass = "animated fadeInDown";
@@ -15,16 +14,14 @@
                 <form action="@Url.Action("login", "account")" method="POST" id="login-form" class="smart-form client-form">
                     <header>
                         用户登录
-                    </header>
-                    @Html.HiddenFor(m => m.ReturnUrl)
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationBootstrap()
+                    </header>                   
+                    @Html.AntiForgeryToken()                   
                     <fieldset>
                         <section>
                             <label class="label">用户名</label>
                             <label class="input">
                                 <i class="icon-append fa fa-user"></i>
-                                <input type="text" name="email" value="">
+                                <input type="text" name="Email" value="">
                                 <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> 请输入用户名</b>
                             </label>
                         </section>
@@ -32,7 +29,7 @@
                             <label class="label">密码</label>
                             <label class="input">
                                 <i class="icon-append fa fa-lock"></i>
-                                <input type="password" name="password" value="">
+                                <input type="password" name="Password" value="">
                                 <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> 输入密码</b>
                             </label>
                             <div class="note">
@@ -46,6 +43,11 @@
                                 <i></i>记住我
                             </label>
                         </section>
+                        <section>
+                            <p>
+                                @Html.ActionLink("Forget your password?", "ForgotPassword")
+                            </p>
+                        </section>
                     </fieldset>
                     <footer>
                         <button type="submit" class="btn btn-primary">
@@ -58,6 +60,7 @@
         </div>
     </div>
 </div>
+
 @section scripts {
     <script type="text/javascript">
         $(function () {

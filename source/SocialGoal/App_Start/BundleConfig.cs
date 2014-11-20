@@ -1,8 +1,9 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace SocialGoal
 {
+
+    // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
     public class BundleConfig
     {
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
@@ -17,11 +18,11 @@ namespace SocialGoal
 
             ////正式启用部分
 
-          //  bundles.Add(new StyleBundle("~/content/smartadmin/css").IncludeDirectory("~/content/css", "*.min.css"));
+            //  bundles.Add(new StyleBundle("~/content/smartadmin/css").IncludeDirectory("~/content/css", "*.min.css"));
 
             //SmartAdmin
             bundles.Add(new StyleBundle("~/Content/SmartAdmin/css").Include(
-               
+
                       "~/Content/css/bootstrap.min.css",
                       "~/Content/css/demo.min.css",
                       "~/Content/css/font-awesome.min.css",
@@ -31,8 +32,8 @@ namespace SocialGoal
                       "~/Content/css/smartadmin-production.min.css",
                       "~/Content/css/smartadmin-rtl.backup.min.css",
                       "~/Content/css/smartadmin-rtl.min.css",
-                      "~/Content/css/smartadmin-skins.min.css",                    
-                      "~/Content/css/your_style.css"                      
+                      "~/Content/css/smartadmin-skins.min.css",
+                      "~/Content/css/your_style.css"
                       ));
 
             bundles.Add(new ScriptBundle("~/scripts/smartadmin").Include(
@@ -98,8 +99,9 @@ namespace SocialGoal
                 "~/scripts/plugin/vectormap/jquery-jvectormap-world-mill-en.js"
                 ));
 
-           // BundleTable.EnableOptimizations = true;
+            // BundleTable.EnableOptimizations = true;
 
         }
     }
+
 }

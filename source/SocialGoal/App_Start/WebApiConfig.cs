@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 
-namespace SocialGoal.App_Start
+namespace SocialGoal
 {
     public class WebApiConfig
     {

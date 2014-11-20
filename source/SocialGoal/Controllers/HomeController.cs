@@ -1,60 +1,27 @@
-﻿using SocialGoal.Service;
-using SocialGoal.Web.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
+﻿using System.Web.Mvc;
 
 namespace SocialGoal.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
-       
-        IUserService userService;
-        
-
-        public HomeController( IUserService userService)
-        {           
-            this.userService = userService;            
-        }
-
-        /// <summary>
-        /// returns all notifications on first load
-        /// </summary>
-        /// <param name="page"></param>
-        /// <returns></returns>
-        public ActionResult Index()     
-        {  
-            
-            return View();
-        }
-
-
-
-
-        public ViewResult About()
+        public ActionResult Index()
         {
-            //ViewBag.Message = "Your quintessential app description page.";
-
             return View();
         }
 
-        public ViewResult Contact()
+        [Authorize]
+        public ActionResult About()
         {
-            //ViewBag.Message = "Your quintessential contact page.";
+            ViewBag.Message = "Your app description page.";
 
             return View();
         }
 
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
 
-
-
-
-
-
-
+            return View();
+        }
     }
 }

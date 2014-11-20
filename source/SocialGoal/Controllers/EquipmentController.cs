@@ -5,7 +5,6 @@ using System.Web.Mvc;
 using AutoMapper;
 using Newtonsoft.Json;
 using SocialGoal.Model.Models;
-using SocialGoal.Models;
 using SocialGoal.Service;
 using SocialGoal.Web.Core.Extensions;
 using SocialGoal.Model.ViewModels;

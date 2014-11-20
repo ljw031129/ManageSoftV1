@@ -17,7 +17,10 @@ namespace SocialGoal.Data.Models
             : base("SocialGoalEntities")
         {
         }
-      
+        public static SocialGoalEntities Create()
+        {
+            return new SocialGoalEntities();
+        }
         public DbSet<SecurityToken> SecurityTokens { get; set; }
       
         public DbSet<UserProfile> UserProfile { get; set; }

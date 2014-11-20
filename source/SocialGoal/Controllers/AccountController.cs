@@ -1,44 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Globalization;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Owin.Security;
-using SocialGoal.Web.Models;
-using SocialGoal.Models;
-using SocialGoal.Data.Models;
 using SocialGoal.Model.Models;
-using SocialGoal.Service;
-//using SocialGoal.Web.Mailers;
-using SocialGoal.Web.ViewModels;
-using AutoMapper;
-using System.Drawing;
-using System.IO;
-using SocialGoal.Properties;
-using System.Net;
-using System.Drawing.Drawing2D;
-using SocialGoal.Web.Helpers;
+using SocialGoal.Models;
+using SocialGoal.Data;
 
-namespace SocialGoal.Web.Controllers
+
+namespace SocialGoal.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        private IUserService userService;
-        private IUserProfileService userProfileService;      
-        private ISecurityTokenService securityTokenService;       
-        private UserManager<ApplicationUser> UserManager;
-        //private RoleManager<IdentityRole> RoleManager;
-        public AccountController(IUserService userService, IUserProfileService userProfileService,  ISecurityTokenService securityTokenService, UserManager<ApplicationUser> userManager)
+        public AccountController()
         {
-            this.userService = userService;
-            this.userProfileService = userProfileService;           
-            this.securityTokenService = securityTokenService;
-            this.UserManager = userManager;
+        }
+
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
+
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
         }
 
         //
@@ -46,10 +46,19 @@ namespace SocialGoal.Web.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            //if (Request.QueryString["guid"] != null)
-            //    SocialGoalSessionFacade.JoinGroupOrGoal = Request.QueryString["guid"];
-            //ViewBag.ReturnUrl = returnUrl;
+            ViewBag.ReturnUrl = returnUrl;
             return View();
+        }
+
+        private ApplicationSignInManager _signInManager;
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set { _signInManager = value; }
         }
 
         //
@@ -59,22 +68,71 @@ namespace SocialGoal.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = await UserManager.FindAsync(model.Email, model.Password);
-                if (user != null)
-                {
-                    await SignInAsync(user, model.RememberMe);
-                    return RedirectToLocal(returnUrl);
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Invalid username or password.");
-                }
+                return View(model);
             }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+            // This doen't count login failures towards lockout only two factor authentication
+            // To enable password failures to trigger lockout, change to shouldLockout: true
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    return RedirectToLocal(returnUrl);
+                case SignInStatus.LockedOut:
+                    return View("Lockout");
+                case SignInStatus.RequiresVerification:
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl });
+                case SignInStatus.Failure:
+                default:
+                    ModelState.AddModelError("", "Invalid login attempt.");
+                    return View(model);
+            }
+        }
+
+        //
+        // GET: /Account/VerifyCode
+        [AllowAnonymous]
+        public async Task<ActionResult> VerifyCode(string provider, string returnUrl)
+        {
+            // Require that the user has already logged in via username/password or external login
+            if (!await SignInManager.HasBeenVerifiedAsync())
+            {
+                return View("Error");
+            }
+            var user = await UserManager.FindByIdAsync(await SignInManager.GetVerifiedUserIdAsync());
+            if (user != null)
+            {
+                ViewBag.Status = "For DEMO purposes the current " + provider + " code is: " + await UserManager.GenerateTwoFactorTokenAsync(user.Id, provider);
+            }
+            return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl });
+        }
+
+        //
+        // POST: /Account/VerifyCode
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: false, rememberBrowser: model.RememberBrowser);
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    return RedirectToLocal(model.ReturnUrl);
+                case SignInStatus.LockedOut:
+                    return View("Lockout");
+                case SignInStatus.Failure:
+                default:
+                    ModelState.AddModelError("", "Invalid code.");
+                    return View(model);
+            }
         }
 
         //
@@ -82,9 +140,7 @@ namespace SocialGoal.Web.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            EnsureLoggedOut();
-
-            return View(new RegisterViewModel());
+            return View();
         }
 
         //
@@ -96,36 +152,17 @@ namespace SocialGoal.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.UserName };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    var userId = user.Id;
-                    var userName = user.UserName;
-                    userProfileService.CreateUserProfile(userId);
-                    await SignInAsync(user, isPersistent: false);
-                    if (SocialGoalSessionFacade.JoinGroupOrGoal != null)
-                    {
-                        string groupOrGoalJoinToken = SocialGoalSessionFacade.JoinGroupOrGoal;
-                        if (groupOrGoalJoinToken.StartsWith("gr:"))
-                        {
-                            Guid groupIdToken = new Guid(groupOrGoalJoinToken.Substring(3));
-                            TempData["grToken"] = groupIdToken;
-                            return RedirectToAction("AddGroupUser", "EmailRequest");
-                        }
-                        else if (groupOrGoalJoinToken.StartsWith("go:"))
-                        {
-                            Guid goalIdToken = new Guid(groupOrGoalJoinToken.Substring(3));
-                            TempData["goToken"] = goalIdToken;
-                            return RedirectToAction("AddSupportToGoal", "EmailRequest");
-                        }
-                    }
-                    return RedirectToAction("Index", "Home");
+                    var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+                    ViewBag.Link = callbackUrl;
+                    return View("DisplayEmail");
                 }
-                else
-                {
-                    AddErrors(result);
-                }
+                AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
@@ -133,88 +170,101 @@ namespace SocialGoal.Web.Controllers
         }
 
         //
-        // POST: /Account/Disassociate
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Disassociate(string loginProvider, string providerKey)
+        // GET: /Account/ConfirmEmail
+        [AllowAnonymous]
+        public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
-            ManageMessageId? message = null;
-            IdentityResult result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
-            if (result.Succeeded)
+            if (userId == null || code == null)
             {
-                message = ManageMessageId.RemoveLoginSuccess;
+                return View("Error");
             }
-            else
-            {
-                message = ManageMessageId.Error;
-            }
-            return RedirectToAction("Manage", new { Message = message });
+            var result = await UserManager.ConfirmEmailAsync(userId, code);
+            return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
         //
-        // GET: /Account/Manage
-        public ActionResult Manage(ManageMessageId? message)
+        // GET: /Account/ForgotPassword
+        [AllowAnonymous]
+        public ActionResult ForgotPassword()
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : "";
-            ViewBag.HasLocalPassword = HasPassword();
-            ViewBag.ReturnUrl = Url.Action("Manage");
             return View();
         }
 
         //
-        // POST: /Account/Manage
+        // POST: /Account/ForgotPassword
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Manage(ManageUserViewModel model)
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
-            bool hasPassword = HasPassword();
-            ViewBag.HasLocalPassword = hasPassword;
-            ViewBag.ReturnUrl = Url.Action("Manage");
-            if (hasPassword)
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                var user = await UserManager.FindByNameAsync(model.Email);
+                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
-                    IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
-                    }
-                    else
-                    {
-                        AddErrors(result);
-                    }
-                }
-            }
-            else
-            {
-                // User does not have a password so remove any validation errors caused by a missing OldPassword field
-                ModelState state = ModelState["OldPassword"];
-                if (state != null)
-                {
-                    state.Errors.Clear();
+                    // Don't reveal that the user does not exist or is not confirmed
+                    return View("ForgotPasswordConfirmation");
                 }
 
-                if (ModelState.IsValid)
-                {
-                    IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
-                    }
-                    else
-                    {
-                        AddErrors(result);
-                    }
-                }
+                var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
+                ViewBag.Link = callbackUrl;
+                return View("ForgotPasswordConfirmation");
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        //
+        // GET: /Account/ForgotPasswordConfirmation
+        [AllowAnonymous]
+        public ActionResult ForgotPasswordConfirmation()
+        {
+            return View();
+        }
+
+        //
+        // GET: /Account/ResetPassword
+        [AllowAnonymous]
+        public ActionResult ResetPassword(string code)
+        {
+            return code == null ? View("Error") : View();
+        }
+
+        //
+        // POST: /Account/ResetPassword
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = await UserManager.FindByNameAsync(model.Email);
+            if (user == null)
+            {
+                // Don't reveal that the user does not exist
+                return RedirectToAction("ResetPasswordConfirmation", "Account");
+            }
+            var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("ResetPasswordConfirmation", "Account");
+            }
+            AddErrors(result);
+            return View();
+        }
+
+        //
+        // GET: /Account/ResetPasswordConfirmation
+        [AllowAnonymous]
+        public ActionResult ResetPasswordConfirmation()
+        {
+            return View();
         }
 
         //
@@ -229,6 +279,41 @@ namespace SocialGoal.Web.Controllers
         }
 
         //
+        // GET: /Account/SendCode
+        [AllowAnonymous]
+        public async Task<ActionResult> SendCode(string returnUrl)
+        {
+            var userId = await SignInManager.GetVerifiedUserIdAsync();
+            if (userId == null)
+            {
+                return View("Error");
+            }
+            var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
+            var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
+            return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl });
+        }
+
+        //
+        // POST: /Account/SendCode
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SendCode(SendCodeViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            // Generate the token and send it
+            if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
+            {
+                return View("Error");
+            }
+            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl });
+        }
+
+        //
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
@@ -240,46 +325,22 @@ namespace SocialGoal.Web.Controllers
             }
 
             // Sign in the user with this external login provider if the user already has a login
-            var user = await UserManager.FindAsync(loginInfo.Login);
-            if (user != null)
+            var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+            switch (result)
             {
-                await SignInAsync(user, isPersistent: false);
-                return RedirectToLocal(returnUrl);
+                case SignInStatus.Success:
+                    return RedirectToLocal(returnUrl);
+                case SignInStatus.LockedOut:
+                    return View("Lockout");
+                case SignInStatus.RequiresVerification:
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl });
+                case SignInStatus.Failure:
+                default:
+                    // If the user does not have an account, then prompt the user to create an account
+                    ViewBag.ReturnUrl = returnUrl;
+                    ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
+                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
             }
-            else
-            {
-                // If the user does not have an account, then prompt the user to create an account
-                ViewBag.ReturnUrl = returnUrl;
-                ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { UserName = loginInfo.DefaultUserName });
-            }
-        }
-
-        //
-        // POST: /Account/LinkLogin
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult LinkLogin(string provider)
-        {
-            // Request a redirect to the external login provider to link a login for the current user
-            return new ChallengeResult(provider, Url.Action("LinkLoginCallback", "Account"), User.Identity.GetUserId());
-        }
-
-        //
-        // GET: /Account/LinkLoginCallback
-        public async Task<ActionResult> LinkLoginCallback()
-        {
-            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
-            if (loginInfo == null)
-            {
-                return RedirectToAction("Manage", new { Message = ManageMessageId.Error });
-            }
-            var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
-            if (result.Succeeded)
-            {
-                return RedirectToAction("Manage");
-            }
-            return RedirectToAction("Manage", new { Message = ManageMessageId.Error });
         }
 
         //
@@ -291,7 +352,7 @@ namespace SocialGoal.Web.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Manage");
+                return RedirectToAction("Index", "Manage");
             }
 
             if (ModelState.IsValid)
@@ -302,14 +363,14 @@ namespace SocialGoal.Web.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser() { UserName = model.UserName };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);
                     if (result.Succeeded)
                     {
-                        await SignInAsync(user, isPersistent: false);
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         return RedirectToLocal(returnUrl);
                     }
                 }
@@ -322,20 +383,14 @@ namespace SocialGoal.Web.Controllers
 
         //
         // POST: /Account/LogOff
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            SocialGoalSessionFacade.Clear();
             return RedirectToAction("Index", "Home");
         }
-        private void EnsureLoggedOut()
-        {
-            // If the request is (still) marked as authenticated we send the user to the logout action
-            if (Request.IsAuthenticated)
-                LogOff();
-        }
+
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
@@ -344,280 +399,16 @@ namespace SocialGoal.Web.Controllers
             return View();
         }
 
-        [ChildActionOnly]
-        public ActionResult RemoveAccountList()
-        {
-            var linkedAccounts = UserManager.GetLogins(User.Identity.GetUserId());
-            ViewBag.ShowRemoveButton = HasPassword() || linkedAccounts.Count > 1;
-            return (ActionResult)PartialView("_RemoveAccountPartial", linkedAccounts);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && UserManager != null)
-            {
-                UserManager.Dispose();
-                UserManager = null;
-            }
-            base.Dispose(disposing);
-        }
-
-        [AllowAnonymous]
-        public PartialViewResult LoginPartial()
-        {
-            return PartialView("_LoginPartial", new LoginViewModel());
-        }
-
-        [AllowAnonymous]
-        public PartialViewResult RegisterPartial()
-        {
-            return PartialView("_Registerpartial", new RegisterViewModel());
-        }
-
-        public IEnumerable<ApplicationUser> SearchUser(string name)
-        {
-            var users = userService.SearchUser(name);
-            return users;
-        }
-
-        public ActionResult ImageUpload()
-        {
-            UploadImageViewModel imageVM = new UploadImageViewModel();
-            imageVM.LocalPath = userService.GetUser(User.Identity.GetUserId()).ProfilePicUrl;
-            return PartialView(imageVM);
-        }
-
-        [HttpPost]
-        public ActionResult UploadImage(UploadImageViewModel model)
-        {
-            //Check if all simple data annotations are valid
-            if (ModelState.IsValid)
-            {
-                //Prepare the needed variables
-                Bitmap original = null;
-                var name = "newimagefile";
-                var errorField = string.Empty;
-
-                if (model.IsUrl)
-                {
-                    errorField = "Url";
-                    name = GetUrlFileName(model.Url);
-                    original = GetImageFromUrl(model.Url);
-                }
-                else if (model.File != null)
-                {
-                    errorField = "File";
-                    name = Path.GetFileNameWithoutExtension(model.File.FileName);
-                    original = Bitmap.FromStream(model.File.InputStream) as Bitmap;
-                }
-
-                //If we had success so far
-                if (original != null)
-                {
-                    var img = CreateImage(original, model.X, model.Y, model.Width, model.Height);
-                    var fileName = Guid.NewGuid().ToString();
-                    var oldFilepath = userService.GetUser(User.Identity.GetUserId()).ProfilePicUrl;
-                    var oldFile = Server.MapPath(oldFilepath);
-                    //Demo purposes only - save image in the file system
-                    var fn = Server.MapPath("~/Content/ProfilePics/" + fileName + ".png");
-                    img.Save(fn, System.Drawing.Imaging.ImageFormat.Png);
-                    userService.SaveImageURL(User.Identity.GetUserId(), "~/Content/ProfilePics/" + fileName + ".png");
-                    if (System.IO.File.Exists(oldFile))
-                    {
-                        System.IO.File.Delete(oldFile);
-                    }
-                    return RedirectToAction("UserProfile", new { id = User.Identity.GetUserId() });
-                }
-                else //Otherwise we add an error and return to the (previous) view with the model data
-                    ModelState.AddModelError(errorField, Resources.UploadError);
-            }
-
-            return View("ImageUpload", model);
-        }
-
-        /// <summary>
-        /// Gets an image from the specified URL.
-        /// </summary>
-        /// <param name="url">The URL containing an image.</param>
-        /// <returns>The image as a bitmap.</returns>
-        Bitmap GetImageFromUrl(string url)
-        {
-            var buffer = 1024;
-            Bitmap image = null;
-
-            if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
-                return image;
-
-            using (var ms = new MemoryStream())
-            {
-                var req = WebRequest.Create(url);
-
-                using (var resp = req.GetResponse())
-                {
-                    using (var stream = resp.GetResponseStream())
-                    {
-                        var bytes = new byte[buffer];
-                        var n = 0;
-
-                        while ((n = stream.Read(bytes, 0, buffer)) != 0)
-                            ms.Write(bytes, 0, n);
-                    }
-                }
-
-                image = Bitmap.FromStream(ms) as Bitmap;
-            }
-
-            return image;
-        }
-
-        /// <summary>
-        /// Gets the filename that is placed under a certain URL.
-        /// </summary>
-        /// <param name="url">The URL which should be investigated for a file name.</param>
-        /// <returns>The file name.</returns>
-        string GetUrlFileName(string url)
-        {
-            var parts = url.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-            var last = parts[parts.Length - 1];
-            return Path.GetFileNameWithoutExtension(last);
-        }
-
-        /// <summary>
-        /// Creates a small image out of a larger image.
-        /// </summary>
-        /// <param name="original">The original image which should be cropped (will remain untouched).</param>
-        /// <param name="x">The value where to start on the x axis.</param>
-        /// <param name="y">The value where to start on the y axis.</param>
-        /// <param name="width">The width of the final image.</param>
-        /// <param name="height">The height of the final image.</param>
-        /// <returns>The cropped image.</returns>
-        Bitmap CreateImage(Bitmap original, int x, int y, int width, int height)
-        {
-            var img = new Bitmap(width, height);
-
-            using (var g = Graphics.FromImage(img))
-            {
-                g.SmoothingMode = SmoothingMode.AntiAlias;
-                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                g.DrawImage(original, new Rectangle(0, 0, width, height), x, y, width, height, GraphicsUnit.Pixel);
-            }
-
-            return img;
-        }
-
-
-        private IEnumerable<string> GetErrorsFromModelState()
-        {
-            return ModelState.SelectMany(x => x.Value.Errors.Select(error => error.ErrorMessage));
-        }
-
-        [HttpGet]
-        public ViewResult UserProfile(string id)
-        {
-            var currentuserid = User.Identity.GetUserId();
-            var user = userService.GetUserProfile(id);
-            var userdetail = userProfileService.GetUser(id);
-            UserProfileViewModel userprofile = new UserProfileViewModel()
-            {
-                FirstName = userdetail.FirstName,
-                LastName = userdetail.LastName,
-                Email = userdetail.Email,
-                UserName = user.UserName,
-                DateCreated = user.DateCreated,
-                LastLoginTime = user.LastLoginTime,
-                UserId = user.Id,
-                ProfilePicUrl = user.ProfilePicUrl,
-                DateOfBirth = userdetail.DateOfBirth,
-                Gender = userdetail.Gender,
-                Address = userdetail.Address,
-                City = userdetail.City,
-                State = userdetail.State,
-                Country = userdetail.Country,
-                ZipCode = userdetail.ZipCode,
-                ContactNo = userdetail.ContactNo,
-            };           
-            return View(userprofile);
-        }
-
-
-        public ActionResult EditBasicInfo()
-        {
-            var user = userProfileService.GetUser(User.Identity.GetUserId());
-            UserProfileFormModel editUser = Mapper.Map<UserProfile, UserProfileFormModel>(user);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return PartialView("EditBasicInfo", editUser);
-        }
-
-        public ActionResult EditPersonalInfo()
-        {
-            var user = userProfileService.GetUser(User.Identity.GetUserId());
-            UserProfileFormModel editUser = Mapper.Map<UserProfile, UserProfileFormModel>(user);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return PartialView("EditPersonalInfo", editUser);
-        }
-
-
-        [HttpPost]
-        public ActionResult EditProfile(UserProfileFormModel editedProfile)
-        {
-            UserProfile user = Mapper.Map<UserProfileFormModel, UserProfile>(editedProfile);
-            ApplicationUser applicationUser = userService.GetUser(editedProfile.UserId);
-            applicationUser.FirstName = editedProfile.FirstName;
-            applicationUser.LastName = editedProfile.LastName;
-            applicationUser.Email = editedProfile.Email;
-            if (ModelState.IsValid)
-            {
-                userService.UpdateUser(applicationUser);
-                userProfileService.UpdateUserProfile(user);
-                return RedirectToAction("UserProfile", new { id = editedProfile.UserId });
-            }
-            return PartialView("EditProfile", editedProfile);
-        }
-
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
-        //public IAuthenticationManager AuthenticationManager
-        //{
-        //    get
-        //    {
-        //        return HttpContext.GetOwinContext().Authentication;
-        //    }
-        //    set { _authnManager = value; }
-        //}
-
-        // Add this private variable
-        private IAuthenticationManager _authnManager;
-
-        // Modified this from private to public and add the setter
-        public IAuthenticationManager AuthenticationManager
+        private IAuthenticationManager AuthenticationManager
         {
             get
             {
-                if (_authnManager == null)
-                    _authnManager = HttpContext.GetOwinContext().Authentication;
-                return _authnManager;
+                return HttpContext.GetOwinContext().Authentication;
             }
-            set { _authnManager = value; }
-        }
-
-        private async Task SignInAsync(ApplicationUser user, bool isPersistent)
-        {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-            //生成了一个 ClaimsIdentity。
-            //由于 ASP.NET Identity 和 OWIN Cookie 身份验证是基于“声明” (claims) 的系统，
-            //所以框架要求应用程序为用户生成一个 ClaimsIdentity。ClaimsIdentity 包含有关于用户的所有声明信息，
-            //例如用户所属的角色。你也可以在这个阶段为用户添加更多的声明。
-            var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
-            //完成了用户的登录操作。它使用来自 OWIN 的 AuthenticationManager，调用它的 SignIn 方法，并传入生成的 ClaimsIdentity。
-            AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);
         }
 
         private void AddErrors(IdentityResult result)
@@ -628,37 +419,16 @@ namespace SocialGoal.Web.Controllers
             }
         }
 
-        private bool HasPassword()
-        {
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            if (user != null)
-            {
-                return user.PasswordHash != null;
-            }
-            return false;
-        }
-
-        public enum ManageMessageId
-        {
-            ChangePasswordSuccess,
-            SetPasswordSuccess,
-            RemoveLoginSuccess,
-            Error
-        }
-
         private ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            return RedirectToAction("Index", "Home");
         }
 
-        private class ChallengeResult : HttpUnauthorizedResult
+        internal class ChallengeResult : HttpUnauthorizedResult
         {
             public ChallengeResult(string provider, string redirectUri)
                 : this(provider, redirectUri, null)
@@ -678,7 +448,7 @@ namespace SocialGoal.Web.Controllers
 
             public override void ExecuteResult(ControllerContext context)
             {
-                var properties = new AuthenticationProperties() { RedirectUri = RedirectUri };
+                var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
                 if (UserId != null)
                 {
                     properties.Dictionary[XsrfKey] = UserId;
