@@ -1,4 +1,5 @@
-﻿<!-- collapse menu button -->
+﻿@using Microsoft.AspNet.Identity
+<!-- collapse menu button -->
 <div id="hide-menu" class="btn-header pull-right">
     <span> <a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
 </div>
@@ -12,11 +13,11 @@
         </a>
         <ul class="dropdown-menu pull-right">
             <li>
-                <a href="javascript:void(0);" class="padding-10 padding-top-0 padding-bottom-0"><i class="fa fa-cog"></i> Setting</a>
+                <a href="javascript:void(0);" class="padding-10 padding-top-0 padding-bottom-0"><i class="fa fa-cog"></i> 设置</a>
             </li>
             <li class="divider"></li>
             <li>
-                <a href="#" class="padding-10 padding-top-0 padding-bottom-0"> <i class="fa fa-user"></i> Profile</a>
+                <a href="#" class="padding-10 padding-top-0 padding-bottom-0"> <i class="fa fa-user"></i> 个人信息</a>
             </li>
             <li class="divider"></li>
             <li>
@@ -24,11 +25,11 @@
             </li>
             <li class="divider"></li>
             <li>
-                <a href="javascript:void(0);" class="padding-10 padding-top-0 padding-bottom-0" data-action="launchFullscreen"><i class="fa fa-arrows-alt"></i> Full <>S</>creen</a>
+                <a href="javascript:void(0);" class="padding-10 padding-top-0 padding-bottom-0" data-action="launchFullscreen"><i class="fa fa-arrows-alt"></i>全屏显示</a>
             </li>
             <li class="divider"></li>
             <li>
-                <a href="@Url.Action("login", "account")" class="padding-10 padding-top-5 padding-bottom-5" data-action="userLogout"><i class="fa fa-sign-out fa-lg"></i> <strong><>L</>ogout</strong></a>
+                <a href="@Url.Action("LogOff", "account")" class="padding-10 padding-top-5 padding-bottom-5" data-action="userLogout"><i class="fa fa-sign-out fa-lg"></i> <strong><>L</>ogout</strong></a>
             </li>
         </ul>
     </li>
@@ -36,7 +37,11 @@
 
 <!-- logout button -->
 <div id="logout" class="btn-header transparent pull-right">
-    <span> <a href="@Url.Action("login", "account")" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span>
+    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" })) {
+    @Html.AntiForgeryToken()
+    <span> <a href="javascript:document.getElementById('logoutForm').submit()" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span>
+    }
+   
 </div>
 <!-- end logout button -->
 <!-- search mobile button (this is hidden till mobile view port) -->
