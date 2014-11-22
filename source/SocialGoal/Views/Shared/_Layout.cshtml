@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using StackExchange.Profiling;
+<!DOCTYPE html>
 <html  id="@ViewBag.PageId" class="@Settings.CurrentTheme">
 <head>
     <meta charset=" utf-8">
@@ -12,6 +13,7 @@
 
     <!-- Basic Styles -->
     @Styles.Render("~/Content/SmartAdmin/css")
+    @RenderSection("styles", required: false)
     <!-- FAVICONS -->
     <link rel="shortcut icon" href="~/content/img/favicon/favicon.ico" type="image/x-icon">
     <link rel="icon" href="~/content/img/favicon/favicon.ico" type="image/x-icon">
@@ -49,5 +51,6 @@
     }
     @{ Html.RenderPartial("_Scripts", RenderSection("scripts", false)); }
 
+    @MiniProfiler.RenderIncludes()
 </body>
 </html>

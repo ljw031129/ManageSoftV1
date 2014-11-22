@@ -31,6 +31,8 @@ namespace SocialGoal.Service
         Task<Select2PagedResult> GetSelect2PagedResult(string searchTerm, int pageSize, int pageNum);
 
         Task<IEnumerable<OrgEnterprise>> GetAll();
+
+        Task<List<ZtreeEntity>> GetOrgEnterpriseZtree(string userId);
     }
     public class OrgEnterpriseService : IOrgEnterpriseService
     {
@@ -122,5 +124,58 @@ namespace SocialGoal.Service
             IEnumerable<OrgEnterprise> orgEnterprise = _orgEnterpriseRepository.GetAll();
             return Task.FromResult(orgEnterprise);
         }
+
+
+        public Task<List<ZtreeEntity>> GetOrgEnterpriseZtree(string userId)
+        {
+            string orgStructureId = "52C96C61-8532-4ACE-AB6E-2BE214289280";
+            List<OrgEnterprise> orgList = _orgEnterpriseRepository.GetAll().ToList();
+            List<ZtreeEntity> dList = new List<ZtreeEntity>();
+            OrgEnterpriseTree(orgList, orgStructureId, dList, orgStructureId);
+
+            return Task.FromResult(dList);
+        }
+        private void OrgEnterpriseTree(List<OrgEnterprise> orgList, string parentId, List<ZtreeEntity> node, string corgStructureId)
+        {
+            List<OrgEnterprise> rows;
+            if (string.IsNullOrEmpty(parentId))
+            {
+
+                rows = orgList.Where(t => t.OrgEnterprisePId == "null").ToList(); //过滤
+            }
+            else
+            {
+                rows = parentId == corgStructureId ? orgList.Where(t => t.OrgEnterpriseId == parentId).ToList() : orgList.Where(t => t.OrgEnterprisePId == parentId).ToList();
+            }
+            // rows = ds.Tables[0].Select("ID='" + parentId + "'"); //过滤
+            foreach (OrgEnterprise row in rows)
+            {
+                List<OrgEnterprise> childern = orgList.Where(t => t.OrgEnterpriseId == row.OrgEnterpriseId).ToList();//用于判断是否有子节点            
+
+                if (childern.Count != 0 || parentId == "")//是父节点            
+                {
+                    ZtreeEntity nodeList = new ZtreeEntity();
+                    nodeList.name = row.OrgEnterpriseName;
+                    nodeList.id = row.OrgEnterpriseId;
+                    nodeList.PID = row.OrgEnterprisePId;
+                    nodeList.open = false;
+                    nodeList.title = row.OrgEnterpriseName;
+                    nodeList.children = new List<ZtreeEntity>();
+                    OrgEnterpriseTree(orgList, row.OrgEnterpriseId, nodeList.children, "");
+                    node.Add(nodeList);
+                }
+                else
+                {
+                    ZtreeEntity nodeCh = new ZtreeEntity();
+                    nodeCh.name = row.OrgEnterpriseName;
+                    nodeCh.id = row.OrgEnterpriseId;
+                    nodeCh.PID = row.OrgEnterprisePId;
+                    nodeCh.open = false;
+                    nodeCh.title = row.OrgEnterpriseName;
+                    node.Add(nodeCh);
+                }
+                GC.Collect();
+            }
+        }      
     }
 }

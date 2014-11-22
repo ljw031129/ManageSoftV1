@@ -18,6 +18,31 @@ namespace SocialGoal
 
             ////正式启用部分
 
+            //select2
+            bundles.Add(new ScriptBundle("~/bundles/select2/js").Include(
+                     "~/Scripts/plugins/select2-3.5.1/select2.js",
+                     "~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"
+                      ));
+
+            bundles.Add(new StyleBundle("~/Content/select2/css").Include(
+                    "~/Scripts/plugins/select2-3.5.1/select2.css",
+                     "~/Scripts/plugins/select2-3.5.1/select2-bootstrap.css"
+                     ));
+
+            //ztree
+            bundles.Add(new ScriptBundle("~/bundles/ztree/js").Include(
+                       "~/Content/assets/javascripts/plugins/ztree/jquery.ztree.all-3.5.js"));
+
+            bundles.Add(new StyleBundle("~/Content/ztrtee/css").Include(
+                  "~/Content/assets/stylesheets/plugins/zTreeStyle/zTreeStyle.css"
+                    ));
+
+            //JQGrid
+            bundles.Add(new ScriptBundle("~/bundles/jqGrid/js").Include(
+                    "~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js",
+                    "~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"
+                     ));
+
             //  bundles.Add(new StyleBundle("~/content/smartadmin/css").IncludeDirectory("~/content/css", "*.min.css"));
 
             //SmartAdmin

@@ -77,7 +77,7 @@ namespace SocialGoal.Controllers
                             OrgEnterpriseCreateTime = item.OrgEnterpriseCreateTime
                         }).ToArray()
             };
-            return Json(result,JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -93,23 +93,24 @@ namespace SocialGoal.Controllers
                 switch (newOrgEnterprise.oper)
                 {
                     case "add":
-                        orgEnterprise.OrgEnterpriseId = Guid.NewGuid().ToString();
+                       // orgEnterprise.OrgEnterpriseId = Guid.NewGuid().ToString();
                         orgEnterprise.OrgEnterpriseUpdateTime = DateTime.Now;
                         orgEnterprise.OrgEnterpriseCreateTime = DateTime.Now;
                         // var errors = _orgEnterpriseService.CanAdd(equipment).ToList();
                         await _orgEnterpriseService.CreateAsync(orgEnterprise);
-                        return Json(new { success = true });  
+                        return Json(new { success = true });
 
                     case "edit":
                         orgEnterprise.OrgEnterpriseUpdateTime = DateTime.Now;
+                        orgEnterprise.OrgEnterpriseCreateTime = DateTime.Now;
                         await _orgEnterpriseService.UpdateAsync(orgEnterprise);
-                        return Json(new { success = true });  
+                        return Json(new { success = true });
 
                     case "del":
                         bool rec = await _orgEnterpriseService.DeleteAsync(newOrgEnterprise.id);
                         if (rec)
                         {
-                            return Json(new { success = true });  
+                            return Json(new { success = true });
                         }
                         break;
 
@@ -124,5 +125,15 @@ namespace SocialGoal.Controllers
         {
             return ModelState.SelectMany(x => x.Value.Errors.Select(error => error.ErrorMessage));
         }
+        [HttpPost]
+        public async Task<Object> GetOrgEnterpriseZtree()
+        {
+            string userId = Request.Params["userId"];
+            List<ZtreeEntity> orgStructure = await _orgEnterpriseService.GetOrgEnterpriseZtree(userId);
+
+
+            return Json(orgStructure, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

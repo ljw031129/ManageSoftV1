@@ -49,6 +49,7 @@
     <Compile Include="Common\Select2PagedResult.cs" />
     <Compile Include="Common\TreeItem.cs" />
     <Compile Include="Common\ValidationResult.cs" />
+    <Compile Include="Common\ZtreeEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="xFilter.Expressions\GridSettings.cs" />
     <Compile Include="xFilter.Expressions\Group.cs" />

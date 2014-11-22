@@ -1,4 +1,19 @@
-﻿<div id="content">
+﻿@using Microsoft.AspNet.Identity
+@model SocialGoal.Model.ViewModels.OrgEnterpriseViewModel
+@section styles
+{
+    @Styles.Render("~/Content/ztrtee/css")
+<style type="text/css">
+    .ztree li span.button.add {
+        margin-left: 2px;
+        margin-right: -1px;
+        background-position: -144px 0;
+        vertical-align: top;
+        *vertical-align: middle;
+    }
+</style>
+}
+<div id="content">
     <!-- Bread crumb is created dynamically -->
     <!--
        The ID "widget-grid" will start to initialize all widgets below
@@ -9,20 +24,20 @@
     <section id="widget-grid" class="">
         <!-- row -->
         <div class="row">
-            <article class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <article class="col-xs-4 col-sm-4 col-md-4 col-lg-4 sortable-grid ui-sortable">
                 <!-- Widget ID (each widget will need unique ID)-->
-                <div class="jarviswidget " id="wid-id-1" data-widget-editbutton="false">
+                <div class="jarviswidget " id="wid-id-0" data-widget-editbutton="false">
                     <!-- widget options:
-        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-        data-widget-colorbutton="false"
-        data-widget-editbutton="false"
-        data-widget-togglebutton="false"
-        data-widget-deletebutton="false"
-        data-widget-fullscreenbutton="false"
-        data-widget-custombutton="false"
-        data-widget-collapsed="true"
-        data-widget-sortable="false"
-        -->
+            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+            data-widget-colorbutton="false"
+            data-widget-editbutton="false"
+            data-widget-togglebutton="false"
+            data-widget-deletebutton="false"
+            data-widget-fullscreenbutton="false"
+            data-widget-custombutton="false"
+            data-widget-collapsed="true"
+            data-widget-sortable="false"
+            -->
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                         <h2>企业信息</h2>
@@ -36,8 +51,19 @@
                         <!-- end widget edit box -->
                         <!-- widget content -->
                         <div class="widget-body  no-padding">
+                            <div class="widget-body-toolbar">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                            <input class="form-control" id="key" placeholder="企业名称" type="text">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                             <div class="table-responsive">
-                               
+                                <ul id="tree" class="ztree"></ul>
                             </div>
                         </div>
                         <!-- end widget content -->
@@ -47,143 +73,274 @@
                 <!-- end widget -->
 
             </article>
-                <article class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                    <!-- Widget ID (each widget will need unique ID)-->
-                    <div class="jarviswidget " id="wid-id-0" data-widget-editbutton="false">
-                        <!-- widget options:
-                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-                data-widget-colorbutton="false"
-                data-widget-editbutton="false"
-                data-widget-togglebutton="false"
-                data-widget-deletebutton="false"
-                data-widget-fullscreenbutton="false"
-                data-widget-custombutton="false"
-                data-widget-collapsed="true"
-                data-widget-sortable="false"
-                -->
-                        <header>
-                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                            <h2>企业信息</h2>
-                        </header>
-                        <!-- widget div-->
-                        <div>
-                            <!-- widget edit box -->
-                            <div class="jarviswidget-editbox">
-                                <!-- This area used as dropdown edit box -->
-                            </div>
-                            <!-- end widget edit box -->
-                            <!-- widget content -->
-                            <div class="widget-body">
-                                <form class="form-horizontal">
-
-                                    <fieldset>
-                                        <legend>Default Form Elements</legend>
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Text field</label>
-                                            <div class="col-md-10">
-                                                <input class="form-control" placeholder="Default Text Field" type="text">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Auto Complete</label>
-                                            <div class="col-md-10">
-                                                <input class="form-control" placeholder="Type somethine..." type="text" list="list">
-                                                <datalist id="list">
-                                                    <option value="Alexandra">Alexandra</option>
-                                                    <option value="Alice">Alice</option>
-                                                    <option value="Anastasia">Anastasia</option>
-                                                    <option value="Avelina">Avelina</option>
-                                                    <option value="Basilia">Basilia</option>
-                                                    <option value="Beatrice">Beatrice</option>
-                                                    <option value="Cassandra">Cassandra</option>
-                                                    <option value="Cecil">Cecil</option>
-                                                    <option value="Clemencia">Clemencia</option>
-                                                    <option value="Desiderata">Desiderata</option>
-                                                    <option value="Dionisia">Dionisia</option>
-                                                    <option value="Edith">Edith</option>
-                                                    <option value="Eleanora">Eleanora</option>
-                                                    <option value="Elizabeth">Elizabeth</option>
-                                                    <option value="Emma">Emma</option>
-                                                    <option value="Felicia">Felicia</option>
-                                                    <option value="Florence">Florence</option>
-                                                    <option value="Galiana">Galiana</option>
-                                                    <option value="Grecia">Grecia</option>
-                                                    <option value="Helen">Helen</option>
-                                                    <option value="Helewisa">Helewisa</option>
-                                                    <option value="Idonea">Idonea</option>
-                                                    <option value="Isabel">Isabel</option>
-                                                    <option value="Joan">Joan</option>
-                                                    <option value="Juliana">Juliana</option>
-                                                    <option value="Karla">Karla</option>
-                                                    <option value="Karyn">Karyn</option>
-                                                    <option value="Kate">Kate</option>
-                                                    <option value="Lakisha">Lakisha</option>
-                                                    <option value="Lana">Lana</option>
-                                                    <option value="Laura">Laura</option>
-                                                    <option value="Leona">Leona</option>
-                                                    <option value="Mandy">Mandy</option>
-                                                    <option value="Margaret">Margaret</option>
-                                                    <option value="Maria">Maria</option>
-                                                    <option value="Nanacy">Nanacy</option>
-                                                    <option value="Nicole">Nicole</option>
-                                                    <option value="Olga">Olga</option>
-                                                    <option value="Pamela">Pamela</option>
-                                                    <option value="Patricia">Patricia</option>
-                                                    <option value="Qiana">Qiana</option>
-                                                    <option value="Rachel">Rachel</option>
-                                                    <option value="Ramona">Ramona</option>
-                                                    <option value="Samantha">Samantha</option>
-                                                    <option value="Sandra">Sandra</option>
-                                                    <option value="Tanya">Tanya</option>
-                                                    <option value="Teresa">Teresa</option>
-                                                    <option value="Ursula">Ursula</option>
-                                                    <option value="Valerie">Valerie</option>
-                                                    <option value="Veronica">Veronica</option>
-                                                    <option value="Wilma">Wilma</option>
-                                                    <option value="Yasmin">Yasmin</option>
-                                                    <option value="Zelma">Zelma</option>
-                                                </datalist>
-                                                <p class="note"><strong>Note:</strong> works in Chrome, Firefox, Opera and IE10.</p>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Password field</label>
-                                            <div class="col-md-10">
-                                                <input class="form-control" placeholder="Password field" type="password" value="mypassword">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Textarea</label>
-                                            <div class="col-md-10">
-                                                <textarea class="form-control" placeholder="Textarea" rows="4"></textarea>
-                                            </div>
-                                        </div>
-
-
-                                    </fieldset>
-</div>
-                            <!-- end widget content -->
+            <article class="col-xs-8 col-sm-8 col-md-8 col-lg-8 sortable-grid ui-sortable">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget " id="wid-id-1" data-widget-editbutton="false">
+                    <!-- widget options:
+            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+            data-widget-colorbutton="false"
+            data-widget-editbutton="false"
+            data-widget-togglebutton="false"
+            data-widget-deletebutton="false"
+            data-widget-fullscreenbutton="false"
+            data-widget-custombutton="false"
+            data-widget-collapsed="true"
+            data-widget-sortable="false"
+            -->
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>企业信息</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
                         </div>
-                        <!-- end widget div -->
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body">
+
+                            @using (Ajax.BeginForm("Post", "OrgEnterprise", null, new AjaxOptions
+      {
+          HttpMethod = "Post",
+          OnSuccess = "ShowResult",
+      },
+     new { @class = "form-horizontal" })
+   )
+                            {
+                                <fieldset>
+                                    <legend>企业信息</legend>
+                                    @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.OrgEnterpriseName, new { @class = "col-md-2 control-label" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(m => m.OrgEnterpriseName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.OrgEnterpriseName)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions form-actions-padding-sm">
+                                        <div class="row">
+                                            <div class="col-md-10 col-md-offset-2">
+                                                <button class="btn btn-primary" type="submit">
+                                                    <i class="icon-save"></i>
+                                                    保存
+                                                </button>
+                                                <button class="btn" type="submit">取消</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            }
+
+                        </div>
+                        <!-- end widget content -->
                     </div>
-                    <!-- end widget -->
-                </article>
-</div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+        </div>
 
         <!-- end row -->
     </section>
     <!-- end widget grid -->
 </div>
 @section scripts{
-    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
-    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
+    @Scripts.Render("~/bundles/ztree/js")
+    @Scripts.Render("~/bundles/jqGrid/js")
     <script type="text/javascript">
+        var userId = "noLogin";
+        if ("@User.Identity.IsAuthenticated") {
+            userId = "@User.Identity.GetUserId()";
+        }
+        //组织结构节点信息
+        var zTreeObj;
+        var key;
+        var setting = {
+            data: {
+                key: {
+                    title: "t"
+                },
+                simpleData: {
+                    enable: true
+                }
+            },
+            view: {
+                addHoverDom: addHoverDom,
+                removeHoverDom: removeHoverDom,
+                selectedMulti: false,
+                fontCss: getFontCss
+            },
+            edit: {
+                enable: true,
+                editNameSelectAll: true//,
+                //showRemoveBtn: showRemoveBtn,
+               // showRenameBtn: showRenameBtn
+            },
+            callback: {
+                beforeDrag: beforeDrag,
+                beforeEditName: beforeEditName,
+                beforeRemove: beforeRemove,
+                beforeRename: beforeRename,
+                onRemove: onRemove,
+                onRename: onRename
+            }
+        };       
+        function beforeDrag(treeId, treeNodes) {
+            return false;
+        }
+        function beforeEditName(treeId, treeNode) { 
+            var zTree = $.fn.zTree.getZTreeObj("tree");
+            zTree.selectNode(treeNode);
+            return confirm("进入节点 -- " + treeNode.name + " 的编辑状态吗？");
+        }
+        function beforeRemove(treeId, treeNode) {               
+            var zTree = $.fn.zTree.getZTreeObj("tree");
+            zTree.selectNode(treeNode);
+            return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
+        }
+        //删除节点
+        function onRemove(e, treeId, treeNode) {           
+            SubmitAjax("del", treeNode.id, treeNode.id, treeNode.id);
+        }
+        function beforeRename(treeId, treeNode, newName, isCancel) {            
+            if (newName.length == 0) {
+                alert("节点名称不能为空.");
+                var zTree = $.fn.zTree.getZTreeObj("tree");
+                setTimeout(function () { zTree.editName(treeNode) }, 10);
+                return false;
+            }
+            return true;
+        }
+        //编辑节点
+        function onRename(e, treeId, treeNode, isCancel) {          
+            SubmitAjax("edit", treeNode.id, treeNode.PID, treeNode.name);
+          
+        }
+        function showRemoveBtn(treeId, treeNode) {
+            return !treeNode.isFirstNode;
+        }
+        function showRenameBtn(treeId, treeNode) {
+            return !treeNode.isLastNode;
+        }      
+
+        var newCount = 1;
+        function addHoverDom(treeId, treeNode) {            
+            var sObj = $("#" + treeNode.tId + "_span");
+            if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0) return;
+            var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+				+ "' title='add node' onfocus='this.blur();'></span>";
+            sObj.after(addStr);
+            var btn = $("#addBtn_" + treeNode.tId);
+            if (btn) btn.bind("click", function () {
+                var zTree = $.fn.zTree.getZTreeObj("tree");
+                var idGuid = getGuidGenerator()
+                var namePost = "new node" + (newCount++);
+                SubmitAjax("add", idGuid, treeNode.id, namePost,"");
+                zTree.addNodes(treeNode, { id: idGuid, pId: treeNode.id, name: namePost });
+                return false;
+            });
+        };
+        function removeHoverDom(treeId, treeNode) {
+            $("#addBtn_" + treeNode.tId).unbind().remove();          
+        };
+        //从服务器获取数据
+        var treeData = null;
+        function GetDatas() {
+            $.ajax({
+                url: '@Url.Content("~/OrgEnterprise/GetOrgEnterpriseZtree/")', //该页面为处理信息页面，要求页面文件为空。（实际项目中建议用HttpHandler）
+                type: "post",                //请求发送方式
+                dataType: "json",       //返回值有： text 为纯文本，json对象，html页面
+                userId: userId,   //传递的参数，传递过去后用 Request.Params["name1"]) 取出。
+                //请求成功执行
+                success: function (data, textStatus) {
+                    //data 为返回值,初始化树形控件
+                    treeData = data;
+                    zTreeObj = $.fn.zTree.init($("#tree"), setting, data);
+                    //CheckedNodes();
+                }
+            });
+        }
+        //查询
+        function focusKey(e) {
+            if (key.hasClass("empty")) {
+                key.removeClass("empty");
+            }
+        }
+        function blurKey(e) {
+            if (key.get(0).value === "") {
+                key.addClass("empty");
+            }
+        }
+        function getFontCss(treeId, treeNode) {
+            return (!!treeNode.highlight) ? { color: "#A60000", "font-weight": "bold" } : { color: "#333", "font-weight": "normal" };
+        }
+        function filter(node) {
+            return !node.isParent && node.isFirstNode;
+        }
+
+        var lastValue = "", nodeList = [], fontCss = {};
+
+        function searchNode(e) {
+            zTreeObj = $.fn.zTree.init($("#tree"), setting, treeData);
+            var value = $.trim(key.get(0).value);
+            var zTree = $.fn.zTree.getZTreeObj("tree");
+            //var node = zTree.getNodeByParam("name", value);
+            //if (node === null) {
+            //    nodeList = [];
+            //} else {
+            //    nodeList = [node];
+            //}
+            nodeList = zTree.getNodesByParamFuzzy("name", value);
+            updateNodes(true);
+        }
+        function updateNodes(highlight) {
+            var zTree = $.fn.zTree.getZTreeObj("tree");
+            for (var i = 0, l = nodeList.length; i < l; i++) {
+                nodeList[i].highlight = highlight;
+                zTree.updateNode(nodeList[i]);
+            }
+        }
+        //提交后ajax返回信息
+        function ShowResult(data) {
+            alert("aa");
+            // $("#detailsID").html("返回信息：" + data);
+            //var dialog = top.dialog.get(window);
+            //setTimeout(function () {
+            //    dialog.close().remove();
+            //}, 2000);
+        }
+        function SubmitAjax(oper, id, pid, name) {
+            $.ajax({
+                url: '@Url.Content("~/OrgEnterprise/Post/")', //该页面为处理信息页面，要求页面文件为空。（实际项目中建议用HttpHandler）
+                type: "post",                //请求发送方式
+                dataType: "json",       //返回值有： text 为纯文本，json对象，html页面
+                data: { oper: oper, OrgEnterpriseId: id, OrgEnterprisePId: pid, OrgEnterpriseName: name,id:id },
+                //请求成功执行
+                success: function (data, textStatus) {
+                    //data 为返回值,初始化树形控件
+                  
+                    //CheckedNodes();
+                }
+            });
+        }
+        //生成随机的GUID
+        function getGuidGenerator() {
+            var S4 = function () {
+                return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+            };
+            return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+        }
         $(document).ready(function () {
             pageSetUp();
+            GetDatas();
+            key = $("#key");
+            key.bind("focus", focusKey)
+            .bind("blur", blurKey)
+            .bind("propertychange", searchNode)
+            .bind("input", searchNode);
             jQuery("#grps").jqGrid(
                 {
                     url: '@Url.Action("Get", "OrgEnterprise")',
@@ -227,7 +384,7 @@
             //test responsiveness
             jQuery("#grps").jqGrid('inlineNav', "#pgrps");
             //替换样式
-            replaceJqgrid();
+            // replaceJqgrid();
 
         });
 

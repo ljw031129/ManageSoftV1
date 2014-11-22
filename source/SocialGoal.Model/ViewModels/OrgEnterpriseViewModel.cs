@@ -8,6 +8,7 @@ namespace SocialGoal.Model.ViewModels
     public class OrgEnterpriseViewModel
     {
         public string OrgEnterpriseId { get; set; }
+        public string OrgEnterprisePId { get; set; }
         public string OrgEnterpriseNum { get; set; }
         public string OrgEnterpriseName { get; set; }
         public string OrgEnterpriseDescribe { get; set; }
