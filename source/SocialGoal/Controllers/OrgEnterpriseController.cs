@@ -70,6 +70,7 @@ namespace SocialGoal.Controllers
                         select new
                         {
                             OrgEnterpriseId = item.OrgEnterpriseId,
+                            OrgEnterprisePId=item.OrgEnterprisePId,
                             OrgEnterpriseNum = item.OrgEnterpriseNum,
                             OrgEnterpriseName = item.OrgEnterpriseName,
                             OrgEnterpriseDescribe = item.OrgEnterpriseDescribe,
@@ -120,7 +121,43 @@ namespace SocialGoal.Controllers
             // ModelState.AddModelErrors(errors);
             return Json(new { errors = GetErrorsFromModelState() });
         }
+        [HttpPost]
+        public async Task<ActionResult> PostUpdate(OrgEnterpriseViewModel newOrgEnterprise)
+        {
+            if (ModelState.IsValid)
+            {
 
+                OrgEnterprise orgEnterprise = Mapper.Map<OrgEnterpriseViewModel, OrgEnterprise>(newOrgEnterprise);
+                switch (newOrgEnterprise.oper)
+                {
+                    case "add":
+                        // orgEnterprise.OrgEnterpriseId = Guid.NewGuid().ToString();
+                        orgEnterprise.OrgEnterpriseUpdateTime = DateTime.Now;
+                        orgEnterprise.OrgEnterpriseCreateTime = DateTime.Now;
+                        // var errors = _orgEnterpriseService.CanAdd(equipment).ToList();
+                        await _orgEnterpriseService.CreateAsync(orgEnterprise);
+                        return Json(new { success = true });
+
+                    case "edit":
+                        orgEnterprise.OrgEnterpriseUpdateTime = DateTime.Now;
+                        orgEnterprise.OrgEnterpriseCreateTime = DateTime.Now;
+                        await _orgEnterpriseService.UpdateAsync(orgEnterprise);
+                        return Content("true");
+
+                    case "del":
+                        bool rec = await _orgEnterpriseService.DeleteAsync(newOrgEnterprise.id);
+                        if (rec)
+                        {
+                            return Json(new { success = true });
+                        }
+                        break;
+
+                }
+
+            }
+            // ModelState.AddModelErrors(errors);
+            return Content("false");
+        }
         private IEnumerable<string> GetErrorsFromModelState()
         {
             return ModelState.SelectMany(x => x.Value.Errors.Select(error => error.ErrorMessage));

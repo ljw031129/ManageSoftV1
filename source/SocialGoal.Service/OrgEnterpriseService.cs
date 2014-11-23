@@ -158,6 +158,10 @@ namespace SocialGoal.Service
                     nodeList.name = row.OrgEnterpriseName;
                     nodeList.id = row.OrgEnterpriseId;
                     nodeList.PID = row.OrgEnterprisePId;
+                    nodeList.OrgEnterpriseCreateTime = row.OrgEnterpriseCreateTime.ToString("yyyy-MM-dd HH:mm:ss");
+                    nodeList.OrgEnterpriseUpdateTime = row.OrgEnterpriseCreateTime.ToString("yyyy-MM-dd HH:mm:ss");
+                    nodeList.OrgEnterpriseNum = row.OrgEnterpriseNum;
+                    nodeList.OrgEnterpriseDescribe = row.OrgEnterpriseDescribe;                  
                     nodeList.open = false;
                     nodeList.title = row.OrgEnterpriseName;
                     nodeList.children = new List<ZtreeEntity>();

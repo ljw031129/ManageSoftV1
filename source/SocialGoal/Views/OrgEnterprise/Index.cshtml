@@ -3,15 +3,15 @@
 @section styles
 {
     @Styles.Render("~/Content/ztrtee/css")
-<style type="text/css">
-    .ztree li span.button.add {
-        margin-left: 2px;
-        margin-right: -1px;
-        background-position: -144px 0;
-        vertical-align: top;
-        *vertical-align: middle;
-    }
-</style>
+    <style type="text/css">
+        .ztree li span.button.add {
+            margin-left: 2px;
+            margin-right: -1px;
+            background-position: -144px 0;
+            vertical-align: top;
+            *vertical-align: middle;
+        }
+    </style>
 }
 <div id="content">
     <!-- Bread crumb is created dynamically -->
@@ -28,19 +28,19 @@
                 <!-- Widget ID (each widget will need unique ID)-->
                 <div class="jarviswidget " id="wid-id-0" data-widget-editbutton="false">
                     <!-- widget options:
-            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-            data-widget-colorbutton="false"
-            data-widget-editbutton="false"
-            data-widget-togglebutton="false"
-            data-widget-deletebutton="false"
-            data-widget-fullscreenbutton="false"
-            data-widget-custombutton="false"
-            data-widget-collapsed="true"
-            data-widget-sortable="false"
-            -->
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+                    -->
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                        <h2>企业信息</h2>
+                        <h2>企业信息树</h2>
                     </header>
                     <!-- widget div-->
                     <div>
@@ -77,19 +77,19 @@
                 <!-- Widget ID (each widget will need unique ID)-->
                 <div class="jarviswidget " id="wid-id-1" data-widget-editbutton="false">
                     <!-- widget options:
-            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-            data-widget-colorbutton="false"
-            data-widget-editbutton="false"
-            data-widget-togglebutton="false"
-            data-widget-deletebutton="false"
-            data-widget-fullscreenbutton="false"
-            data-widget-custombutton="false"
-            data-widget-collapsed="true"
-            data-widget-sortable="false"
-            -->
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+                    -->
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                        <h2>企业信息</h2>
+                        <h2>企业详细信息</h2>
                     </header>
                     <!-- widget div-->
                     <div>
@@ -101,7 +101,7 @@
                         <!-- widget content -->
                         <div class="widget-body">
 
-                            @using (Ajax.BeginForm("Post", "OrgEnterprise", null, new AjaxOptions
+                            @using (Ajax.BeginForm("PostUpdate", "OrgEnterprise", null, new AjaxOptions
       {
           HttpMethod = "Post",
           OnSuccess = "ShowResult",
@@ -111,7 +111,17 @@
                             {
                                 <fieldset>
                                     <legend>企业信息</legend>
-                                    @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
+                                    @Html.ValidationSummary(true, "提交信息有误，调整后在提交！")
+                                    @Html.HiddenFor(m => m.oper)
+                                    @Html.HiddenFor(m => m.OrgEnterpriseId)
+                                    @Html.HiddenFor(m => m.OrgEnterprisePId)
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.OrgEnterpriseNum, new { @class = "col-md-2 control-label" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(m => m.OrgEnterpriseNum, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.OrgEnterpriseNum)
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.OrgEnterpriseName, new { @class = "col-md-2 control-label" })
                                         <div class="col-md-4">
@@ -119,7 +129,27 @@
                                             @Html.ValidationMessageFor(m => m.OrgEnterpriseName)
                                         </div>
                                     </div>
-
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.OrgEnterpriseDescribe, new { @class = "col-md-2 control-label" })
+                                        <div class="col-md-4">
+                                            @Html.TextAreaFor(m => m.OrgEnterpriseDescribe, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.OrgEnterpriseDescribe)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.OrgEnterpriseUpdateTime, new { @class = "col-md-2 control-label" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(m => m.OrgEnterpriseUpdateTime, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.OrgEnterpriseName)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.OrgEnterpriseCreateTime, new { @class = "col-md-2 control-label" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(m => m.OrgEnterpriseCreateTime, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.OrgEnterpriseCreateTime)
+                                        </div>
+                                    </div>
                                     <div class="form-actions form-actions-padding-sm">
                                         <div class="row">
                                             <div class="col-md-10 col-md-offset-2">
@@ -127,7 +157,7 @@
                                                     <i class="icon-save"></i>
                                                     保存
                                                 </button>
-                                                <button class="btn" type="submit">取消</button>
+                                                <button class="btn" type="reset">清空</button>
                                             </div>
                                         </div>
                                     </div>
@@ -146,6 +176,11 @@
         <!-- end row -->
     </section>
     <!-- end widget grid -->
+
+    <div id="dialog" title="企业树加载中">
+        <p>数据加载中.</p>
+    </div>
+
 </div>
 @section scripts{
     @Scripts.Render("~/bundles/ztree/js")
@@ -161,7 +196,7 @@
         var setting = {
             data: {
                 key: {
-                    title: "t"
+                    title: "name"
                 },
                 simpleData: {
                     enable: true
@@ -171,13 +206,14 @@
                 addHoverDom: addHoverDom,
                 removeHoverDom: removeHoverDom,
                 selectedMulti: false,
-                fontCss: getFontCss
+                fontCss: getFontCss,
+                showTitle: true
             },
             edit: {
                 enable: true,
                 editNameSelectAll: true//,
                 //showRemoveBtn: showRemoveBtn,
-               // showRenameBtn: showRenameBtn
+                // showRenameBtn: showRenameBtn
             },
             callback: {
                 beforeDrag: beforeDrag,
@@ -185,27 +221,39 @@
                 beforeRemove: beforeRemove,
                 beforeRename: beforeRename,
                 onRemove: onRemove,
-                onRename: onRename
+                onRename: onRename,
+                onClick: zTreeOnClick
             }
-        };       
+        };
+        //点击事件
+        function zTreeOnClick(event, treeId, treeNode) {
+            $("#oper").val("edit");
+            $("#OrgEnterpriseId").val(treeNode.id);
+            $("#OrgEnterprisePId").val(treeNode.PID);
+            $("#OrgEnterpriseNum").val(treeNode.OrgEnterpriseNum);
+            $("#OrgEnterpriseName").val(treeNode.name);
+            $("#OrgEnterpriseDescribe").val(treeNode.OrgEnterpriseDescribe);
+            $("#OrgEnterpriseCreateTime").val(treeNode.OrgEnterpriseCreateTime);
+            $("#OrgEnterpriseUpdateTime").val(treeNode.OrgEnterpriseUpdateTime);
+        };
         function beforeDrag(treeId, treeNodes) {
             return false;
         }
-        function beforeEditName(treeId, treeNode) { 
+        function beforeEditName(treeId, treeNode) {
             var zTree = $.fn.zTree.getZTreeObj("tree");
             zTree.selectNode(treeNode);
             return confirm("进入节点 -- " + treeNode.name + " 的编辑状态吗？");
         }
-        function beforeRemove(treeId, treeNode) {               
+        function beforeRemove(treeId, treeNode) {
             var zTree = $.fn.zTree.getZTreeObj("tree");
             zTree.selectNode(treeNode);
             return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
         }
         //删除节点
-        function onRemove(e, treeId, treeNode) {           
+        function onRemove(e, treeId, treeNode) {
             SubmitAjax("del", treeNode.id, treeNode.id, treeNode.id);
         }
-        function beforeRename(treeId, treeNode, newName, isCancel) {            
+        function beforeRename(treeId, treeNode, newName, isCancel) {
             if (newName.length == 0) {
                 alert("节点名称不能为空.");
                 var zTree = $.fn.zTree.getZTreeObj("tree");
@@ -215,19 +263,19 @@
             return true;
         }
         //编辑节点
-        function onRename(e, treeId, treeNode, isCancel) {          
+        function onRename(e, treeId, treeNode, isCancel) {
             SubmitAjax("edit", treeNode.id, treeNode.PID, treeNode.name);
-          
+
         }
         function showRemoveBtn(treeId, treeNode) {
             return !treeNode.isFirstNode;
         }
         function showRenameBtn(treeId, treeNode) {
             return !treeNode.isLastNode;
-        }      
+        }
 
         var newCount = 1;
-        function addHoverDom(treeId, treeNode) {            
+        function addHoverDom(treeId, treeNode) {
             var sObj = $("#" + treeNode.tId + "_span");
             if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0) return;
             var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
@@ -238,17 +286,18 @@
                 var zTree = $.fn.zTree.getZTreeObj("tree");
                 var idGuid = getGuidGenerator()
                 var namePost = "new node" + (newCount++);
-                SubmitAjax("add", idGuid, treeNode.id, namePost,"");
+                SubmitAjax("add", idGuid, treeNode.id, namePost, "");
                 zTree.addNodes(treeNode, { id: idGuid, pId: treeNode.id, name: namePost });
                 return false;
             });
         };
         function removeHoverDom(treeId, treeNode) {
-            $("#addBtn_" + treeNode.tId).unbind().remove();          
+            $("#addBtn_" + treeNode.tId).unbind().remove();
         };
         //从服务器获取数据
         var treeData = null;
         function GetDatas() {
+            $("#dialog").dialog("open");
             $.ajax({
                 url: '@Url.Content("~/OrgEnterprise/GetOrgEnterpriseZtree/")', //该页面为处理信息页面，要求页面文件为空。（实际项目中建议用HttpHandler）
                 type: "post",                //请求发送方式
@@ -260,6 +309,7 @@
                     treeData = data;
                     zTreeObj = $.fn.zTree.init($("#tree"), setting, data);
                     //CheckedNodes();
+                    $("#dialog").dialog("close");
                 }
             });
         }
@@ -317,11 +367,11 @@
                 url: '@Url.Content("~/OrgEnterprise/Post/")', //该页面为处理信息页面，要求页面文件为空。（实际项目中建议用HttpHandler）
                 type: "post",                //请求发送方式
                 dataType: "json",       //返回值有： text 为纯文本，json对象，html页面
-                data: { oper: oper, OrgEnterpriseId: id, OrgEnterprisePId: pid, OrgEnterpriseName: name,id:id },
+                data: { oper: oper, OrgEnterpriseId: id, OrgEnterprisePId: pid, OrgEnterpriseName: name, id: id },
                 //请求成功执行
                 success: function (data, textStatus) {
                     //data 为返回值,初始化树形控件
-                  
+
                     //CheckedNodes();
                 }
             });
@@ -335,56 +385,17 @@
         }
         $(document).ready(function () {
             pageSetUp();
+            $("#dialog").dialog({
+                autoOpen: false,
+                modal: true
+            });
+
             GetDatas();
             key = $("#key");
             key.bind("focus", focusKey)
             .bind("blur", blurKey)
             .bind("propertychange", searchNode)
-            .bind("input", searchNode);
-            jQuery("#grps").jqGrid(
-                {
-                    url: '@Url.Action("Get", "OrgEnterprise")',
-                    datatype: "json",
-                    mtype: "get",
-                    colNames:
-                        ['Id', '企业编号', '企业名称', '描述', '更新时间', '创建时间'],
-                    colModel: [
-                        { name: 'OrgEnterpriseId', key: true, index: 'EquipmentId', editable: true, editoptions: { readonly: true }, hidden: true },
-                        { name: 'OrgEnterpriseNum', index: 'EquipmentNum', editable: true, width: 40 },
-                        { name: 'OrgEnterpriseName', index: 'EquipmentName', editable: true, width: 100 },
-                         { name: 'OrgEnterpriseDescribe', index: 'EquipmentName', editable: true, width: 100 },
-                        { name: 'OrgEnterpriseUpdateTime', index: 'EquipmentCreatTime', sorttype: 'date', editable: true, editoptions: { readonly: true, defaultValue: CurentTime() }, align: "left", width: 180, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
-                        { name: 'OrgEnterpriseCreateTime', index: 'EquipmentUpDateTime', sorttype: 'date', editable: true, editoptions: { readonly: true, defaultValue: CurentTime() }, align: "left", width: 180, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } }
-                    ],
-                    rowNum: 10,
-                    autowidth: true,
-                    rowList: [10, 20, 30],
-                    pager: '#pgrps',
-                    sortname: 'OrgEnterpriseUpdateTime',
-                    viewrecords: true,//定义是否要显示总记录数
-                    sortorder: "desc",
-                    jsonReader: {
-                        root: "rows",
-                        page: "page",
-                        total: "total",
-                        records: "records",
-                        repeatitems: false,
-                        userdata: "userdata"
-                    },
-                    //caption: "企业信息表",
-                    height: '100%',
-                    editurl: '@Url.Action("Post", "OrgEnterprise")' // this is dummy existing url
-                });
-            jQuery("#grps").jqGrid('navGrid', '#pgrps',
-                { edit: false, add: false, del: true },
-                {},
-                {},
-                {},
-                { multipleSearch: true, multipleGroup: true });
-            //test responsiveness
-            jQuery("#grps").jqGrid('inlineNav', "#pgrps");
-            //替换样式
-            // replaceJqgrid();
+            .bind("input", searchNode);          
 
         });
 

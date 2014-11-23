@@ -19,6 +19,10 @@ namespace SocialGoal.Core.Common
         public string icon { get; set; }
         public string PID { get; set; }
         public string title { get; set; }
+        public string OrgEnterpriseNum { get; set; }
+        public string OrgEnterpriseDescribe { get; set; }
+        public string OrgEnterpriseCreateTime { get; set; }
+        public string OrgEnterpriseUpdateTime { get; set; }
         //public bool nocheck { get; set; }
         public List<ZtreeEntity> children { get; set; }
 
