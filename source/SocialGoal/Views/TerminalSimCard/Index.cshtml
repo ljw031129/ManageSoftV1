@@ -1,48 +1,16 @@
 ﻿<div id="content">
-    <!-- row -->
-    <div class="row">
-
-        <!-- col -->
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="collapse navbar-collapse bg-color-white">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="@Url.Action("Index", "TerminalEquipment", null)" class="green-border">
-                            <i class="icon-list  text-red "></i>
-                            终端设备列表
-                        </a>
-                    </li>
-                    <li id="equipmentDetail">
-                        <a href="#">
-                            <i class="icon-indent-left"></i>
-                            设备工况一览
-                        </a>
-                    </li>
-                    <li id="equipmentMap">
-                        <a href="#" class="green-border">
-                            <i class="icon-map-marker "></i>
-                            行驶轨迹
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <!-- end col -->
-        <!-- right side of the page with the sparkline graphs -->
-    </div>
-    <!-- end row -->
     <!--
-        The ID "widget-grid" will start to initialize all widgets below
-        You do not need to use widgets if you dont want to. Simply remove
-        the <section></section> and you can use wells or panels instead
-        -->
+     The ID "widget-grid" will start to initialize all widgets below
+     You do not need to use widgets if you dont want to. Simply remove
+     the <section></section> and you can use wells or panels instead
+     -->
     <!-- widget grid -->
     <section id="widget-grid" class="">
         <!-- row -->
         <div class="row">
             <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <!-- Widget ID (each widget will need unique ID)-->
-                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+                <div class="jarviswidget  jarviswidget-sortable" id="wid-id-0" data-widget-editbutton="false">
                     <!-- widget options:
                     usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
                     data-widget-colorbutton="false"
@@ -87,9 +55,9 @@
 @section scripts{
 
     @*<script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
-    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
-    <script src="~/Scripts/plugins/select2-3.5.1/select2.js"></script>
-    <script src="~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"></script>*@
+        <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
+        <script src="~/Scripts/plugins/select2-3.5.1/select2.js"></script>
+        <script src="~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"></script>*@
     <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -102,7 +70,7 @@
                         ['Id', 'SIM卡号', '序列号', '当前状态', '更新时间', '创建时间'],
                     colModel: [
                         { name: 'TerminalSimCardId', key: true, index: 'TerminalSimCardId', editable: true, width: 55, hidden: true },
-                        { name: 'TerminalSimCardNum', index: 'TerminalSimCardNum', editable: true, width: 60 },
+                        { name: 'TerminalSimCardNum', index: 'TerminalSimCardNum', editable: true, width: 60, editrules: { required: true } },
                         { name: 'TerminalSimCardSerialNum', index: 'TerminalSimCardSerialNum', editable: true, width: 120 },
                         { name: 'TerminalSimCardState', index: 'TerminalSimCardState', editable: true, width: 90, edittype: "select", formatter: "select", editoptions: { value: "1:未使用; 2:已使用; 3:被更换; 4:原设备已删除" }, align: "left" },
                         { name: 'TerminalSimCardUpdateTime', index: 'TerminalSimCardUpdateTime', editable: true, editoptions: { readonly: true, defaultValue: CurentTime() }, align: "left", width: 180, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
@@ -128,18 +96,6 @@
                         userdata: "userdata"
                     },
                     postData: { userId: '123456' },
-                    gridComplete: function () {
-                        var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
-                        for (var i = 0; i < ids.length; i++) {
-                            var cl = ids[i];
-                            be = "<button class='btn btn-xs btn-default' data-original-title='Edit Row' onclick=\"jQuery('#jqgrid').editRow('" + cl + "');\"><i class='fa fa-pencil'></i></button>";
-                            se = "<button class='btn btn-xs btn-default' data-original-title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('" + cl + "');\"><i class='fa fa-save'></i></button>";
-                            ca = "<button class='btn btn-xs btn-default' data-original-title='Cancel' onclick=\"jQuery('#jqgrid').restoreRow('" + cl + "');\"><i class='fa fa-times'></i></button>";
-                            //ce = "<button class='btn btn-xs btn-default' onclick=\"jQuery('#jqgrid').restoreRow('"+cl+"');\"><i class='fa fa-times'></i></button>";
-                            //jQuery("#jqgrid").jqGrid('setRowData',ids[i],{act:be+se+ce});
-                            jQuery("#jqgrid").jqGrid('setRowData', ids[i], { act: be + se + ca });
-                        }
-                    },
                     editurl: '@Url.Action("Post", "TerminalSimCard")', // this is dummy existing url
                     //caption: "SIM卡管理",
                     //multiselect: true,
@@ -155,39 +111,8 @@
             $('.navtable .ui-pg-button').tooltip({
                 container: 'body'
             });
-            // remove classes
-            $(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
-            $(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
-            $(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
-            $(".ui-jqgrid-pager").removeClass("ui-state-default");
-            $(".ui-jqgrid").removeClass("ui-widget-content");
-
-            // add classes
-            $(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
-            $(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
-
-            $(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
-            $(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
-            $(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
-            $(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
-            $(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
-            $(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
-            $(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
-            $(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
-
-            $(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
-            $(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
-
-            $(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
-            $(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
-
-            $(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
-            $(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
-
-            $(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
-            $(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
             // update buttons
-
+            UpJqGridClass();
             $(window).on('resize.jqGrid', function () {
                 jQuery("#jqgrid").jqGrid('setGridWidth', $("#content").width());
             })

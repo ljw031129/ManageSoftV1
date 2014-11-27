@@ -12,10 +12,11 @@ using System.Web.Mvc;
 using SocialGoal.Model.Models;
 using SocialGoal.Models;
 using SocialGoal.Data;
+using SocialGoal.Core.xFilter.Expressions;
 
 namespace SocialGoal.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class UsersAdminController : Controller
     {
         public UsersAdminController()
@@ -56,11 +57,71 @@ namespace SocialGoal.Controllers
 
         //
         // GET: /Users/
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await UserManager.Users.ToListAsync());
+            //await UserManager.Users.ToListAsync()
+            return View();
+        }
+        public async Task<ActionResult> Get(JqGridSetting jqGridSetting)
+        {
+            int count = 0;
+            IEnumerable<ApplicationUser> applicationUser = await UserManager.Users.ToListAsync();
+            count = applicationUser.Count();
+            var result = new
+            {
+                total = (int)Math.Ceiling((double)count / jqGridSetting.rows),
+                page = jqGridSetting.page,
+                records = count,
+                rows = (from item in applicationUser
+                        select new
+                        {
+                            Id=item.Id,
+                            UserName = item.UserName,
+                            Email = item.Email,                            
+                            DateCreated = item.DateCreated
+                           
+                        }).ToArray()
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public async Task<JsonResult> Post(AddUsersViewModel addUsersViewModel)
+        {
+          
+           
+                if (ModelState.IsValid)
+                {
+                    var user = new ApplicationUser { UserName = addUsersViewModel.Email, Email = addUsersViewModel.Email };
+                  
+                    switch (addUsersViewModel.oper)
+                    {
+                        case "add":
+                            var adminresult = await UserManager.CreateAsync(user, addUsersViewModel.Password);
+                            if (!adminresult.Succeeded)
+                            {
+                                  ModelState.AddModelError("", adminresult.Errors.First());
+                            }                            
+                             break;
+                        case "edit":
+                             adminresult = await UserManager.CreateAsync(user, addUsersViewModel.Password);
+                             break;
+
+                        case "del":
+                             adminresult = await UserManager.CreateAsync(user, addUsersViewModel.Password);
+                             break;
+                    }
+                }
+           
+
+            // 定义错误代码;
+            HttpContext.Response.StatusCode = 400;
+            return Json(new { success = false, errors = GetErrorsFromModelState() });
         }
 
+        private IEnumerable<string> GetErrorsFromModelState()
+        {
+            return ModelState.SelectMany(x => x.Value.Errors.Select(error => error.ErrorMessage));
+        }
         //
         // GET: /Users/Details/5
         public async Task<ActionResult> Details(string id)

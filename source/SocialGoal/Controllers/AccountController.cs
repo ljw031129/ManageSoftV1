@@ -11,6 +11,8 @@ using System.Web.Mvc;
 using SocialGoal.Model.Models;
 using SocialGoal.Models;
 using SocialGoal.Data;
+using System.Web.Security;
+using System.Security.Principal;
 
 
 namespace SocialGoal.Controllers
@@ -46,9 +48,32 @@ namespace SocialGoal.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            EnsureLoggedOut();
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
+
+        private void EnsureLoggedOut()
+        {
+            // If the request is (still) marked as authenticated we send the user to the logout action
+            if (Request.IsAuthenticated)
+                Logout();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Logout()
+        {
+            // First we clean the authentication ticket like always
+           // FormsAuthentication.SignOut();
+
+            // Second we clear the principal to ensure the user does not retain any authentication
+            HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
+
+            // Last we redirect to a controller/action that requires authentication to ensure a redirect takes place
+            // this clears the Request.IsAuthenticated flag since this triggers a new request
+            return RedirectToLocal("");
+        }       
 
         private ApplicationSignInManager _signInManager;
 
@@ -84,11 +109,14 @@ namespace SocialGoal.Controllers
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl });
-                case SignInStatus.Failure:
+                //case SignInStatus.Failure:
+                //    ModelState.AddModelError("", "登录失败请重试！");
+                //    break;
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                    ModelState.AddModelError("", "用户名或密码错误！");
+                    break;
             }
+            return View(model);
         }
 
         //
@@ -391,6 +419,7 @@ namespace SocialGoal.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]

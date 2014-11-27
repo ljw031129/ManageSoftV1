@@ -15,6 +15,7 @@ using SocialGoal.Web.Core.Extensions;
 
 namespace SocialGoal.Controllers
 {
+    [Authorize]
     public class TerminalSimCardController : Controller
     {
         public TerminalSimCardController(ITerminalSimCardService terminalSimCardService)

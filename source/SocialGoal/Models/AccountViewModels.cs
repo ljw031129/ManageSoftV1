@@ -45,16 +45,14 @@ namespace SocialGoal.Models
 
     public class LoginViewModel
     {
-        [Required]
-        [Display(Name = "Email")]
+        [Required(ErrorMessage = "用户名不能为空")]
+        [Display(Name = "用户名")]
         [EmailAddress]
         public string Email { get; set; }
-
-        [Required]
+        [Required(ErrorMessage = "密码不能为空")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "密码")]
         public string Password { get; set; }
-
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
@@ -77,7 +75,26 @@ namespace SocialGoal.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
+    public class AddUsersViewModel
+    {
+        //del  edit  add
+        public string oper { get; set; }
+        public string id { get; set; }
+        [Required]       
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+        [Required]
+        [Display(Name = "UserName")]
+        public string UserName { get; set; }
 
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+        
+    }
     public class ResetPasswordViewModel
     {
         [Required]

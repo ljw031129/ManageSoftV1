@@ -67,7 +67,7 @@ namespace SocialGoal
                 "~/scripts/bootstrap/bootstrap.min.js",
                 "~/scripts/notification/SmartNotification.min.js",
                 "~/scripts/smartwidgets/jarvis.widget.min.js",
-                "~/scripts/plugin/jquery-validate/jquery.validate.min.js",
+                //"~/scripts/plugin/jquery-validate/jquery.validate.min.js",
                 "~/scripts/plugin/masked-input/jquery.maskedinput.min.js",
                 "~/scripts/plugin/select2/select2.min.js",
                 "~/scripts/plugin/bootstrap-slider/bootstrap-slider.min.js",
@@ -107,7 +107,10 @@ namespace SocialGoal
 
             bundles.Add(new ScriptBundle("~/scripts/jq-grid").Include(
                 "~/scripts/plugin/jqgrid/jquery.jqGrid.min.js",
-                "~/scripts/plugin/jqgrid/grid.locale-en.min.js"
+                //"~/scripts/plugin/jqgrid/grid.locale-en.min.js"
+                //"~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js",
+                    "~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js",
+                    "~/Scripts/jquery.jqGrid-4.6.0/UpJqGridClass.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/scripts/forms").Include(

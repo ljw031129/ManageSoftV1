@@ -183,9 +183,9 @@ var calc_navbar_height = function() {
 			
 					// ask verification
 					$.SmartMessageBox({
-						title : "<i class='fa fa-sign-out txt-color-orangeDark'></i> Logout <span class='txt-color-orangeDark'><strong>" + $('#show-shortcut').text() + "</strong></span> ?",
-						content : $this.data('logout-msg') || "You can improve your security further after logging out by closing this opened browser",
-						buttons : '[No][Yes]'
+						title : "<i class='fa fa-sign-out txt-color-orangeDark'></i> 注销 <span class='txt-color-orangeDark'><strong>" + $('#show-shortcut').text() + "</strong></span> ?",
+						content : $this.data('logout-msg') || "注销当前用户后，需要重新登录系统！",
+						buttons : '[否][是]'
 			
 					}, function(ButtonPressed) {
 						if (ButtonPressed == "Yes") {

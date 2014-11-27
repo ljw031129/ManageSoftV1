@@ -11,25 +11,29 @@
         @{ Html.RenderPartial("_LoginText"); }
         <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
             <div class="well no-padding">
-                <form action="@Url.Action("login", "account")" method="POST" id="login-form" class="smart-form client-form">
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "smart-form client-form", role = "form" }))
+                {
                     <header>
                         用户登录
-                    </header>                   
-                    @Html.AntiForgeryToken()                   
+                    </header>
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationBootstrap()
                     <fieldset>
                         <section>
-                            <label class="label">用户名</label>
+                            @Html.LabelFor(m => m.Email, new { @class = "label" })
                             <label class="input">
                                 <i class="icon-append fa fa-user"></i>
-                                <input type="text" name="Email" value="">
+                                @Html.TextBoxFor(m => m.Email)
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                                 <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> 请输入用户名</b>
                             </label>
                         </section>
                         <section>
-                            <label class="label">密码</label>
+                            @Html.LabelFor(m => m.Password, new { @class = "label" })
                             <label class="input">
                                 <i class="icon-append fa fa-lock"></i>
-                                <input type="password" name="Password" value="">
+                                @Html.PasswordFor(m => m.Password)
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                                 <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> 输入密码</b>
                             </label>
                             <div class="note">
@@ -42,14 +46,14 @@
                                 <input type="hidden" name="rememberMe" value="false" />
                                 <i></i>记住我
                             </label>
-                        </section>                     
+                        </section>
                     </fieldset>
                     <footer>
                         <button type="submit" class="btn btn-primary">
                             登录
                         </button>
                     </footer>
-                </form>
+                }
             </div>
             @{ Html.RenderPartial("_SocialMedia"); }
         </div>
@@ -57,39 +61,11 @@
 </div>
 
 @section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
         $(function () {
-            // Validation
-            $("#login-form").validate({
-                // Rules for form validation
-                rules: {
-                    email: {
-                        required: true,
-                        email: true
-                    },
-                    password: {
-                        required: true,
-                        minlength: 3,
-                        maxlength: 20
-                    }
-                },
+            pageSetUp();
 
-                // Messages for form validation
-                messages: {
-                    //email: {
-                    //    required: 'Please enter your email address',
-                    //    email: 'Please enter a VALID email address'
-                    //},
-                    password: {
-                        required: 'Please enter your password'
-                    }
-                },
-
-                // Do not change code below
-                errorPlacement: function (error, element) {
-                    error.insertAfter(element.parent());
-                }
-            });
         });
     </script>
 }

@@ -35,7 +35,7 @@ $.extend($.jgrid,{
         bNo : "否",
         bExit : "取消",
         msg: {
-            required:"此字段必需",
+            required:"不能为空",
             number:"请输入有效数字",
             minValue:"输值必须大于等于 ",
             maxValue:"输值必须小于等于 ",

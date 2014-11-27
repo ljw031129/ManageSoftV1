@@ -258,6 +258,10 @@
     <Compile Include="Migrations\201411201338040_AddIdentityUser.Designer.cs">
       <DependentUpon>201411201338040_AddIdentityUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411270402567_updateUsers.cs" />
+    <Compile Include="Migrations\201411270402567_updateUsers.Designer.cs">
+      <DependentUpon>201411270402567_updateUsers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\EquipmentRepository.cs" />
@@ -401,6 +405,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411201338040_AddIdentityUser.resx">
       <DependentUpon>201411201338040_AddIdentityUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411270402567_updateUsers.resx">
+      <DependentUpon>201411270402567_updateUsers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

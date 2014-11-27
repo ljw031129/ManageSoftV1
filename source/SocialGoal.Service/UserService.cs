@@ -72,7 +72,7 @@ namespace SocialGoal.Service
         }
         public IEnumerable<ApplicationUser> GetUsers(string username)
         {
-            var users = userRepository.GetMany(u => (u.FirstName + " " + u.LastName).Contains(username) || u.Email.Contains(username)).OrderBy(u => u.FirstName).ToList();
+            var users = userRepository.GetMany(u =>u.UserName.Contains(username) || u.Email.Contains(username)).OrderBy(u => u.UserName).ToList();
 
             return users;
         }
@@ -105,9 +105,7 @@ namespace SocialGoal.Service
         }
         public void EditUser(string id,string firstname, string lastname,string email)
         {
-            var user = GetUser(id);
-            user.FirstName = firstname;
-            user.LastName = lastname;
+            var user = GetUser(id);            
             user.Email = email;
             UpdateUser(user);
         }
@@ -119,7 +117,7 @@ namespace SocialGoal.Service
 
         public IEnumerable<ApplicationUser> SearchUser(string searchString)
         {
-            var users = userRepository.GetMany(u=>u.UserName.Contains(searchString)|| u.FirstName.Contains(searchString) || u.LastName.Contains(searchString) || u.Email.Contains(searchString)).OrderBy(u=>u.DisplayName);
+            var users = userRepository.GetMany(u=>u.UserName.Contains(searchString) || u.Email.Contains(searchString)).OrderBy(u=>u.UserName);
             return users;
         }
 

@@ -79,8 +79,17 @@
                         <a href='@Url.Action("Index", "OrgEnterprise", null)'>
                             企业管理
                         </a>
+                    </li>  
+                    <li class="@Html.RouteIf("RolesAdmin", "active")">
+                        <a href='@Url.Action("Index", "RolesAdmin", null)'>
+                            角色管理
+                        </a>
                     </li>                  
-
+                    <li class="@Html.RouteIf("UsersAdmin", "active")">
+                        <a href='@Url.Action("Index", "UsersAdmin", null)'>
+                            用户管理
+                        </a>
+                    </li> 
                 </ul>
             </li>
 

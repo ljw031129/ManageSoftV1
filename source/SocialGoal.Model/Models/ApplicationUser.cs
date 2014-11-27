@@ -19,10 +19,7 @@ namespace SocialGoal.Model.Models
         public ApplicationUser()
         {
             DateCreated = DateTime.Now;
-        }
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
+        }     
 
         public string ProfilePicUrl { get; set; }
 
@@ -32,19 +29,13 @@ namespace SocialGoal.Model.Models
 
         public bool Activated { get; set; }
 
-        public int RoleId { get; set; }
         //用户绑定的设备信息
 
         public virtual ICollection<TerminalEquipment> TerminalEquipment { get; set; }
         //企业信息
         public string OrgEnterpriseId { get; set; }
         public virtual OrgEnterprise OrgEnterprise { get; set; }
-
-        public string DisplayName
-        {
-            get { return FirstName + " " + LastName; }
-        }
-
+       
 
     }
 }
