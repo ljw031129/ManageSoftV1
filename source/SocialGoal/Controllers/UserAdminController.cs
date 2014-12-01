@@ -16,7 +16,7 @@ using SocialGoal.Core.xFilter.Expressions;
 
 namespace SocialGoal.Controllers
 {
-    [Authorize(Roles = "Admin")]
+   // [Authorize(Roles = "Admin")]
     public class UsersAdminController : Controller
     {
         public UsersAdminController()
@@ -99,8 +99,11 @@ namespace SocialGoal.Controllers
                             var adminresult = await UserManager.CreateAsync(user, addUsersViewModel.Password);
                             if (!adminresult.Succeeded)
                             {
-                                  ModelState.AddModelError("", adminresult.Errors.First());
-                            }                            
+                                ModelState.AddModelError("", adminresult.Errors.First());
+                            }
+                            else {
+                                return Json(new { success = true });
+                            }                          
                              break;
                         case "edit":
                              adminresult = await UserManager.CreateAsync(user, addUsersViewModel.Password);

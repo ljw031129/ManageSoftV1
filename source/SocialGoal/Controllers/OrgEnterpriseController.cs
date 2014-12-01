@@ -48,13 +48,15 @@ namespace SocialGoal.Controllers
         {
             StringBuilder st = new StringBuilder();
             IEnumerable<OrgEnterprise> re = await _orgEnterpriseService.GetAll();
+           string reS = await _orgEnterpriseService.GetAllTree();
+
             st.Append("<select>");
             foreach (var item in re)
             {
                 st.Append("<option value='" + item.OrgEnterpriseId + "'>" + item.OrgEnterpriseName + "</option>");
 
             }
-            st.Append("</select>"); ;
+            st.Append("</select>");
             return st.ToString();
         }
         public async Task<ActionResult> Get(JqGridSetting jqGridSetting)

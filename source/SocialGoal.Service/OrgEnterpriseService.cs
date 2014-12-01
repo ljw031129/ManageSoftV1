@@ -33,6 +33,8 @@ namespace SocialGoal.Service
         Task<IEnumerable<OrgEnterprise>> GetAll();
 
         Task<List<ZtreeEntity>> GetOrgEnterpriseZtree(string userId);
+
+        Task<string> GetAllTree();
     }
     public class OrgEnterpriseService : IOrgEnterpriseService
     {
@@ -128,6 +130,7 @@ namespace SocialGoal.Service
 
         public Task<List<ZtreeEntity>> GetOrgEnterpriseZtree(string userId)
         {
+            //当前用户所在企业ID
             string orgStructureId = "52C96C61-8532-4ACE-AB6E-2BE214289280";
             List<OrgEnterprise> orgList = _orgEnterpriseRepository.GetAll().ToList();
             List<ZtreeEntity> dList = new List<ZtreeEntity>();
@@ -180,6 +183,29 @@ namespace SocialGoal.Service
                 }
                 GC.Collect();
             }
-        }      
+        }
+
+
+        public Task<string> GetAllTree()
+        {
+            //string orgStructureId = "52C96C61-8532-4ACE-AB6E-2BE214289280";
+            //List<OrgEnterprise> orgList = _orgEnterpriseRepository.GetAll().ToList();
+            //List<ZtreeEntity> dList = new List<ZtreeEntity>();
+            //OrgEnterpriseTree(orgList, orgStructureId, dList, orgStructureId);
+            //StringBuilder st = new StringBuilder();         
+          
+
+            //st.Append("<select>");
+            //foreach (var item in re)
+            //{
+            //    st.Append("<option value='" + item.OrgEnterpriseId + "'>" + item.OrgEnterpriseName + "</option>");
+
+            //}
+            //st.Append("</select>");
+
+
+
+            return Task.FromResult("");
+        }
     }
 }
