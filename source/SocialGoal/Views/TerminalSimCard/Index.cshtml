@@ -105,7 +105,15 @@
                 edit: false,
                 add: false,
                 del: true
-            });
+            },
+            {},
+                   {},
+                   {},
+                   { multipleSearch: true, multipleGroup: true }
+            );
+
+           
+
             jQuery("#jqgrid").jqGrid('inlineNav', "#pjqgrid");
             /* Add tooltips */
             $('.navtable .ui-pg-button').tooltip({

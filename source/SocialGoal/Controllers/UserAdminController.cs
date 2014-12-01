@@ -16,7 +16,7 @@ using SocialGoal.Core.xFilter.Expressions;
 
 namespace SocialGoal.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class UsersAdminController : Controller
     {
         public UsersAdminController()
