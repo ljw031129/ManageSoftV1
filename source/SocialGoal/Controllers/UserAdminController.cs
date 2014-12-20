@@ -91,7 +91,7 @@ namespace SocialGoal.Controllers
            
                 if (ModelState.IsValid)
                 {
-                    var user = new ApplicationUser { UserName = addUsersViewModel.Email, Email = addUsersViewModel.Email };
+                    var user = new ApplicationUser { UserName = addUsersViewModel.Email, Email = addUsersViewModel.Email, OrgEnterpriseId = addUsersViewModel.OrgEnterpriseId };
                   
                     switch (addUsersViewModel.oper)
                     {

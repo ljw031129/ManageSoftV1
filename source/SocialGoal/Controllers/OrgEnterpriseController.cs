@@ -15,6 +15,7 @@ using System.Web.Mvc;
 
 namespace SocialGoal.Controllers
 {
+    [Authorize]
     public class OrgEnterpriseController : Controller
     {
         private readonly IOrgEnterpriseService _orgEnterpriseService;

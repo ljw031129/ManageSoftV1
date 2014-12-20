@@ -179,8 +179,7 @@ var calc_navbar_height = function() {
 			var smartActions = {
 			    
 			    // LOGOUT MSG 
-			    userLogout: function($this){
-			
+			    userLogout: function($this){		
 					// ask verification
 					$.SmartMessageBox({
 						title : "<i class='fa fa-sign-out txt-color-orangeDark'></i> 注销 <span class='txt-color-orangeDark'><strong>" + $('#show-shortcut').text() + "</strong></span> ?",
@@ -188,12 +187,12 @@ var calc_navbar_height = function() {
 						buttons : '[否][是]'
 			
 					}, function(ButtonPressed) {
-						if (ButtonPressed == "Yes") {
+					    if (ButtonPressed == "是") {
 							$.root_.addClass('animated fadeOutUp');
 							setTimeout(logout, 1000);
 						}
 					});
-					function logout() {
+					function logout() {					  
 						window.location = $this.attr('href');
 					}
 			

@@ -92,7 +92,7 @@ namespace SocialGoal.Models
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
-
+        public string OrgEnterpriseId { get; set; }
         
     }
     public class ResetPasswordViewModel

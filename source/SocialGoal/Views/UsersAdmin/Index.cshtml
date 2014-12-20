@@ -269,9 +269,10 @@
                     datatype: "json",
                     mtype: "get",
                     colNames:
-                        ['Id', '用户名', '邮箱地址','密码', '注册时间'],
+                        ['Id','所属企业', '用户名', '邮箱地址','密码', '注册时间'],
                     colModel: [
                         { name: 'Id', key: true, index: 'TerminalSimCardId', editable: true, width: 55, hidden: true },
+                         { name: 'OrgEnterpriseId', index: 'OrgEnterpriseId', editable: true, width: 100, edittype: "select", editoptions: { dataUrl: '/OrgEnterprise/GetAll' }, stype: "select", searchoptions: { dataUrl: '/OrgEnterprise/GetAll' } },
                         { name: 'UserName', index: 'TerminalSimCardNum', editable: true, width: 60, editrules: { required: true } },
                         { name: 'Email', index: 'TerminalSimCardSerialNum', editable: true, width: 120 },
                         { name: 'Password', index: 'Password', editable: true, width: 120 },

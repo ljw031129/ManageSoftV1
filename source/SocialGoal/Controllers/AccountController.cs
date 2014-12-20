@@ -24,7 +24,7 @@ namespace SocialGoal.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -64,16 +64,20 @@ namespace SocialGoal.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Logout()
         {
-            // First we clean the authentication ticket like always
-           // FormsAuthentication.SignOut();
-
-            // Second we clear the principal to ensure the user does not retain any authentication
+            AuthenticationManager.SignOut();
+            FormsAuthentication.SignOut();
             HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
+            return RedirectToAction("Login", "Account");
+            //// First we clean the authentication ticket like always
+            //FormsAuthentication.SignOut();
 
-            // Last we redirect to a controller/action that requires authentication to ensure a redirect takes place
-            // this clears the Request.IsAuthenticated flag since this triggers a new request
-            return RedirectToLocal("");
-        }       
+            //// Second we clear the principal to ensure the user does not retain any authentication
+            //HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
+
+            //// Last we redirect to a controller/action that requires authentication to ensure a redirect takes place
+            //// this clears the Request.IsAuthenticated flag since this triggers a new request
+            //return RedirectToLocal();
+        }
 
         private ApplicationSignInManager _signInManager;
 
@@ -419,7 +423,7 @@ namespace SocialGoal.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        
+
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
@@ -448,9 +452,10 @@ namespace SocialGoal.Controllers
             }
         }
 
-        private ActionResult RedirectToLocal(string returnUrl)
+        private ActionResult RedirectToLocal(string returnUrl = "")
         {
-            if (Url.IsLocalUrl(returnUrl))
+
+            if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
             }
