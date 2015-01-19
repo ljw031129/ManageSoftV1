@@ -28,16 +28,16 @@
                 <!-- Widget ID (each widget will need unique ID)-->
                 <div class="jarviswidget " id="wid-id-0" data-widget-editbutton="false">
                     <!-- widget options:
-            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-            data-widget-colorbutton="false"
-            data-widget-editbutton="false"
-            data-widget-togglebutton="false"
-            data-widget-deletebutton="false"
-            data-widget-fullscreenbutton="false"
-            data-widget-custombutton="false"
-            data-widget-collapsed="true"
-            data-widget-sortable="false"
-            -->
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+                    -->
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                         <h2>企业信息树</h2>
@@ -77,16 +77,16 @@
                 <!-- Widget ID (each widget will need unique ID)-->
                 <div class="jarviswidget " id="wid-id-1" data-widget-editbutton="false">
                     <!-- widget options:
-            usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-            data-widget-colorbutton="false"
-            data-widget-editbutton="false"
-            data-widget-togglebutton="false"
-            data-widget-deletebutton="false"
-            data-widget-fullscreenbutton="false"
-            data-widget-custombutton="false"
-            data-widget-collapsed="true"
-            data-widget-sortable="false"
-            -->
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+                    -->
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                         <h2>企业详细信息</h2>
@@ -177,14 +177,10 @@
     </section>
     <!-- end widget grid -->
 
-    <div id="dialog" title="企业树加载中">
-        <p>数据加载中.</p>
-    </div>
-
+    
 </div>
 @section scripts{
-    @Scripts.Render("~/bundles/ztree/js")
-    @Scripts.Render("~/bundles/jqGrid/js")
+    @Scripts.Render("~/bundles/ztree/js") 
     <script type="text/javascript">
         var userId = "noLogin";
         if ("@User.Identity.IsAuthenticated") {
@@ -297,6 +293,9 @@
         //从服务器获取数据
         var treeData = null;
         function GetDatas() {
+            var d = dialog();
+            d.title('数据加载中');
+            d.show();
             $("#dialog").dialog("open");
             $.ajax({
                 url: '@Url.Content("~/OrgEnterprise/GetOrgEnterpriseZtree/")', //该页面为处理信息页面，要求页面文件为空。（实际项目中建议用HttpHandler）
@@ -309,7 +308,8 @@
                     treeData = data;
                     zTreeObj = $.fn.zTree.init($("#tree"), setting, data);
                     //CheckedNodes();
-                    $("#dialog").dialog("close");
+                    d.close();
+                    d.remove();
                 }
             });
         }
@@ -395,7 +395,7 @@
             key.bind("focus", focusKey)
             .bind("blur", blurKey)
             .bind("propertychange", searchNode)
-            .bind("input", searchNode);          
+            .bind("input", searchNode);
 
         });
 

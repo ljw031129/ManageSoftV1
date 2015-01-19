@@ -35,9 +35,12 @@
                         <!-- end widget edit box -->
                         <!-- widget content -->
                         <div class="widget-body  no-padding">
+                            <div class="widget-body-toolbar"></div>
                             <div class="table-responsive">
                                 <table id="jqgrid"></table>
                                 <div id="pjqgrid"></div>
+                            </div>
+                            <div class="widget-footer">
                             </div>
                         </div>
                         <!-- end widget content -->
@@ -78,7 +81,7 @@
                     ],
                     //   multiselect: true,
                     //  rownumbers: true,//添加左侧行号
-                    altRows: true,//设置为交替行表格,默认为false
+                    // altRows: true,//设置为交替行表格,默认为false
                     rowNum: 10,
                     height: 'auto',
                     rowList: [10, 20, 30],
@@ -107,20 +110,17 @@
                 del: true
             },
             {},
-                   {},
-                   {},
-                   { multipleSearch: true, multipleGroup: true }
+            {},
+            {},
+            { multipleSearch: true, multipleGroup: true }
             );
-
-           
-
             jQuery("#jqgrid").jqGrid('inlineNav', "#pjqgrid");
             /* Add tooltips */
             $('.navtable .ui-pg-button').tooltip({
                 container: 'body'
             });
             // update buttons
-            UpJqGridClass();
+            jqgridStyle();
             $(window).on('resize.jqGrid', function () {
                 jQuery("#jqgrid").jqGrid('setGridWidth', $("#content").width());
             })

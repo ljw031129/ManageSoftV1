@@ -59,21 +59,25 @@ namespace SocialGoal.Models
 
     public class RegisterViewModel
     {
-        [Required]
+        [Required]      
+        [Display(Name = "用户名")]
+        public string UserName { get; set; }
+        //[Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "邮箱账号")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "长度为大于6个字符", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "密码")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "确认密码")]
+        [Compare("Password", ErrorMessage = "密码不一致")]
         public string ConfirmPassword { get; set; }
+        public string OrgEnterpriseId { get; set; }
     }
     public class AddUsersViewModel
     {

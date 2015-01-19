@@ -13,10 +13,12 @@ using SocialGoal.Model.Models;
 using SocialGoal.Models;
 using SocialGoal.Data;
 using SocialGoal.Core.xFilter.Expressions;
+using System.Text;
 
 namespace SocialGoal.Controllers
 {
-   // [Authorize(Roles = "Admin")]
+    // [Authorize(Roles = "Admin")]
+    [Authorize]
     public class UsersAdminController : Controller
     {
         public UsersAdminController()
@@ -75,46 +77,60 @@ namespace SocialGoal.Controllers
                 rows = (from item in applicationUser
                         select new
                         {
-                            Id=item.Id,
+                            Id = item.Id,
                             UserName = item.UserName,
-                            Email = item.Email,                            
+                            Email = item.Email,
+                            OrgEnterpriseId = item.OrgEnterprise.OrgEnterpriseName,
+                            Roles = GetUserRoles(item.Id),
                             DateCreated = item.DateCreated
-                           
+
                         }).ToArray()
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        private string GetUserRoles(string id)
+        {
+            StringBuilder st = new StringBuilder();
+            var roles = UserManager.GetRolesAsync(id);
+            foreach (var item in roles.Result)
+            {
+                st.Append(item);
+                st.Append(";");
+            }
+            return st.ToString(); ;
+        }
+
         [HttpPost]
         public async Task<JsonResult> Post(AddUsersViewModel addUsersViewModel)
         {
-          
-           
-                if (ModelState.IsValid)
-                {
-                    var user = new ApplicationUser { UserName = addUsersViewModel.Email, Email = addUsersViewModel.Email, OrgEnterpriseId = addUsersViewModel.OrgEnterpriseId };
-                  
-                    switch (addUsersViewModel.oper)
-                    {
-                        case "add":
-                            var adminresult = await UserManager.CreateAsync(user, addUsersViewModel.Password);
-                            if (!adminresult.Succeeded)
-                            {
-                                ModelState.AddModelError("", adminresult.Errors.First());
-                            }
-                            else {
-                                return Json(new { success = true });
-                            }                          
-                             break;
-                        case "edit":
-                             adminresult = await UserManager.CreateAsync(user, addUsersViewModel.Password);
-                             break;
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = addUsersViewModel.Email, Email = addUsersViewModel.Email, OrgEnterpriseId = addUsersViewModel.OrgEnterpriseId };
 
-                        case "del":
-                             adminresult = await UserManager.CreateAsync(user, addUsersViewModel.Password);
-                             break;
-                    }
+                switch (addUsersViewModel.oper)
+                {
+                    case "add":
+                        var adminresult = await UserManager.CreateAsync(user, addUsersViewModel.Password);
+                        if (!adminresult.Succeeded)
+                        {
+                            ModelState.AddModelError("", adminresult.Errors.First());
+                        }
+                        else
+                        {
+                            return Json(new { success = true });
+                        }
+                        break;
+                    case "edit":
+                        adminresult = await UserManager.CreateAsync(user, addUsersViewModel.Password);
+                        break;
+
+                    case "del":
+                        adminresult = await UserManager.CreateAsync(user, addUsersViewModel.Password);
+                        break;
                 }
-           
+            }
+
 
             // 定义错误代码;
             HttpContext.Response.StatusCode = 400;
@@ -156,7 +172,7 @@ namespace SocialGoal.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = userViewModel.Email, Email = userViewModel.Email };
+                var user = new ApplicationUser { UserName = userViewModel.UserName, Email = userViewModel.Email, OrgEnterpriseId = userViewModel.OrgEnterpriseId };
                 var adminresult = await UserManager.CreateAsync(user, userViewModel.Password);
 
                 //Add User to the selected Roles 
@@ -206,6 +222,9 @@ namespace SocialGoal.Controllers
             {
                 Id = user.Id,
                 Email = user.Email,
+                UserName = user.UserName,
+                OrgEnterpriseId = user.OrgEnterpriseId,
+                OrgEnterpriseName = user.OrgEnterprise.OrgEnterpriseName,
                 RolesList = RoleManager.Roles.ToList().Select(x => new SelectListItem()
                 {
                     Selected = userRoles.Contains(x.Name),
@@ -219,7 +238,7 @@ namespace SocialGoal.Controllers
         // POST: /Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Email,Id")] EditUserViewModel editUser, params string[] selectedRole)
+        public async Task<ActionResult> Edit([Bind(Include = "Email,Id,UserName,OrgEnterpriseId")] EditUserViewModel editUser, params string[] selectedRole)
         {
             if (ModelState.IsValid)
             {
@@ -229,8 +248,9 @@ namespace SocialGoal.Controllers
                     return HttpNotFound();
                 }
 
-                user.UserName = editUser.Email;
+                user.UserName = editUser.UserName;
                 user.Email = editUser.Email;
+                user.OrgEnterpriseId = editUser.OrgEnterpriseId;
 
                 var userRoles = await UserManager.GetRolesAsync(user.Id);
 
@@ -275,30 +295,30 @@ namespace SocialGoal.Controllers
         //
         // POST: /Users/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
             if (ModelState.IsValid)
             {
                 if (id == null)
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    return Json("请选择要删除的用户？");
                 }
 
                 var user = await UserManager.FindByIdAsync(id);
                 if (user == null)
                 {
-                    return HttpNotFound();
+                    return Json("当前用户无效！");
                 }
                 var result = await UserManager.DeleteAsync(user);
                 if (!result.Succeeded)
                 {
-                    ModelState.AddModelError("", result.Errors.First());
-                    return View();
+                    // ModelState.AddModelError("", result.Errors.First());
+                    return Json(result.Errors.First());
                 }
-                return RedirectToAction("Index");
+                return Json("操作成功！");
             }
-            return View();
+            return Json("信息验证失败！");
         }
     }
 }

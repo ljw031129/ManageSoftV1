@@ -1,14 +1,13 @@
 ﻿@model SocialGoal.Model.Models.ReceiveDataLast
 @{
     ViewBag.Title = "终端详细信息";
-    Layout = "../Shared/_LayoutFlattyMain.cshtml";
+  
 }
 @section styles{
     <link href="~/Content/assets/map.Default.css" rel="stylesheet" />
 }
 <div class='row' id='content-wrapper'>
-    <div class='col-xs-12'>
-        @Html.Partial("_PartialTerminalNav")
+    <div class='col-xs-12'>       
         <div class="row" ng-controller="TerminalCtrl">
             <div class='col-sm-12 box' style='margin-bottom: 0'>
                 <div class='box-header blue-background'>

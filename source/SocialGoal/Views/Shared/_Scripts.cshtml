@@ -1,7 +1,6 @@
 ﻿<!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
 <script src="~/Scripts/libs/jquery-2.1.1.min.js"></script>
 <script src="~/Scripts/libs/jquery-ui-1.10.3.min.js"></script>
-@*@Scripts.Render("~/bundles/jqueryval")*@
 <!-- IMPORTANT: SmartAdmin Core -->
 @Scripts.Render("~/scripts/smartadmin")
 
@@ -37,42 +36,14 @@
 <!-- Full Calendar -->
 @Scripts.Render("~/scripts/full-calendar")
 
+<!-- Angular js -->
+@Scripts.Render("~/scripts/angular")
+
 <!-- DO NOT REMOVE : GLOBAL FUNCTIONS! -->
-<script type="text/javascript">    
-    //获取当前时间
-    //function CurentTime() {
-    //    var now = new Date();
-
-    //    var year = now.getFullYear();       //年
-    //    var month = now.getMonth() + 1;     //月
-    //    var day = now.getDate();            //日
-
-    //    var hh = now.getHours();            //时
-    //    var mm = now.getMinutes();          //分
-
-    //    var clock = year + "-";
-
-    //    if (month < 10)
-    //        clock += "0";
-
-    //    clock += month + "-";
-
-    //    if (day < 10)
-    //        clock += "0";
-
-    //    clock += day + " ";
-
-    //    if (hh < 10)
-    //        clock += "0";
-
-    //    clock += hh + ":";
-    //    if (mm < 10) clock += '0';
-    //    clock += mm;
-    //    return (clock);
-    //}
-    //var datePick = function (elem) {
-    //    jQuery(elem).datepicker();
-    //}
+<script>  
+    var datePick = function (elem) {
+        jQuery(elem).datepicker();
+    }
     $(document).ready(function () {
         pageSetUp();
         drawBreadCrumb();
@@ -83,18 +54,3 @@
 {
     @Model
 }
-<!-- Your GOOGLE ANALYTICS CODE Below-->
-    @*<script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'xx-xxxxxxxx-x']);
-    _gaq.push(['_trackPageview']);
-
-    (function () {
-        var ga = document.createElement('script');
-        ga.type = 'text/javascript';
-        ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(ga, s);
-    })();
-</script>*@

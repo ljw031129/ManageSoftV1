@@ -12,6 +12,7 @@ using System.Web.Mvc;
 
 namespace SocialGoal.Controllers
 {
+    [Authorize]
     public class TerminalController : Controller
     {
         private readonly ITerminalEquipmentService _terminalEquipmentService;
@@ -88,9 +89,6 @@ namespace SocialGoal.Controllers
         {
             int count = 0;
             IEnumerable<TerminalEquipment> orgStructure = await _terminalEquipmentService.GetOrgStructures(jqGridSetting, out count);
-
-
-
             var result = new
             {
                 total = (int)Math.Ceiling((double)count / jqGridSetting.rows),
@@ -99,16 +97,17 @@ namespace SocialGoal.Controllers
                 rows = (from item in orgStructure.ToList()
                         select new
                         {
-                            EquipmentTypeId = item.Equipment != null ? item.Equipment.EquipmentTypeId : "",
-                            EquipmentNum = item.Equipment != null ? item.Equipment.EquipmentNum : "",
-                            EquipmentName = item.Equipment != null ? item.Equipment.EquipmentName : "",
+                            //EquipmentTypeId = item.Equipment != null ? item.Equipment.EquipmentTypeId : "",
+                            //EquipmentNum = item.Equipment != null ? item.Equipment.EquipmentNum : "",
+                            //EquipmentName = item.Equipment != null ? item.Equipment.EquipmentName : "",
                             TerminalEquipmentId = item.TerminalEquipmentId,
                             TerminalEquipmentNum = item.TerminalEquipmentNum,
                             TerminalEquipmentType = item.TerminalEquipmentType,
+                            TerminalSimCardNum=item.TerminalSimCard.TerminalSimCardNum,
                             //最新信息
-                            TotalWorkTime = item.ReceiveDataLast != null ? item.ReceiveDataLast.TotalWorkTime.ToString() : "",
-                            ReceiveTime = item.ReceiveDataLast.ReceiveTime != null ? item.ReceiveDataLast.ReceiveTime.ToString() : "",
-                            AccStatus = item.ReceiveDataLast.AccStatus != null ? item.ReceiveDataLast.AccStatus.ToString() : "",
+                            GpsPlat = item.ReceiveDataLast != null ? item.ReceiveDataLast.GpsPlat.ToString() : "",
+                            GpsPlog = item.ReceiveDataLast != null ? item.ReceiveDataLast.GpsPlog.ToString() : "",
+                            ReceiveTime = item.ReceiveDataLast.ReceiveTime != null ? item.ReceiveDataLast.ReceiveTime.ToString() : "",                            
                             GpsPos = item.ReceiveDataLast.GpsPos != null ? item.ReceiveDataLast.GpsPos.ToString() : ""
                         }).ToArray()
             };

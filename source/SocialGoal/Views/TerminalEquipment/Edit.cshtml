@@ -1,0 +1,165 @@
+﻿@model SocialGoal.Model.ViewModels.TerminalEquipmentViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+<div id="content">
+    <!-- Bread crumb is created dynamically -->
+    <!--
+       The ID "widget-grid" will start to initialize all widgets below
+       You do not need to use widgets if you dont want to. Simply remove
+       the <section></section> and you can use wells or panels instead
+       -->
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget" id="wid-id-3" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <!-- widget options:
+                        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                        data-widget-colorbutton="false"
+                        data-widget-editbutton="false"
+                        data-widget-togglebutton="false"
+                        data-widget-deletebutton="false"
+                        data-widget-fullscreenbutton="false"
+                        data-widget-custombutton="false"
+                        data-widget-collapsed="true"
+                        data-widget-sortable="false"
+                    -->
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                        <h2>新增智能终端设备 </h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+
+                            @using (Html.BeginForm("Edit", "TerminalEquipment", FormMethod.Post, new { @class = "smart-form", role = "form" }))
+                            {
+
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationBootstrap()
+                                @Html.HiddenFor(m => m.oper, new { @Value = "edit" })
+                                @Html.HiddenFor(m => m.TerminalEquipmentId)
+                                @Html.HiddenFor(m => m.TerminalEquipmentUpdateTime)
+                                @Html.HiddenFor(m => m.TerminalEquipmentCreateTime)
+                                @Html.HiddenFor(m => m.ReceiveDataLastId)
+                                <header>所属企业</header>
+                                <fieldset>
+
+                                    <div class="row">
+                                        <section class="col col-6">
+                                            <label class="input">
+                                                <i class="icon-append fa fa-search"></i>
+                                                <input type="text" placeholder="搜索企业" id="OrgEnterpriseId" name="OrgEnterpriseId" class="form-control">
+
+                                            </label>
+                                        </section>
+                                    </div>
+                                </fieldset>
+                                <header>
+                                    智能终端信息
+                                </header>
+                                <fieldset>
+                                    <div class="row">
+                                        <section class="col col-6">
+                                            @Html.LabelFor(m => m.TerminalEquipmentType, htmlAttributes: new { @class = "label" })
+                                            <label class="input">
+                                                @Html.DropDownListFor(m => m.TerminalEquipmentType, ViewBag.TerminalEquipmentType as List<SelectListItem>, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.TerminalEquipmentNum, "", new { @class = "text-danger" })
+
+                                            </label>
+                                        </section>
+                                        <section class="col col-6">
+                                            @Html.LabelFor(m => m.TerminalSimCardId, htmlAttributes: new { @class = "label" })
+                                            <label class="input">
+                                                @Html.DropDownListFor(m => m.TerminalSimCardId, ViewBag.TerminalSimCardId as List<SelectListItem>, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.TerminalSimCardId, "", new { @class = "text-danger" })
+
+                                            </label>
+                                        </section>
+                                        <section class="col col-6">
+                                            @Html.LabelFor(m => m.PmFInterpreterId, htmlAttributes: new { @class = "label" })
+                                            <label class="input">
+                                                @Html.DropDownListFor(m => m.PmFInterpreterId, ViewBag.PmFInterpreterId as List<SelectListItem>, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.PmFInterpreterId, "", new { @class = "text-danger" })
+
+                                            </label>
+                                        </section>
+                                        <section class="col col-6">
+                                            @Html.LabelFor(m => m.TerminalEquipmentNum, htmlAttributes: new { @class = "label" })
+                                            <label class="input">
+                                                <i class="icon-append fa fa-user"></i>
+                                                @Html.TextBoxFor(m => m.TerminalEquipmentNum)
+                                                @Html.ValidationMessageFor(m => m.TerminalEquipmentNum, "", new { @class = "text-danger" })
+                                            </label>
+                                        </section>
+
+                                    </div>
+                                </fieldset>
+                                <footer>
+                                    <button type="submit" class="btn btn-primary">
+                                        保存
+                                    </button>
+                                </footer>
+                            }
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+            </article>
+        </div>
+
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            pageSetUp();
+            //The url we will send our get request to
+            var attendeeUrl = '@Url.Action("GetOrgEnterprises", "OrgEnterprise")';
+            var pageSize = 20;
+            $('#OrgEnterpriseId').select2(
+            {
+                placeholder: 'Enter name',
+                //Does the user have to enter any data before sending the ajax request
+                minimumInputLength: 0,
+                allowClear: true,
+                ajax: {
+                    //How long the user has to pause their typing before sending the next request
+                    quietMillis: 150,
+                    //The url of the json service
+                    url: attendeeUrl,
+                    dataType: 'json',
+                    //Our search term and what page we are on
+                    data: function (term, page) {
+                        return {
+                            pageSize: pageSize,
+                            pageNum: page,
+                            searchTerm: term
+                        };
+                    },
+                    results: function (data, page) {
+                        //Used to determine whether or not there are more results available,
+                        //and if requests for more data should be sent in the infinite scrolling
+                        var more = (page * pageSize) < data.Total;
+                        return { results: data.Results, more: more };
+                    }
+                }
+            });
+            $('#OrgEnterpriseId').select2("data", { "id": "@Model.OrgEnterpriseId", "text": "@Model.OrgEnterpriseName" })
+        });
+    </script>
+}

@@ -1,0 +1,666 @@
+﻿@model SocialGoal.Model.Models.ReceiveDataLast
+@{
+    ViewBag.Title = "终端详细信息";
+}
+@section styles{
+    <link href="~/Content/css/map.Default.css" rel="stylesheet" />
+}
+<div id="content">
+    <!--
+        The ID "widget-grid" will start to initialize all widgets below
+        You do not need to use widgets if you dont want to. Simply remove
+        the <section></section> and you can use wells or panels instead
+        -->
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-6">
+                <!-- new widget -->
+                <div class="jarviswidget" id="wid-id-1" data-widget-colorbutton="false" data-widget-editbutton="false">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+
+                    -->
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-map-marker"></i> </span>
+                        <h2>地图全屏</h2>
+                        <div class="widget-toolbar hidden-mobile">
+                            <span class="onoffswitch-title" id="mapSetHeight"><i class="fa fa-location-arrow"></i> 地图全屏</span>
+                            <span class="onoffswitch-title"><i class="fa fa-location-arrow"></i> Realtime</span>
+                            <span class="onoffswitch">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="checked" id="maponoffswitch">
+                                <label class="onoffswitch-label" for="maponoffswitch"> <span class="onoffswitch-inner" data-swchon-text="YES" data-swchoff-text="NO"></span> <span class="onoffswitch-switch"></span> </label>
+                            </span>
+                        </div>
+                    </header>
+                    <!-- widget div-->
+                    <div id="GetWidgetBodyHeight">
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <div>
+                                <label>Title:</label>
+                                <input type="text" />
+                            </div>
+                        </div>
+                        <!-- end widget edit box -->
+                        <div class="widget-body no-padding">
+                            <div class="widget-body-toolbar">
+                                <ul class="list-unstyled list-inline">
+                                    <li>
+                                        <i class="  icon-map-marker"></i>
+                                        当前位置：@Model.GpsPos
+                                    </li>
+                                    <li>
+                                        <i class=" icon-ellipsis-horizontal"></i>
+                                        纬度：@Model.GpsPlat
+                                    </li>
+                                    <li>
+                                        <i class=" icon-ellipsis-horizontal"></i>
+                                        经度：@Model.GpsPlog
+                                    </li>
+                                    <li>
+                                        <i class="icon-rocket"></i>
+                                        速度：@Model.GpsSpeed
+                                    </li>
+                                    <li>
+                                        <i class="icon-stackexchange"></i>
+                                        方向：@Model.GpsDirection
+                                    </li>
+                                    <li >
+                                        <i class="icon-map-marker"></i>
+                                        定位状态：@Model.GpsIsPos
+                                    </li>
+                                    <li class="text-success">
+                                        <i class="icon-map-marker"></i>
+                                        数据更新时间：@Model.GpsTime
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- content goes here -->
+                            <div id="iCenter"></div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="box box-transparent box-nomargin">
+                                        <div class="box-header">
+                                            <div class="actions">
+                                                <a class="btn box-remove btn-xs btn-link" href="#">
+                                                    <i class="icon-remove"></i>
+                                                </a>
+
+                                                <a class="btn box-collapse btn-xs btn-link" href="#">
+                                                    <i></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="box-content" id="result">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="widget-footer">
+                            </div>
+                            <!-- end content -->
+                        </div>
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+
+            </article>
+            <article class="col-sm-12 col-md-12 col-lg-6" ng-app="app" ng-controller="Ctrl">
+                <!-- new widget -->
+                <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-fullscreenbutton="false">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+
+                    -->
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-comments"></i> </span>
+                        <h2> 实时数据设置 </h2>
+                        <div class="widget-toolbar">
+                            <!-- add: non-hidden - to disable auto hide -->
+                            <div class="btn-group">
+                                <button class="btn dropdown-toggle btn-xs btn-success" data-toggle="dropdown">
+                                    Status <i class="fa fa-caret-down"></i>
+                                </button>
+                                <ul class="dropdown-menu pull-right js-status-update">
+                                    <li>
+                                        <a href="javascript:void(0);"><i class="fa fa-circle txt-color-green"></i> Online</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);"><i class="fa fa-circle txt-color-red"></i> Busy</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);"><i class="fa fa-circle txt-color-orange"></i> Away</a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a href="javascript:void(0);"><i class="fa fa-power-off"></i> Log Off</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <div>
+                                <label>Title:</label>
+                                <input type="text" />
+                            </div>
+                        </div>
+                        <!-- end widget edit box -->
+                        <div class="widget-body no-padding">
+                            <div class="widget-body-toolbar">
+                                <p id="introduction" class="label label-success" style="padding:7px; font-size:12px">等待连接服务器</p>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1"> 当前设备编号:</label>
+                                    <input type="text" value="@Model.DevId" id="nameInput" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <input class="btn btn-default" type="button" id="connectButton" value="连接设备" ng-click="connectWebSocket()" />
+                                    <input class="btn btn-danger" type="button" id="disconnectButton" value="断开连接" ng-click="disconnectWebSocket()" />
+
+                                </div>
+                                <hr />
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1"> 定时上报频率设置（秒）:</label>
+                                    <input type="text" value="60" id="timeSpan" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <input class="btn btn-default" type="button" value="定时频率" ng-click="CmdSetZetasizer('5')" />
+                                    <input class="btn btn-default" type="button" value="抓拍频率" ng-click="CmdSetZetasizer('6')" />
+                                </div>
+                            </div>
+                            <div class="widget-footer">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+                <!-- new widget -->
+                <div class="jarviswidget" id="wid-id-3" data-widget-editbutton="false" data-widget-fullscreenbutton="false">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+                    -->
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-comments"></i> </span>
+                        <h2> 运行记录 </h2>
+                        <div class="widget-toolbar">
+                            <!-- add: non-hidden - to disable auto hide -->
+                            <div class="btn-group">
+                                <button class="btn dropdown-toggle btn-xs btn-success" data-toggle="dropdown">
+                                    Status <i class="fa fa-caret-down"></i>
+                                </button>
+                                <ul class="dropdown-menu pull-right js-status-update">
+                                    <li>
+                                        <a href="javascript:void(0);"><i class="fa fa-circle txt-color-green"></i> Online</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);"><i class="fa fa-circle txt-color-red"></i> Busy</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);"><i class="fa fa-circle txt-color-orange"></i> Away</a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a href="javascript:void(0);"><i class="fa fa-power-off"></i> Log Off</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <div>
+                                <label>Title:</label>
+                                <input type="text" />
+                            </div>
+                        </div>
+                        <!-- end widget edit box -->
+                        <div class="widget-body no-padding">
+                            <div class="widget-body-toolbar"></div>
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>状态</th>
+                                            <th>经度</th>
+                                            <th>纬度</th>
+                                            <th>位置</th>                                           
+                                            <th>数据更新时间</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in DataList">                                            
+                                            <td>{{item.Statue}}</td>
+                                            <td>{{item.Lat}}</td>
+                                            <td>{{item.Lng}}</td>
+                                            <td>{{item.Pos}}</td>
+                                            <td><p class=" text-success">{{item.GpsTime}}</p></td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="widget-footer">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+        </div>
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>
+
+@section scripts{
+    <script language="javascript" src="http://webapi.amap.com/maps?v=1.3&key=990f8ec17963b0c7a507f9c74d275568"></script>
+    <script language="javascript">
+        var mapObj, marker, ruler2;
+        $(document).ready(function () {
+            mapInit();
+            //初始化按钮状态
+            $('#connectButton').removeAttr("disabled");
+            $('#disconnectButton').removeAttr("disabled");
+        });
+
+        //初始化地图对象，加载地图
+        function mapInit() {
+            mapObj = new AMap.Map("iCenter", {
+                //二维地图显示视口
+                view: new AMap.View2D({
+                    // center: new AMap.LngLat(116.397428, 39.90923),//地图中心点
+                    zoom: 17 //地图显示的缩放级别
+                }),
+                continuousZoomEnable: false
+            });
+            //地图类型切换
+            mapObj.plugin(["AMap.MapType"], function () {
+                var type = new AMap.MapType({ defaultType: 0 });//初始状态使用2D地图
+                mapObj.addControl(type);
+            });
+            //加载比例尺插件
+            mapObj.plugin(["AMap.Scale"], function () {
+                scale = new AMap.Scale();
+                mapObj.addControl(scale);
+            });
+            //在地图中添加ToolBar插件
+            mapObj.plugin(["AMap.ToolBar"], function () {
+                toolBar = new AMap.ToolBar();
+                mapObj.addControl(toolBar);
+            });
+            //在地图中添加鹰眼插件
+            mapObj.plugin(["AMap.OverView"], function () {
+                //加载鹰眼
+                overView = new AMap.OverView({
+                    visible: true //初始化隐藏鹰眼
+                });
+                mapObj.addControl(overView);
+            });
+            //拉大地图
+            var rectOptions = {
+                strokeStyle: "dashed",
+                strokeColor: "#FF33FF",
+                fillColor: "#FF99FF",
+                fillOpacity: 0.5,
+                strokeOpacity: 1,
+                strokeWeight: 2
+            };
+            //mapObj.plugin(["AMap.MouseTool"], function () {
+            //    mouseTool = new AMap.MouseTool(mapObj);
+            //    mouseTool.rectZoomIn(rectOptions);     //通过rectOptions更改拉框放大时鼠标绘制的矩形框样式
+            //});
+            mapObj.plugin(["AMap.RangingTool"], function () {
+
+                var lOptions = {
+                    strokeStyle: "solid",
+                    strokeColor: "#FF33FF",
+                    strokeOpacity: 1,
+                    strokeWeight: 2
+                };
+                var sMarker = {
+                    icon: new AMap.Icon({    //复杂图标
+                        size: new AMap.Size(28, 37),//图标大小
+                        image: "http://webapi.amap.com/images/custom_a_j.png", //大图地址
+                        imageOffset: new AMap.Pixel(0, 0)//相对于大图的取图位置
+                    })
+                };
+                var eMarker = {
+                    icon: new AMap.Icon({    //复杂图标
+                        size: new AMap.Size(28, 37),//图标大小
+                        image: "http://webapi.amap.com/images/custom_a_j.png", //大图地址
+                        imageOffset: new AMap.Pixel(-28, 0)//相对于大图的取图位置
+                    }),
+                    offset: new AMap.Pixel(-16, -35)
+                };
+                var rulerOptions = { startMarkerOptions: sMarker, endMarkerOptions: eMarker, lineOptions: lOptions };
+                ruler2 = new AMap.RangingTool(mapObj, rulerOptions);
+            });
+            //自动加点
+            geocoder();
+        }
+        //添加点标记
+        function addMarker(LngLatX, LngLatY) {
+            //var LngLatX = "116.405467"; //获取Lng值
+            //var LngLatY = "39.907761"; //获取Lat值
+            marker = new AMap.Marker({
+                // icon: "http://webapi.amap.com/images/marker_sprite.png",
+                position: new AMap.LngLat(LngLatX, LngLatY)
+            });
+
+            marker.setMap(mapObj);  //在地图上添加点
+            marker.setAnimation('AMAP_ANIMATION_BOUNCE'); //设置点标记的动画效果，此处为弹跳效果
+            mapObj.setFitView(); //调整到合理视野
+        }
+        function startRuler() {
+            ruler2.turnOn();
+        }
+
+        //已知点坐标
+        var lnglatXY = new AMap.LngLat('@Model.GpsPlog', '@Model.GpsPlat');
+        function geocoder() {
+            var MGeocoder;
+            //加载地理编码插件
+            mapObj.plugin(["AMap.Geocoder"], function () {
+                MGeocoder = new AMap.Geocoder({
+                    radius: 1000,
+                    extensions: "all"
+                });
+                //返回地理编码结果
+                AMap.event.addListener(MGeocoder, "complete", geocoder_CallBack);
+                //逆地理编码
+                MGeocoder.getAddress(lnglatXY);
+            });
+            //加点
+            var marker = new AMap.Marker({
+                map: mapObj,
+                icon: new AMap.Icon({
+                    image: "../../Content/ICON/car01.png",
+                    size: new AMap.Size(51, 51),
+                    imageOffset: new AMap.Pixel(-0, -0)
+                }),
+                position: lnglatXY,
+                offset: new AMap.Pixel(-5, -30)
+            });
+            mapObj.setFitView();
+        }
+        //鼠标划过显示相应点
+        var marker;
+        function onMouseOver(e) {
+            var coor = e.split(','),
+                lnglat = new AMap.LngLat(coor[0], coor[1]);
+            if (!marker) {
+                marker = new AMap.Marker({
+                    map: mapObj,
+                    icon: "http://webapi.amap.com/images/0.png",
+                    position: lnglat,
+                    offset: new AMap.Pixel(-10, -34)
+                });
+            } else {
+                marker.setPosition(lnglat);
+            }
+            mapObj.setFitView();
+        }
+        //回调函数
+        function geocoder_CallBack(data) {
+            var resultStr = "";
+            var roadinfo = "";
+            var poiinfo = "";
+            var address;
+            //返回地址描述
+            address = data.regeocode.formattedAddress;
+            //返回周边道路信息
+            roadinfo += "<table class='table table-bordered table-hover table-condensed'>";
+            for (var i = 0; i < data.regeocode.roads.length; i++) {
+
+                roadinfo += "<tr><td>道路：" + data.regeocode.roads[i].name + "</td><td>方向：" + data.regeocode.roads[i].direction + "</td><td>距离：" + data.regeocode.roads[i].distance + "米</td></tr>";
+            }
+            roadinfo += "</table>"
+            //返回周边兴趣点信息
+            poiinfo += "<table  class='table table-bordered table-hover table-condensed'>";
+            for (var j = 0; j < data.regeocode.pois.length; j++) {
+
+                poiinfo += "<tr onmouseover='onMouseOver(\"" + data.regeocode.pois[j].location.toString() + "\")'><td>兴趣点：" + data.regeocode.pois[j].name + "</td><td>类型：" + data.regeocode.pois[j].type + "</td><td>距离：" + data.regeocode.pois[j].distance + "米</td></tr>";
+            }
+            poiinfo += "</table>";
+            //返回结果拼接输出
+            resultStr = "<span class='text-info'>地址：" + address + "</span></br/><span class='text-info'>周边道路信息</span>" + roadinfo + "<span class='text-info'>周边兴趣点信息</span>" + poiinfo + "";
+            document.getElementById("result").innerHTML = resultStr;
+        }
+
+        //连接服务器测试
+        var app = angular.module("app", []);
+        app.controller('Ctrl', function ($scope, $filter, $http) {
+            $scope.DataList = [
+            { Statue: '行驶', Lat: "39.98168001", Lng: "116.34280413 ", Pos: "北京市,海淀区,知春路(南41米),友仁居北京涮羊肉(西50米) ", GpsTime: "2014-11-29 12:13:15" }
+            ];
+            $scope.Message = { 'DevId': '18201639918', 'CmdType': '', 'CmdKey': '01', 'CmdLength': '4', 'CmdContent': '' };
+            $scope.CurrentCmdKey = "";
+            $scope.CurrentCmdType = "";
+            $scope.MainMessage = "";
+            $scope.SecondMessage = "";
+            $scope.CmdType = [
+                { value: '47', text: '设置命令' },
+                { value: '48', text: '读取命令' },
+                { value: '49', text: '远程升级' },
+                { value: '50', text: '固件恢复' },
+                { value: '51', text: '校时' }
+            ];
+
+            $scope.CmdKey = [
+             { value: '01', text: '服务器IP与端口', cmdLength: "12" },
+             { value: '02', text: '终端发送心跳时间间隔', cmdLength: "02" },
+             { value: '03', text: '终端主动上传时间间隔', cmdLength: "04" },
+             { value: '04', text: '终端工作时间', cmdLength: "04" },
+             { value: '05', text: '终端休眠时间', cmdLength: "04" },
+             { value: '06', text: '终端休眠使能', cmdLength: "01" },
+             { value: '07', text: '充电累计时间', cmdLength: "04" },
+             { value: '08', text: 'ACC累计时间', cmdLength: "04" },
+             { value: '09', text: '越界报警', cmdLength: "04" },
+             { value: '0A', text: '超速报警', cmdLength: "04" },
+             { value: '0B', text: 'GPS天线未接或剪短报警', cmdLength: "04" },
+             { value: 'F1', text: '删除盲区数据', cmdLength: "0" },
+             { value: 'F2', text: 'SD卡格式化', cmdLength: "0" },
+             { value: 'EO', text: '重启设备', cmdLength: "0" }
+
+            ];
+            $scope.SetCmd = function () {
+                $scope.Message.CmdType = $scope.CurrentCmdType.value;
+                $scope.Message.CmdKey = $scope.CurrentCmdKey.value;
+                $scope.Message.CmdLength = $scope.CurrentCmdKey.cmdLength;
+                $scope.Message.CmdContent = $scope.MainMessage + "$" + $scope.SecondMessage;
+
+                //发送数据
+                var sf = $filter('json')($scope.Message);
+                if (ws) {
+                    ws.send("CHAT " + sf);
+
+                }
+                $('#cmdst').empty();
+                $('#cmdst').append("命令发送中...");
+            }
+            $scope.CmdSetZetasizer = function (data) {
+                var sendData = "";
+                switch (data) {
+                    case '1':
+                        $scope.Message.CmdType = "00";
+                        sendData = "01 05 00 00 00 00 CD CA";
+                        break;
+                    case '2':
+                        $scope.Message.CmdType = "00";
+                        sendData = "01 05 00 00 FF 00 8C 3A";
+                        break;
+                    case '3':
+                        $scope.Message.CmdType = "00";
+                        sendData = "01 04 00 0A 00 01 11 C8";
+                        break;
+                    case '4':
+                        $scope.Message.CmdType = "01";
+                        sendData = "YN+TKPT=03";
+                    case '5':
+                        $scope.Message.CmdType = "01";
+                        sendData = "YN+UDDT=" + $("#timeSpan").val() + "";
+                        break;
+                    case '6':
+                        $scope.Message.CmdType = "01";
+                        sendData = "YN+TPTMR=" + $("#timeSpan").val() + "";
+                        break;
+                }
+
+                $scope.Message.CmdKey = "00";
+                $scope.Message.CmdLength = "00";
+                $scope.Message.CmdContent = sendData;
+                //发送数据
+                if (ws) {
+                    ws.send("CHAT " + $filter('json')($scope.Message));
+
+                }
+            }
+            var noSupportMessage = "你的浏览器不支持 WebSocket，请选用其他浏览器!";
+            var ws;
+            var name;
+
+            function appendMessage(message) {
+                $('#introduction').empty();
+                $('#introduction').append(message);
+            }
+
+            function connectSocketServer() {
+                var support = "MozWebSocket" in window ? 'MozWebSocket' : ("WebSocket" in window ? 'WebSocket' : null);
+
+                if (support == null) {
+                    appendMessage("* " + noSupportMessage + "<br/>");
+                    return;
+                }
+
+                appendMessage("* 连接服务器 ..<br/>");
+                // create a new websocket and connect
+                // put name in path
+                ws = new window[support]('ws://182.92.225.65:5000/' + name);
+
+                // when data is comming from the server, this metod is called
+                ws.onmessage = function (evt) {
+                    var words = evt.data.split('$');
+                    switch (words[0]) {
+                        case "68":
+                            $('#cmdst').empty();
+                            $('#cmdst').append("定时上传数据" + words[1]);
+                            var dataSp = words[1].split(':');
+                            var status = dataSp[0] == "0" ? "关闭" : "启用";
+                            $scope.$apply(function () {
+                                $scope.add(dataSp[7], status, dataSp[3], dataSp[5]);
+                            });
+
+                            // $('#cmdst').append($filter('json')($scope.DataList));
+                            break;
+                        case "69":
+                            $('#cmdst').empty();
+                            $('#cmdst').append("得到电压值" + words[1]);
+
+                            break;
+                        case "70":
+                            $('#cmdst').empty();
+                            $('#cmdst').append("终端已响应");
+                            $('#recIP').empty();
+                            $('#recIP').append("启用继电器成功：" + words[1]);
+                            break;
+                        case "71":
+                            $('#cmdst').empty();
+                            $('#recTime').empty();
+                            $('#recTime').append("关闭继电器成功！" + words[1]);
+                            break;
+                        default:
+
+                    }
+                    // appendMessage("# " + evt.data + "<br />");
+                };
+
+                // when the connection is established, this method is called
+                ws.onopen = function () {
+                    appendMessage('连接服务器成功...');
+                    $('#connectButton').attr('disabled', "true");
+                    $('#disconnectButton').removeAttr("disabled");
+
+                };
+
+                // when the connection is closed, this method is called
+                ws.onclose = function () {
+                    appendMessage('服务器连接断开...');
+                    $('#connectButton').removeAttr("disabled");
+                    $('#disconnectButton').attr('disabled', "true");
+
+                }
+            }
+
+            $scope.add = function (F1, F2, F3, F4) {
+
+                $scope.DataList.push({ Voltage: F1 + "mv", Relay: F2, A1: (F3 - 400) + "mm", A2: F4, UpdateDate: CurentTime() });
+            };
+
+            $scope.disconnectWebSocket = function () {
+                if (ws) {
+                    ws.close();
+                }
+            }
+
+            function setCookie(name, value, expiredays) {
+                debugger;
+                var exdate = new Date();
+                exdate.setDate(exdate.getDate() + expiredays);
+                document.cookie = name + "=" + escape(value) + ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString());
+            }
+
+            $scope.connectWebSocket = function () {
+                name = $('#nameInput').val();
+                if (name.length == 0) {
+                    alert("Name is required!");
+                    return;
+                }
+                connectSocketServer();
+            }
+        });
+
+    </script>
+}

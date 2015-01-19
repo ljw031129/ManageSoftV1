@@ -4,19 +4,6 @@
 @{
     ViewBag.Title = "Index";
 }
-@section styles
-{
-    @Styles.Render("~/Content/ztrtee/css")
-    <style type="text/css">
-        .ztree li span.button.add {
-            margin-left: 2px;
-            margin-right: -1px;
-            background-position: -144px 0;
-            vertical-align: top;
-            *vertical-align: middle;
-        }
-    </style>
-}
 <div id="content">
     <!-- Bread crumb is created dynamically -->
     <!--
@@ -28,11 +15,13 @@
     <section id="widget-grid" class="">
         <!-- row -->
         <div class="row">
-            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <!-- Widget ID (each widget will need unique ID)-->
-                <div class="jarviswidget " id="wid-id-1" data-widget-editbutton="false">
+                <div class="jarviswidget" id="wid-id-4" data-widget-editbutton="false">
                     <!-- widget options:
                     usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
                     data-widget-colorbutton="false"
                     data-widget-editbutton="false"
                     data-widget-togglebutton="false"
@@ -41,10 +30,11 @@
                     data-widget-custombutton="false"
                     data-widget-collapsed="true"
                     data-widget-sortable="false"
+
                     -->
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                        <h2>企业信息</h2>
+                        <h2>用户管理 </h2>
                     </header>
                     <!-- widget div-->
                     <div>
@@ -54,9 +44,19 @@
                         </div>
                         <!-- end widget edit box -->
                         <!-- widget content -->
-                        <div class="widget-body  no-padding">
-                            <table id="jqgrid"></table>
-                            <div id="pjqgrid"></div>
+                        <div class="widget-body no-padding">
+                            <div class="widget-body-toolbar">
+                                <div class="row">                                
+
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="jqgrid"></table>
+                                <div id="pjqgrid"></div>
+                            </div>
+                            <div class="widget-footer">                             
+
+                            </div>
                         </div>
                         <!-- end widget content -->
                     </div>
@@ -64,225 +64,39 @@
                 </div>
                 <!-- end widget -->
             </article>
+            <!-- WIDGET END -->
         </div>
 
         <!-- end row -->
     </section>
     <!-- end widget grid -->
 
-    <section>
-        <div class="row">
-            <article class="col-sm-12">
-                <div class="navbar navbar-default">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="#">Brand</a>
-                    </div>
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <ul class="nav navbar-nav">
-                            <li class="active">
-                                <a href="#">Link</a>
-                            </li>
-                            <li>
-                                <a href="#">Link</a>
-                            </li>
-                            <li class="dropdown dropdown-large">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Large Dropdown <b class="caret"></b></a>
-                                <ul class="dropdown-menu dropdown-menu-large row">
-                                    <li class="col-sm-3">
-                                        <ul>
-                                            <li class="dropdown-header">
-                                                Glyphicons
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Available glyphs</a>
-                                            </li>
-                                            <li class="disabled">
-                                                <a href="javascript:void(0);">How to use</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Examples</a>
-                                            </li>
-                                            <li class="divider"></li>
-                                            <li class="dropdown-header">
-                                                Dropdowns
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Example</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Aligninment options</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Headers</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Disabled menu items</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="col-sm-3">
-                                        <ul>
-                                            <li class="dropdown-header">
-                                                Button groups
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Basic example</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Button toolbar</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Sizing</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Nesting</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Vertical variation</a>
-                                            </li>
-                                            <li class="divider"></li>
-                                            <li class="dropdown-header">
-                                                Button dropdowns
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Single button dropdowns</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="col-sm-3">
-                                        <ul>
-                                            <li class="dropdown-header">
-                                                Input groups
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Basic example</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Sizing</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Checkboxes and radio addons</a>
-                                            </li>
-                                            <li class="divider"></li>
-                                            <li class="dropdown-header">
-                                                Navs
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Tabs</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Pills</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Justified</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="col-sm-3">
-                                        <ul>
-                                            <li class="dropdown-header">
-                                                Navbar
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Default navbar</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Buttons</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Text</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Non-nav links</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Component alignment</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Fixed to top</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Fixed to bottom</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Static top</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0);">Inverted navbar</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <form class="navbar-form navbar-left" role="search">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search">
-                            </div>
-                            <button type="submit" class="btn btn-default">
-                                Submit
-                            </button>
-                        </form>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <a href="#">Link</a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a href="#">Action</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Another action</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Something else here</a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <a href="#">Separated link</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div><!-- /.navbar-collapse -->
-                </div>
-            </article>
-        </div>
-    </section>
-
 </div>
 @section scripts{
-    <script type="text/javascript">   
-    $(document).ready(function () {
-        jQuery("#jqgrid").jqGrid(
-            {
-                url: '@Url.Action("Get", "UsersAdmin")',
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var d;
+            jQuery("#jqgrid").jqGrid(
+                {
+                    url: '@Url.Action("Get", "UsersAdmin")',
                     datatype: "json",
                     mtype: "get",
                     colNames:
-                        ['Id','所属企业', '用户名', '邮箱地址','密码', '注册时间'],
+                        ['Id', '所属企业', '用户名', '邮箱地址', '角色', '注册时间'],
                     colModel: [
-                        { name: 'Id', key: true, index: 'TerminalSimCardId', editable: true, width: 55, hidden: true },
-                         { name: 'OrgEnterpriseId', index: 'OrgEnterpriseId', editable: true, width: 100, edittype: "select", editoptions: { dataUrl: '/OrgEnterprise/GetAll' }, stype: "select", searchoptions: { dataUrl: '/OrgEnterprise/GetAll' } },
-                        { name: 'UserName', index: 'TerminalSimCardNum', editable: true, width: 60, editrules: { required: true } },
-                        { name: 'Email', index: 'TerminalSimCardSerialNum', editable: true, width: 120 },
-                        { name: 'Password', index: 'Password', editable: true, width: 120 },
-                        { name: 'DateCreated', index: 'TerminalSimCardCreateTime', editable: true, editoptions: { readonly: true, defaultValue: CurentTime() }, align: "left", width: 180, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } }
+                        { name: 'Id', key: true, index: 'Id', hidden: true },
+                        { name: 'OrgEnterpriseId', index: 'OrgEnterpriseId', stype: "select", searchoptions: { dataUrl: '/OrgEnterprise/GetAll' } },
+                        { name: 'UserName', index: 'TerminalSimCardNum', editable: true, editrules: { required: true } },
+                        { name: 'Email', index: 'Email' },
+                        { name: 'Roles', index: 'Roles' },
+                        { name: 'DateCreated', index: 'DateCreated', editable: true, editoptions: { readonly: true, defaultValue: CurentTime() }, align: "left", formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } }
                     ],
                     //   multiselect: true,
                     //  rownumbers: true,//添加左侧行号
-                    altRows: true,//设置为交替行表格,默认为false
+                    //  altRows: true,//设置为交替行表格,默认为false
                     rowNum: 10,
                     height: 'auto',
+                    autowidth: true,
                     rowList: [10, 20, 30],
                     pager: '#pjqgrid',
                     sortname: 'DateCreated',
@@ -299,27 +113,74 @@
                     },
                     postData: { userId: '@User.Identity.GetUserId()' },
                     editurl: '@Url.Action("Post", "UsersAdmin")', // this is dummy existing url
-                //caption: "SIM卡管理",
-                //multiselect: true,
-                autowidth: true
+                   // caption: "用户管理",
+                    //multiselect: true,
+                  
+                    //gridComplete: function () {
+                    //    var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
+                    //    for (var i = 0; i < ids.length; i++) {
+                    //        var cl = ids[i];
+                    //        be = "<a class='btn btn-xs btn-default' data-original-title='Edit Row' onclick=\"jQuery('#jqgrid').editRow('" + cl + "');\"><i class='fa fa-pencil'></i></a>";
+                    //        se = "<button class='btn btn-xs btn-default' data-original-title='Save Row' onclick=\"jQuery('#jqgrid').saveRow('" + cl + "');\"><i class='fa fa-save'></i></button>";
+                    //        ca = "<button class='btn btn-xs btn-default' data-original-title='Cancel' onclick=\"jQuery('#jqgrid').restoreRow('" + cl + "');\"><i class='fa fa-times'></i></button>";
+                    //        //ce = "<button class='btn btn-xs btn-default' onclick=\"jQuery('#jqgrid').restoreRow('"+cl+"');\"><i class='fa fa-times'></i></button>";
+                    //        //jQuery("#jqgrid").jqGrid('setRowData',ids[i],{act:be+se+ce});
+                    //        jQuery("#jqgrid").jqGrid('setRowData', ids[i], {
+                    //            act: be + se + ca
+                    //        });
+                    //    }
+                    //},
+                });
+            jQuery("#jqgrid").jqGrid('navGrid', "#pjqgrid", {
+                addfunc: add,
+                editfunc: edit,
+                delfunc: del,
+                alerttext: "请选择需要操作的数据行!"
+            },
+                {},
+                {},
+                {},
+                { multipleSearch: true, multipleGroup: true }
+          );         
+            jqgridStyle();
+        });
+        var add = function () {
+            window.location.href = "/UsersAdmin/Create";
+
+        };
+        var edit = function (rowid) {
+            window.location.href = "/UsersAdmin/Edit/" + rowid;
+        };
+        var del = function (rowid) {
+            d = dialog({
+                title: '提示信息',
+                content: '确认删除当前用户吗？',
+                okValue: '确定',
+                ok: function () {
+                    this.title('提交中…');
+                    var that = this;
+                    $.ajax({
+                        type: "POST",
+                        url: "/UsersAdmin/Delete/" + rowid,
+                        //  data: { username: $("#username").val(), content: $("#content").val() },
+                        dataType: "json",
+                        success: function (data) {
+                            that.close().remove();
+                            $("#jqgrid").trigger("reloadGrid");
+                        }
+                    });
+                    return false;
+                },
+                cancelValue: '取消',
+                cancel: function () { }
             });
-        jQuery("#jqgrid").jqGrid('navGrid', "#pjqgrid", {
-            edit: false,
-            add: false,
-            del: true
-        });
-        jQuery("#jqgrid").jqGrid('inlineNav', "#pjqgrid");
-        /* Add tooltips */
-        $('.navtable .ui-pg-button').tooltip({
-            container: 'body'
-        });
-        // update buttons
-        UpJqGridClass();
+            d.show();
+        };
         $(window).on('resize.jqGrid', function () {
             jQuery("#jqgrid").jqGrid('setGridWidth', $("#content").width());
         })
 
-    });
+
     </script>
 }
 

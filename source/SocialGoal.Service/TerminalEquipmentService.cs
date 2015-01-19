@@ -31,6 +31,8 @@ namespace SocialGoal.Service
         void UpdateEquipmentId(string TerminalEquipmentId, string EquipmentIds);
 
         IEnumerable<ValidationResult> Validate(Model.ViewModels.TerminalEquipmentViewModel newTerminalEquipment);
+
+        Task<TerminalEquipment> FindById(string id);
     }
     public class TerminalEquipmentService : ITerminalEquipmentService
     {
@@ -82,10 +84,12 @@ namespace SocialGoal.Service
                 _terminalSimCardRepository.UpdateStatue(oldData.TerminalSimCardId, "3");
                 _terminalSimCardRepository.UpdateStatue(terminalEquipment.TerminalSimCardId, "2");
             }
-
             try
             {
                 _terminalEquipmentRepository.Update(terminalEquipment);
+                ReceiveDataLast reLat = _receiveDataLastRepository.GetById(terminalEquipment.ReceiveDataLastId);              
+                reLat.DevId = terminalEquipment.TerminalEquipmentNum;
+                _receiveDataLastRepository.Update(reLat);
                 Save();
             }
             catch (Exception ex)
@@ -124,7 +128,7 @@ namespace SocialGoal.Service
             dr.Field = "EquipmentId";
             dr.Operator = xFilter.Expressions.RuleOperator.Equals;
             g.Rules.Add(dr);
-            jqGridSetting.Where = g;           
+            jqGridSetting.Where = g;
             IEnumerable<TerminalEquipment> terminalEquipment = _terminalEquipmentRepository.GetPageJqGrid<TerminalEquipment>(jqGridSetting, out count);
             return Task.FromResult(terminalEquipment.Where(p => p.EquipmentId.Contains(jqGridSetting.subRowId)));
         }
@@ -173,6 +177,11 @@ namespace SocialGoal.Service
             {
                 yield return new ValidationResult("Name", "终端设备编号已存在");
             }
+        }
+        public Task<TerminalEquipment> FindById(string id)
+        {
+            TerminalEquipment te = _terminalEquipmentRepository.GetById(id);
+            return Task.FromResult(te);
         }
     }
 }
