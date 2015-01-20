@@ -105,7 +105,8 @@ namespace SocialGoal
                 ));
 
             bundles.Add(new ScriptBundle("~/scripts/angular").Include(
-                "~/Scripts/angular.js"
+                "~/Scripts/angular.js",
+                 "~/Scripts/angular-ui/ui-bootstrap-tpls.js"
                 ));
 
             // BundleTable.EnableOptimizations = true;

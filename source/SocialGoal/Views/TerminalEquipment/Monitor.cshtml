@@ -1,4 +1,5 @@
 ﻿@section styles{
+    <link href="~/Content/css/map.Default.css" rel="stylesheet" />
     <style type="text/css">
         #markerInfoLayer {
             width: 128px;
@@ -190,7 +191,7 @@
     <script language="javascript" src="http://webapi.amap.com/maps?v=1.3&key=990f8ec17963b0c7a507f9c74d275568"></script>
     <script src="~/Scripts/Map/amap.js"></script>
     <script type="text/javascript">
-        var mapObj, marker, scale;
+        var mapObj, scale;
         //初始化地图对象，加载地图
         function mapInit() {
             mapObj = new AMap.Map("vector-map", {
@@ -233,35 +234,68 @@
         }
 
         //添加带文本的点标记覆盖物
-        function addMarker(tNum, icon, lng, lat) {
-            //自定义点标记内容
-            var markerInfoLayer = document.createElement("div");
-            markerInfoLayer.id = "markerInfoLayer";
-
-            var markerContent = document.createElement("div");
-            markerContent.className = "info-layer-content";
-
-            //点标记中的图标
-            var markerImg = document.createElement("img");
-            markerImg.className = "markerlnglat";
-            markerImg.src = "http://webapi.amap.com/images/0.png";
-            markerContent.appendChild(markerImg);
-
-            //点标记中的文本
-            var markerSpan = document.createElement("p");
-            //markerSpan.className = "tooltip-inner";
-            markerSpan.innerHTML = tNum;
-            markerContent.appendChild(markerSpan);
-            markerInfoLayer.appendChild(markerContent);
-
-            marker = new AMap.Marker({
+        function addMarker(tNum,rtime,pos, icon, lng, lat) {
+            var marker = new AMap.Marker({
                 map: mapObj,
                 position: new AMap.LngLat(lng, lat), //基点位置
-                offset: new AMap.Pixel(-18, -36), //相对于基点的偏移位置
-                draggable: true,  //是否可拖动
-                content: markerInfoLayer   //自定义点标记覆盖物内容
+                icon: "http://webapi.amap.com/images/0.png", //复杂图标
+                // offset: new AMap.Pixel(-18, -36), //相对于基点的偏移位置
+                // draggable: true,  //是否可拖动
+                //  content: markerInfoLayer   //自定义点标记覆盖物内容
             });
-            marker.setMap(mapObj);  //在地图上添加点
+            // marker.setMap(mapObj);  //在地图上添加点
+            AMap.event.addListener(marker, 'click', function () { //鼠标点击marker弹出自定义的信息窗体
+                infoWindow.open(mapObj, marker.getPosition());
+                var title =  tNum + '：&nbsp;&nbsp;<span style="font-size:11px;color:#F00;">更新时间:' + rtime + '</span>';
+                var info = createInfoWindow(title, "<img src='../Content/ICON/car_map.png' style='position:relative;float:left;margin:0 5px 5px 0;'>当前位置：" + pos + "<br/><a href='../../TerminalEquipment/Detail/" + tNum + "'>详细信息</a>")               
+                //设置窗体内容
+                infoWindow.setContent(info);
+            });
+        }
+        //实例化信息窗体
+        var infoWindow = new AMap.InfoWindow({
+            isCustom: true,  //使用自定义窗体
+            //content: createInfoWindow('方恒假日酒店&nbsp;&nbsp;<span style="font-size:11px;color:#F00;">价格:318</span>', "<img src='http://tpc.googlesyndication.com/simgad/5843493769827749134' style='position:relative;float:left;margin:0 5px 5px 0;'>地址：北京市朝阳区阜通东大街6号院3号楼 东北 8.3 公里<br/>电话：010 64733333<br/><a href='http://baike.baidu.com/view/6748574.htm'>详细信息</a>"),
+            offset: new AMap.Pixel(16, -45)//-113, -140
+        });
+        //构建自定义信息窗体
+        function createInfoWindow(title, content) {
+            var info = document.createElement("div");
+            info.className = "info";
+            //可以通过下面的方式修改自定义窗体的宽高
+            //info.style.width = "400px";
+            // 定义顶部标题
+            var top = document.createElement("div");
+            top.className = "info-top";
+            var titleD = document.createElement("div");
+            titleD.innerHTML = title;
+            var closeX = document.createElement("img");
+            closeX.src = "http://webapi.amap.com/images/close2.gif";
+            closeX.onclick = closeInfoWindow;
+            top.appendChild(titleD);
+            top.appendChild(closeX);
+            info.appendChild(top);
+            // 定义中部内容
+            var middle = document.createElement("div");
+            middle.className = "info-middle";
+            middle.style.backgroundColor = 'white';
+            middle.innerHTML = content;
+            info.appendChild(middle);
+            // 定义底部内容
+            var bottom = document.createElement("div");
+            bottom.className = "info-bottom";
+            bottom.style.position = 'relative';
+            bottom.style.top = '0px';
+            bottom.style.margin = '0 auto';
+            var sharp = document.createElement("img");
+            sharp.src = "http://webapi.amap.com/images/sharp.png";
+            bottom.appendChild(sharp);
+            info.appendChild(bottom);
+            return info;
+        }
+        //关闭信息窗体
+        function closeInfoWindow() {
+            mapObj.clearInfoWindow();
         }
         //设置地图中心点
         function setMapCenter(lng, lat) {
@@ -271,7 +305,6 @@
         function setMapFitView() {
             var newCenter = mapObj.setFitView();//使地图自适应显示到合适的范围
         }
-
         $(document).ready(function () {
             //调整地图宽度
             $("#mapSetHeight").click(function () {
@@ -285,12 +318,10 @@
                     $on = true;
                     //alert("true");
                 } else {
-
                     $on = false;
                     // alert("false");
                 }
             });
-
             //加载地图
             mapInit();
             //点击事件
@@ -366,7 +397,7 @@
                         var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
                         for (var i = 0; i < ids.length; i++) {
                             var row = $("#jqgrid").getRowData(ids[i]);  //根据ID拿到一行的数据
-                            addMarker(row.TerminalEquipmentNum, "", row.GpsPlog, row.GpsPlat);
+                            addMarker(row.TerminalEquipmentNum,row.ReceiveTime,row.GpsPos, "", row.GpsPlog, row.GpsPlat);
                             //setMapCenter(row.GpsPlog, row.GpsPlat);
                         }
                         setMapFitView();
