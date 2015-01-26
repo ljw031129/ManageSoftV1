@@ -35,12 +35,8 @@
                         <span class="widget-icon"> <i class="fa fa-map-marker"></i> </span>
                         <h2>地图全屏</h2>
                         <div class="widget-toolbar hidden-mobile">
-                            <span class="onoffswitch-title" id="mapSetHeight"><i class="fa fa-location-arrow"></i> 地图全屏</span>
-                            <span class="onoffswitch-title"><i class="fa fa-location-arrow"></i> Realtime</span>
-                            <span class="onoffswitch">
-                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="checked" id="maponoffswitch">
-                                <label class="onoffswitch-label" for="maponoffswitch"> <span class="onoffswitch-inner" data-swchon-text="YES" data-swchoff-text="NO"></span> <span class="onoffswitch-switch"></span> </label>
-                            </span>
+                            <span class="onoffswitch-title"><i class="fa fa-history"></i>@Html.ActionLink("轨迹回放", "Map", "Terminal", new { @id = Model.DevId }, null)</span>
+
                         </div>
                     </header>
                     <!-- widget div-->
@@ -75,16 +71,34 @@
                                     <li>
                                         <i class="icon-stackexchange"></i>
                                         方向：@Model.GpsDirection
-                                    </li>
-                                    <li>
-                                        <i class="icon-map-marker"></i>
-                                        定位状态：@Model.GpsIsPos
-                                    </li>
+                                    </li>                                  
                                     <li class="text-success">
                                         <i class="icon-map-marker"></i>
-                                        数据更新时间：@Model.GpsTime
+                                        GPS定位时间：@Model.GpsTime
                                     </li>
                                 </ul>
+                            </div>
+
+                            <div class="widget-body-toolbar">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="dropdown">
+                                            <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary" data-target="#" href="javascript:void(0);"> 电子围栏 <span class="caret"></span> </a>
+                                            <ul class="dropdown-menu multi-level" role="menu">
+                                                <li>
+                                                    <a href="javascript:SetCircle();">圆形自定义</a>
+                                                </li>
+                                                <li class="divider"></li>
+                                                <li>
+                                                    <a href="javascript:SetPolygon(0);">多边形自定义</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <div id="resultInfo" ></div>
+                                    </div>
+                                </div>
                             </div>
                             <!-- content goes here -->
                             <div id="iCenter"></div>
@@ -117,11 +131,10 @@
                     <!-- end widget div -->
                 </div>
                 <!-- end widget -->
-
             </article>
             <article class="col-sm-12 col-md-12 col-lg-6">
                 <!-- new widget -->
-                <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-fullscreenbutton="false" ng-app="ui.bootstrap.commond">
+                <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" ng-app="ui.bootstrap.commond">
                     <!-- widget options:
                     usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
 
@@ -137,24 +150,7 @@
                     -->
                     <header>
                         <span class="widget-icon"> <i class="fa fa-comments"></i> </span>
-                        <h2> 实时数据设置 </h2>
-                        <div class="widget-toolbar">
-                            <!-- add: non-hidden - to disable auto hide -->
-                            <div class="btn-group">
-                                <button class="btn dropdown-toggle btn-xs btn-success" data-toggle="dropdown">
-                                    查看模式 <i class="fa fa-caret-down"></i>
-                                </button>
-                                <ul class="dropdown-menu pull-right js-status-update">
-                                    <li>
-                                        <a href="javascript:void(0);"><i class="fa fa-circle txt-color-green"></i> 实时在线模式</a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <a href="javascript:void(0);"><i class="fa fa-power-off"></i>历史回放模式</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        <h2>终端控制 </h2>
                     </header>
                     <!-- widget div-->
                     <div>
@@ -169,42 +165,184 @@
                         <div class="widget-body no-padding" ng-controller="TabsCmdCtrl">
                             <div class="well well-sm well-light">
                                 <tabset>
+                                    <tab heading="无线智能终端v1.0">
+                                        <form class="smart-form">
+                                            <header>
+                                                参数设置
+                                            </header>
+                                            <fieldset>
+                                                <section>
+                                                    <label class="label">地址类型：</label>
+                                                    <div class="inline-group">
+                                                        <label class="radio">
+                                                            <input type="radio" name="AddressType" checked="checked">
+                                                            <i></i>不改变
+                                                        </label>
+                                                        <label class="radio">
+                                                            <input type="radio" name="AddressType">
+                                                            <i></i>域名
+                                                        </label>
+                                                        <label class="radio">
+                                                            <input type="radio" name="AddressType">
+                                                            <i></i>Ip地址
+                                                        </label>
+                                                    </div>
+                                                </section>
+                                                <section>
+                                                    <label class="label">地址：</label>
+                                                    <label class="input">
+                                                        <input type="text" maxlength="10" value="123.57.41.22:9001">
+                                                    </label>
+                                                    <div class="note">
+                                                        <strong>备注：</strong> 123.57.41.22:9001 ；www.xsgps.com:9001。
+                                                    </div>
+                                                </section>
+                                                <section>
+                                                    <label class="label">更改终端工作状态：</label>
+                                                    <div class="inline-group">
+                                                        <label class="radio">
+                                                            <input type="radio" value="00" name="Activation" checked="checked">
+                                                            <i></i>不改变
+                                                        </label>
+                                                        <label class="radio">
+                                                            <input type="radio" value="01" name="Activation">
+                                                            <i></i>测试
+                                                        </label>
+                                                        <label class="radio">
+                                                            <input type="radio" value="02" name="Activation">
+                                                            <i></i>待激活
+                                                        </label>
+                                                        <label class="radio">
+                                                            <input type="radio" value="03" name="Activation">
+                                                            <i></i>已激活
+                                                        </label>
+                                                    </div>
+                                                </section>
+                                                <section>
+                                                    <label class="label">累计工时：</label>
+                                                    <label class="input">
+                                                        <input type="text" maxlength="10">
+                                                    </label>
+                                                    <div class="note">
+                                                        <strong>功能描述：</strong> 修正终端累计工时。
+                                                    </div>
+                                                </section>
+
+                                            </fieldset>
+                                            <fieldset>
+                                                <section>
+                                                    <label class="label">工作模式：</label>
+                                                    <div class="inline-group">
+                                                        <label class="radio">
+                                                            <input type="radio" name="gzms" checked="checked">
+                                                            <i></i>不改变
+                                                        </label>
+                                                        <label class="radio">
+                                                            <input type="radio" name="gzms">
+                                                            <i></i>标准模式
+                                                        </label>
+                                                        <label class="radio">
+                                                            <input type="radio" name="gzms">
+                                                            <i></i>精准模式
+                                                        </label>
+                                                        <label class="radio">
+                                                            <input type="radio" name="gzms">
+                                                            <i></i>追车模式
+                                                        </label>
+                                                    </div>
+                                                </section>
+                                                <section>
+                                                    <label class="label">定时时间：</label>
+                                                    <label class="select">
+                                                        <select id="dssjs" name="dssjs">
+                                                            <option value="0">不设置</option>
+                                                            <option value="8">8:00</option>
+                                                            <option value="9">9:00</option>
+                                                            <option value="10">10:00</option>
+                                                            <option value="11">11:00</option>
+                                                            <option value="12">12:00</option>
+                                                            <option value="13">13:00</option>
+                                                            <option value="14">14:00</option>
+                                                            <option value="15">15:00</option>
+                                                            <option value="16">16:00</option>
+                                                            <option value="17">17:00</option>
+                                                            <option value="18">18:00</option>
+                                                            <option value="19">19:00</option>
+                                                            <option value="20">20:00</option>
+                                                            <option value="21">21:00</option>
+                                                            <option value="22">22:00</option>
+                                                            <option value="23">23:00</option>
+                                                            <option value="24">00:00</option>
+                                                            <option value="1">1:00</option>
+                                                            <option value="2">2:00</option>
+                                                            <option value="3">3:00</option>
+                                                            <option value="4">4:00</option>
+                                                            <option value="5">5:00</option>
+                                                            <option value="6">6:00</option>
+                                                            <option value="7">7:00</option>
+                                                        </select>
+                                                        <i></i>
+                                                    </label>
+                                                    <div class="note">
+                                                        <strong>功能描述：</strong>终端每天第一次上报位置信息的时间。
+                                                    </div>
+                                                </section>
+                                                <section>
+                                                    <label class="label">定位次数</label>
+                                                    <label class="input">
+                                                        <input type="text" maxlength="10">
+                                                    </label>
+                                                    <div class="note">
+                                                        <strong>功能描述：</strong> 终端数据上传定位数据的次数，以天为单位。
+                                                    </div>
+                                                </section>
+                                                <section>
+                                                    <label class="label">工作时间</label>
+                                                    <label class="input">
+                                                        <input type="text" maxlength="10">
+                                                    </label>
+                                                    <div class="note">
+                                                        <strong>功能描述：</strong> 终端每次启动后工作时间。（终端只有在该时间段内处于工作状态，其他时间处在深度睡眠状态。
+                                                    </div>
+                                                </section>
+                                                <section>
+                                                    <label class="label">间隔时间</label>
+                                                    <label class="input">
+                                                        <input type="text" maxlength="10">
+                                                    </label>
+                                                    <div class="note">
+                                                        <strong>功能描述：</strong> 通过定位次数以天为单位进行折算，不需要设置。
+                                                    </div>
+                                                </section>
+                                            </fieldset>
+                                            <fieldset>
+                                                <section>
+                                                    <ul class="list-unstyled">
+                                                        <li><i class="fa fa-warning text-warning"></i> 设备出厂时，默认上传位置信息的频率为 1次/天</li>
+                                                        <li class="text-success"><i class="fa fa fa-bell text-danger"></i><strong>为延长设备的使用寿命：标准模式、精准模式设置次数不得超过 24次/天（1次/小时）；追车模式下数据发送间隔最小60秒最大3600秒;0为不设置。</strong> </li>
+                                                        <li><i class="fa fa-warning text-warning"></i> 在下次信息回传前，向设备发送多条命令信息，只有最后一条命令有效。</li>
+                                                    </ul>
+                                                </section>
+                                            </fieldset>
+                                            <footer>
+                                                <button type="submit" class="btn btn-primary">
+                                                    设置参数
+                                                </button>
+                                                <button type="submit" class="btn btn-primary">
+                                                    激活
+                                                </button>
+                                            </footer>
+                                        </form>
+                                    </tab>
                                     <tab heading="有线智能终端v1.0">
-                                        Static content
+
+
+
                                     </tab>
-                                    <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disabled="tab.disabled">
-                                        {{tab.content}}
-                                    </tab>
+                                    @*<tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disabled="tab.disabled">
+                                            {{tab.content}}
+                                        </tab>*@
                                 </tabset>
-
-
-                            </div>
-
-                            <div class="widget-body-toolbar">
-                                <p id="introduction" class="label label-success" style="padding:7px; font-size:12px">等待连接服务器</p>
-                            </div>
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1"> 当前设备编号:</label>
-                                    <input type="text" value="@Model.DevId" id="nameInput" class="form-control" />
-                                </div>
-                                <div class="form-group">
-                                    <input class="btn btn-default" type="button" id="connectButton" value="连接设备" ng-click="connectWebSocket()" />
-                                    <input class="btn btn-danger" type="button" id="disconnectButton" value="断开连接" ng-click="disconnectWebSocket()" />
-
-                                </div>
-                                <hr />
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1"> 定时上报频率设置（秒）:</label>
-                                    <input type="text" value="60" id="timeSpan" class="form-control" />
-                                </div>
-                                <div class="form-group">
-                                    <input class="btn btn-default" type="button" value="定时频率" ng-click="CmdSetZetasizer('5')" />
-                                    <input class="btn btn-default" type="button" value="抓拍频率" ng-click="CmdSetZetasizer('6')" />
-                                </div>
-                            </div>
-                            <div class="widget-footer">
-                               
                             </div>
                         </div>
                     </div>
@@ -215,7 +353,6 @@
                 <div class="jarviswidget" id="wid-id-3" data-widget-editbutton="false" data-widget-fullscreenbutton="false">
                     <!-- widget options:
                     usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
                     data-widget-colorbutton="false"
                     data-widget-editbutton="false"
                     data-widget-togglebutton="false"
@@ -266,7 +403,7 @@
                             <div class="widget-body-toolbar"></div>
                             <div class="table-responsive">
                                 <div class="row">
-                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="display:none">
                                         <div class="well well-sm">
                                             <!-- Timeline Content -->
                                             <div class="smart-timeline">
@@ -412,9 +549,13 @@
 
 @section scripts{
     <script language="javascript" src="http://webapi.amap.com/maps?v=1.3&key=990f8ec17963b0c7a507f9c74d275568"></script>
+    <script src="~/Scripts/angular-animate.js"></script>
+    <script src="~/Scripts/angular-strap.min.js"></script>
+    <script src="~/Scripts/angular-strap.tpl.min.js"></script>
     <script src="~/Scripts/AngularCtrlJs/ui.bootstrap.commond.js"></script>
+
     <script language="javascript">
-        var mapObj, marker, ruler2;
+        var mapObj, marker, ruler2, circle, editorCircle, polylineEditor, mouseTool, drawObj;
         $(document).ready(function () {
             mapInit();
             //初始化按钮状态
@@ -422,7 +563,6 @@
             $('#disconnectButton').removeAttr("disabled");
             $('#tabs').tabs();
         });
-
         //初始化地图对象，加载地图
         function mapInit() {
             mapObj = new AMap.Map("iCenter", {
@@ -506,7 +646,6 @@
                 // icon: "http://webapi.amap.com/images/marker_sprite.png",
                 position: new AMap.LngLat(LngLatX, LngLatY)
             });
-
             marker.setMap(mapObj);  //在地图上添加点
             marker.setAnimation('AMAP_ANIMATION_BOUNCE'); //设置点标记的动画效果，此处为弹跳效果
             mapObj.setFitView(); //调整到合理视野
@@ -530,6 +669,8 @@
                 //逆地理编码
                 MGeocoder.getAddress(lnglatXY);
             });
+            //设置地图中心点及缩放级别
+            mapObj.setZoomAndCenter(14, lnglatXY);
             //加点
             var marker = new AMap.Marker({
                 map: mapObj,
@@ -539,7 +680,7 @@
                     imageOffset: new AMap.Pixel(-0, -0)
                 }),
                 position: lnglatXY,
-                offset: new AMap.Pixel(-5, -30)
+                offset: new AMap.Pixel(-5, -53)
             });
             mapObj.setFitView();
         }
@@ -586,198 +727,85 @@
             resultStr = "<span class='text-info'>地址：" + address + "</span></br/><span class='text-info'>周边道路信息</span>" + roadinfo + "<span class='text-info'>周边兴趣点信息</span>" + poiinfo + "";
             document.getElementById("result").innerHTML = resultStr;
         }
+        //绘制圆形围栏
+        function SetCircle() {
+            ClearOverlay();
+            circle = new AMap.Circle({
+                center: lnglatXY,// 圆心位置
+                radius: 1000, //半径
+                strokeColor: "#F33", //线颜色
+                strokeOpacity: 1, //线透明度
+                strokeWeight: 3, //线粗细度
+                fillColor: "#ee2200", //填充颜色
+                fillOpacity: 0.35//填充透明度
+            });
+            circle.setMap(mapObj);
 
-        //连接服务器测试
-        var app = angular.module("app", []);
-        app.controller('Ctrl', function ($scope, $filter, $http) {
-            $scope.DataList = [
-            { Statue: '行驶', Lat: "39.98168001", Lng: "116.34280413 ", Pos: "北京市,海淀区,知春路(南41米),友仁居北京涮羊肉(西50米) ", GpsTime: "2014-11-29 12:13:15" }
-            ];
-            $scope.Message = { 'DevId': '18201639918', 'CmdType': '', 'CmdKey': '01', 'CmdLength': '4', 'CmdContent': '' };
-            $scope.CurrentCmdKey = "";
-            $scope.CurrentCmdType = "";
-            $scope.MainMessage = "";
-            $scope.SecondMessage = "";
-            $scope.CmdType = [
-                { value: '47', text: '设置命令' },
-                { value: '48', text: '读取命令' },
-                { value: '49', text: '远程升级' },
-                { value: '50', text: '固件恢复' },
-                { value: '51', text: '校时' }
-            ];
+            //添加圆编辑控件
+            mapObj.plugin(["AMap.CircleEditor"], function () {
+                editorCircle = new AMap.CircleEditor(mapObj, circle);
+                AMap.event.addListener(editorCircle, "move", function (e) {
+                    document.getElementById('resultInfo').innerHTML = "圆心位置：" + e.lnglat;
 
-            $scope.CmdKey = [
-             { value: '01', text: '服务器IP与端口', cmdLength: "12" },
-             { value: '02', text: '终端发送心跳时间间隔', cmdLength: "02" },
-             { value: '03', text: '终端主动上传时间间隔', cmdLength: "04" },
-             { value: '04', text: '终端工作时间', cmdLength: "04" },
-             { value: '05', text: '终端休眠时间', cmdLength: "04" },
-             { value: '06', text: '终端休眠使能', cmdLength: "01" },
-             { value: '07', text: '充电累计时间', cmdLength: "04" },
-             { value: '08', text: 'ACC累计时间', cmdLength: "04" },
-             { value: '09', text: '越界报警', cmdLength: "04" },
-             { value: '0A', text: '超速报警', cmdLength: "04" },
-             { value: '0B', text: 'GPS天线未接或剪短报警', cmdLength: "04" },
-             { value: 'F1', text: '删除盲区数据', cmdLength: "0" },
-             { value: 'F2', text: 'SD卡格式化', cmdLength: "0" },
-             { value: 'EO', text: '重启设备', cmdLength: "0" }
-
-            ];
-            $scope.SetCmd = function () {
-                $scope.Message.CmdType = $scope.CurrentCmdType.value;
-                $scope.Message.CmdKey = $scope.CurrentCmdKey.value;
-                $scope.Message.CmdLength = $scope.CurrentCmdKey.cmdLength;
-                $scope.Message.CmdContent = $scope.MainMessage + "$" + $scope.SecondMessage;
-
-                //发送数据
-                var sf = $filter('json')($scope.Message);
-                if (ws) {
-                    ws.send("CHAT " + sf);
-
-                }
-                $('#cmdst').empty();
-                $('#cmdst').append("命令发送中...");
-            }
-            $scope.CmdSetZetasizer = function (data) {
-                var sendData = "";
-                switch (data) {
-                    case '1':
-                        $scope.Message.CmdType = "00";
-                        sendData = "01 05 00 00 00 00 CD CA";
-                        break;
-                    case '2':
-                        $scope.Message.CmdType = "00";
-                        sendData = "01 05 00 00 FF 00 8C 3A";
-                        break;
-                    case '3':
-                        $scope.Message.CmdType = "00";
-                        sendData = "01 04 00 0A 00 01 11 C8";
-                        break;
-                    case '4':
-                        $scope.Message.CmdType = "01";
-                        sendData = "YN+TKPT=03";
-                    case '5':
-                        $scope.Message.CmdType = "01";
-                        sendData = "YN+UDDT=" + $("#timeSpan").val() + "";
-                        break;
-                    case '6':
-                        $scope.Message.CmdType = "01";
-                        sendData = "YN+TPTMR=" + $("#timeSpan").val() + "";
-                        break;
-                }
-
-                $scope.Message.CmdKey = "00";
-                $scope.Message.CmdLength = "00";
-                $scope.Message.CmdContent = sendData;
-                //发送数据
-                if (ws) {
-                    ws.send("CHAT " + $filter('json')($scope.Message));
-
-                }
-            }
-            var noSupportMessage = "你的浏览器不支持 WebSocket，请选用其他浏览器!";
-            var ws;
-            var name;
-
-            function appendMessage(message) {
-                $('#introduction').empty();
-                $('#introduction').append(message);
-            }
-
-            function connectSocketServer() {
-                var support = "MozWebSocket" in window ? 'MozWebSocket' : ("WebSocket" in window ? 'WebSocket' : null);
-
-                if (support == null) {
-                    appendMessage("* " + noSupportMessage + "<br/>");
-                    return;
-                }
-
-                appendMessage("* 连接服务器 ..<br/>");
-                // create a new websocket and connect
-                // put name in path
-                ws = new window[support]('ws://182.92.225.65:5000/' + name);
-
-                // when data is comming from the server, this metod is called
-                ws.onmessage = function (evt) {
-                    var words = evt.data.split('$');
-                    switch (words[0]) {
-                        case "68":
-                            $('#cmdst').empty();
-                            $('#cmdst').append("定时上传数据" + words[1]);
-                            var dataSp = words[1].split(':');
-                            var status = dataSp[0] == "0" ? "关闭" : "启用";
-                            $scope.$apply(function () {
-                                $scope.add(dataSp[7], status, dataSp[3], dataSp[5]);
-                            });
-
-                            // $('#cmdst').append($filter('json')($scope.DataList));
-                            break;
-                        case "69":
-                            $('#cmdst').empty();
-                            $('#cmdst').append("得到电压值" + words[1]);
-
-                            break;
-                        case "70":
-                            $('#cmdst').empty();
-                            $('#cmdst').append("终端已响应");
-                            $('#recIP').empty();
-                            $('#recIP').append("启用继电器成功：" + words[1]);
-                            break;
-                        case "71":
-                            $('#cmdst').empty();
-                            $('#recTime').empty();
-                            $('#recTime').append("关闭继电器成功！" + words[1]);
-                            break;
-                        default:
-
-                    }
-                    // appendMessage("# " + evt.data + "<br />");
-                };
-
-                // when the connection is established, this method is called
-                ws.onopen = function () {
-                    appendMessage('连接服务器成功...');
-                    $('#connectButton').attr('disabled', "true");
-                    $('#disconnectButton').removeAttr("disabled");
-
-                };
-
-                // when the connection is closed, this method is called
-                ws.onclose = function () {
-                    appendMessage('服务器连接断开...');
-                    $('#connectButton').removeAttr("disabled");
-                    $('#disconnectButton').attr('disabled', "true");
-
-                }
-            }
-
-            $scope.add = function (F1, F2, F3, F4) {
-
-                $scope.DataList.push({ Voltage: F1 + "mv", Relay: F2, A1: (F3 - 400) + "mm", A2: F4, UpdateDate: CurentTime() });
+                });
+                AMap.event.addListener(editorCircle, "adjust", function (e) {
+                    document.getElementById('resultInfo').innerHTML = "圆半径：" + e.radius;
+                });
+            });
+            //使圆形覆盖物可编辑
+            editorCircle.open();
+        }
+        //多边形绘制
+        function SetPolygon() {
+            ClearOverlay();
+            //设置多边形的属性
+            var polygonOption = {
+                strokeColor: "#FF33FF",
+                strokeOpacity: 1,
+                strokeWeight: 2
             };
+            //在地图中添加MouseTool插件
+            mapObj.plugin(["AMap.MouseTool"], function () {
+                mouseTool = new AMap.MouseTool(mapObj);
+                mouseTool.polygon(polygonOption);   //使用鼠标工具绘制多边形
+                AMap.event.addListener(mouseTool, "draw", function (e) {
+                    drawObj = e.obj;  //obj属性就是绘制完成的覆盖物对象。
+                    mapObj.plugin(["AMap.PolyEditor"], function () {
+                        //取消鼠标绘制
+                        mouseTool.close();
 
-            $scope.disconnectWebSocket = function () {
-                if (ws) {
-                    ws.close();
-                }
+                        polylineEditor = new AMap.PolyEditor(mapObj, drawObj);
+                        polylineEditor.open();
+                        AMap.event.addListener(polylineEditor, "addnode", function (e) {
+                            document.getElementById('resultInfo').innerHTML = "发生事件时光标所在处的经纬度坐标：" + e.lnglat;// + ",发生事件的目标对象:" + e.target;
+                        });
+                        AMap.event.addListener(polylineEditor, "adjust", function (e) {
+                            document.getElementById('resultInfo').innerHTML = "发生事件时光标所在处的经纬度坐标：" + e.lnglat;// + ",发生事件的目标对象:" + e.target;
+                        });
+                        AMap.event.addListener(polylineEditor, "removenode", function (e) {
+                            document.getElementById('resultInfo').innerHTML = "发生事件时光标所在处的经纬度坐标：" + e.lnglat;// + ",发生事件的目标对象:" + e.target;
+                        });
+                    });
+
+                    var pointsCount = e.obj.getPath().length; //获取节点个数
+                    document.getElementById('resultInfo').innerHTML = "多边形节点数：" + pointsCount + "<br>节点坐标：" + e.obj.getPath();
+                });
+            });
+        }
+
+        //清空覆盖物
+        function ClearOverlay() {
+            if (circle != null && editorCircle != null) {
+                circle.setMap(null);
+                editorCircle.close();
+            }
+            if (polylineEditor != null) {
+                polylineEditor.close();
+                drawObj.setMap(null);
+                polylineEditor.close();
+                mouseTool.close();
             }
 
-            function setCookie(name, value, expiredays) {
-                debugger;
-                var exdate = new Date();
-                exdate.setDate(exdate.getDate() + expiredays);
-                document.cookie = name + "=" + escape(value) + ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString());
-            }
-
-            $scope.connectWebSocket = function () {
-                name = $('#nameInput').val();
-                if (name.length == 0) {
-                    alert("Name is required!");
-                    return;
-                }
-                connectSocketServer();
-            }
-        });
-
+        }
     </script>
 }

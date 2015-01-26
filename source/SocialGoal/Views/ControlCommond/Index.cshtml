@@ -1,0 +1,205 @@
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<SocialGoal.Model.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/Content/angular-motion.css" rel="stylesheet" />
+<style>
+    /* Put your CSS here */
+html, body {
+  margin: 20px 0px;
+}
+
+body {
+    background: #fafafa;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #333;
+}
+
+
+/* Custom container */
+.container-narrow {
+  margin: 0 auto;
+  max-width: 700px;
+}
+.container-narrow  hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  margin: 60px 0;
+  text-align: center;
+}
+.jumbotron h1 {
+  font-size: 72px;
+  line-height: 1;
+}
+.jumbotron .btn {
+  font-size: 21px;
+  padding: 14px 24px;
+}
+
+/* Supporting marketing content */
+.marketing {
+  margin: 60px 0;
+}
+.marketing p, .marketing h4 {
+  margin-top: 28px;
+}
+
+.add-field {
+  text-align: center;
+}
+
+.add-field select {
+  margin-bottom: 0px;
+}
+
+.form-fields .accordion-group{
+  border: 1px solid #AAAAAA;
+}
+
+.form-fields .accordion-heading{
+  background-color: #E2E2E2;
+}
+
+.accordion-edit div, .field div{
+  line-height: 35px;
+}
+
+.form-properties .row {
+  line-height: 35px;
+}
+
+.form-field-label {
+  display: inline;
+}
+
+.required-error {
+  color:red;
+  font-size: smaller;
+}
+
+</style>
+<div id="content">
+    <!-- Bread crumb is created dynamically -->
+    <!--
+       The ID "widget-grid" will start to initialize all widgets below
+       You do not need to use widgets if you dont want to. Simply remove
+       the <section></section> and you can use wells or panels instead
+       -->
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget" id="wid-id-4" data-widget-editbutton="false">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+
+                    -->
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>控制指令管理 </h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+                            <div class="widget-body-toolbar">
+                                <div class="row" ng-app="angularjsFormBuilderApp">
+                                    <div class="container-narrow">
+                                        <div class="masthead" ng-controller="HeaderCtrl">
+                                            <ul class="nav nav-pills pull-right">
+                                                <li ng-class="{active: ($location.path() == '/') }"><a href="#/">Home</a></li>
+                                                <li ng-class="{active: ($location.path() == '/forms/create') }"><a href="#/forms/create">Create a Form</a></li>
+                                                <li ng-class="{active: ($location.path() == '/forms/1/view') }"><a href="#/forms/1/view">View Example Form</a></li>
+                                            </ul>
+                                            <h3 class="muted">angularjs-form-builder</h3>
+                                        </div>
+
+                                        <hr>
+
+                                        <div class="content" ng-view=""></div>
+
+                                        <hr>
+                                        <div class="footer">
+                                           
+
+                                            <p>Selman K. 2014 - <a href="https://github.com/Selmanh/angularjs-form-builder">angularjs-form-builder</a> </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+
+                            </div>
+                            <div class="widget-footer">
+
+                            </div>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+            <!-- WIDGET END -->
+        </div>
+
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+
+</div>
+@section scripts{
+    @*<script src="~/Scripts/angular.js"></script>*@
+
+
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <!-- endbuild -->
+    <!-- build:js scripts/modules.js -->
+<script src="~/Scripts/angular-animate.js"></script>
+    <script src="~/Scripts/angular-resource.js"></script>
+    <script src="~/Scripts/angular-cookies.js"></script>
+    <script src="~/Scripts/angular-route.js"></script>
+
+    <script src="~/Scripts/angular-strap.min.js"></script>
+    <script src="~/Scripts/angular-strap.tpl.min.js"></script>
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+
+    <script src="~/Scripts/AngularApp/app.js"></script>
+    <script src="~/Scripts/AngularApp/controllers/main.js"></script>
+    <script src="~/Scripts/AngularApp/controllers/create.js"></script>
+    <script src="~/Scripts/AngularApp/controllers/header.js"></script>
+    <script src="~/Scripts/AngularApp/controllers/view.js"></script>
+    <script src="~/Scripts/AngularApp/services/form-service.js"></script>
+    <script src="~/Scripts/AngularApp/directives/field-directive.js"></script>
+    <script src="~/Scripts/AngularApp/directives/form-directive.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+        });
+    </script>
+}
+

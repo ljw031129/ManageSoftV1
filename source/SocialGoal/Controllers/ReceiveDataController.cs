@@ -1,7 +1,9 @@
-﻿using SocialGoal.Model.Models;
+﻿using ProtocolUtils.Lbs;
+using SocialGoal.Model.Models;
 using SocialGoal.Service;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -11,8 +13,9 @@ namespace SocialGoal.Controllers
 {
     public class ReceiveDataController : Controller
     {
-         private readonly IReceiveDataService _receiveDataService;
-         public ReceiveDataController(IReceiveDataService receiveDataService)
+     
+        private readonly IReceiveDataService _receiveDataService;
+        public ReceiveDataController(IReceiveDataService receiveDataService)
         {
             this._receiveDataService = receiveDataService;
         }
@@ -25,6 +28,7 @@ namespace SocialGoal.Controllers
         {
             int count = 0;
             IEnumerable<ReceiveData> ReceiveDatas = await _receiveDataService.GetReceiveDataMapata(devId, dateRange, pageNum, pageSize, out count);
+           
 
             var result = new
             {
@@ -40,7 +44,7 @@ namespace SocialGoal.Controllers
                             GpsPos = item.GpsPos
                         }).ToArray()
             };
-            return Json(result,JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

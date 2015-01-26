@@ -12,7 +12,7 @@ var MarkerMovingControl = function (map, marker) {
     //初始化path为空
     this._path = [];
     this._currentIndex = 0;
-    this._speed = 100;
+    this._speed = 50;
     this._pageSize = 100;
     this._pageNum = 1;
     this._isEnd = false;
@@ -106,7 +106,7 @@ MarkerMovingControl.prototype.step = function () {
                 this._stopTimes += timeDis(this._path[0].ReceiveTime, this._path[1].ReceiveTime);
 
             }
-            this.addMarker(this._path[1], distance);
+           // this.addMarker(this._path[1], distance);
             //移动到下一点
             this._marker.moveTo(new AMap.LngLat(this._path[1].GpsPlog, this._path[1].GpsPlat), this._speed);
         }
@@ -365,4 +365,8 @@ function timeDis(timeStart, timeEnd) {
     var dateStart = parseInt(timeStart.replace(/\D/igm, ""));
     var dateEnd = parseInt(timeEnd.replace(/\D/igm, ""));
     return (dateEnd - dateStart) / 60000;
+}
+
+function timeDis(timeStart, timeEnd) {   
+    return (timeEnd - timeStart) / 60000;
 }

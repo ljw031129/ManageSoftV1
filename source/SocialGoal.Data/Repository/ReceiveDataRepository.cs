@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Web.Utilities;
 
 namespace SocialGoal.Data.Repository
 {
@@ -22,15 +23,16 @@ namespace SocialGoal.Data.Repository
             string[] dataTime = dataRange.Split('$');
             if (dataTime.Length == 2)
             {
-                DateTime startTime = DateTime.Parse(dataTime[0]);
-                DateTime endTime = DateTime.Parse(dataTime[1]);
-                total = this.DataContext.ReceiveDatas.OrderBy(d => d.ReceiveTime).Where(p => p.DevId.Contains(devid) && p.ReceiveTime >= startTime && p.ReceiveTime < endTime).Count();
-                return this.DataContext.ReceiveDatas.OrderBy(d => d.ReceiveTime).Where(p => p.DevId.Contains(devid) && p.ReceiveTime >= startTime && p.ReceiveTime < endTime).Skip((pageNum - 1) * pageSize).Take(pageSize);
+
+                int startTime = DateUtils.ConvertDateTimeIntInt(DateTime.Parse(dataTime[0]));
+                int endTime = DateUtils.ConvertDateTimeIntInt(DateTime.Parse(dataTime[1]));
+                total = this.DataContext.ReceiveDatas.OrderBy(d => d.GpsTime).Where(p => p.DevId.Contains(devid) && p.GpsTime >= startTime && p.GpsTime < endTime).Count();
+                return this.DataContext.ReceiveDatas.OrderBy(d => d.GpsTime).Where(p => p.DevId.Contains(devid) && p.GpsTime >= startTime && p.GpsTime < endTime).Skip((pageNum - 1) * pageSize).Take(pageSize);
             }
             else
             {
-                total = this.DataContext.ReceiveDatas.OrderBy(d => d.ReceiveTime).Where(p => p.DevId.Contains(devid)).Count();
-                return this.DataContext.ReceiveDatas.OrderBy(d => d.ReceiveTime).Where(p => p.DevId.Contains(devid)).Skip((pageNum - 1) * pageSize).Take(pageSize);
+                total = this.DataContext.ReceiveDatas.OrderBy(d => d.GpsTime).Where(p => p.DevId.Contains(devid)).Count();
+                return this.DataContext.ReceiveDatas.OrderBy(d => d.GpsTime).Where(p => p.DevId.Contains(devid)).Skip((pageNum - 1) * pageSize).Take(pageSize);
             }
         }
 

@@ -10,13 +10,13 @@ namespace SocialGoal.Model.Models
     {
         public string ReceiveDataId { get; set; }
         public string DevId { get; set; }
-        public DateTime ReceiveTime { get; set; }
-        public DateTime CollectTime { get; set; }
+        public long ReceiveTime { get; set; }
+        public long CollectTime { get; set; }
         //总工作时间
         public long TotalWorkTime { get; set; }
         //总里程
         public long TotalMileage { get; set; }
-        public DateTime GpsTime { get; set; }
+        public long GpsTime { get; set; }
         public string GpsIsPos { get; set; }
         public string GpsPosProvince { get; set; }
         public string GpsPos { get; set; }

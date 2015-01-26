@@ -1,0 +1,11 @@
+<div class="form-group">
+    <label class="col-md-3 control-label">{{field.field_title}}：</label>
+    <div class="col-md-9">       
+            <label class="radio radio-inline" ng-repeat="option in field.field_options">
+                <input class="radiobox" type="radio" value="{{option.option_value}}" ng-model="field.field_value" ng-required="field.field_required" ng-disabled="field.field_disabled" />
+                <span ng-bind="option.option_title"></span>
+            </label>      
+        <span class="required-error" ng-show="field.field_required && !field.field_value">* required</span>
+    </div>
+</div>
+<br>

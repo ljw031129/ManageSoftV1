@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialGoal.CommandProcessor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Utilities", "..\..\..\数据解析2014\ToolLibrary\Web.Utilities\Web.Utilities\Web.Utilities.csproj", "{8E725D3E-DAD7-49C1-913B-78510829D504}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtocolUtils", "..\..\..\数据解析2014\ProtocoLibrary\ProtocolUtils\ProtocolUtils.csproj", "{F1B1CAEB-0C77-4B69-ADEB-7806F6F6AFED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{8E725D3E-DAD7-49C1-913B-78510829D504}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E725D3E-DAD7-49C1-913B-78510829D504}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E725D3E-DAD7-49C1-913B-78510829D504}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1B1CAEB-0C77-4B69-ADEB-7806F6F6AFED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1B1CAEB-0C77-4B69-ADEB-7806F6F6AFED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1B1CAEB-0C77-4B69-ADEB-7806F6F6AFED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1B1CAEB-0C77-4B69-ADEB-7806F6F6AFED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

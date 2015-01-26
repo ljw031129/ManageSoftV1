@@ -84,14 +84,9 @@
                     -->
                     <header>
                         <span class="widget-icon"> <i class="fa fa-map-marker"></i> </span>
-                        <h2>地图全屏</h2>
+                        <h2>地图模式</h2>
                         <div class="widget-toolbar hidden-mobile">
-                            <span class="onoffswitch-title" id="mapSetHeight"><i class="fa fa-location-arrow"></i> 地图全屏</span>
-                            <span class="onoffswitch-title"><i class="fa fa-location-arrow"></i> Realtime</span>
-                            <span class="onoffswitch">
-                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="checked" id="maponoffswitch">
-                                <label class="onoffswitch-label" for="maponoffswitch"> <span class="onoffswitch-inner" data-swchon-text="YES" data-swchoff-text="NO"></span> <span class="onoffswitch-switch"></span> </label>
-                            </span>
+                            <span class="onoffswitch-title" id="mapSetHeight"><i class="fa fa-crosshairs"></i> 地图全屏</span>
                         </div>
                     </header>
                     <!-- widget div-->
@@ -137,26 +132,6 @@
                         <h2> 设备列表 </h2>
                         <div class="widget-toolbar">
                             <!-- add: non-hidden - to disable auto hide -->
-                            <div class="btn-group">
-                                <button class="btn dropdown-toggle btn-xs btn-success" data-toggle="dropdown">
-                                    Status <i class="fa fa-caret-down"></i>
-                                </button>
-                                <ul class="dropdown-menu pull-right js-status-update">
-                                    <li>
-                                        <a href="javascript:void(0);"><i class="fa fa-circle txt-color-green"></i> Online</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);"><i class="fa fa-circle txt-color-red"></i> Busy</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);"><i class="fa fa-circle txt-color-orange"></i> Away</a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <a href="javascript:void(0);"><i class="fa fa-power-off"></i> Log Off</a>
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                     </header>
                     <!-- widget div-->
@@ -234,7 +209,7 @@
         }
 
         //添加带文本的点标记覆盖物
-        function addMarker(tNum,rtime,pos, icon, lng, lat) {
+        function addMarker(tNum, rtime, pos, icon, lng, lat) {
             var marker = new AMap.Marker({
                 map: mapObj,
                 position: new AMap.LngLat(lng, lat), //基点位置
@@ -246,8 +221,8 @@
             // marker.setMap(mapObj);  //在地图上添加点
             AMap.event.addListener(marker, 'click', function () { //鼠标点击marker弹出自定义的信息窗体
                 infoWindow.open(mapObj, marker.getPosition());
-                var title =  tNum + '：&nbsp;&nbsp;<span style="font-size:11px;color:#F00;">更新时间:' + rtime + '</span>';
-                var info = createInfoWindow(title, "<img src='../Content/ICON/car_map.png' style='position:relative;float:left;margin:0 5px 5px 0;'>当前位置：" + pos + "<br/><a href='../../TerminalEquipment/Detail/" + tNum + "'>详细信息</a>")               
+                var title = tNum + '：&nbsp;&nbsp;<span style="font-size:11px;color:#F00;">更新时间:' + rtime + '</span>';
+                var info = createInfoWindow(title, "<img src='../Content/ICON/car_map.png' style='position:relative;float:left;margin:0 5px 5px 0;'>当前位置：" + pos + "<br/><a href='../../TerminalEquipment/Detail/" + tNum + "'>详细信息</a>")
                 //设置窗体内容
                 infoWindow.setContent(info);
             });
@@ -311,17 +286,7 @@
                 //alert($("#wid-id-1").height());
                 $("#vector-map").height($("#GetWidgetBodyHeight").height());
             });
-            //放大地图控制
-            /* live switch */
-            $('input[type="checkbox"]#maponoffswitch').click(function () {
-                if ($(this).prop('checked')) {
-                    $on = true;
-                    //alert("true");
-                } else {
-                    $on = false;
-                    // alert("false");
-                }
-            });
+
             //加载地图
             mapInit();
             //点击事件
@@ -397,7 +362,7 @@
                         var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
                         for (var i = 0; i < ids.length; i++) {
                             var row = $("#jqgrid").getRowData(ids[i]);  //根据ID拿到一行的数据
-                            addMarker(row.TerminalEquipmentNum,row.ReceiveTime,row.GpsPos, "", row.GpsPlog, row.GpsPlat);
+                            addMarker(row.TerminalEquipmentNum, row.ReceiveTime, row.GpsPos, "", row.GpsPlog, row.GpsPlat);
                             //setMapCenter(row.GpsPlog, row.GpsPlat);
                         }
                         setMapFitView();

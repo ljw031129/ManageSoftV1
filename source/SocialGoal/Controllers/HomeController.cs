@@ -7,7 +7,8 @@ namespace SocialGoal.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Monitor", "TerminalEquipment", null);
+           
         }
 
         [Authorize]
