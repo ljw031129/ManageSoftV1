@@ -1,0 +1,286 @@
+﻿
+<link href="~/Content/assets/stylesheets/plugins/bootstrap_daterangepicker/bootstrap-daterangepicker.css" rel="stylesheet" />
+<link href="~/Content/assets/stylesheets/plugins/csspinner/csspinner.css" rel="stylesheet" />
+<style>
+    #iCenter {
+        height: 600px;
+    }
+</style>
+<div id="content">
+    <!--
+        The ID "widget-grid" will start to initialize all widgets below
+        You do not need to use widgets if you dont want to. Simply remove
+        the <section></section> and you can use wells or panels instead
+        -->
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+                    -->
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>行驶轨迹 终端编号 @ViewBag.DevId</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body  no-padding">
+                            <div class="widget-body-toolbar">
+
+                                <div class="row">
+
+                                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="daterange"><i class="fa fa-calendar"></i></span>
+                                            <input class="form-control" id="daterangeInput" placeholder="选择时间范围" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                        <a href="javascript:void(0);" class="btn btn-default" rel="tooltip" data-placement="top" data-original-title="加载数据" onclick="InitMarkerMovingControl()"><i class="fa fa-arrow-down"></i> 加载数据</a>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default" onclick="startAnimation()">
+                                                <i class="fa  fa-play-circle"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-default" onclick="pauseAnimation()">
+                                                <i class="fa fa-pause"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-default" onclick="continueAnimation()">
+                                                <i class="fa fa-play"></i>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" style=" margin-top:7px;">速度</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" id="spinner-decimal" name="spinner-decimal" value="30">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-body-toolbar">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <form class="form-inline" role="form">
+
+                                            <fieldset>
+                                                <div class="form-group">
+                                                    <label>是否过滤漂移点：</label>
+                                                    <span class="onoffswitch ">
+                                                        <input type="checkbox" name="start_interval" class="onoffswitch-checkbox" id="start_interval">
+                                                        <label class="onoffswitch-label" for="start_interval">
+                                                            <span class="onoffswitch-inner" data-swchon-text="ON" data-swchoff-text="OFF"></span>
+                                                            <span class="onoffswitch-switch"></span>
+                                                        </label>
+                                                    </span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>漂移点有效距离：</label>
+                                                    <div class="input-group" style="width:150px;">
+                                                        <input class="form-control" id="append" type="text">
+                                                        <span class="input-group-addon">千米/小时</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>是否合并停留点：</label>
+                                                    <span class="onoffswitch ">
+                                                        <input type="checkbox" name="start_interval" class="onoffswitch-checkbox" id="start_interval">
+                                                        <label class="onoffswitch-label" for="start_interval">
+                                                            <span class="onoffswitch-inner" data-swchon-text="ON" data-swchoff-text="OFF"></span>
+                                                            <span class="onoffswitch-switch"></span>
+                                                        </label>
+                                                    </span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>合并最大距离：</label>
+                                                    <div class="input-group" style="width:150px;">
+                                                        <input class="form-control" id="append" type="text">
+                                                        <span class="input-group-addon">千米/小时</span>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="iCenter"></div>
+                            <div class="widget-footer">
+
+
+
+                            </div>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+        </div>
+
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>
+@section scripts{
+    <script src="~/Scripts/json3.js"></script>
+    <script src="~/Content/assets/javascripts/plugins/common/moment.min.js"></script>
+    <script src="~/Content/assets/javascripts/plugins/bootstrap_daterangepicker/bootstrap-daterangepicker.js"></script>
+    <script language="javascript" src="http://webapi.amap.com/maps?v=1.2&key=990f8ec17963b0c7a507f9c74d275568"></script>
+    <script src="~/Scripts/Map/amap.js"></script>
+    <script language="javascript">
+        var mapObj, markerMovingControl;
+        //定义选择的时间范围
+        var rangeTime = "";
+        var jsonResult;
+        $(document).ready(function () {
+            pageSetUp();
+            mapInit();
+            $("#daterange").daterangepicker({
+                timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm ',
+                ranges: {
+                    "昨天": [moment().subtract("days", 1), moment().subtract("days", 1)],
+                    '今天': [moment(), moment()],
+                    '最近7天': [moment().subtract('days', 6), moment()],
+                    "最近30天": [moment().subtract("days", 29), moment()],
+                    "本月": [moment().startOf("month"), moment().endOf("month")]
+                },
+                startDate: moment().subtract("days", 29),
+                endDate: moment(),
+                opens: "left",
+                cancelClass: "btn-danger",
+                buttonClasses: ['btn', 'btn-sm']
+            }, function (start, end) {
+                rangeTime = start.format("YYYY-MM-DD h:mm") + " $ " + end.format("YYYY-MM-DD h:mm");
+                return $("#daterangeInput").val(start.format("YYYY/MM/DD h:mm") + " - " + end.format("YYYY/MM/DD h:mm"));
+            });
+
+            //$("#amount").text($("#slider-range-min").slider("value") + "千米/小时");
+
+            $("#spinner-decimal").spinner({
+                step: 1,
+                numberFormat: "n",
+                min: 0,
+                max: 700,
+                start: 30,
+                spin: function (event, ui) {
+                    $("#amount").val(ui.value + "千米/小时");
+                    if (markerMovingControl != undefined) {
+                        markerMovingControl.setSpeed(ui.value);
+                    }
+                }
+            });
+
+        });
+        /* live switch  按钮状态切换*/
+        $('input[type="checkbox"]#start_interval').click(function () {
+            if ($(this).prop('checked')) {
+                // $on = true;
+                // updateInterval = 1500;
+                //  update();
+            } else {
+                // clearInterval(updateInterval);
+                // $on = false;
+            }
+        });
+        //初始化地图对象，加载地图
+        function mapInit() {
+            mapObj = new AMap.Map("iCenter", {
+                //二维地图显示视口
+                //view: new AMap.View2D({
+                //    center: new AMap.LngLat(lngX, latY)//,//地图中心点
+                //    // zoom: 8 //地图显示的缩放级别
+                //}),
+                //continuousZoomEnable: false
+            });
+            //  AMap.event.addListener(mapObj, "complete", completeEventHandler);
+        }
+
+        /**     第二部分，应用示例     */
+
+        // 编写事件响应函数
+        function startAnimation() {
+            markerMovingControl.restart();
+        }
+
+        function pauseAnimation() {
+            markerMovingControl.stop();
+        }
+
+        function continueAnimation() {
+            markerMovingControl.move();
+        }
+        function InitMarkerMovingControl() {
+            var marker = new AMap.Marker({
+                map: mapObj,
+                //draggable:true, //是否可拖动
+                // position: new AMap.LngLat(lngX, latY),//基点位置
+                icon: "../../Content/ICON/car_03.png", //marker图标，直接传递地址url
+                offset: new AMap.Pixel(-26, -13), //相对于基点的位置
+                zIndex: 120,
+                //是否自动旋转。点标记在使用moveAlong动画时，路径方向若有变化，点标记是否自动调整角度，默认为false
+                autoRotation: true
+            });
+            //根据地图上添加的覆盖物分布情况，缩放平移地图到合适的视野级别，参数overlayList默认为当前地图上添加的所有覆盖物图层
+            //mapObj.setFitView();
+            markerMovingControl = new MarkerMovingControl(mapObj, marker);
+            //加载数据
+            load();
+        }
+        function load() {
+            var arr = [];
+            var devid = "@ViewBag.DevId";
+            //加载过程中地图添加csspinner
+            $("#iCenter").addClass("csspinner ringed");
+            $.get("@Url.Action("GetReceiveDataMap", "ReceiveData")",
+               { devId: devid, dateRange: rangeTime, pageNum: markerMovingControl.getPageNum(), pageSize: markerMovingControl.getPageSize() }, function (result) {
+                   if (result.total == 0) {
+                       $("#iCenter").removeClass("csspinner ringed");
+                       var d = dialog({
+                           title: '提示',
+                           content: '该时间段内无运行轨迹！'
+                       });
+                       d.show();
+                   } else {
+                       $.each(result.rows, function (index, element) {
+                           arr.push(new AMap.LngLat(element["GpsPlog"], element["GpsPlat"]));
+                       });
+                       //更新path数据
+                       markerMovingControl.updatePath(result.rows);
+                       markerMovingControl.addLine(arr);
+                       markerMovingControl.setMarkPosition(markerMovingControl.getPath()[0]);
+                       // console.log("总数" + result.total + "当前页：" + markerMovingControl.getPageNum());
+                       if (result.total == markerMovingControl.getPageNum()) {
+                           markerMovingControl.setIsEnd(true);
+                       }
+                       //加载完毕移除
+                       $("#iCenter").removeClass("csspinner ringed");
+                       continueAnimation();
+                   }
+
+               });
+        }
+
+    </script>
+}

@@ -3,29 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Web.Utilities;
 
 namespace SocialGoal.Model.Models
 {
     public class ReceiveDataLast
     {
+        //初始值
         public ReceiveDataLast()
         {
-           // ReceiveDataLastId =Guid.NewGuid().ToString();
-            ReceiveTime = DateTime.Now;
-            CollectTime = DateTime.Now;
+            // ReceiveDataLastId =Guid.NewGuid().ToString();
+            ReceiveTime = DateUtils.ConvertDateTimeIntInt(DateTime.Now);
+            CollectTime = DateUtils.ConvertDateTimeIntInt(DateTime.Now);
             TotalWorkTime = 0;
             TotalMileage = 0;
-            GpsTime = DateTime.Now;
+            GpsTime = DateUtils.ConvertDateTimeIntInt(DateTime.Now);
+            GpsPos = "北京市石景山区石景山路15号";
+            GpsPlat = "39.9050521650";
+            GpsPlog = "116.2278704230";
+            GpsSpeed = "0";
+            GpsDirection = "0";
         }
         public string ReceiveDataLastId { get; set; }
-        public string DevId { get; set; }
-        public DateTime ReceiveTime { get; set; }
-        public DateTime CollectTime { get; set; }
+        public string IMEI { get; set; }
+        public long ReceiveTime { get; set; }
+        public long CollectTime { get; set; }
         //总工作时间
         public long TotalWorkTime { get; set; }
         //总里程
         public long TotalMileage { get; set; }
-        public DateTime GpsTime { get; set; }
+        public long GpsTime { get; set; }
         public string GpsIsPos { get; set; }
         public string GpsPosProvince { get; set; }
         public string GpsPos { get; set; }

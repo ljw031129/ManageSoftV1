@@ -1,0 +1,286 @@
+﻿@{
+    ViewBag.Title = "FullScreenMap";
+}
+@section styles{
+    <link href="~/Content/css/map.Default.css" rel="stylesheet" />
+    <style type="text/css">
+        #markerInfoLayer {
+            width: 128px;
+            height: 94px;
+            position: relative;
+            background: url("../../Content/img/marker-info-bg.png") no-repeat;
+            font-size: 12px;
+            color: #fff;
+        }
+
+            #markerInfoLayer p, #markerInfoLayer h5 {
+                white-space: nowrap;
+                margin: 0 0 0 15px;
+                padding: 0;
+            }
+
+            #markerInfoLayer .info-layer-title {
+                height: 26px;
+                line-height: 26px;
+                overflow: hidden;
+            }
+
+                #markerInfoLayer .info-layer-title h5 {
+                    line-height: 26px;
+                    font-size: 13px;
+                }
+
+            #markerInfoLayer .info-layer-content {
+                overflow: hidden;
+                padding: 10px 0 0;
+            }
+
+                #markerInfoLayer .info-layer-content p {
+                    line-height: 23px;
+                }
+
+                #markerInfoLayer .info-layer-content .info-layer-time {
+                    margin-top: 7px;
+                }
+
+                #markerInfoLayer .info-layer-content span {
+                    margin: 0 5px 0 0;
+                    color: #F9AC66;
+                }
+
+        #divPop a, #divPop a:visited {
+            color: #0077ff;
+            text-decoration: none;
+        }
+
+            #divPop a:hover, #divPop a:active {
+                color: #ff3300;
+                text-decoration: underline;
+            }
+    </style>
+}
+<!-- MAIN CONTENT -->
+<div id="content">
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <div class="well">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="智能终端编号...">
+                <div class="input-group-btn">
+                    <button class="btn btn-default btn-primary" type="button">
+                        <i class="fa fa-search"></i> 检索
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+
+                    -->
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-map-marker"></i> </span>
+                        <h2>我的智能终端</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+                            <div id="map_canvas" class="google_maps" style=" height:500px">
+                                &nbsp;
+                            </div>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+            <!-- WIDGET END -->
+        </div>
+        <!-- end row -->
+
+    </section>
+    <!-- end widget grid -->
+</div>
+<!-- END MAIN CONTENT -->
+@section scripts{
+    <script language="javascript" src="http://webapi.amap.com/maps?v=1.3&key=990f8ec17963b0c7a507f9c74d275568"></script>
+    <script language="javascript">
+        $(document).ready(function () {
+            //初始化地图对象，加载地图
+            mapInit();
+            addMarker("S-15811199397", "2015-02-08 19:17:00", "山东省泰安市东平县商老庄乡潘孟于村东方向", "../../Content/ICON/ship/ship_green.png", 116.2367292798, 35.9088653483);
+            addMarker("S-15811199397", "2015-02-07 7:17:00", "山东省泰安市东平县商老庄乡潘孟于村东方向", "../../Content/ICON/ship/ship_yellow.png", 116.1397335511, 35.9469465292);
+            addMarker("S-15811199397", "2015-02-08 19:17:00", "山东省泰安市东平县斑鸠店镇东堂子村东方向约1.38公里", "../../Content/ICON/ship/ship_green.png", 116.2140253766, 36.0799697137);
+            addMarker("S-15811199397", "2015-02-08 19:17:00", "山东省泰安市东平县斑鸠店镇路村东南方向约1.23公里", "../../Content/ICON/ship/ship_green.png", 116.1987906156, 36.0558393545);
+            addMarker("S-15811199397", "2015-02-08 19:17:00", "山东省泰安市东平县老湖镇辛店铺村西南方向约2.62公里", "../../Content/ICON/ship/ship_green.png", 116.2074339003, 36.0077533811);
+            setMapFitView();
+        })
+        function mapInit() {
+            mapObj = new AMap.Map("map_canvas", {
+                //二维地图显示视口
+                view: new AMap.View2D({
+                    // center: new AMap.LngLat(116.397428, 39.90923),//地图中心点
+                    zoom: 17 //地图显示的缩放级别
+                }),
+                continuousZoomEnable: false
+            });
+            //地图类型切换
+            mapObj.plugin(["AMap.MapType"], function () {
+                var type = new AMap.MapType({ defaultType: 0 });//初始状态使用2D地图
+                mapObj.addControl(type);
+            });
+            //加载比例尺插件
+            mapObj.plugin(["AMap.Scale"], function () {
+                scale = new AMap.Scale();
+                mapObj.addControl(scale);
+            });
+            //在地图中添加ToolBar插件
+            mapObj.plugin(["AMap.ToolBar"], function () {
+                toolBar = new AMap.ToolBar();
+                mapObj.addControl(toolBar);
+            });
+            //在地图中添加鹰眼插件
+            mapObj.plugin(["AMap.OverView"], function () {
+                //加载鹰眼
+                overView = new AMap.OverView({
+                    visible: true //初始化隐藏鹰眼
+                });
+                mapObj.addControl(overView);
+            });
+            //拉大地图
+            var rectOptions = {
+                strokeStyle: "dashed",
+                strokeColor: "#FF33FF",
+                fillColor: "#FF99FF",
+                fillOpacity: 0.5,
+                strokeOpacity: 1,
+                strokeWeight: 2
+            };
+            //mapObj.plugin(["AMap.MouseTool"], function () {
+            //    mouseTool = new AMap.MouseTool(mapObj);
+            //    mouseTool.rectZoomIn(rectOptions);     //通过rectOptions更改拉框放大时鼠标绘制的矩形框样式
+            //});
+            mapObj.plugin(["AMap.RangingTool"], function () {
+
+                var lOptions = {
+                    strokeStyle: "solid",
+                    strokeColor: "#FF33FF",
+                    strokeOpacity: 1,
+                    strokeWeight: 2
+                };
+                var sMarker = {
+                    icon: new AMap.Icon({    //复杂图标
+                        size: new AMap.Size(28, 37),//图标大小
+                        image: "http://webapi.amap.com/images/custom_a_j.png", //大图地址
+                        imageOffset: new AMap.Pixel(0, 0)//相对于大图的取图位置
+                    })
+                };
+                var eMarker = {
+                    icon: new AMap.Icon({    //复杂图标
+                        size: new AMap.Size(28, 37),//图标大小
+                        image: "http://webapi.amap.com/images/custom_a_j.png", //大图地址
+                        imageOffset: new AMap.Pixel(-28, 0)//相对于大图的取图位置
+                    }),
+                    offset: new AMap.Pixel(-16, -35)
+                };
+                var rulerOptions = { startMarkerOptions: sMarker, endMarkerOptions: eMarker, lineOptions: lOptions };
+                ruler2 = new AMap.RangingTool(mapObj, rulerOptions);
+            });
+
+        }
+        //添加带文本的点标记覆盖物
+        function addMarker(tNum, rtime, pos, icon, lng, lat) {
+            //实例化信息窗体
+            var infoWindow = new AMap.InfoWindow({
+                isCustom: true,  //使用自定义窗体
+                offset: new AMap.Pixel(16, -45)//-113, -140
+            });
+
+            var marker = new AMap.Marker({
+                map: mapObj,
+                position: new AMap.LngLat(lng, lat), //基点位置
+                icon: icon, //复杂图标
+                // offset: new AMap.Pixel(-18, -36), //相对于基点的偏移位置
+                // draggable: true,  //是否可拖动
+                //  content: markerInfoLayer   //自定义点标记覆盖物内容
+            });
+          //  marker.setMap(mapObj);  //在地图上添加点
+            AMap.event.addListener(marker, 'click', function () { //鼠标点击marker弹出自定义的信息窗体
+                infoWindow.open(mapObj, marker.getPosition());
+                var title = tNum + '：&nbsp;&nbsp;<span style="font-size:11px;color:#F00;">更新时间:' + rtime + '</span>';
+                var info = createInfoWindow(title, "航向：正西向<br/>状态：停止<br/>当前位置：" + pos + "<br/>速度：0km/h<br/><a href='../../TerminalEquipment/Detail/" + tNum + "'>详细信息</a>")
+                //设置窗体内容
+                infoWindow.setContent(info);
+            });
+        }
+
+        //构建自定义信息窗体
+        function createInfoWindow(title, content) {
+            var info = document.createElement("div");
+            info.className = "info";
+            //可以通过下面的方式修改自定义窗体的宽高
+            //info.style.width = "400px";
+            // 定义顶部标题
+            var top = document.createElement("div");
+            top.className = "info-top";
+            var titleD = document.createElement("div");
+            titleD.innerHTML = title;
+            var closeX = document.createElement("img");
+            closeX.src = "http://webapi.amap.com/images/close2.gif";
+            closeX.onclick = closeInfoWindow;
+            top.appendChild(titleD);
+            top.appendChild(closeX);
+            info.appendChild(top);
+            // 定义中部内容
+            var middle = document.createElement("div");
+            middle.className = "info-middle";
+            middle.style.backgroundColor = 'white';
+            middle.innerHTML = content;
+            info.appendChild(middle);
+            // 定义底部内容
+            var bottom = document.createElement("div");
+            bottom.className = "info-bottom";
+            bottom.style.position = 'relative';
+            bottom.style.top = '0px';
+            bottom.style.margin = '0 auto';
+            var sharp = document.createElement("img");
+            sharp.src = "http://webapi.amap.com/images/sharp.png";
+            bottom.appendChild(sharp);
+            info.appendChild(bottom);
+            return info;
+        }
+        //关闭信息窗体
+        function closeInfoWindow() {
+            mapObj.clearInfoWindow();
+        }
+        //设置地图中心点
+        function setMapCenter(lng, lat) {
+            mapObj.setZoomAndCenter(14, new AMap.LngLat(lng, lat));
+        }
+        //地图自适应显示函数
+        function setMapFitView() {
+            var newCenter = mapObj.setFitView();//使地图自适应显示到合适的范围
+        }
+    </script>
+}

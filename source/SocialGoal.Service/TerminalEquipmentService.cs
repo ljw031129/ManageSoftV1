@@ -3,6 +3,7 @@ using SocialGoal.Data.Infrastructure;
 using SocialGoal.Data.Repository;
 using SocialGoal.Model.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,6 +34,10 @@ namespace SocialGoal.Service
         IEnumerable<ValidationResult> Validate(Model.ViewModels.TerminalEquipmentViewModel newTerminalEquipment);
 
         Task<TerminalEquipment> FindById(string id);
+
+        Task<IEnumerable<TerminalEquipment>> GetSubGridByEquipmentId(string id);
+
+        List<string> GetCurrentUserTerminalEquipments(string[] orgId);
     }
     public class TerminalEquipmentService : ITerminalEquipmentService
     {
@@ -69,7 +74,7 @@ namespace SocialGoal.Service
             _terminalEquipmentRepository.Add(terminalEquipment);
             ReceiveDataLast reLat = new ReceiveDataLast();
             reLat.ReceiveDataLastId = guid;
-            reLat.DevId = terminalEquipment.TerminalEquipmentNum;
+            reLat.IMEI = terminalEquipment.TerminalEquipmentNum;
             _receiveDataLastRepository.Add(reLat);
             Save();
             return Task.FromResult(true);
@@ -87,8 +92,8 @@ namespace SocialGoal.Service
             try
             {
                 _terminalEquipmentRepository.Update(terminalEquipment);
-                ReceiveDataLast reLat = _receiveDataLastRepository.GetById(terminalEquipment.ReceiveDataLastId);              
-                reLat.DevId = terminalEquipment.TerminalEquipmentNum;
+                ReceiveDataLast reLat = _receiveDataLastRepository.GetById(terminalEquipment.ReceiveDataLastId);
+                reLat.IMEI = terminalEquipment.TerminalEquipmentNum;
                 _receiveDataLastRepository.Update(reLat);
                 Save();
             }
@@ -182,6 +187,25 @@ namespace SocialGoal.Service
         {
             TerminalEquipment te = _terminalEquipmentRepository.GetById(id);
             return Task.FromResult(te);
+        }
+
+
+        public Task<IEnumerable<TerminalEquipment>> GetSubGridByEquipmentId(string id)
+        {
+            IEnumerable<TerminalEquipment> terminalEquipment = _terminalEquipmentRepository.GetTerminalEquipmentByEquipmentId(id);
+            return Task.FromResult(terminalEquipment);
+        }
+
+
+        public List<string> GetCurrentUserTerminalEquipments(string[] orgIds)
+        {
+            IEnumerable<TerminalEquipment> te = _terminalEquipmentRepository.GetMany(m => orgIds.Contains(m.OrgEnterpriseId));
+            List<string> al = new List<string>();
+            foreach (var item in te.ToList())
+            {
+                al.Add(item.TerminalEquipmentNum.Trim());
+            }
+            return al;
         }
     }
 }

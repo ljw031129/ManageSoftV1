@@ -68,6 +68,7 @@ namespace SocialGoal.Controllers
         {
             int count = 0;
             IEnumerable<ApplicationUser> applicationUser = await UserManager.Users.ToListAsync();
+            
             count = applicationUser.Count();
             var result = new
             {
@@ -130,7 +131,7 @@ namespace SocialGoal.Controllers
                         break;
                 }
             }
-
+           
 
             // 定义错误代码;
             HttpContext.Response.StatusCode = 400;

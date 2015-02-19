@@ -24,15 +24,15 @@ namespace SocialGoal.Data.Repository
             if (dataTime.Length == 2)
             {
 
-                int startTime = DateUtils.ConvertDateTimeIntInt(DateTime.Parse(dataTime[0]));
-                int endTime = DateUtils.ConvertDateTimeIntInt(DateTime.Parse(dataTime[1]));
-                total = this.DataContext.ReceiveDatas.OrderBy(d => d.GpsTime).Where(p => p.DevId.Contains(devid) && p.GpsTime >= startTime && p.GpsTime < endTime).Count();
-                return this.DataContext.ReceiveDatas.OrderBy(d => d.GpsTime).Where(p => p.DevId.Contains(devid) && p.GpsTime >= startTime && p.GpsTime < endTime).Skip((pageNum - 1) * pageSize).Take(pageSize);
+                long startTime = DateUtils.ConvertDateTimeIntInt(DateTime.Parse(dataTime[0]));
+                long endTime = DateUtils.ConvertDateTimeIntInt(DateTime.Parse(dataTime[1]));
+                total = this.DataContext.ReceiveDatas.OrderBy(d => d.GpsTime).Where(p => p.IMEI.Contains(devid) && p.GpsTime >= startTime && p.GpsTime < endTime).Count();
+                return this.DataContext.ReceiveDatas.OrderBy(d => d.GpsTime).Where(p => p.IMEI.Contains(devid) && p.GpsTime >= startTime && p.GpsTime < endTime).Skip((pageNum - 1) * pageSize).Take(pageSize);
             }
             else
             {
-                total = this.DataContext.ReceiveDatas.OrderBy(d => d.GpsTime).Where(p => p.DevId.Contains(devid)).Count();
-                return this.DataContext.ReceiveDatas.OrderBy(d => d.GpsTime).Where(p => p.DevId.Contains(devid)).Skip((pageNum - 1) * pageSize).Take(pageSize);
+                total = this.DataContext.ReceiveDatas.OrderBy(d => d.GpsTime).Where(p => p.IMEI.Contains(devid)).Count();
+                return this.DataContext.ReceiveDatas.OrderBy(d => d.GpsTime).Where(p => p.IMEI.Contains(devid)).Skip((pageNum - 1) * pageSize).Take(pageSize);
             }
         }
 

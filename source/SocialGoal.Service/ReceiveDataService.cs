@@ -16,13 +16,17 @@ namespace SocialGoal.Service
     {
         Task<IQueryable<ReceiveData>> GetReceiveDataMapata(string devid, string dataRange, int pageNum, int pageSize, out int total);
         Task<IEnumerable<ReceiveData>> GetReceiveDataHistory(Core.xFilter.Expressions.JqGridSetting jqGridSetting, out int count);
+
+        Task<IEnumerable<ReceiveDataLast>> GetReceiveDataLasts(Core.xFilter.Expressions.JqGridSetting jqGridSetting,List<string> currentT, out int count);
     }
     public class ReceiveDataService : IReceiveDataService
     {
         private readonly IReceiveDataRepository _receiveDataRepository;
+        private readonly IReceiveDataLastRepository _receiveDataLastRepository;
         private readonly IUnitOfWork _unitOfWork;
-        public ReceiveDataService(IReceiveDataRepository receiveDataRepository, IUnitOfWork unitOfWork)
+        public ReceiveDataService(IReceiveDataRepository receiveDataRepository, IReceiveDataLastRepository receiveDataLastRepository, IUnitOfWork unitOfWork)
         {
+            this._receiveDataLastRepository = receiveDataLastRepository;
             this._receiveDataRepository = receiveDataRepository;
             this._unitOfWork = unitOfWork;
         }
@@ -48,6 +52,15 @@ namespace SocialGoal.Service
             jqGridSetting.Where = g;
             IEnumerable<ReceiveData> re = _receiveDataRepository.GetPageJqGrid<ReceiveData>(jqGridSetting, out count);
             return Task.FromResult(re);
+        }
+
+
+        public Task<IEnumerable<ReceiveDataLast>> GetReceiveDataLasts(Core.xFilter.Expressions.JqGridSetting jqGridSetting,List<string> currentT, out int count)
+        {
+           
+            IEnumerable<ReceiveDataLast> receiveDataLast = _receiveDataLastRepository.GetCurrentUserReceiveDataLasts(jqGridSetting,currentT, out count);
+           
+            return Task.FromResult(receiveDataLast);
         }
     }
 }

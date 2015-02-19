@@ -1,25 +1,190 @@
-@model SocialGoal.Model.Models.Equipment
+﻿@model SocialGoal.Model.ViewModels.EquipmentViewModel
+<div id="content">
+    <!-- Bread crumb is created dynamically -->
+    <!--
+       The ID "widget-grid" will start to initialize all widgets below
+       You do not need to use widgets if you dont want to. Simply remove
+       the <section></section> and you can use wells or panels instead
+       -->
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget" id="wid-id-3" data-widget-editbutton="false" data-widget-custombutton="false">
+                    <!-- widget options:
+                        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
 
-@{
-    ViewBag.Title = "Edit";
-}
+                        data-widget-colorbutton="false"
+                        data-widget-editbutton="false"
+                        data-widget-togglebutton="false"
+                        data-widget-deletebutton="false"
+                        data-widget-fullscreenbutton="false"
+                        data-widget-custombutton="false"
+                        data-widget-collapsed="true"
+                        data-widget-sortable="false"
+                    -->
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                        <h2>修改车辆信息 </h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
 
-<h2>Edit</h2>
+                            @using (Html.BeginForm("Edit", "Equipment", FormMethod.Post, new { @class = "smart-form", role = "form" }))
+                            {
 
-@using (Html.BeginForm()) {
-    @Html.ValidationSummary(true)
-    <fieldset>
-        <legend>Equipment</legend>
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationBootstrap()
+                                @Html.HiddenFor(m => m.oper, new { @Value = "edit" })
+                                @Html.HiddenFor(m => m.id)
+                                @Html.HiddenFor(m => m.EquipmentId)
+                                @Html.HiddenFor(m => m.EquipmentCreatTime)
+                                <header>所属企业</header>
+                                <fieldset>
 
-        @Html.HiddenFor(model => model.EquipmentId)
-		@Html.Partial("_CreateOrEdit", Model)
+                                    <div class="row">
+                                        <section class="col col-6">
+                                            <label class="input">
+                                                <i class="icon-append fa fa-search"></i>
+                                                <input type="text" placeholder="搜索企业" id="OrgEnterpriseIdSelect2" name="OrgEnterpriseIdSelect2" class="form-control">
 
-        <p>
-            <input type="submit" value="Save" />
-        </p>
-    </fieldset>
-}
+                                            </label>
+                                        </section>
+                                    </div>
+                                </fieldset>
+                                <header>
+                                    车辆信息
+                                </header>
+                                <fieldset>
+                                    <div class="row">
+                                        <section class="col col-6">
+                                            @Html.LabelFor(m => m.EquipmentNum, htmlAttributes: new { @class = "label" })
+                                            <label class="input">
+                                                <i class="icon-append fa fa-user"></i>
+                                                @Html.TextBoxFor(m => m.EquipmentNum)
+                                                @Html.ValidationMessageFor(m => m.EquipmentNum, "", new { @class = "text-danger" })
+                                            </label>
+                                        </section>
+                                        <section class="col col-6">
+                                            @Html.LabelFor(m => m.EquipmentName, htmlAttributes: new { @class = "label" })
+                                            <label class="input">
+                                                <i class="icon-append fa fa-user"></i>
+                                                @Html.TextBoxFor(m => m.EquipmentName)
+                                                @Html.ValidationMessageFor(m => m.EquipmentName, "", new { @class = "text-danger" })
+                                            </label>
+                                        </section>
+                                    </div>
+                                </fieldset>
+                                <header>
+                                    车主信息
+                                </header>
+                                <fieldset>
+                                    <div class="row">
+                                        <section class="col col-6">
+                                            @Html.LabelFor(m => m.OwnerName, htmlAttributes: new { @class = "label" })
+                                            <label class="input">
+                                                <i class="icon-append fa fa-user"></i>
+                                                @Html.TextBoxFor(m => m.OwnerName)
+                                                @Html.ValidationMessageFor(m => m.OwnerName, "", new { @class = "text-danger" })
+                                            </label>
+                                        </section>
+                                        <section class="col col-6">
+                                            @Html.LabelFor(m => m.OwnerPhone, htmlAttributes: new { @class = "label" })
+                                            <label class="input">
+                                                <i class="icon-append fa fa-user"></i>
+                                                @Html.TextBoxFor(m => m.OwnerPhone)
+                                                @Html.ValidationMessageFor(m => m.OwnerPhone, "", new { @class = "text-danger" })
+                                            </label>
+                                        </section>
+                                        <section class="col col-6">
+                                            @Html.LabelFor(m => m.OwnerAddress, htmlAttributes: new { @class = "label" })
+                                            <label class="input">
+                                                <i class="icon-append fa fa-user"></i>
+                                                @Html.TextBoxFor(m => m.OwnerAddress)
+                                                @Html.ValidationMessageFor(m => m.OwnerAddress, "", new { @class = "text-danger" })
+                                            </label>
+                                        </section>
+                                    </div>
+                                </fieldset>
+                                <header>
+                                    安装信息
+                                </header>
+                                <fieldset>
+                                    <div class="row">
+                                        <section class="col col-6">
+                                            @Html.LabelFor(m => m.InstallTime, htmlAttributes: new { @class = "label" })
+                                            <label class="input">
+                                                <i class="icon-append fa fa-user"></i>
+                                                @Html.TextBoxFor(m => m.InstallTime)
+                                                @Html.ValidationMessageFor(m => m.InstallTime, "", new { @class = "text-danger" })
+                                            </label>
+                                        </section>
+                                        <section class="col col-6">
+                                            @Html.LabelFor(m => m.InstallUser, htmlAttributes: new { @class = "label" })
+                                            <label class="input">
+                                                <i class="icon-append fa fa-user"></i>
+                                                @Html.TextBoxFor(m => m.InstallUser)
+                                                @Html.ValidationMessageFor(m => m.InstallUser, "", new { @class = "text-danger" })
+                                            </label>
+                                        </section>
+                                        <section class="col col-6">
+                                            @Html.LabelFor(m => m.InstallUserPhone, htmlAttributes: new { @class = "label" })
+                                            <label class="input">
+                                                <i class="icon-append fa fa-user"></i>
+                                                @Html.TextBoxFor(m => m.InstallUserPhone)
+                                                @Html.ValidationMessageFor(m => m.InstallUserPhone, "", new { @class = "text-danger" })
+                                            </label>
+                                        </section>
+                                        <section class="col col-6">
+                                            @Html.LabelFor(m => m.InstallPlace, htmlAttributes: new { @class = "label" })
+                                            <label class="input">
+                                                <i class="icon-append fa fa-user"></i>
+                                                @Html.TextBoxFor(m => m.InstallPlace)
+                                                @Html.ValidationMessageFor(m => m.InstallPlace, "", new { @class = "text-danger" })
+                                            </label>
+                                        </section>
+                                        <section class="col col-6">
+                                            @Html.LabelFor(m => m.InstallSite, htmlAttributes: new { @class = "label" })
+                                            <label class="input">
+                                                <i class="icon-append fa fa-user"></i>
+                                                @Html.TextBoxFor(m => m.InstallSite)
+                                                @Html.ValidationMessageFor(m => m.InstallSite, "", new { @class = "text-danger" })
+                                            </label>
+                                        </section>
+                                    </div>
+                                </fieldset>
+                                <footer>
+                                    <button type="submit" class="btn btn-primary">
+                                        保存
+                                    </button>
+                                </footer>
+                            }
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+            </article>
+        </div>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
 </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            pageSetUp();
+            $('#OrgEnterpriseIdSelect2').select2("data", { "id": "@Model.OrgEnterpriseId", "text": "@Model.OrgEnterpriseName" })
+        });
+    </script>
+}

@@ -46,14 +46,41 @@ namespace SocialGoal.Data.Repository
         {
             string sql = @"UPDATE TerminalEquipments
                                 SET EquipmentId=@EquipmentId
-                                 WHERE TerminalEquipmentId=@TerminalEquipmentId";           
+                                 WHERE TerminalEquipmentId=@TerminalEquipmentId";
             try
             {
-               
-                    this.DataContext.Database.ExecuteSqlCommand(sql, new DbParameter[] {                     
+
+                this.DataContext.Database.ExecuteSqlCommand(sql, new DbParameter[] {                     
                     new SqlParameter("EquipmentId",EquipmentIds),
                     new SqlParameter("TerminalEquipmentId",TerminalEquipmentId)
-                                   });              
+                                   });
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        public IEnumerable<TerminalEquipment> GetTerminalEquipmentByEquipmentId(string id)
+        {
+            return this.DataContext.TerminalEquipments.Where(m => m.EquipmentId == id);
+        }
+
+
+        public void UpdateSetTerminalEquipment(string id)
+        {
+            string sql = @"UPDATE TerminalEquipments
+                                SET EquipmentId=null
+                                 WHERE EquipmentId=@EquipmentId";
+            try
+            {
+
+                this.DataContext.Database.ExecuteSqlCommand(sql, new DbParameter[] {                     
+                    new SqlParameter("EquipmentId",id)                  
+                                   });
 
             }
             catch (Exception)
@@ -68,5 +95,9 @@ namespace SocialGoal.Data.Repository
         void UpdateTerminalEquipmentOrgEnterpriseId(string OrgEnterpriseId, string TerminalEquipmentIds);
 
         void UpdateEquipmentId(string TerminalEquipmentId, string EquipmentIds);
+
+        IEnumerable<TerminalEquipment> GetTerminalEquipmentByEquipmentId(string id);
+
+        void UpdateSetTerminalEquipment(string id);
     }
 }

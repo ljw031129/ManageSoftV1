@@ -185,7 +185,7 @@ var calc_navbar_height = function () {
 	                // ask verification
 	                $.SmartMessageBox({
 	                    title: "<i class='fa fa-sign-out txt-color-orangeDark'></i> 注销 <span class='txt-color-orangeDark'><strong>" + $('#show-shortcut').text() + "</strong></span> ?",
-	                    content: $this.data('logout-msg') || "注销当前用户后，需要重新登录系统1！",
+	                    content: $this.data('logout-msg') || "注销当前用户后，需要重新登录系统！",
 	                    buttons: '[否][是]'
 
 	                }, function (ButtonPressed) {
@@ -1929,7 +1929,7 @@ function drawBreadCrumb(opt_breadCrumbs) {
         b = a.length;
 
     bread_crumb.empty(),
-    bread_crumb.append($("<li>Home</li>")), a.each(function () {
+    bread_crumb.append($("<li>主页</li>")), a.each(function () {
         bread_crumb.append($("<li></li>").html($.trim($(this).clone().children(".badge").remove().end().text()))), --b || (document.title = bread_crumb.find("li:last-child").text())
     });
 
@@ -2042,76 +2042,3 @@ function getParam(name) {
         return results[1];
 }
 /* ~ END: HELPFUL FUNCTIONS */
-
-
-/*天剑JQGRID样式*/
-
-//获取当前时间
-function CurentTime() {
-    var now = new Date();
-
-    var year = now.getFullYear();       //年
-    var month = now.getMonth() + 1;     //月
-    var day = now.getDate();            //日
-
-    var hh = now.getHours();            //时
-    var mm = now.getMinutes();          //分
-
-    var clock = year + "-";
-
-    if (month < 10)
-        clock += "0";
-
-    clock += month + "-";
-
-    if (day < 10)
-        clock += "0";
-
-    clock += day + " ";
-
-    if (hh < 10)
-        clock += "0";
-
-    clock += hh + ":";
-    if (mm < 10) clock += '0';
-    clock += mm;
-    return (clock);
-}
-function jqgridStyle() {
-    /* Add tooltips */
-    $('.navtable .ui-pg-button').tooltip({
-        container: 'body'
-    });
-    // update buttons
-    // remove classes
-    $(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
-    $(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
-    $(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
-    $(".ui-jqgrid-pager").removeClass("ui-state-default");
-    $(".ui-jqgrid").removeClass("ui-widget-content");
-
-    // add classes
-    $(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
-    $(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
-
-    $(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
-    $(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
-    $(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
-    $(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
-    $(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
-    $(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
-    $(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
-    $(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
-
-    $(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
-    $(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
-
-    $(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
-    $(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
-
-    $(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
-    $(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
-
-    $(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
-    $(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
-}

@@ -34,7 +34,7 @@
                                 <div class="row">
                                     <div class="col-xs-9 col-sm-5 col-md-5 col-lg-5">
                                         <div class="row">
-                                            <input type="text" placeholder="搜索企业" id="OrgEnterpriseId" name="OrgEnterpriseId" class="col-xs-9">
+                                            <input type="text" placeholder="搜索企业" id="OrgEnterpriseIdSelect2" name="OrgEnterpriseIdSelect2" class="col-xs-9">
                                         </div>
                                     </div>
                                     <div class="col-xs-3 col-sm-7 col-md-7 col-lg-7 text-right">
@@ -82,25 +82,25 @@
                       ['Id', '设备编号', '最近信息Id', '终端编号', '终端类型', '所属企业', '协议名称', 'SIM', '创建时间', '更新时间'],
                   colModel: [
                       { name: 'TerminalEquipmentId', key: true, index: 'TerminalEquipmentId', editable: true, editoptions: { readonly: true }, width: 55, hidden: true },
-                       { name: 'EquipmentId', index: 'EquipmentId', editable: true, editoptions: { readonly: true }, width: 55, hidden: true },
-                        { name: 'ReceiveDataLastId', index: 'ReceiveDataLastId', editable: true, editoptions: { readonly: true }, width: 55, hidden: true },
-                      { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: true, width: 60 },
-                      { name: 'TerminalEquipmentType', index: 'EquipmentName', editable: true, width: 100, edittype: "select", formatter: 'select', editoptions: { value: "1:无线GPS; 2:有线GPS; 3:代理GPS" } },
-                      { name: 'OrgEnterpriseId', index: 'OrgEnterpriseId', editable: true, width: 100, edittype: "select", editoptions: { dataUrl: '/OrgEnterprise/GetAll' }, stype: "select", searchoptions: { dataUrl: '/OrgEnterprise/GetAll' } },
+                      { name: 'EquipmentId', index: 'EquipmentId', editable: true, editoptions: { readonly: true }, hidden: true },
+                      { name: 'ReceiveDataLastId', index: 'ReceiveDataLastId', editable: true, editoptions: { readonly: true },  hidden: true },
+                      { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: true },
+                      { name: 'TerminalEquipmentType', index: 'EquipmentName', editable: true, edittype: "select", formatter: 'select', editoptions: { value: "1:无线GPS; 2:有线GPS; 3:代理GPS" } },
+                      { name: 'OrgEnterpriseId', index: 'OrgEnterpriseId', editable: true, edittype: "select", editoptions: { dataUrl: '/OrgEnterprise/GetAll' }, stype: "select", searchoptions: { dataUrl: '/OrgEnterprise/GetAll' } },
                       {
-                          name: 'PmFInterpreterId', index: 'PmFInterpreterId', editable: true, width: 100, edittype: "select",
+                          name: 'PmFInterpreterId', index: 'PmFInterpreterId', editable: true, edittype: "select",
                           editoptions: { dataUrl: '/ProtocolManage/GetAllList', dataInit: initSelect2 }, stype: "select", searchoptions: { dataUrl: '/ProtocolManage/GetAllList' }//,
                           //dataInit: function(elem) { $(elem).css("margin-top", "8px" ); }
                       },
-                      { name: 'TerminalSimCardId', index: 'TerminalSimCardId', editable: true, width: 100, edittype: "select", editoptions: { dataUrl: 'TerminalSimCard/GetAllByTerminalEquipment', dataInit: initSelect2 }, stype: "select", searchoptions: { dataUrl: 'TerminalSimCard/GetAllByTerminalEquipment' } },
-                      { name: 'TerminalEquipmentCreateTime', index: 'EquipmentCreatTime', sorttype: 'date', editable: true, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, width: 80, align: "left", editoptions: { readonly: true, defaultValue: CurentTime() } },
-                      { name: 'TerminalEquipmentUpdateTime', index: 'EquipmentUpDateTime', sorttype: 'date', editable: false, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, editoptions: { readonly: true }, editrules: { date: true }, width: 80, align: "left" }
+                      { name: 'TerminalSimCardId', index: 'TerminalSimCardId', editable: true, edittype: "select", editoptions: { dataUrl: 'TerminalSimCard/GetAllByTerminalEquipment', dataInit: initSelect2 }, stype: "select", searchoptions: { dataUrl: 'TerminalSimCard/GetAllByTerminalEquipment' } },
+                      { name: 'TerminalEquipmentCreateTime', index: 'EquipmentCreatTime', sorttype: 'date', editable: true, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' },  align: "left", editoptions: { readonly: true, defaultValue: CurentTime() } },
+                      { name: 'TerminalEquipmentUpdateTime', index: 'EquipmentUpDateTime', sorttype: 'date', editable: false, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, editoptions: { readonly: true }, editrules: { date: true },  align: "left" }
                   ],
                   //multiselect: true,
                   rowNum: 10,
-                  height: '100%',
-                  height: 'auto',
-                  autowidth: true,
+                //  height: '100%',
+                height: 'auto',
+                 // autowidth: true,
                   rowList: [10, 20, 30],
                   pager: '#pjqgrid',
                   sortname: 'TerminalEquipmentUpdateTime',
@@ -179,37 +179,7 @@
                 }
 
             });
-            //The url we will send our get request to
-            var attendeeUrl = '@Url.Action("GetOrgEnterprises", "OrgEnterprise")';
-            var pageSize = 20;
-            $('#OrgEnterpriseId').select2(
-            {
-                placeholder: 'Enter name',
-                //Does the user have to enter any data before sending the ajax request
-                minimumInputLength: 0,
-                allowClear: true,
-                ajax: {
-                    //How long the user has to pause their typing before sending the next request
-                    quietMillis: 150,
-                    //The url of the json service
-                    url: attendeeUrl,
-                    dataType: 'json',
-                    //Our search term and what page we are on
-                    data: function (term, page) {
-                        return {
-                            pageSize: pageSize,
-                            pageNum: page,
-                            searchTerm: term
-                        };
-                    },
-                    results: function (data, page) {
-                        //Used to determine whether or not there are more results available,
-                        //and if requests for more data should be sent in the infinite scrolling
-                        var more = (page * pageSize) < data.Total;
-                        return { results: data.Results, more: more };
-                    }
-                }
-            });
+        
           
         var add = function () {
             window.location.href = "/TerminalEquipment/Create";

@@ -87,7 +87,8 @@ MarkerMovingControl.prototype.step = function () {
             //this._path[0]
             //element["GpsPlog"], element["GpsPlat"]
             //设置中心点
-            mapObj.setZoomAndCenter(14, new AMap.LngLat(this._path[0].GpsPlog, this._path[0].GpsPlat));
+            // mapObj.setZoomAndCenter(14, new AMap.LngLat(this._path[0].GpsPlog, this._path[0].GpsPlat));
+           // this._map.setFitView();
             //添加停留点
 
             var distance = getFlatternDistance(parseFloat(this._path[0].GpsPlog), parseFloat(this._path[0].GpsPlat), parseFloat(this._path[1].GpsPlog), parseFloat(this._path[1].GpsPlat));
@@ -271,8 +272,9 @@ MarkerMovingControl.prototype.addLine = function (arr) {
         strokeStyle: "dashed", //线样式
         strokeDasharray: [10, 5] //补充线样式
     });
-    this._map.setFitView();
-    //构造折线编辑对象，并开启折线的编辑状态
+   
+   this._map.setFitView();
+    
 }
 
 //调整播放速度

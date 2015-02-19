@@ -1,126 +1,85 @@
 @{
-    ViewBag.Title = "设备管理";
-    Layout = "~/Views/Shared/_LayoutFlattyMain.cshtml";
+    ViewBag.Title = "车辆管理";
 }
-
-@section styles{
-
-    <link href="~/Content/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
-    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
-    <link href="~/Content/jquery.jqGrid/jqGrid.overrides.css" rel="stylesheet" />
-    <link href="~/Scripts/plugins/select2-3.5.1/select2.css" rel="stylesheet" />
-    <link href="~/Scripts/plugins/select2-3.5.1/select2-bootstrap.css" rel="stylesheet" />
-    <link href="~/Scripts/plugins/artDialog/css/ui-dialog.css" rel="stylesheet" />
-}
-<div class='row' id='content-wrapper'>
-    <div class='col-xs-12'>
-        <div class='row'>
-            <div class='col-sm-12'>
-                <div class='page-header'>
-                    <h1 class='pull-left'>
-                        <i class='icon-user'></i>
-                        <span>设备管理</span>
-                    </h1>
-                    <div class='pull-right'>
-                        <ul class='breadcrumb'>
-                            <li>
-                                <a href='index.html'>
-                                    <i class='icon-bar-chart'></i>
-                                </a>
-                            </li>
-                            <li class='separator'>
-                                <i class='icon-angle-right'></i>
-                            </li>
-                            <li>Example pages</li>
-                            <li class='separator'>
-                                <i class='icon-angle-right'></i>
-                            </li>
-                            <li class='active'>User profile</li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        @*<div class="row">
-                <div class="col-sm-12">
-                    <div class="tabbable">
-                        <ul class="nav nav-tabs nav-tabs-simple">
-                            <li class="active">
-                                <a href="#tabsimple1" class="green-border">
-                                    <i class="icon-indent-left"></i>
-                                    Section 1
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#tabsimple2">
-                                    <i class="icon-edit text-red"></i>
-                                    Section 2
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-
-                </div>
-            </div>*@
+<div id="content">
+    <!--
+        The ID "widget-grid" will start to initialize all widgets below
+        You do not need to use widgets if you dont want to. Simply remove
+        the <section></section> and you can use wells or panels instead
+        -->
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
         <div class="row">
-            <div style="margin-bottom: 0" class="col-sm-12 box">
-                <div class="box-header red-background">
-                    <div class="title">设备管理</div>
-                    <div class="actions">
-                        <a href="#" class="btn box-remove btn-xs btn-link">
-                            <i class="icon-remove"></i>
-                        </a>
+            <article class="col-sm-12 col-md-12 col-lg-12">
+                <!-- new widget -->
+                <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-fullscreenbutton="false">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
 
-                        <a href="#" class="btn box-collapse btn-xs btn-link">
-                            <i></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="box-content">
-                    <div class="box-toolbox box-toolbox-top">
-                        <div class="pull-left col-sm-6">
-                            <div class="row">
-                                <div class="input-group  col-sm-6">
-                                    <span class="input-group-addon">终端</span>
-                                    <input type="text" placeholder="搜索终端" id="TerminalEquipmentId" class="form-control">
-                                </div>
-                                <div class="col-sm-6">
-                                    <button type="submit" class="btn btn-primary" id="SetTerminalEquipment">
-                                        <i class="icon-save"></i>
-                                        绑定终端
-                                    </button>
-                                </div>
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+
+                    -->
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-comments"></i> </span>
+                        <h2> 车辆列表 </h2>
+                        <div class="widget-toolbar">
+                            <!-- add: non-hidden - to disable auto hide -->
+                        </div>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <div>
+                                <label>Title:</label>
+                                <input type="text" />
                             </div>
                         </div>
-                        <div class="pull-right">
-                            <a class="btn btn-white">
-                                <i class="icon-eye-open"></i>
-                            </a>
+                        <!-- end widget edit box -->
+                        <div class="widget-body no-padding">
+                            <div class="widget-body-toolbar">
+                                <div class="row">
+                                    <div class="col-xs-9 col-sm-5 col-md-5 col-lg-5">
+                                        <input type="text" placeholder="选择终端" id="TerminalEquipmentIdSelect2" class="col-xs-9">
+                                    </div>
+                                    <div class="col-xs-3 col-sm-7 col-md-7 col-lg-7 text-right">
+                                        <button class="btn btn-success" id="SetTerminalEquipment">
+                                            <i class="fa fa-plus"></i> <span class="hidden-mobile">安装终端</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="jqgrid"></table> <div id="pjqgrid"></div>
+                            <div class="widget-footer">
+                            </div>
                         </div>
                     </div>
-                    <table id="grps"></table> <div id="pgrps"></div>
-
+                    <!-- end widget div -->
                 </div>
-            </div>
+                <!-- end widget -->
 
+            </article>
         </div>
-    </div>
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
 </div>
 @section scripts{
-
-    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
-    <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
-    <script src="~/Scripts/plugins/select2-3.5.1/select2.js"></script>
-    <script src="~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"></script>
-    <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
     <script type="text/javascript">
         var d, TerminalEquipmentId, ids;
         $(document).ready(function () {
             // $("#OrgEnterpriseId").val("");
             $("#SetTerminalEquipment").click(function () {
-                TerminalEquipmentId = $('#TerminalEquipmentId').val();
-                ids = $("#grps").jqGrid("getGridParam", "selrow");
+                TerminalEquipmentId = $('#TerminalEquipmentIdSelect2').val();
+                ids = $("#jqgrid").jqGrid("getGridParam", "selrow");
 
                 if (TerminalEquipmentId == "") {
                     var d = dialog({
@@ -148,7 +107,7 @@
                                 { TerminalEquipmentId: TerminalEquipmentId, EquipmentIds: ids },
                                 function (result) {
                                     that.close().remove();
-                                    $("#grps").trigger("reloadGrid");
+                                    $("#jqgrid").trigger("reloadGrid");
                                 });
                             return false;
                         },
@@ -159,60 +118,35 @@
                 }
 
             });
-            //The url we will send our get request to
-            var attendeeUrl = '@Url.Action("GetTerminalEquipment", "TerminalEquipment")';
-            var pageSize = 20;
 
-            $('#TerminalEquipmentId').select2(
-            {
-                placeholder: 'Enter name',
-                //Does the user have to enter any data before sending the ajax request
-                minimumInputLength: 0,
-                // multiple:true,
-                allowClear: true,
-                ajax: {
-                    //How long the user has to pause their typing before sending the next request
-                    quietMillis: 150,
-                    //The url of the json service
-                    url: attendeeUrl,
-                    dataType: 'jsonp',
-                    //Our search term and what page we are on
-                    data: function (term, page) {
-                        return {
-                            pageSize: pageSize,
-                            pageNum: page,
-                            searchTerm: term
-                        };
-                    },
-                    results: function (data, page) {
-                        //Used to determine whether or not there are more results available,
-                        //and if requests for more data should be sent in the infinite scrolling
-                        var more = (page * pageSize) < data.Total;
-                        return { results: data.Results, more: more };
-                    }
-                }
-            });
             //表格数据
-            jQuery("#grps").jqGrid(
+            jQuery("#jqgrid").jqGrid(
                 {
                     url: '@Url.Action("Get", "Equipment")',
                     datatype: "json",
                     mtype: "get",
                     colNames:
-                        ['Id', '设备类型', '设备ID', '发动机型号', '创建时间', '更新时间'],
+                       ['Id', '车牌号', '机器系列号', '车主姓名', '车主联系电话', '车主住址', '安装时间', '安装人', '安装人联系电话', '安装位置', '安装地点', '创建时间', '更新时间'],
                     colModel: [
-                        { name: 'EquipmentId', key: true, index: 'EquipmentId', editable: true, editoptions: { readonly: true }, width: 55, hidden: true },
-                        { name: 'EquipmentTypeId', index: 'EquipmentTypeId', editable: true, width: 90 },
-                        { name: 'EquipmentNum', index: 'EquipmentNum', editable: true, width: 90 },
-                        { name: 'EquipmentName', index: 'EquipmentName', editable: true, width: 100 },
-                        { name: 'EquipmentCreatTime', index: 'EquipmentCreatTime', sorttype: 'date', editable: true, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, width: 80, align: "right", editoptions: { readonly: true, defaultValue: CurentTime() } },
-                        { name: 'EquipmentUpDateTime', index: 'EquipmentUpDateTime', sorttype: 'date', editable: false, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, editoptions: { readonly: true }, editrules: { date: true }, width: 80, align: "right" }
+                       { name: 'EquipmentId', key: true, index: 'EquipmentId', hidden: true },
+                    { name: 'EquipmentNum', index: 'EquipmentNum' },
+                    { name: 'EquipmentName', index: 'EquipmentName' },
+                    { name: 'OwnerName', index: 'OwnerName' },
+                    { name: 'OwnerPhone', index: 'OwnerPhone' },
+                    { name: 'OwnerAddress', index: 'OwnerAddress' },
+                    { name: 'InstallTime', index: 'InstallTime' },
+                    { name: 'InstallUser', index: 'InstallUser' },
+                    { name: 'InstallUserPhone', index: 'InstallUserPhone' },
+                    { name: 'InstallPlace', index: 'InstallPlace' },
+                    { name: 'InstallSite', index: 'InstallSite' },
+                    { name: 'EquipmentCreatTime', index: 'EquipmentCreatTime', sorttype: 'date', editable: true, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, width: 80, align: "right", editoptions: { readonly: true, defaultValue: CurentTime() } },
+                    { name: 'EquipmentUpDateTime', index: 'EquipmentUpDateTime', sorttype: 'date', editable: false, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, editoptions: { readonly: true }, editrules: { date: true }, width: 80, align: "right" }
                     ],
                     // multiselect: true,
                     rowNum: 10,
-                    width: 700,
+                    //autowidth: true,
                     rowList: [10, 20, 30],
-                    pager: '#pgrps',
+                    pager: '#pjqgrid',
                     sortname: 'EquipmentUpDateTime',
                     viewrecords: true,//定义是否要显示总记录数
                     sortorder: "desc",
@@ -237,16 +171,15 @@
 
                         // (5)动态添加子报表的table和pager
                         $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='" + subgrid_pager_id + "' class='scroll'></div>");
-                        var ss = 9;
+                       
                         // (6)创建jqGrid对象
                         $("#" + subgrid_table_id).jqGrid({
                             url: '@Url.Action("GetSubGrid", "TerminalEquipment")',  // (7)子表格数据对应的url，注意传入的contact.id参数
                             datatype: "json",
-                            colNames: ['Id', '终端编号', 'SIM卡号', '绑定时间'],
+                            colNames: ['Id', '终端编号', '绑定时间'],
                             colModel: [
                                 { name: "TerminalEquipmentId", index: "TerminalEquipmentId", width: 80, key: true, hidden: true },
-                                { name: "TerminalEquipmentNum", index: "TerminalEquipmentNum", width: 130 },
-                                { name: "TerminalSimCardId", index: "TerminalSimCardId", width: 130, align: "center" },
+                                { name: "TerminalEquipmentNum", index: "TerminalEquipmentNum", width: 130 },                               
                                 { name: "TerminalEquipmentUpdateTime", index: "TerminalEquipmentUpdateTime", width: 200, align: "center", sorttype: 'date', editable: false, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } }
                             ],
                             jsonReader: {   // (8)针对子表格的jsonReader设置
@@ -256,7 +189,7 @@
                                 records: "records",
                                 repeatitems: false,
                                 userdata: "userdata"
-                            },                            
+                            },
                             postData: { subRowId: row_id },
                             viewrecords: true,
                             height: "100%",
@@ -265,29 +198,104 @@
                         });
                     }
                 });
-            jQuery("#grps").jqGrid('navGrid', '#pgrps',
-                { edit: true, add: true, del: true },
-                {},
-                {},
-                {},
-                { multipleSearch: true, multipleGroup: true });
-            //test responsiveness
-            $(window).on('resize', function (event, ui) {
-                // Get width of parent container
-                var parWidth = $("#gbox_grps").parent().width();
-                var curWidth = $("#gbox_grps").width();
-                //console.log("span width " + parWidth + " gridWidth " + gWidth);
-                var w = parWidth - 1; // Fudge factor to prevent horizontal scrollbars
-                if (Math.abs(w - curWidth) > 2) {
-                    //alert("resize to " + width);
-                    console.log("span width " + parWidth + " gridWidth " + curWidth);
-                    $("#grps").setGridWidth(w);
-                    console.log("new width " + w);
-                }
+            jQuery("#jqgrid").jqGrid('navGrid', "#pjqgrid", {
+                addfunc: add,
+                editfunc: edit,
+                delfunc: del,
+                alerttext: "请选择需要操作的数据行!"
+            },
+                 {},
+                 {},
+                 {},
+                 { multipleSearch: true, multipleGroup: true }
+           );
+            //修改样式
+            jqgridStyle();
 
-            }).trigger('resize');
+        });
+        var initSelect2 = function (elem) {
+            setTimeout(function () {
+                $(elem).select2();
+            }, 1000);
+        }
+        // $("#OrgEnterpriseId").val("");
+        $("#SetOrgEnterprise").click(function () {
+            OrgEnterpriseId = $('#OrgEnterpriseId').val();
+            ids = $("#grps").jqGrid("getGridParam", "selarrrow");
+            if (OrgEnterpriseId == "") {
+                var d = dialog({
+                    title: '提示',
+                    content: '请选择企业！'
+                });
+                d.show();
+                return;
+            } else if (ids == "") {
+                d = dialog({
+                    title: '提示',
+                    content: '请选择要分配的设备！',
+                    ok: function () { }
+                });
+                d.show();
+                return;
+            } else {
+                d = dialog({
+                    title: '提示',
+                    content: '确定要分配当前设备吗？',
+                    ok: function () {
+                        var that = this;
+                        this.title('正在提交..');
+                        $.post("/TerminalEquipment/UpdateOrgEnterprise",
+                            { OrgEnterpriseId: OrgEnterpriseId, TerminalEquipmentIds: ids },
+                            function (result) {
+                                that.close().remove();
+                                $("#grps").trigger("reloadGrid");
+                            });
+                        return false;
+                    },
+                    cancelValue: '取消',
+                    cancel: function () { }
+                });
+                d.show();
+            }
+
         });
 
+        //添加  修改  删除操作
+        var add = function () {
+            window.location.href = "/Equipment/Create";
+
+        };
+        var edit = function (rowid) {
+            window.location.href = "/Equipment/Edit/" + rowid;
+        };
+        var del = function (rowid) {
+            d = dialog({
+                title: '提示信息',
+                content: '确认删除当前车辆吗？',
+                okValue: '确定',
+                ok: function () {
+                    this.title('提交中…');
+                    var that = this;
+                    $.ajax({
+                        type: "POST",
+                        url: "/Equipment/Post",
+                        data: { oper: "del", id: rowid },
+                        dataType: "json",
+                        success: function (data) {
+                            that.close().remove();
+                            $("#jqgrid").trigger("reloadGrid");
+                        }
+                    });
+                    return false;
+                },
+                cancelValue: '取消',
+                cancel: function () { }
+            });
+            d.show();
+        };
+        $(window).on('resize.jqGrid', function () {
+            jQuery("#jqgrid").jqGrid('setGridWidth', $("#content").width());
+        })
     </script>
 }
 

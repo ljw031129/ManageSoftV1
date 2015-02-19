@@ -7,8 +7,8 @@ namespace SocialGoal.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            return RedirectToAction("Monitor", "TerminalEquipment", null);
-           
+            return RedirectToAction("Monitor", "ReceiveData", null);
+
         }
 
         [Authorize]
@@ -22,6 +22,13 @@ namespace SocialGoal.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
+        public ActionResult FullScreenMap()
+        {
+           
 
             return View();
         }

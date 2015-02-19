@@ -1,246 +1,296 @@
-﻿
+﻿<div id="content">
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget" id="wid-id-0" data-widget-colorbutton="false" data-widget-editbutton="false">
+                    <!-- widget options:
+                        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                        data-widget-colorbutton="false"
+                        data-widget-editbutton="false"
+                        data-widget-togglebutton="false"
+                        data-widget-deletebutton="false"
+                        data-widget-fullscreenbutton="false"
+                        data-widget-custombutton="false"
+                        data-widget-collapsed="true"
+                        data-widget-sortable="false"
 
-    
-    <link href="~/Scripts/plugins/select2-3.5.1/select2.css" rel="stylesheet" />
-    <link href="~/Scripts/plugins/select2-3.5.1/select2-bootstrap.css" rel="stylesheet" />
-    <link href="~/Scripts/plugins/artDialog/css/ui-dialog.css" rel="stylesheet" />
-<div id="content">
-    <div class='row' id='content-wrapper'>
-        <div class='col-xs-12'>
-            <div class='row'>
-                <div class='col-sm-12'>
-                    <div class='page-header'>
-                        <h1 class='pull-left'>
-                            <i class='icon-facetime-video '></i>
-                            <span>设备监控</span>
-                        </h1>
-                        <div class='pull-right'>
-                            <ul class='breadcrumb'>
-                                <li>
-                                    <a href='index.html'>
-                                        <i class='icon-bar-chart'></i>
-                                    </a>
-                                </li>
-                                <li class='separator'>
-                                    <i class='icon-angle-right'></i>
-                                </li>
-                                <li>Example pages</li>
-                                <li class='separator'>
-                                    <i class='icon-angle-right'></i>
-                                </li>
-                                <li class='active'>User profile</li>
-                            </ul>
+                    -->
+                    <header>
+                        <h2><strong>我的终端设备</strong> </h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Change title to update and save instantly!</span>
                         </div>
-                    </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+                            <table id="TerminalEquipments" class="display projects-table table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>终端编号</th>
+                                        <th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>当前位置</th>
+                                        <th>数据更新时间</th>
 
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12 box">
-                    <ul class="nav nav-tabs nav-tabs-simple">
-                        <li class="active">
-                            <a href="@Url.Action("Index", "Terminal",null)" class="green-border">
-                                <i class="icon-list  text-red "></i>
-                                设备列表
-                            </a>
-                        </li>
-                        <li id="equipmentDetail">
-                            <a href="#">
-                                <i class="icon-indent-left"></i>
-                                设备工况一览
-                            </a>
-                        </li>
-                        <li id="equipmentMap">
-                            <a href="#" class="green-border">
-                                <i class="icon-map-marker "></i>
-                                行驶轨迹
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <div style="margin-bottom: 0" class="col-sm-12 box">
-                    <div class="box-header blue-background">
-                        <div class="title"><i class=" icon-list "></i>  设备列表</div>
-                        <div class="actions">
-                            <a href="#" class="btn box-remove btn-xs btn-link">
-                                <i class="icon-remove"></i>
-                            </a>
-
-                            <a href="#" class="btn box-collapse btn-xs btn-link">
-                                <i></i>
-                            </a>
+                                    </tr>
+                                </thead>
+                            </table>
                         </div>
+                        <!-- end widget content -->
                     </div>
-                    <div class="box-content">
-                        <table id="grps"></table> <div id="pgrps"></div>
-
-                    </div>
+                    <!-- end widget div -->
                 </div>
 
-            </div>
+                <!-- end widget -->
+            </article>
+            <!-- WIDGET END -->
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget" id="wid-id-1" data-widget-colorbutton="false" data-widget-editbutton="false">
+                    <!-- widget options:
+                        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                        data-widget-colorbutton="false"
+                        data-widget-editbutton="false"
+                        data-widget-togglebutton="false"
+                        data-widget-deletebutton="false"
+                        data-widget-fullscreenbutton="false"
+                        data-widget-custombutton="false"
+                        data-widget-collapsed="true"
+                        data-widget-sortable="false"
+
+                    -->
+                    <header>
+                        <h2><strong>我的车辆</strong></h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                            <span class="note"><i class="fa fa-check text-success"></i> Change title to update and save instantly!</span>
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body no-padding" id="EquipmentTable">
+                            <table id="jqgrid"></table>
+                            <div id="pjqgrid"></div>
+                            <div class="widget-footer">
+                            </div>
+
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+
+            </article>
+            <!-- WIDGET END -->
+
+
+
         </div>
-    </div>
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
 </div>
-    @section scripts{
-
-        <script src="~/Scripts/jquery.jqGrid-4.6.0/js/jquery.jqGrid.src.js"></script>
-        <script src="~/Scripts/jquery.jqGrid-4.6.0/js/i18n/grid.locale-cn.js"></script>
-        <script src="~/Scripts/plugins/select2-3.5.1/select2.js"></script>
-        <script src="~/Scripts/plugins/select2-3.5.1/select2_locale_zh-CN.js"></script>
-        <script src="~/Scripts/plugins/artDialog/dist/dialog-plus.js"></script>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                //点击事件
-                $("#equipmentDetail").click(function () {
-                    var rowId = $("#grps").jqGrid("getGridParam", "selrow");
-                    if (rowId == null) {
-                        var d = dialog({
-                            title: '提示',
-                            content: '请选择设备！'
-                        });
-                        d.show();
-                        return;
-                    } else {
-                        var rowData = $("#grps").jqGrid("getRowData", rowId);
-                        window.location.href = "../../Terminal/Detail/" + rowData.TerminalEquipmentNum;
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {        
+            jQuery("#jqgrid").jqGrid(
+                {
+                    url: '@Url.Action("Get", "Equipment")',
+                    datatype: "json",
+                    mtype: "get",
+                    colNames:
+                        ['Id', '车牌号', '机器系列号', '车主姓名', '车主联系电话', '车主住址'],
+                    colModel: [
+                        { name: 'EquipmentId', key: true, index: 'EquipmentId', hidden: true },
+                     { name: 'EquipmentNum', index: 'EquipmentNum' },
+                     { name: 'EquipmentName', index: 'EquipmentName' },
+                     { name: 'OwnerName', index: 'OwnerName' },
+                     { name: 'OwnerPhone', index: 'OwnerPhone' },
+                     { name: 'OwnerAddress', index: 'OwnerAddress' }
+                    ],
+                    //   multiselect: true,
+                    //  rownumbers: true,//添加左侧行号
+                    // altRows: true,//设置为交替行表格,默认为false
+                    rowNum: 10,
+                    autowidth: true,
+                    rowList: [10, 20, 30],
+                    pager: '#pjqgrid',
+                    sortname: 'EquipmentNum',
+                    viewrecords: true,//定义是否要显示总记录数
+                    sortorder: "desc",
+                    jsonReader: {
+                        root: "rows",
+                        page: "page",
+                        total: "total",
+                        records: "records",
+                        repeatitems: false,
+                        userdata: "userdata"
+                    },
+                    // caption: "终端信息表",
+                    //shrinkToFit: false,
+                    // height: '100%',
+                    onSelectRow: function (rowid, status) {
+                        var row = $("#jqgrid").getRowData(rowid);  //根据ID拿到一行的数据
+                        GetTerminalEquipmentById(row.EquipmentId);
                     }
                 });
-                $("#equipmentMap").click(function () {
-                    var rowId = $("#grps").jqGrid("getGridParam", "selrow");
-                    if (rowId == null) {
-                        var d = dialog({
-                            title: '提示',
-                            content: '请选择设备！'
-                        });
-                        d.show();
-                        return;
-                    } else {
-                        var rowData = $("#grps").jqGrid("getRowData", rowId);
-                        window.location.href = "../../Terminal/Map/" + rowData.TerminalEquipmentNum;
+            jQuery("#jqgrid").jqGrid('navGrid', '#pjqgrid',
+                { edit: false, add: false, del: false },
+                {
+                    editCaption: "编辑",
+                    top: "5",
+                    left: "5",
+                    jqModal: false,
+                    reloadAfterSubmit: true,
+                    afterShowForm: function (form) {
+                        $("#PmFInterpreterId").select2();
+
                     }
-                });
-                jQuery("#grps").jqGrid(
-                    {
-                        url: '@Url.Action("GetTerminalEquipmentDetail", "Terminal")',
-                        datatype: "json",
-                        mtype: "get",
-                        colNames:
-                            ['Id', '设备类型', '设备编号', '发动机编号', '终端编号', '终端类型', '工作状态', '小时表', '信息最后更新时间', '位置'],
-                        colModel: [
-                            { name: 'TerminalEquipmentId', key: true, index: 'TerminalEquipmentId', editable: false, editoptions: { readonly: true }, width: 55, hidden: true },
-                            { name: 'EquipmentTypeId', index: 'EquipmentTypeId', editable: false, width: 100, edittype: "select", formatter: IconyFmatter, editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" }, align: "center" },
-                            { name: 'EquipmentNum', index: 'EquipmentNum', editable: false, width: 90 },
-                            { name: 'EquipmentName', index: 'EquipmentName', editable: false, width: 90 },
-                            { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: false, width: 90, formatter: LinkFmatter, unformat: imageUnFormat },
-                            { name: 'TerminalEquipmentType', index: 'EquipmentName', editable: false, width: 100, edittype: "select", formatter: "select", editoptions: { value: "1:GPS; 2:摄像头; 3:显示器" }, align: "center" },
-                            { name: 'AccStatus', index: 'AccStatus', editable: false, width: 60 },
-                            { name: 'TotalWorkTime', index: 'TotalWorkTime', editable: false, width: 60 },
-                            { name: 'ReceiveTime', index: 'ReceiveTime', editable: false, align: "left", width: 180, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
-                            { name: 'GpsPos', index: 'GpsPos', editable: false, align: "left", width: 300 }
+                },
+                {
+                    editCaption: "添加",
+                    top: "5",
+                    left: "5",
+                    jqModal: false,
+                    reloadAfterSubmit: true,
+                    afterShowForm: function (form) {
+                        $("#PmFInterpreterId").select2();
 
-                        ],
-                        //   multiselect: true,
-                        //  rownumbers: true,//添加左侧行号
-                        altRows: true,//设置为交替行表格,默认为false
-                        rowNum: 10,
-                        width: 700,
-                        rowList: [10, 20, 30],
-                        pager: '#pgrps',
-                        sortname: 'TerminalEquipmentUpdateTime',
-                        viewrecords: true,//定义是否要显示总记录数
-                        sortorder: "desc",
-                        jsonReader: {
-                            root: "rows",
-                            page: "page",
-                            total: "total",
-                            records: "records",
-                            repeatitems: false,
-                            userdata: "userdata"
-                        },
-                        // caption: "终端信息表",
-                        //shrinkToFit: false,
-                        //  width: 'auto',
-                        height: '100%',
-                        editurl: '/api/ApiTerminalEquipment' // this is dummy existing url
-                    });
-                jQuery("#grps").jqGrid('navGrid', '#pgrps',
-                    { edit: false, add: false, del: false },
-                    {
-                        editCaption: "编辑",
-                        top: "5",
-                        left: "5",
-                        jqModal: false,
-                        reloadAfterSubmit: true,
-                        afterShowForm: function (form) {
-                            $("#PmFInterpreterId").select2();
+                    }
+                },
+                {},
+                { multipleSearch: true, multipleGroup: true });
+            //修改样式
+            jqgridStyle();
+            $(window).on('resize.jqGrid', function () {
+                jQuery("#jqgrid").jqGrid('setGridWidth', $("#EquipmentTable").width());
+            })
 
-                        }
+            //终端设备信息
+            var table = $('#TerminalEquipments').DataTable({
+                "ajax": '',
+                "bDestroy": true,
+                "iDisplayLength": 15,
+                "searching": false,
+                "bPaginate": false, //翻页功能
+                "bLengthChange": false, //改变每页显示数据数量
+                "bInfo": false,//页脚信息
+                "columns": [
+                    {
+                        "class": 'details-control',
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": ''
                     },
-                    {
-                        editCaption: "添加",
-                        top: "5",
-                        left: "5",
-                        jqModal: false,
-                        reloadAfterSubmit: true,
-                        afterShowForm: function (form) {
-                            $("#PmFInterpreterId").select2();
-
-                        }
+                    { "data": "TerminalEquipmentNum" },
+                    { "data": "GpsPos" },
+                    { "data": "ReceiveTime" }
+                ],
+                "order": [[3, 'asc']],
+                "fnDrawCallback": function (oSettings) {
+                },
+                "oLanguage": {
+                    "sProcessing": "处理中...",
+                    "sLengthMenu": "显示 _MENU_ 项结果",
+                    "sZeroRecords": "没有匹配结果",
+                    "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                    "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                    "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                    "sInfoPostFix": "",
+                    "sSearch": "搜索:",
+                    "sUrl": "",
+                    "sEmptyTable": "未绑定终端设备",
+                    "sLoadingRecords": "载入中...",
+                    "sInfoThousands": ",",
+                    "oPaginate": {
+                        "sFirst": "首页",
+                        "sPrevious": "上页",
+                        "sNext": "下页",
+                        "sLast": "末页"
                     },
-                    {},
-                    { multipleSearch: true, multipleGroup: true });
-                //test responsiveness
-                $(window).on('resize', function (event, ui) {
-                    // Get width of parent container
-                    var parWidth = $("#gbox_grps").parent().width();
-                    var curWidth = $("#gbox_grps").width();
-                    //console.log("span width " + parWidth + " gridWidth " + gWidth);
-                    var w = parWidth - 1; // Fudge factor to prevent horizontal scrollbars
-                    if (Math.abs(w - curWidth) > 2) {
-                        //alert("resize to " + width);
-                        console.log("span width " + parWidth + " gridWidth " + curWidth);
-                        $("#grps").setGridWidth(w);
-                        console.log("new width " + w);
+                    "oAria": {
+                        "sSortAscending": ": 以升序排列此列",
+                        "sSortDescending": ": 以降序排列此列"
                     }
-
-                }).trigger('resize');
-                //自定义的格式化方法
-                //cellvalue - 当前cell的值
-                //options - 该cell的options设置，包括{rowId, colModel,pos,gid}
-                //rowObject - 当前cell所在row的值，如{ id=1, name="name1", price=123.1, ...}
-                function IconyFmatter(cellvalue, options, rowObject) {
-                    var rec = "";
-                    switch (cellvalue) {
-                        case "1":
-                            rec = '<img src="../../Content/ICON/car.png" alt="" />';
-                            break;
-                        case "2":
-                            rec = '<img src="../..//Content/ICON/car1.png" alt="" />';
-                            break;
-                        case "3":
-                            rec = '<img src="../../Content/ICON/car1.png" alt="" />';
-                            break;
-                        default:
-                            rec = '<img src="../../Content/ICON/car1.png" alt="" />';
-                            break;
-
-                    }
-                    return rec;
                 }
-                function LinkFmatter(cellvalue, options, rowObject) {
-                    var rec = '<a href="../../Terminal/Detail/' + cellvalue + '" id="' + cellvalue + '">' + cellvalue + '</a>';
+            });
+            function GetTerminalEquipmentById(id) {
 
-                    return rec;
-                }
-                function imageUnFormat(cellvalue, options, cell) {
-                    return $('a', cell).attr('id');
+                table.ajax.url('/TerminalEquipment/GetTerminalEquipmentById/' + id + '').load();
+                //  RefreshTable('#TerminalEquipments', '/TerminalEquipment/GetTerminalEquipmentById/' + id + '');
+
+            }
+
+
+
+            /* Formatting function for row details - modify as you need */
+            function format(d) {
+                // `d` is the original data object for the row
+                return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">' +
+                    '<tr>' +
+                    '<td style="width:100px">定位时间:</td>' +
+                    '<td>' + d.GpsTime + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>已定位次数:</td>' +
+                    '<td><div class="progress progress-xs" data-progressbar-value="75"><div class="progress-bar"></div></div></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>经度:</td>' +
+                    '<td>' + d.GpsPlat + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>纬度:</td>' +
+                    '<td>' + d.GpsPlog + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>速度:</td>' +
+                    '<td>' + d.GpsSpeed + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>方向:</td>' +
+                    '<td>' + d.GpsDirection + '</td>' +
+                    '</tr>' +
+                     '<td>详细信息:</td>' +
+                    '<td><a href="/TerminalEquipment/Detail/' + d.TerminalEquipmentNum + '">..............</a></td>' +
+                    '</tr>' +
+                    '</table>';
+            }
+            // Add event listener for opening and closing details
+            $('#TerminalEquipments tbody').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                } else {
+                    // Open this row
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
                 }
             });
 
-        </script>
-    }
+        });
+
+    </script>
+}
 
 
 

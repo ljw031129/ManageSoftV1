@@ -101,6 +101,8 @@
     <Compile Include="Configuration\ReceiveDataHistoryConfiguration.cs" />
     <Compile Include="Configuration\ReceiveDataLastConfiguration.cs" />
     <Compile Include="Configuration\ReDataDisplayFormatConfiguration.cs" />
+    <Compile Include="Configuration\TerminalEquipmentCommandConfiguration.cs" />
+    <Compile Include="Configuration\TerminalEquipmentCommandCurrentConfiguration.cs" />
     <Compile Include="Configuration\TerminalEquipmentConfiguration.cs" />
     <Compile Include="Configuration\TerminalSimCardConfiguration.cs" />
     <Compile Include="Configuration\RegistrationTokenConfiguration.cs" />
@@ -267,8 +269,57 @@
     <Compile Include="Migrations\201501220913096_update-receiceDataRtime.Designer.cs">
       <DependentUpon>201501220913096_update-receiceDataRtime.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201502030223176_updateEquipment.cs" />
+    <Compile Include="Migrations\201502030223176_updateEquipment.Designer.cs">
+      <DependentUpon>201502030223176_updateEquipment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502030232376_updateLastData.cs" />
+    <Compile Include="Migrations\201502030232376_updateLastData.Designer.cs">
+      <DependentUpon>201502030232376_updateLastData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502030559548_updateEquipmentsAdd.cs" />
+    <Compile Include="Migrations\201502030559548_updateEquipmentsAdd.Designer.cs">
+      <DependentUpon>201502030559548_updateEquipmentsAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502040309184_updateIMEI.cs" />
+    <Compile Include="Migrations\201502040309184_updateIMEI.Designer.cs">
+      <DependentUpon>201502040309184_updateIMEI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502040347583_TerminalEquipmentCommand.cs" />
+    <Compile Include="Migrations\201502040347583_TerminalEquipmentCommand.Designer.cs">
+      <DependentUpon>201502040347583_TerminalEquipmentCommand.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502040623392_TerminalEquipmentCommandTime.cs" />
+    <Compile Include="Migrations\201502040623392_TerminalEquipmentCommandTime.Designer.cs">
+      <DependentUpon>201502040623392_TerminalEquipmentCommandTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502040646562_TerminalEquipmentCommandHex.cs" />
+    <Compile Include="Migrations\201502040646562_TerminalEquipmentCommandHex.Designer.cs">
+      <DependentUpon>201502040646562_TerminalEquipmentCommandHex.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502040650350_TerminalEquipmentCommandStatue.cs" />
+    <Compile Include="Migrations\201502040650350_TerminalEquipmentCommandStatue.Designer.cs">
+      <DependentUpon>201502040650350_TerminalEquipmentCommandStatue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502040756508_TerminalEquipmentCommandUserId.cs" />
+    <Compile Include="Migrations\201502040756508_TerminalEquipmentCommandUserId.Designer.cs">
+      <DependentUpon>201502040756508_TerminalEquipmentCommandUserId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502050648181_commondCurrent.cs" />
+    <Compile Include="Migrations\201502050648181_commondCurrent.Designer.cs">
+      <DependentUpon>201502050648181_commondCurrent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502050909271_ReceiveTData.cs" />
+    <Compile Include="Migrations\201502050909271_ReceiveTData.Designer.cs">
+      <DependentUpon>201502050909271_ReceiveTData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502090231061_updateSerNum.cs" />
+    <Compile Include="Migrations\201502090231061_updateSerNum.Designer.cs">
+      <DependentUpon>201502090231061_updateSerNum.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\ApplicationUserRepository.cs" />
     <Compile Include="Repository\EquipmentRepository.cs" />
     <Compile Include="Repository\OrgEnterpriseRepository.cs" />
     <Compile Include="Repository\OrgStructureRepository.cs" />
@@ -282,6 +333,8 @@
     <Compile Include="Repository\ReDataDisplayFormat.cs" />
     <Compile Include="Repository\ReDataDisplayFormatRepository.cs" />
     <Compile Include="Repository\SecurityTokenRepository.cs" />
+    <Compile Include="Repository\TerminalEquipmentCommandCurrentRepository.cs" />
+    <Compile Include="Repository\TerminalEquipmentCommandRepository.cs" />
     <Compile Include="Repository\TerminalEquipmentRepository.cs" />
     <Compile Include="Repository\TerminalSimCardRepository.cs" />
     <Compile Include="Repository\UserProfileRepository.cs" />
@@ -289,7 +342,7 @@
     <Compile Include="SocialGoalEntities.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\数据解析2014\ToolLibrary\Web.Utilities\Web.Utilities\Web.Utilities.csproj">
+    <ProjectReference Include="..\..\..\ToolLibrary\Web.Utilities\Web.Utilities\Web.Utilities.csproj">
       <Project>{8e725d3e-dad7-49c1-913b-78510829d504}</Project>
       <Name>Web.Utilities</Name>
     </ProjectReference>
@@ -420,6 +473,42 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201501220913096_update-receiceDataRtime.resx">
       <DependentUpon>201501220913096_update-receiceDataRtime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502030223176_updateEquipment.resx">
+      <DependentUpon>201502030223176_updateEquipment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502030232376_updateLastData.resx">
+      <DependentUpon>201502030232376_updateLastData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502030559548_updateEquipmentsAdd.resx">
+      <DependentUpon>201502030559548_updateEquipmentsAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502040309184_updateIMEI.resx">
+      <DependentUpon>201502040309184_updateIMEI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502040347583_TerminalEquipmentCommand.resx">
+      <DependentUpon>201502040347583_TerminalEquipmentCommand.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502040623392_TerminalEquipmentCommandTime.resx">
+      <DependentUpon>201502040623392_TerminalEquipmentCommandTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502040646562_TerminalEquipmentCommandHex.resx">
+      <DependentUpon>201502040646562_TerminalEquipmentCommandHex.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502040650350_TerminalEquipmentCommandStatue.resx">
+      <DependentUpon>201502040650350_TerminalEquipmentCommandStatue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502040756508_TerminalEquipmentCommandUserId.resx">
+      <DependentUpon>201502040756508_TerminalEquipmentCommandUserId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502050648181_commondCurrent.resx">
+      <DependentUpon>201502050648181_commondCurrent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502050909271_ReceiveTData.resx">
+      <DependentUpon>201502050909271_ReceiveTData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502090231061_updateSerNum.resx">
+      <DependentUpon>201502090231061_updateSerNum.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

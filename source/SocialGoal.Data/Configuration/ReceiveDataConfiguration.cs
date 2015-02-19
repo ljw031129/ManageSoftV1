@@ -14,6 +14,7 @@ namespace SocialGoal.Data.Configuration
         {
 
             Property(g => g.ReceiveDataId).IsRequired();
+            Property(f => f.IMEI).HasMaxLength(50);
 
         }
     }

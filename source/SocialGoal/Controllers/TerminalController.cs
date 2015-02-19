@@ -9,9 +9,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Web.Utilities;
 
 namespace SocialGoal.Controllers
 {
+    /// <summary>
+    /// 基本已不使用
+    /// </summary>
     [Authorize]
     public class TerminalController : Controller
     {
@@ -71,9 +75,9 @@ namespace SocialGoal.Controllers
                     name = item.DictionaryKey,
                     index = item.DictionaryKey,
                     formatter = item.Formatter,
-                    formatoptions=item.Formatoptions,
-                    align=item.Alignment
-                   // width = 100
+                    formatoptions = item.Formatoptions,
+                    align = item.Alignment
+                    // width = 100
                 };
                 ColMs.Add(colms);
             }
@@ -84,7 +88,7 @@ namespace SocialGoal.Controllers
             };
             return Json(resultObj, JsonRequestBehavior.AllowGet);
         }
-       
+
         public async Task<ActionResult> GetTerminalEquipmentDetail(JqGridSetting jqGridSetting)
         {
             int count = 0;
@@ -103,12 +107,13 @@ namespace SocialGoal.Controllers
                             TerminalEquipmentId = item.TerminalEquipmentId,
                             TerminalEquipmentNum = item.TerminalEquipmentNum,
                             TerminalEquipmentType = item.TerminalEquipmentType,
-                            TerminalSimCardNum=item.TerminalSimCard.TerminalSimCardNum,
+                            TerminalSimCardNum = item.TerminalSimCard.TerminalSimCardNum,
                             //最新信息
                             GpsPlat = item.ReceiveDataLast != null ? item.ReceiveDataLast.GpsPlat.ToString() : "",
                             GpsPlog = item.ReceiveDataLast != null ? item.ReceiveDataLast.GpsPlog.ToString() : "",
-                            ReceiveTime = item.ReceiveDataLast.ReceiveTime != null ? item.ReceiveDataLast.ReceiveTime.ToString() : "",                            
-                            GpsPos = item.ReceiveDataLast.GpsPos != null ? item.ReceiveDataLast.GpsPos.ToString() : ""
+                            ReceiveTime = item.ReceiveDataLast != null ? DateUtils.GetTime(item.ReceiveDataLast.ReceiveTime.ToString()).ToString("yyyy-MM-dd HH:mm:ss") : "",
+                            GpsPos = item.ReceiveDataLast != null ? item.ReceiveDataLast.GpsPos.ToString() : "",
+                            AccStatus = item.ReceiveDataLast != null ? item.ReceiveDataLast.AccStatus.ToString() : ""
                         }).ToArray()
             };
             return Json(result, JsonRequestBehavior.AllowGet);

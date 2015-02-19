@@ -9,7 +9,7 @@
     <!-- PACE LOADER - turn this on if you want ajax loading to show (caution: uses lots of memory on iDevices)-->
     <script data-pace-options='{ "restartOnRequestAfter": true }' src="~/scripts/plugin/pace/pace.min.js"></script>
     <!-- Demo purpose only! -->
-    <script src="/scripts/demo.min.js"></script>
+    @*<script src="/scripts/demo.min.js"></script>*@
 }
 
 <!-- Voice command : plugin -->
@@ -40,14 +40,191 @@
 @Scripts.Render("~/scripts/angular")
 
 <!-- DO NOT REMOVE : GLOBAL FUNCTIONS! -->
-<script>  
+<script>
+    function CurentTime() {
+        var now = new Date();
+
+        var year = now.getFullYear();       //年
+        var month = now.getMonth() + 1;     //月
+        var day = now.getDate();            //日
+        var hh = now.getHours();            //时
+        var mm = now.getMinutes();          //分
+        var clock = year + "-";
+        if (month < 10)
+            clock += "0";
+        clock += month + "-";
+        if (day < 10)
+            clock += "0";
+        clock += day + " ";
+        if (hh < 10)
+            clock += "0";
+        clock += hh + ":";
+        if (mm < 10) clock += '0';
+        clock += mm;
+        return (clock);
+    }
     var datePick = function (elem) {
         jQuery(elem).datepicker();
     }
+    //自定义的格式化方法
+    //cellvalue - 当前cell的值
+    //options - 该cell的options设置，包括{rowId, colModel,pos,gid}
+    //rowObject - 当前cell所在row的值，如{ id=1, name="name1", price=123.1, ...}
+    function IconyFmatter(cellvalue, options, rowObject) {
+        var rec = "";
+        switch (cellvalue) {
+            case "1":
+                rec = '<img src="../../Content/ICON/car.png" alt="" />';
+                break;
+            case "2":
+                rec = '<img src="../..//Content/ICON/car1.png" alt="" />';
+                break;
+            case "3":
+                rec = '<img src="../../Content/ICON/car1.png" alt="" />';
+                break;
+            default:
+                rec = '<img src="../../Content/ICON/car1.png" alt="" />';
+                break;
+
+        }
+        return rec;
+    }
+    function LinkFmatter(cellvalue, options, rowObject) {
+        var rec = '<a href="../../TerminalEquipment/Detail/' + cellvalue + '" id="' + cellvalue + '">' + cellvalue + '</a>';
+
+        return rec;
+    }
+    function imageUnFormat(cellvalue, options, cell) {
+        return $('a', cell).attr('id');
+    }
+    function jqgridStyle() {
+        /* Add tooltips */
+        $('.navtable .ui-pg-button').tooltip({
+            container: 'body'
+        });
+        // update buttons
+        // remove classes
+        $(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
+        $(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
+        $(".ui-jqgrid-labels, .ui-search-toolbar").children().removeClass("ui-state-default ui-th-column ui-th-ltr");
+        $(".ui-jqgrid-pager").removeClass("ui-state-default");
+        $(".ui-jqgrid").removeClass("ui-widget-content");
+
+        // add classes
+        $(".ui-jqgrid-htable").addClass("table table-bordered table-hover");
+        $(".ui-jqgrid-btable").addClass("table table-bordered table-striped");
+
+        $(".ui-pg-div").removeClass().addClass("btn btn-sm btn-primary");
+        $(".ui-icon.ui-icon-plus").removeClass().addClass("fa fa-plus");
+        $(".ui-icon.ui-icon-pencil").removeClass().addClass("fa fa-pencil");
+        $(".ui-icon.ui-icon-trash").removeClass().addClass("fa fa-trash-o");
+        $(".ui-icon.ui-icon-search").removeClass().addClass("fa fa-search");
+        $(".ui-icon.ui-icon-refresh").removeClass().addClass("fa fa-refresh");
+        $(".ui-icon.ui-icon-disk").removeClass().addClass("fa fa-save").parent(".btn-primary").removeClass("btn-primary").addClass("btn-success");
+        $(".ui-icon.ui-icon-cancel").removeClass().addClass("fa fa-times").parent(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
+
+        $(".ui-icon.ui-icon-seek-prev").wrap("<div class='btn btn-sm btn-default'></div>");
+        $(".ui-icon.ui-icon-seek-prev").removeClass().addClass("fa fa-backward");
+
+        $(".ui-icon.ui-icon-seek-first").wrap("<div class='btn btn-sm btn-default'></div>");
+        $(".ui-icon.ui-icon-seek-first").removeClass().addClass("fa fa-fast-backward");
+
+        $(".ui-icon.ui-icon-seek-next").wrap("<div class='btn btn-sm btn-default'></div>");
+        $(".ui-icon.ui-icon-seek-next").removeClass().addClass("fa fa-forward");
+
+        $(".ui-icon.ui-icon-seek-end").wrap("<div class='btn btn-sm btn-default'></div>");
+        $(".ui-icon.ui-icon-seek-end").removeClass().addClass("fa fa-fast-forward");
+    }
+
     $(document).ready(function () {
         pageSetUp();
         drawBreadCrumb();
     });
+
+
+    //Select2获取当前设备Id  
+    $('#TerminalEquipmentIdSelect2').select2(
+    {
+        placeholder: 'Enter name',
+        //Does the user have to enter any data before sending the ajax request
+        minimumInputLength: 0,
+        // multiple:true,
+        allowClear: true,
+        ajax: {
+            //How long the user has to pause their typing before sending the next request
+            quietMillis: 150,
+            //The url of the json service
+            url: '@Url.Action("GetTerminalEquipment", "TerminalEquipment")',
+            dataType: 'jsonp',
+            //Our search term and what page we are on
+            data: function (term, page) {
+                return {
+                    pageSize: 20,
+                    pageNum: page,
+                    searchTerm: term
+                };
+            },
+            results: function (data, page) {
+                //Used to determine whether or not there are more results available,
+                //and if requests for more data should be sent in the infinite scrolling
+                var more = (page * 20) < data.Total;
+                return { results: data.Results, more: more };
+            }
+        }
+    });
+
+    ///selec2企业信息
+    $('#OrgEnterpriseIdSelect2').select2(
+    {
+        placeholder: 'Enter name',
+        //Does the user have to enter any data before sending the ajax request
+        minimumInputLength: 0,
+        allowClear: true,
+        ajax: {
+            //How long the user has to pause their typing before sending the next request
+            quietMillis: 150,
+            //The url of the json service
+            url: '@Url.Action("GetOrgEnterprises", "OrgEnterprise")',
+            dataType: 'json',
+            //Our search term and what page we are on
+            data: function (term, page) {
+                return {
+                    pageSize: 20,
+                    pageNum: page,
+                    searchTerm: term
+                };
+            },
+            results: function (data, page) {
+                //Used to determine whether or not there are more results available,
+                //and if requests for more data should be sent in the infinite scrolling
+                var more = (page * 20) < data.Total;
+                return { results: data.Results, more: more };
+            }
+        }
+    });
+
+
+    //系统登录当前用户角色
+    @using SocialGoal.Data;
+    @using Microsoft.AspNet.Identity;
+    @using Microsoft.AspNet.Identity.EntityFramework;
+    @using SocialGoal.Model.Models;
+    @using SocialGoal.Data.Models;
+
+
+    //全局变量获取当前用户角色
+    var currentUserName = "@User.Identity.Name";
+    var currentUserId = "@User.Identity.GetUserId()";
+    var currentUserIsLogin = "@User.Identity.IsAuthenticated";
+    //是否为管理员
+    var IsAdmin = "@User.IsInRole("SupperAdmin")";
+    //是否为代理商
+    var IsAgent = "@User.IsInRole("Agent")";
+    //是否为测试用户
+    var IsTest = "@User.IsInRole("Test")";
+    //是否为最终用户
+    var IsFinal = "@User.IsInRole("FinalUser")";
+
 </script>
 
 @if (@Model is HelperResult)

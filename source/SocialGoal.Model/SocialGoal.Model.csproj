@@ -75,6 +75,8 @@
     <Compile Include="Models\RegistrationToken.cs" />
     <Compile Include="Models\SecurityToken.cs" />
     <Compile Include="Models\TerminalEquipment.cs" />
+    <Compile Include="Models\TerminalEquipmentCommand.cs" />
+    <Compile Include="Models\TerminalEquipmentCommandCurrent.cs" />
     <Compile Include="Models\TerminalSimCard.cs" />
     <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -84,12 +86,18 @@
     <Compile Include="ViewModels\OrgEnterpriseViewModel.cs" />
     <Compile Include="ViewModels\OrgStructureViewModel.cs" />
     <Compile Include="ViewModels\ProtocolTestViewModel.cs" />
+    <Compile Include="ViewModels\ReceiveDataLastViewModel.cs" />
     <Compile Include="ViewModels\SelectKeyValue.cs" />
     <Compile Include="ViewModels\TerminalDataViewModel.cs" />
+    <Compile Include="ViewModels\TerminalEquipmentCommandViewModel.cs" />
     <Compile Include="ViewModels\TerminalEquipmentViewModel.cs" />
     <Compile Include="ViewModels\TerminalSimCardViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ToolLibrary\Web.Utilities\Web.Utilities\Web.Utilities.csproj">
+      <Project>{8e725d3e-dad7-49c1-913b-78510829d504}</Project>
+      <Name>Web.Utilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SocialGoal.Core\SocialGoal.Core.csproj">
       <Project>{b1053a2d-a1ea-412f-ba95-19ce794f8891}</Project>
       <Name>SocialGoal.Core</Name>

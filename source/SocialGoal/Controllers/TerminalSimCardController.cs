@@ -91,7 +91,7 @@ namespace SocialGoal.Controllers
                     switch (newTerminalSimCardViewModel.oper)
                     {
                         case "add":
-                            terminalSimCard.TerminalSimCardId = Guid.NewGuid().ToString();
+                            terminalSimCard.TerminalSimCardId = newTerminalSimCardViewModel.TerminalSimCardNum;
                             terminalSimCard.TerminalSimCardUpdateTime = DateTime.Now;
                             terminalSimCard.TerminalSimCardCreateTime = DateTime.Now;
                             // var errors = _orgEnterpriseService.CanAdd(equipment).ToList();

@@ -12,6 +12,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using System.Collections;
 
 namespace SocialGoal.Controllers
 {
@@ -49,7 +51,7 @@ namespace SocialGoal.Controllers
         {
             StringBuilder st = new StringBuilder();
             IEnumerable<OrgEnterprise> re = await _orgEnterpriseService.GetAll();
-           string reS = await _orgEnterpriseService.GetAllTree();
+            string reS = await _orgEnterpriseService.GetAllTree();
 
             st.Append("<select>");
             foreach (var item in re)
@@ -73,7 +75,7 @@ namespace SocialGoal.Controllers
                         select new
                         {
                             OrgEnterpriseId = item.OrgEnterpriseId,
-                            OrgEnterprisePId=item.OrgEnterprisePId,
+                            OrgEnterprisePId = item.OrgEnterprisePId,
                             OrgEnterpriseNum = item.OrgEnterpriseNum,
                             OrgEnterpriseName = item.OrgEnterpriseName,
                             OrgEnterpriseDescribe = item.OrgEnterpriseDescribe,
@@ -97,7 +99,7 @@ namespace SocialGoal.Controllers
                 switch (newOrgEnterprise.oper)
                 {
                     case "add":
-                       // orgEnterprise.OrgEnterpriseId = Guid.NewGuid().ToString();
+                        // orgEnterprise.OrgEnterpriseId = Guid.NewGuid().ToString();
                         orgEnterprise.OrgEnterpriseUpdateTime = DateTime.Now;
                         orgEnterprise.OrgEnterpriseCreateTime = DateTime.Now;
                         // var errors = _orgEnterpriseService.CanAdd(equipment).ToList();
@@ -168,10 +170,8 @@ namespace SocialGoal.Controllers
         [HttpPost]
         public async Task<Object> GetOrgEnterpriseZtree()
         {
-            string userId = Request.Params["userId"];
+            string userId = User.Identity.GetUserId();
             List<ZtreeEntity> orgStructure = await _orgEnterpriseService.GetOrgEnterpriseZtree(userId);
-
-
             return Json(orgStructure, JsonRequestBehavior.AllowGet);
         }
 

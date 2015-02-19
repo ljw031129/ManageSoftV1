@@ -14,6 +14,7 @@ namespace SocialGoal.Data.Configuration
         {
             Property(g => g.OrgEnterpriseId).IsRequired();
 
+
         }
     }
 }

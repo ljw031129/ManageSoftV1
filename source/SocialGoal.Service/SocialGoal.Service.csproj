@@ -80,12 +80,17 @@
     <Compile Include="ReceiveDataService.cs" />
     <Compile Include="ReDataDisplayFormatService.cs" />
     <Compile Include="SecurityTockenService.cs" />
+    <Compile Include="TerminalEquipmentCommandService.cs" />
     <Compile Include="TerminalEquipmentService.cs" />
     <Compile Include="TerminalSimCardService.cs" />
     <Compile Include="UserProfileService.cs" />
     <Compile Include="UserService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ToolLibrary\Web.Utilities\Web.Utilities\Web.Utilities.csproj">
+      <Project>{8e725d3e-dad7-49c1-913b-78510829d504}</Project>
+      <Name>Web.Utilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SocialGoal.Core\SocialGoal.Core.csproj">
       <Project>{b1053a2d-a1ea-412f-ba95-19ce794f8891}</Project>
       <Name>SocialGoal.Core</Name>

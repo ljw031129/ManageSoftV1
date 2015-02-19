@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Web.Utilities;
 
 namespace SocialGoal.Controllers
 {
@@ -23,7 +24,7 @@ namespace SocialGoal.Controllers
         private readonly ITerminalSimCardService _terminalSimCardService;
         private readonly IProtocolManageService _protocolManageService;
         private readonly IReceiveDataLastService _receiveDataLastService;
-        public TerminalEquipmentController(ITerminalSimCardService terminalSimCardService, ITerminalEquipmentService terminalEquipmentService, IProtocolManageService protocolManageService,IReceiveDataLastService eceiveDataLastService)
+        public TerminalEquipmentController(ITerminalSimCardService terminalSimCardService, ITerminalEquipmentService terminalEquipmentService, IProtocolManageService protocolManageService, IReceiveDataLastService eceiveDataLastService)
         {
             this._protocolManageService = protocolManageService;
             this._terminalSimCardService = terminalSimCardService;
@@ -70,6 +71,7 @@ namespace SocialGoal.Controllers
                 {
                     TerminalEquipment terminalEquipment = Mapper.Map<TerminalEquipmentViewModel, TerminalEquipment>(newTerminalEquipment);
                     terminalEquipment.TerminalEquipmentId = Guid.NewGuid().ToString();
+                    terminalEquipment.OrgEnterpriseId = newTerminalEquipment.OrgEnterpriseIdSelect2;
                     terminalEquipment.TerminalEquipmentUpdateTime = DateTime.Now;
                     terminalEquipment.TerminalEquipmentCreateTime = DateTime.Now;
                     // var errors = _orgEnterpriseService.CanAdd(equipment).ToList();
@@ -135,6 +137,7 @@ namespace SocialGoal.Controllers
             return View(new TerminalEquipmentViewModel()
             {
                 OrgEnterpriseId = te.OrgEnterpriseId,
+                OrgEnterpriseIdSelect2 = te.OrgEnterpriseId,
                 TerminalEquipmentId = te.TerminalEquipmentId,
                 TerminalEquipmentNum = te.TerminalEquipmentNum,
                 OrgEnterpriseName = te.OrgEnterprise.OrgEnterpriseName,
@@ -154,6 +157,7 @@ namespace SocialGoal.Controllers
                 if (ModelState.IsValid)
                 {
                     TerminalEquipment terminalEquipment = Mapper.Map<TerminalEquipmentViewModel, TerminalEquipment>(newTerminalEquipment);
+                    terminalEquipment.OrgEnterpriseId = newTerminalEquipment.OrgEnterpriseIdSelect2;
                     terminalEquipment.TerminalEquipmentUpdateTime = DateTime.Now;
                     await _terminalEquipmentService.UpdateAsync(terminalEquipment);
                     return RedirectToAction("Index");
@@ -194,9 +198,18 @@ namespace SocialGoal.Controllers
 
         public ActionResult Detail(string Id)
         {
-            ViewBag.DevId = Id;
+            ViewBag.IMEI = Id;
             ReceiveDataLast rdl = _receiveDataLastService.GetReceiveDataLastByTerminalNum(Id);
-            return View(rdl);
+            ReceiveDataLastViewModel rv = new ReceiveDataLastViewModel();
+            rv.IMEI = rdl.IMEI;
+            rv.AccStatus = rdl.AccStatus == "1" ? "开启" : "关闭";
+            rv.ReceiveTime = DateUtils.GetTime(rdl.ReceiveTime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+            rv.GpsTime = DateUtils.GetTime(rdl.GpsTime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+            rv.GpsPlat = rdl.GpsPlat;
+            rv.GpsPlog = rdl.GpsPlog;
+            rv.GpsPos = rdl.GpsPos;
+            rv.GpsIsPos = rdl.GpsIsPos;
+            return View(rv);
         }
 
 
@@ -269,7 +282,7 @@ namespace SocialGoal.Controllers
                             TerminalEquipmentType = item.TerminalEquipmentType,
                             OrgEnterpriseId = !string.IsNullOrWhiteSpace(item.OrgEnterprise.ToString()) ? item.OrgEnterprise.OrgEnterpriseName : "",
                             PmFInterpreterId = item.PmFInterpreter.ProtocolName,
-                            TerminalSimCardId = item.TerminalSimCard.TerminalSimCardNum,
+                           // TerminalSimCardId = item.TerminalSimCard.TerminalSimCardNum,
                             TerminalEquipmentCreateTime = item.TerminalEquipmentCreateTime,
                             TerminalEquipmentUpdateTime = item.TerminalEquipmentUpdateTime
                         }).ToArray()
@@ -277,6 +290,37 @@ namespace SocialGoal.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
 
         }
+        public async Task<ActionResult> GetTerminalEquipmentById(string id)
+        {
+            IEnumerable<TerminalEquipment> orgStructure = await _terminalEquipmentService.GetSubGridByEquipmentId(id);
+
+            var result = new
+            {
+                aaData = (from item in orgStructure.ToList()
+                          select new
+                          {
+                              // TerminalEquipmentId = item.TerminalEquipmentId,
+                              TerminalEquipmentNum = item.TerminalEquipmentNum,
+                              TerminalEquipmentType = item.TerminalEquipmentType,
+                              OrgEnterpriseId = !string.IsNullOrWhiteSpace(item.OrgEnterprise.ToString()) ? item.OrgEnterprise.OrgEnterpriseName : "",
+                              //PmFInterpreterId = item.PmFInterpreter.ProtocolName,
+                              TerminalSimCardId = item.TerminalSimCard.TerminalSimCardNum,
+                              TerminalEquipmentCreateTime = item.TerminalEquipmentCreateTime,
+                              TerminalEquipmentUpdateTime = item.TerminalEquipmentUpdateTime,
+                              //最新信息
+                              GpsPos = item.ReceiveDataLast != null ? item.ReceiveDataLast.GpsPos.ToString() : "",
+                              GpsPlat = item.ReceiveDataLast != null ? item.ReceiveDataLast.GpsPlat.ToString() : "",
+                              GpsPlog = item.ReceiveDataLast != null ? item.ReceiveDataLast.GpsPlog.ToString() : "",
+                              GpsSpeed = item.ReceiveDataLast != null ? item.ReceiveDataLast.GpsSpeed.ToString() : "",
+                              GpsDirection = item.ReceiveDataLast != null ? item.ReceiveDataLast.GpsDirection.ToString() : "",
+                              GpsTime = item.ReceiveDataLast != null ? DateUtils.GetTime(item.ReceiveDataLast.GpsTime.ToString()).ToString("yyyy-MM-dd HH:mm:ss") : "",
+                              ReceiveTime = item.ReceiveDataLast != null ? DateUtils.GetTime(item.ReceiveDataLast.ReceiveTime.ToString()).ToString("yyyy-MM-dd HH:mm:ss") : "",
+                          }).ToArray()
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+
         [HttpPost]
         public string UpdateEquipmentId(string TerminalEquipmentId, string EquipmentIds)
         {
@@ -331,11 +375,7 @@ namespace SocialGoal.Controllers
             return Json(new { success = false, errors = GetErrorsFromModelState() });
 
         }
-        public ActionResult Monitor()
-        {
 
-            return View();
-        }
         private IEnumerable<string> GetErrorsFromModelState()
         {
             return ModelState.SelectMany(x => x.Value.Errors.Select(error => error.ErrorMessage));

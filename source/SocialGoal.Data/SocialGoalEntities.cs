@@ -28,13 +28,13 @@ namespace SocialGoal.Data.Models
             return new SocialGoalEntities();
         }
         public DbSet<SecurityToken> SecurityTokens { get; set; }
-      
+
         public DbSet<UserProfile> UserProfile { get; set; }
-      
+
 
         //测试数据
         public DbSet<Equipment> Equipments { get; set; }
-       
+
 
         //协议管理部分
         public DbSet<PmFInterpreter> PmFInterpreters { get; set; }
@@ -58,13 +58,14 @@ namespace SocialGoal.Data.Models
         //终端管理
         public DbSet<TerminalSimCard> TerminalSimCards { get; set; }
         public DbSet<TerminalEquipment> TerminalEquipments { get; set; }
-       
+        public DbSet<TerminalEquipmentCommand> TerminalEquipmentCommands { get; set; }
+        public DbSet<TerminalEquipmentCommandCurrent> TerminalEquipmentCommandCurrents { get; set; }
 
         public virtual void Commit()
         {
             //异步保存
             //base.SaveChangesAsync();
-           base.SaveChanges();
+            base.SaveChanges();
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -72,11 +73,11 @@ namespace SocialGoal.Data.Models
             base.OnModelCreating(modelBuilder);
             // modelBuilder.Conventions.Remove<IncludeMetadataConvention>();
 
-          
-            modelBuilder.Configurations.Add(new RegistrationTokenConfiguration());          
+
+            modelBuilder.Configurations.Add(new RegistrationTokenConfiguration());
             modelBuilder.Configurations.Add(new UserProfileConfiguration());
             modelBuilder.Configurations.Add(new EquipmentConfiguration());
-           
+
 
             //协议管理
             modelBuilder.Configurations.Add(new PmDataBitConfiguration());
@@ -98,7 +99,8 @@ namespace SocialGoal.Data.Models
             //终端管理
             modelBuilder.Configurations.Add(new TerminalSimCardConfiguration());
             modelBuilder.Configurations.Add(new TerminalEquipmentConfiguration());
-            
+            modelBuilder.Configurations.Add(new TerminalEquipmentCommandConfiguration());
+            modelBuilder.Configurations.Add(new TerminalEquipmentCommandCurrentConfiguration());
         }
     }
 }

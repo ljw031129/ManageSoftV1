@@ -4,6 +4,7 @@ using SocialGoal.Data.Infrastructure;
 using SocialGoal.Data.Repository;
 using SocialGoal.Model.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,16 +34,19 @@ namespace SocialGoal.Service
         Task<IEnumerable<OrgEnterprise>> GetAll();
 
         Task<List<ZtreeEntity>> GetOrgEnterpriseZtree(string userId);
+        Task<string[]> GetOrgEnterpriseArraylist(string userId);
 
         Task<string> GetAllTree();
     }
     public class OrgEnterpriseService : IOrgEnterpriseService
     {
+        private readonly IApplicationUserRepository _applicationUserRepository;
         private readonly IOrgEnterpriseRepository _orgEnterpriseRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public OrgEnterpriseService(IOrgEnterpriseRepository orgEnterpriseRepository, IUnitOfWork unitOfWork)
+        public OrgEnterpriseService(IOrgEnterpriseRepository orgEnterpriseRepository, IApplicationUserRepository applicationUserRepository, IUnitOfWork unitOfWork)
         {
+            this._applicationUserRepository = applicationUserRepository;
             this._orgEnterpriseRepository = orgEnterpriseRepository;
             this._unitOfWork = unitOfWork;
         }
@@ -130,12 +134,11 @@ namespace SocialGoal.Service
 
         public Task<List<ZtreeEntity>> GetOrgEnterpriseZtree(string userId)
         {
-            //当前用户所在企业ID
-            string orgStructureId = "52C96C61-8532-4ACE-AB6E-2BE214289280";
+            string orgId = _applicationUserRepository.Get(m => m.Id == userId).OrgEnterpriseId;
+            //当前用户所在企业ID           
             List<OrgEnterprise> orgList = _orgEnterpriseRepository.GetAll().ToList();
             List<ZtreeEntity> dList = new List<ZtreeEntity>();
-            OrgEnterpriseTree(orgList, orgStructureId, dList, orgStructureId);
-
+            OrgEnterpriseTree(orgList, orgId, dList, orgId);
             return Task.FromResult(dList);
         }
         private void OrgEnterpriseTree(List<OrgEnterprise> orgList, string parentId, List<ZtreeEntity> node, string corgStructureId)
@@ -143,7 +146,6 @@ namespace SocialGoal.Service
             List<OrgEnterprise> rows;
             if (string.IsNullOrEmpty(parentId))
             {
-
                 rows = orgList.Where(t => t.OrgEnterprisePId == "null").ToList(); //过滤
             }
             else
@@ -164,7 +166,7 @@ namespace SocialGoal.Service
                     nodeList.OrgEnterpriseCreateTime = row.OrgEnterpriseCreateTime.ToString("yyyy-MM-dd HH:mm:ss");
                     nodeList.OrgEnterpriseUpdateTime = row.OrgEnterpriseCreateTime.ToString("yyyy-MM-dd HH:mm:ss");
                     nodeList.OrgEnterpriseNum = row.OrgEnterpriseNum;
-                    nodeList.OrgEnterpriseDescribe = row.OrgEnterpriseDescribe;                  
+                    nodeList.OrgEnterpriseDescribe = row.OrgEnterpriseDescribe;
                     nodeList.open = false;
                     nodeList.title = row.OrgEnterpriseName;
                     nodeList.children = new List<ZtreeEntity>();
@@ -186,26 +188,70 @@ namespace SocialGoal.Service
         }
 
 
+        public Task<string[]> GetOrgEnterpriseArraylist(string userId)
+        {
+            string orgId = _applicationUserRepository.Get(m => m.Id == userId).OrgEnterpriseId;
+            //当前用户所在企业ID           
+            List<OrgEnterprise> orgList = _orgEnterpriseRepository.GetAll().ToList();
+            List<ZtreeEntity> dList = new List<ZtreeEntity>();
+            ArrayList al = new ArrayList();
+            OrgEnterpriseArrayList(orgList, orgId, dList, orgId, al);
+            string[] array = al.ToArray(typeof(string)) as string[];
+            return Task.FromResult(array);
+        }
+        private void OrgEnterpriseArrayList(List<OrgEnterprise> orgList, string parentId, List<ZtreeEntity> node, string corgStructureId, ArrayList al)
+        {
+            List<OrgEnterprise> rows;
+            if (string.IsNullOrEmpty(parentId))
+            {
+                rows = orgList.Where(t => t.OrgEnterprisePId == "null").ToList(); //过滤
+            }
+            else
+            {
+                rows = parentId == corgStructureId ? orgList.Where(t => t.OrgEnterpriseId == parentId).ToList() : orgList.Where(t => t.OrgEnterprisePId == parentId).ToList();
+            }
+            // rows = ds.Tables[0].Select("ID='" + parentId + "'"); //过滤
+            foreach (OrgEnterprise row in rows)
+            {
+                List<OrgEnterprise> childern = orgList.Where(t => t.OrgEnterpriseId == row.OrgEnterpriseId).ToList();//用于判断是否有子节点            
+
+                if (childern.Count != 0 || parentId == "")//是父节点            
+                {
+                    ZtreeEntity nodeList = new ZtreeEntity();
+                    nodeList.name = row.OrgEnterpriseName;
+                    nodeList.id = row.OrgEnterpriseId;
+                    nodeList.PID = row.OrgEnterprisePId;
+                    nodeList.OrgEnterpriseCreateTime = row.OrgEnterpriseCreateTime.ToString("yyyy-MM-dd HH:mm:ss");
+                    nodeList.OrgEnterpriseUpdateTime = row.OrgEnterpriseCreateTime.ToString("yyyy-MM-dd HH:mm:ss");
+                    nodeList.OrgEnterpriseNum = row.OrgEnterpriseNum;
+                    nodeList.OrgEnterpriseDescribe = row.OrgEnterpriseDescribe;
+                    nodeList.open = false;
+                    nodeList.title = row.OrgEnterpriseName;
+                    nodeList.children = new List<ZtreeEntity>();
+                    OrgEnterpriseArrayList(orgList, row.OrgEnterpriseId, nodeList.children, "", al);
+                    node.Add(nodeList);
+                    al.Add(row.OrgEnterpriseId);
+                }
+                else
+                {
+                    ZtreeEntity nodeCh = new ZtreeEntity();
+                    nodeCh.name = row.OrgEnterpriseName;
+                    nodeCh.id = row.OrgEnterpriseId;
+                    nodeCh.PID = row.OrgEnterprisePId;
+                    nodeCh.open = false;
+                    nodeCh.title = row.OrgEnterpriseName;
+                    node.Add(nodeCh);
+                    al.Add(row.OrgEnterpriseId);
+                }
+                GC.Collect();
+            }
+        }
+
+
+
         public Task<string> GetAllTree()
         {
-            //string orgStructureId = "52C96C61-8532-4ACE-AB6E-2BE214289280";
-            //List<OrgEnterprise> orgList = _orgEnterpriseRepository.GetAll().ToList();
-            //List<ZtreeEntity> dList = new List<ZtreeEntity>();
-            //OrgEnterpriseTree(orgList, orgStructureId, dList, orgStructureId);
-            //StringBuilder st = new StringBuilder();         
-          
-
-            //st.Append("<select>");
-            //foreach (var item in re)
-            //{
-            //    st.Append("<option value='" + item.OrgEnterpriseId + "'>" + item.OrgEnterpriseName + "</option>");
-
-            //}
-            //st.Append("</select>");
-
-
-
-            return Task.FromResult("");
+            throw new NotImplementedException();
         }
     }
 }

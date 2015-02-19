@@ -9,7 +9,7 @@ namespace SocialGoal.Model.Models
     public class ReceiveDataHistory
     {
         public string ReceiveDataHistoryId { get; set; }
-        public string DevId { get; set; }
+        public string IMEI { get; set; }
         public string DataStr { get; set; }
         public DateTime ReceiveTime { get; set; }
     }

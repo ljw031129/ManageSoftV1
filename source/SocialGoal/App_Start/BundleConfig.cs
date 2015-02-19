@@ -14,7 +14,7 @@ namespace SocialGoal
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate.js",
                         "~/Scripts/jquery.validate.unobtrusive.js",
-                         "~/Scripts/jquery.unobtrusive-ajax.js"));            
+                         "~/Scripts/jquery.unobtrusive-ajax.js"));
             //ztree
             bundles.Add(new ScriptBundle("~/bundles/ztree/js").Include(
                        "~/Scripts/ztree/jquery.ztree.all-3.5.js"));
@@ -87,7 +87,7 @@ namespace SocialGoal
 
             bundles.Add(new ScriptBundle("~/scripts/jq-grid").Include(
                 "~/scripts/plugin/jqgrid/jquery.jqGrid.min.js",
-                "~/scripts/plugin/jqgrid/grid.locale-en.min.js"
+                "~/scripts/plugin/jqgrid/grid.locale-cn.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/scripts/forms").Include(
@@ -106,10 +106,12 @@ namespace SocialGoal
 
             bundles.Add(new ScriptBundle("~/scripts/angular").Include(
                 "~/Scripts/angular.js",
+                 "~/Scripts/angular-strap.js",
+                 "~/Scripts/angular-strap.tpl.js",
                  "~/Scripts/angular-ui/ui-bootstrap-tpls.js"
                 ));
 
-            // BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = true;
 
         }
     }

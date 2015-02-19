@@ -9,7 +9,7 @@ namespace SocialGoal.Model.Models
     public class ReceiveData
     {
         public string ReceiveDataId { get; set; }
-        public string DevId { get; set; }
+        public string IMEI { get; set; }
         public long ReceiveTime { get; set; }
         public long CollectTime { get; set; }
         //总工作时间

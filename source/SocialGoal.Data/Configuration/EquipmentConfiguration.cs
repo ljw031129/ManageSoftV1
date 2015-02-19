@@ -14,7 +14,7 @@ namespace SocialGoal.Data.Configuration
         {
             Property(f => f.EquipmentId).HasMaxLength(36);
             Property(f => f.EquipmentName).HasMaxLength(50);
-            Property(f => f.EquipmentNum).HasMaxLength(8);
+            Property(f => f.EquipmentNum).HasMaxLength(50);
 
         }
     }

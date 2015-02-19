@@ -11,11 +11,26 @@ namespace SocialGoal.Model.Models
         public string EquipmentId { get; set; }
         public string EquipmentNum { get; set; }
         public string EquipmentName { get; set; }
+        public string OwnerName { get; set; }
+        public string OwnerPhone { get; set; }
+        public string OwnerAddress { get; set; }
+        public string InstallTime { get; set; }
+        public string InstallUser { get; set; }
+        public string InstallUserPhone { get; set; }
+        public string InstallPlace { get; set; }
+        public string InstallSite { get; set; }
+
         public string EquipmentTypeId { get; set; }
         public DateTime EquipmentCreatTime { get; set; }
         public DateTime EquipmentUpDateTime { get; set; }
-      //  public virtual ICollection<Smart> Smarts { get; set; }
+        //  public virtual ICollection<Smart> Smarts { get; set; }
         public virtual ICollection<TerminalEquipment> TerminalEquipments { get; set; }
+
+        //企业信息
+        public string OrgEnterpriseId { get; set; }
+        public virtual OrgEnterprise OrgEnterprise { get; set; }
+
+
         public Equipment()
         {
             EquipmentCreatTime = DateTime.Now;

@@ -33,7 +33,7 @@ namespace SocialGoal.Mappings
 
             Mapper.CreateMap<IPagedList<Equipment>, IPagedList<EquipmentViewModel>>().ConvertUsing<PagedListConverter<Equipment, EquipmentViewModel>>();
 
-
+            Mapper.CreateMap<TerminalEquipmentCommand, TerminalEquipmentCommandViewModel>();
             //添加映射关系
            
 

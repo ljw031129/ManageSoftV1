@@ -23,7 +23,7 @@ namespace SocialGoal.Service
         void UpdateEquipment(Equipment equipment);
         void DeleteEquipment(string id);
         void SaveEquipment();
-        IEnumerable<ValidationResult> CanAddEquipment(Equipment equipment);        
+        IEnumerable<ValidationResult> CanAddEquipment(Equipment equipment);
         Task<bool> DeleteEquipmentAsync(string equipmentId);
 
         Task<bool> UpdateEquipmentAsync(Equipment equipment);
@@ -34,15 +34,23 @@ namespace SocialGoal.Service
 
 
         Task<IEnumerable<Equipment>> GetEquipmentsJqGrid(Core.xFilter.Expressions.JqGridSetting jqGridSetting, out int count);
+
+        Task<Equipment> FindById(string id);
+
+        List<string> GetCurrentUserEquipments(string[] al);
+
+        Task<IEnumerable<Equipment>> GetEquipmentsJqGridByCurrentUser(Core.xFilter.Expressions.JqGridSetting jqGridSetting, List<string> st, out int count);
     }
 
     public class EquipmentService : IEquipmentService
     {
         private readonly IEquipmentRepository _equipmentRepository;
+        private readonly ITerminalEquipmentRepository _terminalEquipmentRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public EquipmentService(IEquipmentRepository equipmentRepository, IUnitOfWork unitOfWork)
+        public EquipmentService(IEquipmentRepository equipmentRepository, ITerminalEquipmentRepository terminalEquipmentRepository, IUnitOfWork unitOfWork)
         {
+            this._terminalEquipmentRepository = terminalEquipmentRepository;
             this._equipmentRepository = equipmentRepository;
             this._unitOfWork = unitOfWork;
         }
@@ -122,13 +130,16 @@ namespace SocialGoal.Service
             }
         }
 
-       
+
 
         public Task<bool> DeleteEquipmentAsync(string id)
         {
             var equipment = _equipmentRepository.GetById(id);
             _equipmentRepository.Delete(equipment);
             _equipmentRepository.Delete(gu => gu.EquipmentId == id);
+
+            //取消当前设备绑定信息
+            _terminalEquipmentRepository.UpdateSetTerminalEquipment(id);
             SaveEquipment();
             return Task.FromResult(true);
         }
@@ -174,6 +185,34 @@ namespace SocialGoal.Service
         {
             IEnumerable<Equipment> equipments = _equipmentRepository.GetPageJqGrid<Equipment>(jqGridSetting, out count);
             return Task.FromResult(equipments);
+        }
+
+
+        public Task<Equipment> FindById(string id)
+        {
+            Equipment te = _equipmentRepository.GetById(id);
+            return Task.FromResult(te);
+        }
+
+
+        public List<string> GetCurrentUserEquipments(string[] orgIds)
+        {
+            IEnumerable<Equipment> te = _equipmentRepository.GetMany(m => orgIds.Contains(m.OrgEnterpriseId));
+            List<string> al = new List<string>();
+            foreach (var item in te.ToList())
+            {
+                al.Add(item.EquipmentId.Trim());
+            }
+            return al;
+        }
+
+
+        public Task<IEnumerable<Equipment>> GetEquipmentsJqGridByCurrentUser(Core.xFilter.Expressions.JqGridSetting jqGridSetting, List<string> st, out int count)
+        {
+
+            IEnumerable<Equipment> receiveDataLast = _equipmentRepository.GetEquipmentsJqGridByCurrentUser(jqGridSetting, st, out count);
+
+            return Task.FromResult(receiveDataLast);
         }
     }
 }

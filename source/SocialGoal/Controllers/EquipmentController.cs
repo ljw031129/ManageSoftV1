@@ -13,17 +13,19 @@ using SocialGoal.Web.Core.Models;
 using PagedList;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 
 namespace SocialGoal.Controllers
 {
     public class EquipmentController : Controller
     {
         private readonly IEquipmentService _equipmentService;
-
+        private readonly IOrgEnterpriseService _orgEnterpriseService;
 
         // If you are using Dependency Injection, you can delete the following constructor
-        public EquipmentController(IEquipmentService equipmentService)
+        public EquipmentController(IEquipmentService equipmentService, IOrgEnterpriseService orgEnterpriseService)
         {
+            this._orgEnterpriseService = orgEnterpriseService;
             this._equipmentService = equipmentService;
         }
         //
@@ -41,8 +43,12 @@ namespace SocialGoal.Controllers
         /// <returns></returns>             
         public async Task<JsonResult> Get(JqGridSetting jqGridSetting)
         {
+            //得到当前用户可见企业id
+            string userId = User.Identity.GetUserId();
+            string[] al = await _orgEnterpriseService.GetOrgEnterpriseArraylist(userId);
+            List<string> st = _equipmentService.GetCurrentUserEquipments(al);
             int count = 0;
-            IEnumerable<Equipment> equipments = await _equipmentService.GetEquipmentsJqGrid(jqGridSetting, out count);
+            IEnumerable<Equipment> equipments = await _equipmentService.GetEquipmentsJqGridByCurrentUser(jqGridSetting,st, out count);
             var data = Mapper.Map<IEnumerable<Equipment>, IEnumerable<EquipmentViewModel>>(equipments).ToArray();
             var result = new
             {
@@ -56,6 +62,14 @@ namespace SocialGoal.Controllers
                             EquipmentTypeId = item.EquipmentTypeId,
                             EquipmentNum = item.EquipmentNum,
                             EquipmentName = item.EquipmentName,
+                            OwnerName = item.OwnerName,
+                            OwnerPhone = item.OwnerPhone,
+                            OwnerAddress = item.OwnerAddress,
+                            InstallTime = item.InstallTime,
+                            InstallUser = item.InstallUser,
+                            InstallUserPhone = item.InstallUserPhone,
+                            InstallPlace = item.InstallPlace,
+                            InstallSite = item.InstallSite,
                             EquipmentCreatTime = item.EquipmentCreatTime,
                             EquipmentUpDateTime = item.EquipmentUpDateTime
                         }).ToArray()
@@ -111,16 +125,19 @@ namespace SocialGoal.Controllers
             return ModelState.SelectMany(x => x.Value.Errors.Select(error => error.ErrorMessage));
         }
 
-        public PartialViewResult Create()
+        public ActionResult Create()
         {
-            var euipmentViewModel = new EquipmentViewModel();
-            return PartialView(euipmentViewModel);
+            return View();
         }
         [HttpPost]
         public ActionResult Create(EquipmentViewModel newEquipment)
         {
 
             Equipment equipment = Mapper.Map<EquipmentViewModel, Equipment>(newEquipment);
+            equipment.EquipmentId = Guid.NewGuid().ToString();
+            equipment.OrgEnterpriseId = newEquipment.OrgEnterpriseIdSelect2;
+            equipment.EquipmentCreatTime = DateTime.Now;
+            equipment.EquipmentUpDateTime = DateTime.Now;
             var errors = _equipmentService.CanAddEquipment(equipment).ToList();
             ModelState.AddModelErrors(errors);
             if (ModelState.IsValid)
@@ -134,7 +151,72 @@ namespace SocialGoal.Controllers
             }
             return View("Create", newEquipment);
         }
+        public async Task<ActionResult> Edit(string id)
+        {
+            //Get the list of Roles
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var item = await _equipmentService.FindById(id);
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
+            return View(new EquipmentViewModel()
+            {
+                EquipmentId = item.EquipmentId,
+                EquipmentTypeId = item.EquipmentTypeId,
+                EquipmentNum = item.EquipmentNum,
+                EquipmentName = item.EquipmentName,
+                OwnerName = item.OwnerName,
+                OwnerPhone = item.OwnerPhone,
+                OwnerAddress = item.OwnerAddress,
+                InstallTime = item.InstallTime,
+                InstallUser = item.InstallUser,
+                InstallUserPhone = item.InstallUserPhone,
+                InstallPlace = item.InstallPlace,
+                InstallSite = item.InstallSite,
+                //企业信息
+                OrgEnterpriseId = item.OrgEnterprise.OrgEnterpriseId,
+                OrgEnterpriseIdSelect2 = item.OrgEnterprise.OrgEnterpriseId,
+                OrgEnterpriseName = item.OrgEnterprise.OrgEnterpriseName,
+                EquipmentCreatTime = item.EquipmentCreatTime,
+                EquipmentUpDateTime = item.EquipmentUpDateTime
+            });
+        }
 
+
+        [HttpPost]
+        public ActionResult Edit(EquipmentViewModel newEquipment)
+        {
+            Equipment equipment = Mapper.Map<EquipmentViewModel, Equipment>(newEquipment);
+            equipment.EquipmentUpDateTime = DateTime.Now;
+            equipment.OrgEnterpriseId = newEquipment.OrgEnterpriseIdSelect2;
+            var errors = _equipmentService.CanAddEquipment(equipment).ToList();
+            ModelState.AddModelErrors(errors);
+            if (ModelState.IsValid)
+            {
+                //group.UserId = ((SocialGoalUser)(User.Identity)).UserId;
+                var createdGroup = _equipmentService.UpdateEquipmentAsync(equipment);
+                //var createdGroup = groupService.GetGroup(newGroup.GroupName);
+                //var groupAdmin = new GroupUser { GroupId = createdGroup.GroupId, UserId = ((SocialGoalUser)(User.Identity)).UserId, Admin = true };
+                //groupUserService.CreateGroupUser(groupAdmin, groupInvitationService);
+                return RedirectToAction("Index");
+            }
+            return View("Edit", newEquipment);
+        }
+
+        public ActionResult Monitor()
+        {
+
+            return View();
+        }
+        public ActionResult Map(string id)
+        {
+            ViewBag.DevId = id;
+            return View();
+        }
 
     }
 }

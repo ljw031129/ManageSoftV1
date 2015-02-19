@@ -21,83 +21,86 @@
             <li class="@Html.RouteIf("index", "active")">
                 <a href="@Url.Action("index", "home")" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">控制面板</span></a>
             </li>
-
-            <li class="@Html.RouteIf("ProtocolManage", "active")">
-                <a href="#"><i class="fa fa-lg fa-fw fa-cogs"></i> <span class="menu-item-parent">系统管理</span></a>
+            @if (User.IsInRole("SupperAdmin"))
+            {
+                <li class="@Html.RouteIf("ProtocolManage", "active")">
+                    <a href="#"><i class="fa fa-lg fa-fw fa-cogs"></i> <span class="menu-item-parent">系统管理</span></a>
+                    <ul>
+                        <li class="@Html.RouteIf("ProtocolManage", "active")">
+                            <a href='@Url.Action("Index", "ProtocolManage", null)'>
+                                协议管理
+                            </a>
+                        </li>
+                        <li class="@Html.RouteIf("ControlCommond", "active")">
+                            <a href='@Url.Action("Index", "ControlCommond", null)'>
+                                终端控制指令
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="@Html.RouteIf("TerminalEquipment", "active")">
+                    <a href="#"><i class="fa fa-lg fa-fw  fa-tablet"></i> <span class="menu-item-parent">终端管理</span></a>
+                    <ul>
+                        <li class="@Html.RouteIf("TerminalSimCard", "active")">
+                            <a href='@Url.Action("Index", "TerminalSimCard", null)'>
+                                SIM卡管理
+                            </a>
+                        </li>
+                        <li class="@Html.RouteIf("TerminalEquipment", "active")">
+                            <a href='@Url.Action("Index", "TerminalEquipment", null)'>
+                                终端设备管理
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            }
+            <li class="@Html.RouteIf("Equipment", "active")">
+                <a href="#"><i class="fa fa-lg fa-fw  fa-automobile"></i> <span class="menu-item-parent">车辆管理与监控</span></a>
                 <ul>
-                    <li class="@Html.RouteIf("ProtocolManage", "active")">
-                        <a href='@Url.Action("Index", "ProtocolManage", null)'>
-                            协议管理
+                    <li class="@Html.RouteIf("Equipment", "active")">
+                        <a href='@Url.Action("Index", "Equipment", null)'>
+                            车辆管理
                         </a>
                     </li>
-                    <li class="@Html.RouteIf("ControlCommond", "active")">
-                        <a href='@Url.Action("Index", "ControlCommond", null)'>
-                            终端控制指令
+                    <li class="@Html.RouteIf("Monitor", "active")">
+                        <a href='@Url.Action("Monitor", "Equipment", null)'>
+                            车辆监控
                         </a>
                     </li>
-                </ul>
-            </li>
-            <li class="@Html.RouteIf("TerminalEquipment", "active")">
-                <a href="#"><i class="fa fa-lg fa-fw  fa-tablet"></i> <span class="menu-item-parent">终端管理</span></a>
-                <ul>
-                    <li class="@Html.RouteIf("TerminalSimCard", "active")">
-                        <a href='@Url.Action("Index", "TerminalSimCard", null)'>
-                            SIM卡管理
-                        </a>
-                    </li>
-                    <li class="@Html.RouteIf("TerminalEquipment", "active")">
-                        <a href='@Url.Action("Index", "TerminalEquipment", null)'>
-                            终端设备管理
-                        </a>
-                    </li>
-                    <li class="@Html.RouteIf("TerminalEquipment", "active")">
-                        <a href='@Url.Action("Monitor", "TerminalEquipment", null)'>
+                    <li class="@Html.RouteIf("ReceiveData", "active")">
+                        <a href='@Url.Action("Monitor", "ReceiveData", null)'>
                             终端设备监控
                         </a>
                     </li>
                 </ul>
             </li>
-            <li class="@Html.RouteIf("Terminal", "active")">
-                <a href="#"><i class="fa fa-lg fa-fw  fa-automobile"></i> <span class="menu-item-parent">机械设备管理</span></a>
-                <ul>
-                    <li class="@Html.RouteIf("Equipment", "active")">
-                        <a href='@Url.Action("Index", "Equipment", null)'>
-                            设备管理
-                        </a>
-                    </li>
-                    <li class="@Html.RouteIf("Terminal", "active")">
-                        <a href='@Url.Action("Index", "Terminal", null)'>
-                            机械监控
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="@Html.RouteIf("OrgEnterprise", "active")">
-                <a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent">基础信息管理</span></a>
-                <ul>
-                    <li class="@Html.RouteIf("OrgEnterprise", "active")">
-                        <a href='@Url.Action("Index", "OrgEnterprise", null)'>
-                            企业管理
-                        </a>
-                    </li>
-                    <li class="@Html.RouteIf("RolesAdmin", "active")">
-                        <a href='@Url.Action("Index", "RolesAdmin", null)'>
-                            角色管理
-                        </a>
-                    </li>
-                    <li class="@Html.RouteIf("UsersAdmin", "active")">
-                        <a href='@Url.Action("Index", "UsersAdmin", null)'>
-                            用户管理
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
+            @if (User.IsInRole("SupperAdmin"))
+            {
+                <li class="@Html.RouteIf("OrgEnterprise", "active")">
+                    <a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent">基础信息管理</span></a>
+                    <ul>
+                        <li class="@Html.RouteIf("OrgEnterprise", "active")">
+                            <a href='@Url.Action("Index", "OrgEnterprise", null)'>
+                                企业管理
+                            </a>
+                        </li>
+                        <li class="@Html.RouteIf("RolesAdmin", "active")">
+                            <a href='@Url.Action("Index", "RolesAdmin", null)'>
+                                角色管理
+                            </a>
+                        </li>
+                        <li class="@Html.RouteIf("UsersAdmin", "active")">
+                            <a href='@Url.Action("Index", "UsersAdmin", null)'>
+                                用户管理
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            }
         </ul>
     </nav>
     <span class="minifyme" data-action="minifyMenu">
         <i class="fa fa-arrow-circle-left hit"></i>
     </span>
-
 </aside>
 <!-- END NAVIGATION -->
