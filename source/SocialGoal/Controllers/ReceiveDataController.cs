@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity;
 
 namespace SocialGoal.Controllers
 {
+    [Authorize]
     public class ReceiveDataController : Controller
     {
         private readonly IOrgEnterpriseService _orgEnterpriseService;

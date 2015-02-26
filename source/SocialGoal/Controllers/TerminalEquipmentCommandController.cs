@@ -15,6 +15,7 @@ using ProtocolUtils.Models;
 
 namespace SocialGoal.Controllers
 {
+    [Authorize]
     public class TerminalEquipmentCommandController : Controller
     {
         private readonly ITerminalEquipmentCommandService _terminalEquipmentCommandService;

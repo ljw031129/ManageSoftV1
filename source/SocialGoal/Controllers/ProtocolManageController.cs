@@ -14,6 +14,7 @@ using System.Web.Mvc;
 
 namespace SocialGoal.Controllers
 {
+    [Authorize]
     public class ProtocolManageController : Controller
     {
 

@@ -14,12 +14,16 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using System.Collections;
+using System.Web.Caching;
+using SocialGoal.Core.Redis;
 
 namespace SocialGoal.Controllers
 {
     [Authorize]
     public class OrgEnterpriseController : Controller
     {
+        //使用Redis缓存
+        RedisHelper Redise = new RedisHelper();
         private readonly IOrgEnterpriseService _orgEnterpriseService;
         public OrgEnterpriseController(IOrgEnterpriseService orgEnterpriseService)
         {
@@ -28,8 +32,11 @@ namespace SocialGoal.Controllers
         // GET: OrgEnterprise
         public ActionResult Index()
         {
+
             return View();
         }
+
+
         /// <summary>
         /// 采用JSONP方式加载select2数据
         /// </summary>
@@ -172,7 +179,17 @@ namespace SocialGoal.Controllers
         {
             string userId = User.Identity.GetUserId();
             List<ZtreeEntity> orgStructure = await _orgEnterpriseService.GetOrgEnterpriseZtree(userId);
-            return Json(orgStructure, JsonRequestBehavior.AllowGet);
+            Redise.Remove("OrgZtreeEntity");
+            //从stuList缓存链表获取数据
+            var orgList = Redise.GetList<ZtreeEntity>("OrgZtreeEntity");
+            if (orgList == null || orgList.Count() == 0)
+            {
+                //创建stuList缓存链表
+                Redise.AddList<ZtreeEntity>("OrgZtreeEntity", orgStructure);
+            }
+
+           
+            return Json(orgList, JsonRequestBehavior.AllowGet);
         }
 
     }

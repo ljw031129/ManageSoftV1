@@ -234,8 +234,6 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AdminRolesController.cs" />
-    <Compile Include="Controllers\AdminUsersController.cs" />
     <Compile Include="Controllers\ControlCommondController.cs" />
     <Compile Include="Controllers\EquipmentController.cs" />
     <Compile Include="Controllers\ManageController.cs" />

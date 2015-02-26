@@ -13,6 +13,7 @@ using SocialGoal.Data;
 
 namespace SocialGoal.Controllers
 {
+    [Authorize]
     //[Authorize(Roles = "Admin")]
     public class RolesAdminController : Controller
     {

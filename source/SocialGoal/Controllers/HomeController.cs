@@ -2,16 +2,16 @@
 
 namespace SocialGoal.Controllers
 {
+    [Authorize]
+
     public class HomeController : Controller
     {
-        [Authorize]
         public ActionResult Index()
         {
             return RedirectToAction("Monitor", "ReceiveData", null);
 
         }
-
-        [Authorize]
+      
         public ActionResult About()
         {
             ViewBag.Message = "Your app description page.";
@@ -28,7 +28,7 @@ namespace SocialGoal.Controllers
 
         public ActionResult FullScreenMap()
         {
-           
+
 
             return View();
         }

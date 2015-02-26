@@ -12,6 +12,7 @@ using System.Web.Mvc;
 
 namespace SocialGoal.Controllers
 {
+    [Authorize]
     public class OrgStructureController : Controller
     {
         private readonly IOrgStructureService _orgStructureService;

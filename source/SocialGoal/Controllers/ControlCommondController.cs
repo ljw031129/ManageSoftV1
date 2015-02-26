@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace SocialGoal.Controllers
 {
+    [Authorize]
     public class ControlCommondController : Controller
     {
         // GET: ControlCommond

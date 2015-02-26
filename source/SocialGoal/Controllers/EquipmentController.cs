@@ -17,6 +17,7 @@ using Microsoft.AspNet.Identity;
 
 namespace SocialGoal.Controllers
 {
+    [Authorize]
     public class EquipmentController : Controller
     {
         private readonly IEquipmentService _equipmentService;
