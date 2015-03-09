@@ -239,6 +239,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OrgEnterpriseController.cs" />
     <Compile Include="Controllers\OrgStructureController.cs" />
+    <Compile Include="Controllers\ProductionTestController.cs" />
     <Compile Include="Controllers\ProtocolManageController.cs" />
     <Compile Include="Controllers\ReceiveDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -2527,7 +2528,6 @@
     <Content Include="Views\OrgStructure\Create.cshtml" />
     <Content Include="Views\OrgStructure\Edit.cshtml" />
     <Content Include="Views\Terminal\History.cshtml" />
-    <Content Include="Views\AdminRoles\Index.cshtml" />
     <Content Include="Views\Account\_ErrorText.cshtml" />
     <Content Include="Views\Account\_LoginText.cshtml" />
     <Content Include="Views\Account\_SocialMedia.cshtml" />
@@ -2537,7 +2537,6 @@
     <Content Include="Views\Equipment\Edit.cshtml" />
     <Content Include="Views\Equipment\Index.cshtml" />
     <Content Include="Views\Equipment\_CreateOrEdit.cshtml" />
-    <Content Include="Views\AdminUsers\Index.cshtml" />
     <Content Include="Views\UsersAdmin\Index.cshtml" />
     <Content Include="Views\UsersAdmin\Edit.cshtml" />
     <Content Include="Views\UsersAdmin\Details.cshtml" />
@@ -2568,6 +2567,9 @@
     <Content Include="Views\ReceiveData\Monitor.cshtml" />
     <Content Include="Views\Equipment\Monitor.cshtml" />
     <Content Include="Views\Equipment\Map.cshtml" />
+    <Content Include="Views\ProductionTest\Index.cshtml" />
+    <Content Include="Views\ProductionTest\ReceiveData.cshtml" />
+    <Content Include="Views\ProductionTest\ReceiveDataHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

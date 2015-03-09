@@ -57,6 +57,18 @@
                                         </section>
                                     </div>
                                 </fieldset>
+                                <header>绑定终端</header>
+                                <fieldset>
+
+                                    <div class="row">
+                                        <section class="col col-6">
+                                            <label class="input">
+                                                <i class="icon-append fa fa-search"></i>                                              
+                                                <input type="text" placeholder="选择终端" id="TerminalEquipmentIdSelect2" name="TerminalEquipmentIdSelect2" class="form-control">
+                                            </label>
+                                        </section>
+                                    </div>
+                                </fieldset>
                                 <header>
                                     车辆信息
                                 </header>
@@ -76,6 +88,14 @@
                                                 <i class="icon-append fa fa-user"></i>
                                                 @Html.TextBoxFor(m => m.EquipmentName)
                                                 @Html.ValidationMessageFor(m => m.EquipmentName, "", new { @class = "text-danger" })
+                                            </label>
+                                        </section>
+                                        <section class="col col-6">
+                                            @Html.LabelFor(m => m.EngineNum, htmlAttributes: new { @class = "label" })
+                                            <label class="input">
+                                                <i class="icon-append fa fa-user"></i>
+                                                @Html.TextBoxFor(m => m.EngineNum)
+                                                @Html.ValidationMessageFor(m => m.EngineNum, "", new { @class = "text-danger" })
                                             </label>
                                         </section>
                                     </div>
@@ -180,7 +200,9 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
         $(document).ready(function () {
-            pageSetUp();          
+            pageSetUp();
+            //默认选择当前企业
+            $('#OrgEnterpriseIdSelect2').select2("data", { "id": "@Model.OrgEnterpriseId", "text": "@Model.OrgEnterpriseName" })
         });
     </script>
 }

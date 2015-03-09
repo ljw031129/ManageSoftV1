@@ -4,7 +4,7 @@
     ViewBag.PageClass = "animated fadeInDown";
 }
 @section topright{
-    <span id="extr-page-header-space"> <span class="hidden-mobile">无登录账号?</span> <a href="@Url.Action("register", "account")" class="btn btn-danger">注册</a> </span>
+    <span id="extr-page-header-space"> <span class="hidden-mobile">客服联系电话：</span> <a href="#" class="btn btn-danger">400-696-8825</a> </span>
 }
 <div id="content" class="container">
     <div class="row">
@@ -36,7 +36,7 @@
                                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                                 <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> 输入密码</b>
                             </label>
-                            <div class="note">
+                            <div class="note" style="display:none">
                                 <a href="@Url.Action("forgotpassword", "account")"><i class="fa fa-frown-o"></i> 忘记密码?</a>
                             </div>
                         </section>

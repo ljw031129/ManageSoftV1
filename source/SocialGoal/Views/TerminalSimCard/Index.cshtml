@@ -64,14 +64,16 @@
                     datatype: "json",
                     mtype: "get",
                     colNames:
-                        ['Id', 'SIM卡号', '序列号', '当前状态', '更新时间', '创建时间'],
+                        ['Id', 'SIM卡号', '序列号', '当前状态','备注信息','开通时间', '更新时间', '创建时间'],
                     colModel: [
-                        { name: 'TerminalSimCardId', key: true, index: 'TerminalSimCardId', editable: true, width: 55, hidden: true },
-                        { name: 'TerminalSimCardNum', index: 'TerminalSimCardNum', editable: true, width: 60, editrules: { required: true } },
-                        { name: 'TerminalSimCardSerialNum', index: 'TerminalSimCardSerialNum', editable: true, width: 120 },
-                        { name: 'TerminalSimCardState', index: 'TerminalSimCardState', editable: true, width: 90, edittype: "select", formatter: "select", editoptions: { value: "1:未使用; 2:已使用; 3:被更换; 4:原设备已删除" }, align: "left" },
-                        { name: 'TerminalSimCardUpdateTime', index: 'TerminalSimCardUpdateTime', editable: true, editoptions: { readonly: true, defaultValue: CurentTime() }, align: "left", width: 180, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
-                        { name: 'TerminalSimCardCreateTime', index: 'TerminalSimCardCreateTime', editable: true, editoptions: { readonly: true, defaultValue: CurentTime() }, align: "left", width: 180, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } }
+                        { name: 'TerminalSimCardId', key: true, index: 'TerminalSimCardId', editable: true,  hidden: true },
+                        { name: 'TerminalSimCardNum', index: 'TerminalSimCardNum', editable: true,  editrules: { required: true } },
+                        { name: 'TerminalSimCardSerialNum', index: 'TerminalSimCardSerialNum', editable: true },
+                        { name: 'TerminalSimCardState', index: 'TerminalSimCardState', editable: true,  edittype: "select", formatter: "select", editoptions: { value: "1:未使用; 2:已使用; 3:被更换; 4:原设备已删除" }, align: "left" },
+                        { name: 'TerminalSimCardDescribe', index: 'TerminalSimCardDescribe', editable: true },
+                        { name: 'TerminalSimCardUserTime', index: 'TerminalSimCardUserTime', editable: true, editoptions: { readonly: true, defaultValue: CurentTime() }, align: "left", formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
+                        { name: 'TerminalSimCardUpdateTime', index: 'TerminalSimCardUpdateTime', editable: true, editoptions: { readonly: true, defaultValue: CurentTime() }, align: "left", formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
+                        { name: 'TerminalSimCardCreateTime', index: 'TerminalSimCardCreateTime', editable: true, editoptions: { readonly: true, defaultValue: CurentTime() }, align: "left", formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } }
                     ],
                     //   multiselect: true,
                     //  rownumbers: true,//添加左侧行号

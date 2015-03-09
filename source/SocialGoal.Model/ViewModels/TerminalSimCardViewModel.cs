@@ -15,6 +15,7 @@ namespace SocialGoal.Model.ViewModels
         public DateTime TerminalSimCardCreateTime { get; set; }
         public DateTime TerminalSimCardUpdateTime { get; set; }
         public string TerminalSimCardState { get; set; }
+        public DateTime TerminalSimCardUserTime { get; set; }
         //del  edit  add
         public string oper { get; set; }
         public string id { get; set; }

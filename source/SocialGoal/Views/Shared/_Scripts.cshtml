@@ -7,7 +7,7 @@
 @if (Request.IsAuthenticated)
 {
     <!-- PACE LOADER - turn this on if you want ajax loading to show (caution: uses lots of memory on iDevices)-->
-    <script data-pace-options='{ "restartOnRequestAfter": true }' src="~/scripts/plugin/pace/pace.min.js"></script>
+    @*<script data-pace-options='{ "restartOnRequestAfter": true }' src="~/scripts/plugin/pace/pace.min.js"></script>*@
     <!-- Demo purpose only! -->
     @*<script src="/scripts/demo.min.js"></script>*@
 }
@@ -94,6 +94,11 @@
 
         return rec;
     }
+    function ProductionTestLinkFmatter(cellvalue, options, rowObject) {
+        var rec = '<a href="../../ProductionTest/ReceiveDataHistory/' + cellvalue + '" id="' + cellvalue + '">' + cellvalue + '</a>';
+
+        return rec;
+    }
     function imageUnFormat(cellvalue, options, cell) {
         return $('a', cell).attr('id');
     }
@@ -146,6 +151,38 @@
     $('#TerminalEquipmentIdSelect2').select2(
     {
         placeholder: 'Enter name',
+        multiple: "multiple",
+        //Does the user have to enter any data before sending the ajax request
+        minimumInputLength: 0,
+        // multiple:true,
+        allowClear: true,
+        ajax: {
+            //How long the user has to pause their typing before sending the next request
+            quietMillis: 150,
+            //The url of the json service
+            url: '@Url.Action("GetTerminalEquipment", "TerminalEquipment")',
+            dataType: 'jsonp',
+            //Our search term and what page we are on
+            data: function (term, page) {
+                return {
+                    pageSize: 20,
+                    pageNum: page,
+                    searchTerm: term
+                };
+            },
+            results: function (data, page) {
+                //Used to determine whether or not there are more results available,
+                //and if requests for more data should be sent in the infinite scrolling
+                var more = (page * 20) < data.Total;
+                return { results: data.Results, more: more };
+            }
+        }
+    });
+
+    //Select2获取当前设备Id  --单台设备
+    $('#TerminalEquipmentIdSelect2Single').select2(
+    {
+        placeholder: 'Enter name',       
         //Does the user have to enter any data before sending the ajax request
         minimumInputLength: 0,
         // multiple:true,
@@ -176,7 +213,7 @@
     ///selec2企业信息
     $('#OrgEnterpriseIdSelect2').select2(
     {
-        placeholder: 'Enter name',
+        placeholder: 'Enter name',       
         //Does the user have to enter any data before sending the ajax request
         minimumInputLength: 0,
         allowClear: true,

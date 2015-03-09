@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using xFilter.Expressions;
-
+using System.Linq.Dynamic;
 namespace SocialGoal.Data.Repository
 {
 
@@ -29,6 +29,7 @@ namespace SocialGoal.Data.Repository
 
         public IEnumerable<ReceiveDataLast> GetCurrentUserReceiveDataLasts(Core.xFilter.Expressions.JqGridSetting jqGridSetting, List<string> currentT, out int count)
         {
+
             //JSON字符串转化 
             bool sortOrder = true;
             switch (jqGridSetting.sord)
@@ -78,6 +79,32 @@ namespace SocialGoal.Data.Repository
                 }
             }
         }
+
+
+        public IEnumerable<ReceiveData> GetJqGridDataHistory(string terminalEquipmentNum, Core.DynamicLINQ.JqSearchIn jqGridSetting, out int count)
+        {
+            IQueryable<ReceiveData> receiveData;
+            if (jqGridSetting._search && !String.IsNullOrEmpty(jqGridSetting.filters))
+            {
+                var wc = jqGridSetting.GenerateWhereClause(typeof(ReceiveData));
+                receiveData = this.DataContext.ReceiveDatas.Where(t => t.IMEI == terminalEquipmentNum).Where(wc.Clause, wc.FormatObjects);
+                count = receiveData.Count();
+                receiveData = receiveData
+                    .OrderBy(jqGridSetting.sidx + " " + jqGridSetting.sord)
+                    .Skip((jqGridSetting.page - 1) * jqGridSetting.rows)
+                    .Take(jqGridSetting.rows);
+            }
+            else
+            {
+                receiveData = this.DataContext.ReceiveDatas.Where(t => t.IMEI == terminalEquipmentNum);
+                count = receiveData.Count();
+                receiveData = receiveData
+                    .OrderBy(jqGridSetting.sidx + " " + jqGridSetting.sord)
+                    .Skip((jqGridSetting.page - 1) * jqGridSetting.rows)
+                    .Take(jqGridSetting.rows);
+            }
+            return receiveData;
+        }
     }
     public interface IReceiveDataLastRepository : IRepository<ReceiveDataLast>
     {
@@ -85,5 +112,7 @@ namespace SocialGoal.Data.Repository
         ReceiveDataLast GetReceiveDataLastByTerminalNum(string p);
 
         IEnumerable<ReceiveDataLast> GetCurrentUserReceiveDataLasts(Core.xFilter.Expressions.JqGridSetting jqGridSetting, List<string> currentT, out int count);
+
+        IEnumerable<ReceiveData> GetJqGridDataHistory(string terminalEquipmentNum, Core.DynamicLINQ.JqSearchIn jqGridSetting, out int count);
     }
 }

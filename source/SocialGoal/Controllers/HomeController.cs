@@ -16,7 +16,7 @@ namespace SocialGoal.Controllers
         {
             ViewBag.Message = "Your app description page.";
 
-            return View();
+            return PartialView();
         }
 
         public ActionResult Contact()

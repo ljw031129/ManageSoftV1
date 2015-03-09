@@ -18,12 +18,15 @@ namespace SocialGoal.Data.Repository
         public IEnumerable<TerminalEquipmentCommand> GetTerminalEquipmentCommands(string IMEI, int currentPage, int numPerPage, out int count)
         {
             count = this.DataContext.TerminalEquipmentCommands.Where(m => m.IMEI == IMEI).Count();
-            return this.DataContext.TerminalEquipmentCommands.OrderByDescending(m=>m.OperateTime).Where(m => m.IMEI == IMEI).Skip((currentPage - 1) * numPerPage).Take(numPerPage);
+            return this.DataContext.TerminalEquipmentCommands.OrderByDescending(m => m.OperateTime).Where(m => m.IMEI == IMEI).Skip((currentPage - 1) * numPerPage).Take(numPerPage);
 
         }
+
     }
     public interface ITerminalEquipmentCommandRepository : IRepository<TerminalEquipmentCommand>
     {
         IEnumerable<TerminalEquipmentCommand> GetTerminalEquipmentCommands(string IMEI, int currentPage, int numPerPage, out int count);
+
+       
     }
 }

@@ -18,22 +18,19 @@
         -->
 
         <ul>
-            <li class="@Html.RouteIf("index", "active")">
-                <a href="@Url.Action("index", "home")" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">控制面板</span></a>
-            </li>
             @if (User.IsInRole("SupperAdmin"))
             {
-                <li class="@Html.RouteIf("ProtocolManage", "active")">
-                    <a href="#"><i class="fa fa-lg fa-fw fa-cogs"></i> <span class="menu-item-parent">系统管理</span></a>
+                <li class="@Html.RouteIf("Equipment", "active")">
+                    <a href="#"><i class="fa fa-lg fa-fw  fa-automobile"></i> <span class="menu-item-parent">车辆管理与监控</span></a>
                     <ul>
-                        <li class="@Html.RouteIf("ProtocolManage", "active")">
-                            <a href='@Url.Action("Index", "ProtocolManage", null)'>
-                                协议管理
+                        <li class="@Html.RouteIf("Equipment", "active")">
+                            <a href='@Url.Action("Index", "Equipment", null)'>
+                                信息管理
                             </a>
                         </li>
-                        <li class="@Html.RouteIf("ControlCommond", "active")">
-                            <a href='@Url.Action("Index", "ControlCommond", null)'>
-                                终端控制指令
+                        <li class="@Html.RouteIf("ReceiveData", "active")">
+                            <a href='@Url.Action("Monitor", "ReceiveData", null)'>
+                                车辆监控
                             </a>
                         </li>
                     </ul>
@@ -51,31 +48,29 @@
                                 终端设备管理
                             </a>
                         </li>
+                        <li class="@Html.RouteIf("Equipment", "active")">
+                            <a href='@Url.Action("Monitor", "Equipment", null)'>
+                                信息查询
+                            </a>
+                        </li>
                     </ul>
                 </li>
-            }
-            <li class="@Html.RouteIf("Equipment", "active")">
-                <a href="#"><i class="fa fa-lg fa-fw  fa-automobile"></i> <span class="menu-item-parent">车辆管理与监控</span></a>
-                <ul>
-                    <li class="@Html.RouteIf("Equipment", "active")">
-                        <a href='@Url.Action("Index", "Equipment", null)'>
-                            车辆管理
-                        </a>
-                    </li>
-                    <li class="@Html.RouteIf("Monitor", "active")">
-                        <a href='@Url.Action("Monitor", "Equipment", null)'>
-                            车辆监控
-                        </a>
-                    </li>
-                    <li class="@Html.RouteIf("ReceiveData", "active")">
-                        <a href='@Url.Action("Monitor", "ReceiveData", null)'>
-                            终端设备监控
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            @if (User.IsInRole("SupperAdmin"))
-            {
+                <li class="@Html.RouteIf("ProductionTest", "active")">
+                    <a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent">生产信息管理</span></a>
+                    <ul>
+                        <li class="@Html.RouteIf("OrgEnterprise", "active")">
+                            <a href='@Url.Action("Index", "OrgEnterprise", null)'>
+                                终端设备管理
+                            </a>
+                        </li>
+                        <li class="@Html.RouteIf("Index", "active")">
+                            <a href='@Url.Action("Index", "ProductionTest", null)'>
+                                终端批量测试
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
                 <li class="@Html.RouteIf("OrgEnterprise", "active")">
                     <a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent">基础信息管理</span></a>
                     <ul>
@@ -94,6 +89,78 @@
                                 用户管理
                             </a>
                         </li>
+                    </ul>
+                </li>
+                <li class="@Html.RouteIf("ProtocolManage", "active")">
+                    <a href="#"><i class="fa fa-lg fa-fw fa-cogs"></i> <span class="menu-item-parent">系统管理</span></a>
+                    <ul>
+                        <li class="@Html.RouteIf("ProtocolManage", "active")">
+                            <a href='@Url.Action("Index", "ProtocolManage", null)'>
+                                协议管理
+                            </a>
+                        </li>
+                        <li class="@Html.RouteIf("ControlCommond", "active")">
+                            <a href='@Url.Action("Index", "ControlCommond", null)'>
+                                终端控制指令
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+            }
+
+            @if (User.IsInRole("FinalUser"))
+            {
+                <li class="@Html.RouteIf("Equipment", "active")">
+                    <a href="#"><i class="fa fa-lg fa-fw  fa-automobile"></i> <span class="menu-item-parent">车辆管理与监控</span></a>
+                    <ul>
+                        <li class="@Html.RouteIf("Equipment", "active")">
+                            <a href='@Url.Action("Index", "Equipment", null)'>
+                                信息管理
+                            </a>
+                        </li>
+                        <li class="@Html.RouteIf("ReceiveData", "active")">
+                            <a href='@Url.Action("Monitor", "ReceiveData", null)'>
+                                车辆监控
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            }
+            @if (User.IsInRole("Agent"))
+            {
+                <li class="@Html.RouteIf("Equipment", "active")">
+                    <a href="#"><i class="fa fa-lg fa-fw  fa-automobile"></i> <span class="menu-item-parent">车辆管理与监控</span></a>
+                    <ul>
+                        <li class="@Html.RouteIf("Equipment", "active")">
+                            <a href='@Url.Action("Index", "Equipment", null)'>
+                                信息管理
+                            </a>
+                        </li>
+                        <li class="@Html.RouteIf("ReceiveData", "active")">
+                            <a href='@Url.Action("Monitor", "ReceiveData", null)'>
+                                车辆监控
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            }
+            @if (User.IsInRole("Production"))
+            {
+                <li class="@Html.RouteIf("ProductionTest", "active")">
+                    <a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent">生产信息管理</span></a>
+                    <ul>
+                        <li class="@Html.RouteIf("ReceiveData", "active")">
+                            <a href='@Url.Action("ReceiveData", "ProductionTest", null)'>
+                                终端设备查询
+                            </a>
+                        </li>
+                        <li class="@Html.RouteIf("Index", "active")">
+                            <a href='@Url.Action("Index", "ProductionTest", null)'>
+                                终端批量测试
+                            </a>
+                        </li>
+
                     </ul>
                 </li>
             }

@@ -18,6 +18,8 @@ namespace SocialGoal.Service
         Task<IEnumerable<ReceiveData>> GetReceiveDataHistory(Core.xFilter.Expressions.JqGridSetting jqGridSetting, out int count);
 
         Task<IEnumerable<ReceiveDataLast>> GetReceiveDataLasts(Core.xFilter.Expressions.JqGridSetting jqGridSetting,List<string> currentT, out int count);
+
+        Task<IEnumerable<ReceiveData>> GetreceiveDataHistory(string terminalEquipmentNum, Core.DynamicLINQ.JqSearchIn jqGridSetting, out int count);
     }
     public class ReceiveDataService : IReceiveDataService
     {
@@ -61,6 +63,13 @@ namespace SocialGoal.Service
             IEnumerable<ReceiveDataLast> receiveDataLast = _receiveDataLastRepository.GetCurrentUserReceiveDataLasts(jqGridSetting,currentT, out count);
            
             return Task.FromResult(receiveDataLast);
+        }
+
+
+        public Task<IEnumerable<ReceiveData>> GetreceiveDataHistory(string terminalEquipmentNum, Core.DynamicLINQ.JqSearchIn jqGridSetting, out int count)
+        {
+            IEnumerable<ReceiveData> receiveData = _receiveDataLastRepository.GetJqGridDataHistory(terminalEquipmentNum, jqGridSetting, out count);
+            return Task.FromResult(receiveData);
         }
     }
 }

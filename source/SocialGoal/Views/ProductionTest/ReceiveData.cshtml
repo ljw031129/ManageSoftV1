@@ -1,0 +1,321 @@
+﻿@section styles{
+    <link href="~/Content/css/map.Default.css" rel="stylesheet" />
+    <style type="text/css">
+        table td {
+            padding: 5px;
+            border: solid 1px #e8eef4;
+        }
+
+        table th {
+            padding: 5px 5px;
+            text-align: left;
+        }
+    </style>
+}
+<div id="content">
+    <!--
+        The ID "widget-grid" will start to initialize all widgets below
+        You do not need to use widgets if you dont want to. Simply remove
+        the <section></section> and you can use wells or panels instead
+        -->
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12">
+                <!-- new widget -->
+                <div class="jarviswidget" id="wid-id-1" data-widget-colorbutton="false" data-widget-editbutton="false">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+
+                    -->
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-map-marker"></i> </span>
+                        <h2>地图模式</h2>
+                        <div class="widget-toolbar hidden-mobile">
+                            <span class="onoffswitch-title" id="mapSetHeight"><i class="fa fa-crosshairs"></i> 地图全屏</span>
+                        </div>
+                    </header>
+                    <!-- widget div-->
+                    <div id="GetWidgetBodyHeight">
+                        <div class="widget-body no-padding">
+                            <!-- content goes here -->
+                            <div id="vector-map" class="vector-map"></div>
+
+                            <!-- end content -->
+                        </div>
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+
+            </article>
+            <article class="col-sm-12 col-md-12 col-lg-12">
+                <!-- new widget -->
+                <div class="jarviswidget" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+
+                    -->
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-comments"></i> </span>
+                        <h2> 设备列表 </h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <div class="widget-body no-padding">
+                            <table id="jqgrid"></table>
+                            <div id="pjqgrid"></div>
+                            <div class="widget-footer">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+
+            </article>
+        </div>
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
+</div>
+@section scripts{
+    <script language="javascript" src="http://webapi.amap.com/maps?v=1.3&key=990f8ec17963b0c7a507f9c74d275568"></script>
+    <script src="~/Scripts/Map/amap.js"></script>
+    <script type="text/javascript">
+        var mapObj, scale;
+
+        //初始化地图对象，加载地图
+        function mapInit() {
+            mapObj = new AMap.Map("vector-map", {
+                layers: [new AMap.TileLayer.Satellite({ zIndex: 5 })],
+                view: new AMap.View2D({
+                    center: new AMap.LngLat(116.397428, 39.90923),//地图中心点
+                    zoom: 13 //地图显示的缩放级别
+                })
+            });
+            //加载比例尺插件
+            mapObj.plugin(["AMap.Scale"], function () {
+                scale = new AMap.Scale();
+                mapObj.addControl(scale);
+            });
+            //添加地图类型切换插件
+            mapObj.plugin(["AMap.MapType"], function () {
+                //地图类型切换
+                var mapType = new AMap.MapType({
+                    defaultType: 0,//默认显示卫星图
+                    showRoad: false //叠加路网图层
+                });
+                mapObj.addControl(mapType);
+            });
+            //在地图中添加ToolBar插件
+            mapObj.plugin(["AMap.ToolBar"], function () {
+                toolBar = new AMap.ToolBar();
+                mapObj.addControl(toolBar);
+            });
+            //在地图中添加鹰眼插件
+            mapObj.plugin(["AMap.OverView"], function () {
+                //加载鹰眼
+                overView = new AMap.OverView({
+                    visible: true //初始化隐藏鹰眼
+                });
+                mapObj.addControl(overView);
+            });
+            // scale.show();
+            //添加自定义点标记
+            // addMarker("123456", "", "116.397428", "39.90923");
+        }
+
+        //添加带文本的点标记覆盖物
+        function addMarker(tNum, rtime, pos, icon, lng, lat) {
+            //实例化信息窗体
+            var infoWindow = new AMap.InfoWindow({
+                isCustom: true,  //使用自定义窗体
+                offset: new AMap.Pixel(16, -45)//-113, -140
+            });
+
+            var marker = new AMap.Marker({
+                map: mapObj,
+                position: new AMap.LngLat(lng, lat), //基点位置
+                icon: "http://webapi.amap.com/images/0.png", //复杂图标
+                // offset: new AMap.Pixel(-18, -36), //相对于基点的偏移位置
+                // draggable: true,  //是否可拖动
+                //  content: markerInfoLayer   //自定义点标记覆盖物内容
+            });
+            // marker.setMap(mapObj);  //在地图上添加点
+            AMap.event.addListener(marker, 'click', function () { //鼠标点击marker弹出自定义的信息窗体
+                infoWindow.open(mapObj, marker.getPosition());
+                var title = tNum + '：&nbsp;&nbsp;<span style="font-size:11px;color:#F00;">更新时间:' + rtime + '</span>';
+                var info = createInfoWindow(title, "<img src='../Content/ICON/car_map.png' style='position:relative;float:left;margin:0 5px 5px 0;'>当前位置：" + pos + "<br/><a href='../../TerminalEquipment/Detail/" + tNum + "'>详细信息</a>")
+                //设置窗体内容
+                infoWindow.setContent(info);
+            });
+        }
+
+        //构建自定义信息窗体
+        function createInfoWindow(title, content) {
+            var info = document.createElement("div");
+            info.className = "info";
+            //可以通过下面的方式修改自定义窗体的宽高
+            //info.style.width = "400px";
+            // 定义顶部标题
+            var top = document.createElement("div");
+            top.className = "info-top";
+            var titleD = document.createElement("div");
+            titleD.innerHTML = title;
+            var closeX = document.createElement("img");
+            closeX.src = "http://webapi.amap.com/images/close2.gif";
+            closeX.onclick = closeInfoWindow;
+            top.appendChild(titleD);
+            top.appendChild(closeX);
+            info.appendChild(top);
+            // 定义中部内容
+            var middle = document.createElement("div");
+            middle.className = "info-middle";
+            middle.style.backgroundColor = 'white';
+            middle.innerHTML = content;
+            info.appendChild(middle);
+            // 定义底部内容
+            var bottom = document.createElement("div");
+            bottom.className = "info-bottom";
+            bottom.style.position = 'relative';
+            bottom.style.top = '0px';
+            bottom.style.margin = '0 auto';
+            var sharp = document.createElement("img");
+            sharp.src = "http://webapi.amap.com/images/sharp.png";
+            bottom.appendChild(sharp);
+            info.appendChild(bottom);
+            return info;
+        }
+        //关闭信息窗体
+        function closeInfoWindow() {
+            mapObj.clearInfoWindow();
+        }
+        //设置地图中心点
+        function setMapCenter(lng, lat) {
+            mapObj.setZoomAndCenter(14, new AMap.LngLat(lng, lat));
+        }
+        //地图自适应显示函数
+        function setMapFitView() {
+            var newCenter = mapObj.setFitView();//使地图自适应显示到合适的范围
+        }
+        $(document).ready(function () {
+            //调整地图宽度
+            $("#mapSetHeight").click(function () {
+                //alert($("#wid-id-1").height());
+                $("#vector-map").height($("#GetWidgetBodyHeight").height());
+            });
+            pageSetUp();
+            ///表格加载
+            jQuery("#jqgrid").jqGrid(
+              {
+                  url: '@Url.Action("ProductionTestGetList", "TerminalEquipment")',
+                  datatype: "json",
+                  mtype: "get",
+                  colNames:
+                      ['Id', '终端编号', 'SIM卡号', '设备时间', '回传时间', '定位方式', '经度', '纬度', '位置', 'LAC', 'CID', '电池电压', '信号强度', '盲区标志', '盲区数据', '可视卫星', '使用卫星', '设备状态', '工作模式', '工作时间', '休眠时间', '总工作时间', '启动次数', '协议版本号', '软件版本号', '硬件版本号', '终端类型', '所属企业'],
+                  colModel: [
+                      { name: 'TerminalEquipmentId', key: true, index: 'TerminalEquipmentId', width: 55, hidden: true },
+                      { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: false, formatter: ProductionTestLinkFmatter, unformat: imageUnFormat, width: 120 },
+                      { name: 'TerminalSimCardId', index: 'TerminalSimCardId', width: 120, editable: false },
+                      { name: 'Ptime', index: 'ReceiveDataLast.Ptime', width: 140, sorttype: 'date', editable: true, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, align: "left", editoptions: { readonly: true, defaultValue: CurentTime() }, search: false },
+                      { name: 'Rtime', index: 'ReceiveDataLast.Rtime', width: 140, sorttype: 'date', editable: false, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }, editoptions: { readonly: true }, editrules: { date: true }, align: "left", search: false },
+                      { name: 'IsPos', index: 'ReceiveDataLast.IsPos', width: 80, search: false },
+                      { name: 'Lat', index: 'ReceiveDataLast.Lat', width: 120, search: false },
+                      { name: 'Lng', index: 'ReceiveDataLast.Lng', width: 120, search: false },
+                      { name: 'Pos', index: 'ReceiveDataLast.Pos', width: 120, search: false },
+                      { name: 'LAC', index: 'ReceiveDataLast.LAC', width: 55, search: false },
+                      { name: 'CID', index: 'ReceiveDataLast.CID', width: 55, search: false },
+                      { name: 'BatteryVoltage', index: 'ReceiveDataLast.BatteryVoltage', width: 70, search: false },
+                      { name: 'GsmSignal', index: 'ReceiveDataLast.GsmSignal', width: 70, search: false },
+                      { name: 'BlindSign', index: 'ReceiveDataLast.BlindSign', width: 70, search: false },
+                      { name: 'BlindDataCount', index: 'ReceiveDataLast.BlindDataCount', width: 70, search: false },
+                      { name: 'SeeSatelliteCount', index: 'ReceiveDataLast.SeeSatelliteCount', width: 70, search: false },
+                      { name: 'UseSatelliteCount', index: 'ReceiveDataLast.UseSatelliteCount', width: 70, search: false },
+                      { name: 'WorkStatue', index: 'ReceiveDataLast.WorkStatue', width: 70, search: false },
+                      { name: 'WorkModel', index: 'ReceiveDataLast.WorkModel', width: 70, search: false },
+                      { name: 'WorkTime', index: 'ReceiveDataLast.WorkTime', width: 70, search: false },
+                      { name: 'SleepTime', index: 'ReceiveDataLast.SleepTime', width: 70, search: false },
+                      { name: 'TootalWorkTime', index: 'ReceiveDataLast.TootalWorkTime', width: 75, search: false },
+                      { name: 'StartCount', index: 'ReceiveDataLast.StartCount', width: 70, search: false },
+                      { name: 'ProtocolVersion', index: 'ReceiveDataLast.ProtocolVersion', width: 75, search: false },
+                      { name: 'SoftVersion', index: 'ReceiveDataLast.SoftVersion', width: 75, search: false },
+                      { name: 'HardwareVersion', index: 'ReceiveDataLast.HardwareVersion', width: 75, search: false },
+                      { name: 'TerminalEquipmentType', index: 'EquipmentName', width: 120, editable: true, edittype: "select", formatter: 'select', editoptions: { value: "1:无线GPS; 2:有线GPS; 3:代理GPS" }, search: false },
+                      { name: 'OrgEnterpriseId', index: 'OrgEnterpriseId', width: 120, editable: true, edittype: "select", editoptions: { dataUrl: '/OrgEnterprise/GetAll' }, stype: "select", searchoptions: { dataUrl: '/OrgEnterprise/GetAll' } }
+                  ],
+                  //multiselect: true,
+                  rowNum: 10,
+                  autoScroll: true,
+                  autowidth: true,
+                  //  height: '100%',
+                  height: 'auto',
+                  shrinkToFit: 300,
+                  //  multiselect: true,
+                  rowList: [10, 20, 30],
+                  pager: '#pjqgrid',
+                  sortname: 'ReceiveDataLast.Rtime',
+                  viewrecords: true,//定义是否要显示总记录数
+                  sortorder: "desc",
+                  jsonReader: {
+                      root: "rows",
+                      page: "page",
+                      total: "total",
+                      records: "records",
+                      repeatitems: false,
+                      userdata: "userdata"
+                  },
+                  // caption: "终端信息",
+                  // editurl: '@Url.Action("post", "TerminalEquipment")' // this is dummy existing url
+                  gridComplete: function () {
+                      var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
+                      mapObj.clearMap();
+                      for (var i = 0; i < ids.length; i++) {
+                          var row = $("#jqgrid").getRowData(ids[i]);  //根据ID拿到一行的数据
+                          addMarker(row.TerminalEquipmentNum, row.Rtime, row.Pos, "", row.Lng, row.Lat);
+                          //setMapCenter(row.GpsPlog, row.GpsPlat);
+                      }
+                      setMapFitView();
+                  },
+                  onSelectRow: function (rowid, status) {
+                      var row = $("#jqgrid").getRowData(rowid);  //根据ID拿到一行的数据
+                      setMapCenter(row.Lng, row.Lat);
+                  }
+              });
+            jQuery("#jqgrid").jqGrid('navGrid', "#pjqgrid",
+                { edit: false, add: false, del: false },
+                {},
+                {},
+                {},
+               { multipleSearch: true, multipleGroup: false, sopt: ['eq', 'ne', 'cn'] }
+          );
+            jqgridStyle();
+
+            $(window).on('resize.jqGrid', function () {
+                jQuery("#jqgrid").jqGrid('setGridWidth', $("#content").width());
+            })
+            //加载地图
+            mapInit();
+        });
+
+    </script>
+}

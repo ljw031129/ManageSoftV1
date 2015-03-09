@@ -48,7 +48,7 @@
                             <div class="widget-body-toolbar">
                                 <div class="row">
                                     <div class="col-xs-9 col-sm-5 col-md-5 col-lg-5">
-                                        <input type="text" placeholder="选择终端" id="TerminalEquipmentIdSelect2" class="col-xs-9">
+                                        <input type="text" placeholder="选择终端" id="TerminalEquipmentIdSelect2Single" class="col-xs-9">
                                     </div>
                                     <div class="col-xs-3 col-sm-7 col-md-7 col-lg-7 text-right">
                                         <button class="btn btn-success" id="SetTerminalEquipment">
@@ -78,7 +78,7 @@
         $(document).ready(function () {
             // $("#OrgEnterpriseId").val("");
             $("#SetTerminalEquipment").click(function () {
-                TerminalEquipmentId = $('#TerminalEquipmentIdSelect2').val();
+                TerminalEquipmentId = $('#TerminalEquipmentIdSelect2Single').val();
                 ids = $("#jqgrid").jqGrid("getGridParam", "selrow");
 
                 if (TerminalEquipmentId == "") {
@@ -126,11 +126,13 @@
                     datatype: "json",
                     mtype: "get",
                     colNames:
-                       ['Id', '车牌号', '机器系列号', '车主姓名', '车主联系电话', '车主住址', '安装时间', '安装人', '安装人联系电话', '安装位置', '安装地点', '创建时间', '更新时间'],
+                       ['Id', '车号', '车牌号', '发动机号', '绑定设备数', '车主姓名', '车主联系电话', '车主住址', '安装时间', '安装人', '安装人联系电话', '安装位置', '安装地点', '创建时间', '更新时间'],
                     colModel: [
-                       { name: 'EquipmentId', key: true, index: 'EquipmentId', hidden: true },
+                    { name: 'EquipmentId', key: true, index: 'EquipmentId', hidden: true },
                     { name: 'EquipmentNum', index: 'EquipmentNum' },
                     { name: 'EquipmentName', index: 'EquipmentName' },
+                    { name: 'EngineNum', index: 'EngineNum' },
+                    { name: 'TerminalEquipmentCount', index: 'TerminalEquipmentCount' },
                     { name: 'OwnerName', index: 'OwnerName' },
                     { name: 'OwnerPhone', index: 'OwnerPhone' },
                     { name: 'OwnerAddress', index: 'OwnerAddress' },
@@ -171,16 +173,17 @@
 
                         // (5)动态添加子报表的table和pager
                         $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='" + subgrid_pager_id + "' class='scroll'></div>");
-                       
+
                         // (6)创建jqGrid对象
                         $("#" + subgrid_table_id).jqGrid({
                             url: '@Url.Action("GetSubGrid", "TerminalEquipment")',  // (7)子表格数据对应的url，注意传入的contact.id参数
                             datatype: "json",
-                            colNames: ['Id', '终端编号', '绑定时间'],
+                            colNames: ['Id', '终端编号', '绑定时间', '操作'],
                             colModel: [
-                                { name: "TerminalEquipmentId", index: "TerminalEquipmentId", width: 80, key: true, hidden: true },
-                                { name: "TerminalEquipmentNum", index: "TerminalEquipmentNum", width: 130 },                               
-                                { name: "TerminalEquipmentUpdateTime", index: "TerminalEquipmentUpdateTime", width: 200, align: "center", sorttype: 'date', editable: false, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } }
+                                { name: "TerminalEquipmentId", index: "TerminalEquipmentId", key: true, hidden: true },
+                                { name: "TerminalEquipmentNum", index: "TerminalEquipmentNum" },
+                                { name: "TerminalEquipmentUpdateTime", index: "TerminalEquipmentUpdateTime", align: "left", sorttype: 'date', editable: false, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
+                                { name: 'act', index: 'act', width: 75, sortable: false },
                             ],
                             jsonReader: {   // (8)针对子表格的jsonReader设置
                                 root: "rows",
@@ -195,6 +198,14 @@
                             height: "100%",
                             rowNum: 5,
                             sortname: 'TerminalEquipmentUpdateTime',
+                            gridComplete: function () {
+                                var ids = $("#" + subgrid_table_id).jqGrid('getDataIDs');
+                                for (var i = 0; i < ids.length; i++) {
+                                    var cl = ids[i];
+                                    be = "<input class='btn btn-danger' type='button' value='解除绑定' onclick=\"RemoveT('" + row_id + "','" + cl + "');\"  />";
+                                    $("#" + subgrid_table_id).jqGrid('setRowData', ids[i], { act: be });
+                                }
+                            }
                         });
                     }
                 });
@@ -207,7 +218,7 @@
                  {},
                  {},
                  {},
-                 { multipleSearch: true, multipleGroup: true }
+                 { multipleSearch: true, multipleGroup: false, sopt: ['eq', 'ne', 'cn'] }
            );
             //修改样式
             jqgridStyle();
@@ -278,8 +289,8 @@
                     var that = this;
                     $.ajax({
                         type: "POST",
-                        url: "/Equipment/Post",
-                        data: { oper: "del", id: rowid },
+                        url: "/Equipment/Delete",
+                        data: { id: rowid },
                         dataType: "json",
                         success: function (data) {
                             that.close().remove();
@@ -293,6 +304,26 @@
             });
             d.show();
         };
+        function RemoveT(eId, tId) {
+            var d = dialog({
+                title: '提示',
+                content: '确定要解除车辆与终端设备的绑定吗？',
+                ok: function () {
+                    var that = this;
+                    this.title('正在提交..');
+                    $.post("/TerminalEquipment/UpdateterminalEquipmentByEquipmentId",
+                        { TerminalEquipmentId: tId },
+                        function (result) {
+                            that.close().remove();
+                            $("#jqgrid").trigger("reloadGrid");
+                        });
+                    return false;
+                },
+                cancelValue: '取消',
+                cancel: function () { }
+            });
+            d.show();
+        }
         $(window).on('resize.jqGrid', function () {
             jQuery("#jqgrid").jqGrid('setGridWidth', $("#content").width());
         })

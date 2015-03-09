@@ -21,21 +21,22 @@ namespace SocialGoal.Mappings
 
         protected override void Configure()
         {
-           
+
             Mapper.CreateMap<UserProfile, UserProfileFormModel>();
-           
-           
+
+
 
             //测试
             Mapper.CreateMap<Equipment, EquipmentViewModel>();
             //分页数据
-            Mapper.CreateMap<IPagedList, PagedListData>();           
+            Mapper.CreateMap<IPagedList, PagedListData>();
 
             Mapper.CreateMap<IPagedList<Equipment>, IPagedList<EquipmentViewModel>>().ConvertUsing<PagedListConverter<Equipment, EquipmentViewModel>>();
 
             Mapper.CreateMap<TerminalEquipmentCommand, TerminalEquipmentCommandViewModel>();
+            Mapper.CreateMap<TerminalEquipmentCommandCurrent, TerminalEquipmentCommandCurrentViewModel>();
             //添加映射关系
-           
+
 
         }
     }

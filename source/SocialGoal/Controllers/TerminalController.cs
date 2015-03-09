@@ -109,10 +109,10 @@ namespace SocialGoal.Controllers
                             TerminalEquipmentType = item.TerminalEquipmentType,
                             TerminalSimCardNum = item.TerminalSimCard.TerminalSimCardNum,
                             //最新信息
-                            GpsPlat = item.ReceiveDataLast != null ? item.ReceiveDataLast.GpsPlat.ToString() : "",
-                            GpsPlog = item.ReceiveDataLast != null ? item.ReceiveDataLast.GpsPlog.ToString() : "",
-                            ReceiveTime = item.ReceiveDataLast != null ? DateUtils.GetTime(item.ReceiveDataLast.ReceiveTime.ToString()).ToString("yyyy-MM-dd HH:mm:ss") : "",
-                            GpsPos = item.ReceiveDataLast != null ? item.ReceiveDataLast.GpsPos.ToString() : "",
+                            GpsPlat = item.ReceiveDataLast != null ? item.ReceiveDataLast.Lat.ToString() : "",
+                            GpsPlog = item.ReceiveDataLast != null ? item.ReceiveDataLast.Lng.ToString() : "",
+                            ReceiveTime = item.ReceiveDataLast != null ? DateUtils.GetTime(item.ReceiveDataLast.Rtime.ToString()).ToString("yyyy-MM-dd HH:mm:ss") : "",
+                            GpsPos = item.ReceiveDataLast != null ? item.ReceiveDataLast.Pos.ToString() : "",
                             AccStatus = item.ReceiveDataLast != null ? item.ReceiveDataLast.AccStatus.ToString() : ""
                         }).ToArray()
             };

@@ -9,8 +9,12 @@ namespace SocialGoal.Model.Models
     public class Equipment
     {
         public string EquipmentId { get; set; }
+        ///大驾号
         public string EquipmentNum { get; set; }
+        //车牌号
         public string EquipmentName { get; set; }
+        //发动机号
+        public string EngineNum { get; set; }
         public string OwnerName { get; set; }
         public string OwnerPhone { get; set; }
         public string OwnerAddress { get; set; }
@@ -23,13 +27,11 @@ namespace SocialGoal.Model.Models
         public string EquipmentTypeId { get; set; }
         public DateTime EquipmentCreatTime { get; set; }
         public DateTime EquipmentUpDateTime { get; set; }
-        //  public virtual ICollection<Smart> Smarts { get; set; }
-        public virtual ICollection<TerminalEquipment> TerminalEquipments { get; set; }
 
+        public virtual ICollection<TerminalEquipment> TerminalEquipments { get; set; }
         //企业信息
         public string OrgEnterpriseId { get; set; }
         public virtual OrgEnterprise OrgEnterprise { get; set; }
-
 
         public Equipment()
         {

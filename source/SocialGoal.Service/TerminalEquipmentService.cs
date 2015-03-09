@@ -1,7 +1,10 @@
 ﻿using SocialGoal.Core.Common;
+using SocialGoal.Core.DynamicLINQ;
+using SocialGoal.Core.xFilter.Expressions;
 using SocialGoal.Data.Infrastructure;
 using SocialGoal.Data.Repository;
 using SocialGoal.Model.Models;
+using SocialGoal.Model.ViewModels;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,7 +17,7 @@ namespace SocialGoal.Service
 {
     public interface ITerminalEquipmentService
     {
-        Task<IEnumerable<TerminalEquipment>> GetOrgStructures(Core.xFilter.Expressions.JqGridSetting jqGridSetting, out int count);
+        Task<IEnumerable<TerminalEquipment>> GetOrgStructures(JqGridSetting jqGridSetting, out int count);
         void Save();
 
         Task CreateAsync(TerminalEquipment terminalEquipment);
@@ -27,7 +30,7 @@ namespace SocialGoal.Service
 
         Task<IEnumerable<TerminalEquipment>> GetSubGridByEquipmentId(Core.xFilter.Expressions.JqGridSetting jqGridSetting, out int count);
 
-        Task<Core.Common.Select2PagedResult> GetSelect2PagedResult(string searchTerm, int pageSize, int pageNum);
+        Task<Core.Common.Select2PagedResult> GetSelect2PagedResult(List<String> orgLs, string searchTerm, int pageSize, int pageNum);
 
         void UpdateEquipmentId(string TerminalEquipmentId, string EquipmentIds);
 
@@ -38,6 +41,14 @@ namespace SocialGoal.Service
         Task<IEnumerable<TerminalEquipment>> GetSubGridByEquipmentId(string id);
 
         List<string> GetCurrentUserTerminalEquipments(string[] orgId);
+
+        Task<IEnumerable<TerminalEquipment>> GetTerminalEquipments(JqSearchIn jqGridSetting, List<string> al, out int count);
+
+        List<Model.ViewModels.SelectIdText> GetSelect2DefaultByEquipmentId(string id);
+
+        void UpdateEquipmentId(string TerminalEquipmentId);
+
+        Task<IEnumerable<TerminalEquipment>> GetTerminalEquipmentDataHistory(string terminalEquipmentNum, JqSearchIn jqGridSetting, out int count);
     }
     public class TerminalEquipmentService : ITerminalEquipmentService
     {
@@ -53,8 +64,9 @@ namespace SocialGoal.Service
             this._receiveDataLastRepository = receiveDataLastRepository;
             this._unitOfWork = unitOfWork;
         }
-        public Task<IEnumerable<TerminalEquipment>> GetOrgStructures(Core.xFilter.Expressions.JqGridSetting jqGridSetting, out int count)
+        public Task<IEnumerable<TerminalEquipment>> GetOrgStructures(JqGridSetting jqGridSetting, out int count)
         {
+
             IEnumerable<TerminalEquipment> terminalEquipment = _terminalEquipmentRepository.GetPageJqGrid<TerminalEquipment>(jqGridSetting, out count);
             return Task.FromResult(terminalEquipment);
         }
@@ -139,10 +151,10 @@ namespace SocialGoal.Service
         }
 
 
-        public Task<Core.Common.Select2PagedResult> GetSelect2PagedResult(string searchTerm, int pageSize, int pageNum)
+        public Task<Core.Common.Select2PagedResult> GetSelect2PagedResult(List<String> orgLs, string searchTerm, int pageSize, int pageNum)
         {
             int reTotal = 0;
-            IEnumerable<TerminalEquipment> terminalEquipment = _terminalEquipmentRepository.GetSelect2(t => t.TerminalEquipmentNum.Contains(searchTerm), "TerminalEquipmentUpdateTime", true, pageSize, pageNum, out reTotal);
+            IEnumerable<TerminalEquipment> terminalEquipment = _terminalEquipmentRepository.GetSelect2(t => orgLs.Contains(t.OrgEnterpriseId) && t.TerminalEquipmentNum.Contains(searchTerm) && t.EquipmentId == null, "TerminalEquipmentUpdateTime", true, pageSize, pageNum, out reTotal);
 
             Select2PagedResult jsonAttendees = new Select2PagedResult();
             jsonAttendees.Results = new List<Select2Result>();
@@ -206,6 +218,41 @@ namespace SocialGoal.Service
                 al.Add(item.TerminalEquipmentNum.Trim());
             }
             return al;
+        }
+
+
+        public Task<IEnumerable<TerminalEquipment>> GetTerminalEquipments(JqSearchIn jqGridSetting, List<string> al, out int count)
+        {
+            IEnumerable<TerminalEquipment> terminalEquipment = _terminalEquipmentRepository.GetJqGrid(jqGridSetting, al, out count);
+            return Task.FromResult(terminalEquipment);
+        }
+
+
+        public List<Model.ViewModels.SelectIdText> GetSelect2DefaultByEquipmentId(string id)
+        {
+            List<TerminalEquipment> tls = _terminalEquipmentRepository.GetMany(t => t.EquipmentId == id).ToList();
+            List<SelectIdText> lst = new List<SelectIdText>();
+            foreach (var item in tls)
+            {
+                SelectIdText st = new SelectIdText();
+                st.id = item.TerminalEquipmentId;
+                st.text = item.TerminalEquipmentNum;
+                lst.Add(st);
+            }
+            return lst;
+        }
+
+
+        public void UpdateEquipmentId(string TerminalEquipmentId)
+        {
+            _terminalEquipmentRepository.UpdateEquipmentId(TerminalEquipmentId);
+        }
+
+
+        public Task<IEnumerable<TerminalEquipment>> GetTerminalEquipmentDataHistory(string terminalEquipmentNum, JqSearchIn jqGridSetting, out int count)
+        {
+            IEnumerable<TerminalEquipment> terminalEquipment = _terminalEquipmentRepository.GetJqGridDataHistory(terminalEquipmentNum,jqGridSetting, out count);
+            return Task.FromResult(terminalEquipment);
         }
     }
 }

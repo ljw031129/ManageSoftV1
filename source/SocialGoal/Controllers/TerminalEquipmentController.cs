@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SocialGoal.Core.Common;
+using SocialGoal.Core.DynamicLINQ;
 using SocialGoal.Core.xFilter.Expressions;
 using SocialGoal.Model.Models;
 using SocialGoal.Model.ViewModels;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Web.Utilities;
+using Microsoft.AspNet.Identity;
 
 namespace SocialGoal.Controllers
 {
@@ -24,8 +26,10 @@ namespace SocialGoal.Controllers
         private readonly ITerminalSimCardService _terminalSimCardService;
         private readonly IProtocolManageService _protocolManageService;
         private readonly IReceiveDataLastService _receiveDataLastService;
-        public TerminalEquipmentController(ITerminalSimCardService terminalSimCardService, ITerminalEquipmentService terminalEquipmentService, IProtocolManageService protocolManageService, IReceiveDataLastService eceiveDataLastService)
+        private readonly IOrgEnterpriseService _orgEnterpriseService;
+        public TerminalEquipmentController(IOrgEnterpriseService orgEnterpriseService, ITerminalSimCardService terminalSimCardService, ITerminalEquipmentService terminalEquipmentService, IProtocolManageService protocolManageService, IReceiveDataLastService eceiveDataLastService)
         {
+            this._orgEnterpriseService = orgEnterpriseService;
             this._protocolManageService = protocolManageService;
             this._terminalSimCardService = terminalSimCardService;
             this._terminalEquipmentService = terminalEquipmentService;
@@ -58,7 +62,13 @@ namespace SocialGoal.Controllers
             }
             ViewBag.PmFInterpreterId = new SelectList(listPmSelect, "Value", "Text", "");
 
-            return View();
+            string userId = User.Identity.GetUserId();
+            OrgEnterprise al = _orgEnterpriseService.GetOrgEnterpriseByUserId(userId);
+            return View(new TerminalEquipmentViewModel()
+            {
+                OrgEnterpriseId = al.OrgEnterpriseId,
+                OrgEnterpriseName = al.OrgEnterpriseName,
+            });
         }
         [HttpPost]
         public async Task<ActionResult> Create(TerminalEquipmentViewModel newTerminalEquipment)
@@ -96,7 +106,13 @@ namespace SocialGoal.Controllers
                 listPmSelect.Add(new SelectListItem { Value = item.PmFInterpreterId, Text = item.ProtocolName });
             }
             ViewBag.PmFInterpreterId = new SelectList(listPmSelect, "Value", "Text", "");
-            return View();
+            string userId = User.Identity.GetUserId();
+            OrgEnterprise al = _orgEnterpriseService.GetOrgEnterpriseByUserId(userId);
+            return View(new TerminalEquipmentViewModel()
+            {
+                OrgEnterpriseId = al.OrgEnterpriseId,
+                OrgEnterpriseName = al.OrgEnterpriseName,
+            });
         }
         public async Task<ActionResult> Edit(string id)
         {
@@ -203,12 +219,12 @@ namespace SocialGoal.Controllers
             ReceiveDataLastViewModel rv = new ReceiveDataLastViewModel();
             rv.IMEI = rdl.IMEI;
             rv.AccStatus = rdl.AccStatus == "1" ? "开启" : "关闭";
-            rv.ReceiveTime = DateUtils.GetTime(rdl.ReceiveTime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
-            rv.GpsTime = DateUtils.GetTime(rdl.GpsTime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
-            rv.GpsPlat = rdl.GpsPlat;
-            rv.GpsPlog = rdl.GpsPlog;
-            rv.GpsPos = rdl.GpsPos;
-            rv.GpsIsPos = rdl.GpsIsPos;
+            rv.Rtime = DateUtils.GetTime(rdl.Rtime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+            rv.Ptime = DateUtils.GetTime(rdl.Ptime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+            rv.Lat = rdl.Lat;
+            rv.Lng = rdl.Lng;
+            rv.Pos = rdl.Pos;
+            rv.IsPos = rdl.IsPos;
             return View(rv);
         }
 
@@ -228,7 +244,10 @@ namespace SocialGoal.Controllers
         }
         public async Task<JsonpResult> GetTerminalEquipment(int pageSize, int pageNum, string searchTerm)
         {
-            Select2PagedResult orgEnterprises = await _terminalEquipmentService.GetSelect2PagedResult(searchTerm, pageSize, pageNum);
+            string userId = User.Identity.GetUserId();
+            string[] al = await _orgEnterpriseService.GetOrgEnterpriseArraylist(userId);
+            List<String> listS = new List<System.String>(al);
+            Select2PagedResult orgEnterprises = await _terminalEquipmentService.GetSelect2PagedResult(listS, searchTerm, pageSize, pageNum);
             //Return the data as a jsonp result
             return new JsonpResult
             {
@@ -237,10 +256,13 @@ namespace SocialGoal.Controllers
             };
         }
 
-        public async Task<ActionResult> GetList(JqGridSetting jqGridSetting)
+        public async Task<ActionResult> GetList(JqSearchIn jqGridSetting)
         {
             int count = 0;
-            IEnumerable<TerminalEquipment> orgStructure = await _terminalEquipmentService.GetOrgStructures(jqGridSetting, out count);
+            string userId = User.Identity.GetUserId();
+            string[] al = await _orgEnterpriseService.GetOrgEnterpriseArraylist(userId);
+            List<String> st = new List<System.String>(al);
+            IEnumerable<TerminalEquipment> orgStructure = await _terminalEquipmentService.GetTerminalEquipments(jqGridSetting, st, out count);
             var result = new
             {
                 total = (int)Math.Ceiling((double)count / jqGridSetting.rows),
@@ -259,12 +281,136 @@ namespace SocialGoal.Controllers
                             TerminalSimCardId = item.TerminalSimCard.TerminalSimCardNum,
                             TerminalEquipmentCreateTime = item.TerminalEquipmentCreateTime,
                             TerminalEquipmentUpdateTime = item.TerminalEquipmentUpdateTime
+
                         }).ToArray()
             };
             return Json(result, JsonRequestBehavior.AllowGet);
 
         }
 
+        public async Task<ActionResult> ProductionTestGetList(JqSearchIn jqGridSetting)
+        {
+            int count = 0;
+            string userId = User.Identity.GetUserId();
+            string[] al = await _orgEnterpriseService.GetOrgEnterpriseArraylist(userId);
+            List<String> st = new List<System.String>(al);
+            IEnumerable<TerminalEquipment> orgStructure = await _terminalEquipmentService.GetTerminalEquipments(jqGridSetting, st, out count);
+            var result = new
+            {
+                total = (int)Math.Ceiling((double)count / jqGridSetting.rows),
+                page = jqGridSetting.page,
+                records = count,
+                rows = (from item in orgStructure.ToList()
+                        select new
+                        {
+                            EquipmentId = item.Equipment != null ? item.Equipment.EquipmentId : null,
+                            ReceiveDataLastId = item.ReceiveDataLast != null ? item.ReceiveDataLast.ReceiveDataLastId : null,
+                            TerminalEquipmentId = item.TerminalEquipmentId,
+                            TerminalEquipmentNum = item.TerminalEquipmentNum,
+                            TerminalEquipmentType = item.TerminalEquipmentType,
+                            OrgEnterpriseId = !string.IsNullOrWhiteSpace(item.OrgEnterprise.ToString()) ? item.OrgEnterprise.OrgEnterpriseName : "",
+                            PmFInterpreterId = item.PmFInterpreter.ProtocolName,
+                            TerminalSimCardId = item.TerminalSimCard.TerminalSimCardNum,
+                            TerminalEquipmentCreateTime = item.TerminalEquipmentCreateTime,
+                            TerminalEquipmentUpdateTime = item.TerminalEquipmentUpdateTime,
+                            //定位信息
+                            Pos = item.ReceiveDataLast != null && item.ReceiveDataLast.Pos!=null ? item.ReceiveDataLast.Pos.ToString() : "",
+                            Lat = item.ReceiveDataLast != null && item.ReceiveDataLast.Lat != null ? item.ReceiveDataLast.Lat.ToString() : "",
+                            Lng = item.ReceiveDataLast != null && item.ReceiveDataLast.Lng != null ? item.ReceiveDataLast.Lng.ToString() : "",
+                            IsPos = item.ReceiveDataLast != null && item.ReceiveDataLast.IsPos != null ? item.ReceiveDataLast.IsPos.ToString() : "",
+                            LAC = item.ReceiveDataLast != null && item.ReceiveDataLast.LAC != null ? item.ReceiveDataLast.LAC.ToString() : "",
+                            CID = item.ReceiveDataLast != null && item.ReceiveDataLast.CID != null ? item.ReceiveDataLast.CID.ToString() : "",
+                            ProtocolVersion = item.ReceiveDataLast != null && item.ReceiveDataLast.ProtocolVersion != null ? item.ReceiveDataLast.ProtocolVersion.ToString() : "",
+                            SoftVersion = item.ReceiveDataLast != null && item.ReceiveDataLast.SoftVersion != null ? item.ReceiveDataLast.SoftVersion.ToString() : "",
+                            HardwareVersion = item.ReceiveDataLast != null && item.ReceiveDataLast.HardwareVersion != null ? item.ReceiveDataLast.HardwareVersion.ToString() : "",
+
+
+                            BatteryVoltage = item.ReceiveDataLast != null && item.ReceiveDataLast.BatteryVoltage != null ? item.ReceiveDataLast.BatteryVoltage.ToString() : "",
+                            GsmSignal = item.ReceiveDataLast != null && item.ReceiveDataLast.GsmSignal != null ? item.ReceiveDataLast.GsmSignal.ToString() : "",
+                            BlindSign = item.ReceiveDataLast != null && item.ReceiveDataLast.BlindSign != null ? item.ReceiveDataLast.BlindSign.ToString() : "",
+                            BlindDataCount = item.ReceiveDataLast != null && item.ReceiveDataLast.BlindDataCount != null ? item.ReceiveDataLast.BlindDataCount.ToString() : "",
+                            SeeSatelliteCount = item.ReceiveDataLast != null && item.ReceiveDataLast.SeeSatelliteCount != null ? item.ReceiveDataLast.SeeSatelliteCount.ToString() : "",
+                            UseSatelliteCount = item.ReceiveDataLast != null && item.ReceiveDataLast.UseSatelliteCount != null ? item.ReceiveDataLast.UseSatelliteCount.ToString() : "",
+
+
+                            WorkStatue = item.ReceiveDataLast != null && item.ReceiveDataLast.WorkStatue != null ? item.ReceiveDataLast.WorkStatue.ToString() : "",
+                            WorkModel = item.ReceiveDataLast != null && item.ReceiveDataLast.WorkModel != null ? item.ReceiveDataLast.WorkModel.ToString() : "",
+                            WorkTime = item.ReceiveDataLast != null && item.ReceiveDataLast.WorkTime != null ? item.ReceiveDataLast.WorkTime.ToString() : "",
+                            SleepTime = item.ReceiveDataLast != null && item.ReceiveDataLast.SleepTime != null ? item.ReceiveDataLast.SleepTime.ToString() : "",
+                            IntervalTime = item.ReceiveDataLast != null && item.ReceiveDataLast.IntervalTime != null ? item.ReceiveDataLast.IntervalTime.ToString() : "",
+                            TootalWorkTime = item.ReceiveDataLast != null && item.ReceiveDataLast.TootalWorkTime != null ? item.ReceiveDataLast.TootalWorkTime.ToString() : "",
+                            StartCount = item.ReceiveDataLast != null && item.ReceiveDataLast.StartCount != null ? item.ReceiveDataLast.StartCount.ToString() : "",
+
+
+                            Ptime = item.ReceiveDataLast != null ? DateUtils.GetTime(item.ReceiveDataLast.Ptime.ToString()).ToString("yyyy-MM-dd HH:mm:ss") : "",
+                            Rtime = item.ReceiveDataLast != null ? DateUtils.GetTime(item.ReceiveDataLast.Rtime.ToString()).ToString("yyyy-MM-dd HH:mm:ss") : "",
+
+                        }).ToArray()
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public async Task<ActionResult> ProductionTestGetHistoryList(JqSearchIn jqGridSetting, string terminalEquipmentNum)
+        {
+            int count = 0;
+
+            IEnumerable<TerminalEquipment> orgStructure = await _terminalEquipmentService.GetTerminalEquipmentDataHistory(terminalEquipmentNum, jqGridSetting, out count);
+            var result = new
+            {
+                total = (int)Math.Ceiling((double)count / jqGridSetting.rows),
+                page = jqGridSetting.page,
+                records = count,
+                rows = (from item in orgStructure.ToList()
+                        select new
+                        {
+                            EquipmentId = item.Equipment != null ? item.Equipment.EquipmentId : null,
+                            ReceiveDataLastId = item.ReceiveDataLast != null ? item.ReceiveDataLast.ReceiveDataLastId : null,
+                            TerminalEquipmentId = item.TerminalEquipmentId,
+                            TerminalEquipmentNum = item.TerminalEquipmentNum,
+                            TerminalEquipmentType = item.TerminalEquipmentType,
+                            OrgEnterpriseId = !string.IsNullOrWhiteSpace(item.OrgEnterprise.ToString()) ? item.OrgEnterprise.OrgEnterpriseName : "",
+                            PmFInterpreterId = item.PmFInterpreter.ProtocolName,
+                            TerminalSimCardId = item.TerminalSimCard.TerminalSimCardNum,
+                            TerminalEquipmentCreateTime = item.TerminalEquipmentCreateTime,
+                            TerminalEquipmentUpdateTime = item.TerminalEquipmentUpdateTime,
+                            //定位信息
+                            Pos = item.ReceiveDataLast != null && item.ReceiveDataLast.Pos != null ? item.ReceiveDataLast.Pos.ToString() : "",
+                            Lat = item.ReceiveDataLast != null && item.ReceiveDataLast.Lat != null ? item.ReceiveDataLast.Lat.ToString() : "",
+                            Lng = item.ReceiveDataLast != null && item.ReceiveDataLast.Lng != null ? item.ReceiveDataLast.Lng.ToString() : "",
+                            IsPos = item.ReceiveDataLast != null && item.ReceiveDataLast.IsPos != null ? item.ReceiveDataLast.IsPos.ToString() : "",
+                            LAC = item.ReceiveDataLast != null && item.ReceiveDataLast.LAC != null ? item.ReceiveDataLast.LAC.ToString() : "",
+                            CID = item.ReceiveDataLast != null && item.ReceiveDataLast.CID != null ? item.ReceiveDataLast.CID.ToString() : "",
+                            ProtocolVersion = item.ReceiveDataLast != null && item.ReceiveDataLast.ProtocolVersion != null ? item.ReceiveDataLast.ProtocolVersion.ToString() : "",
+                            SoftVersion = item.ReceiveDataLast != null && item.ReceiveDataLast.SoftVersion != null ? item.ReceiveDataLast.SoftVersion.ToString() : "",
+                            HardwareVersion = item.ReceiveDataLast != null && item.ReceiveDataLast.HardwareVersion != null ? item.ReceiveDataLast.HardwareVersion.ToString() : "",
+
+
+                            BatteryVoltage = item.ReceiveDataLast != null && item.ReceiveDataLast.BatteryVoltage != null ? item.ReceiveDataLast.BatteryVoltage.ToString() : "",
+                            GsmSignal = item.ReceiveDataLast != null && item.ReceiveDataLast.GsmSignal != null ? item.ReceiveDataLast.GsmSignal.ToString() : "",
+                            BlindSign = item.ReceiveDataLast != null && item.ReceiveDataLast.BlindSign != null ? item.ReceiveDataLast.BlindSign.ToString() : "",
+                            BlindDataCount = item.ReceiveDataLast != null && item.ReceiveDataLast.BlindDataCount != null ? item.ReceiveDataLast.BlindDataCount.ToString() : "",
+                            SeeSatelliteCount = item.ReceiveDataLast != null && item.ReceiveDataLast.SeeSatelliteCount != null ? item.ReceiveDataLast.SeeSatelliteCount.ToString() : "",
+                            UseSatelliteCount = item.ReceiveDataLast != null && item.ReceiveDataLast.UseSatelliteCount != null ? item.ReceiveDataLast.UseSatelliteCount.ToString() : "",
+
+
+                            WorkStatue = item.ReceiveDataLast != null && item.ReceiveDataLast.WorkStatue != null ? item.ReceiveDataLast.WorkStatue.ToString() : "",
+                            WorkModel = item.ReceiveDataLast != null && item.ReceiveDataLast.WorkModel != null ? item.ReceiveDataLast.WorkModel.ToString() : "",
+                            WorkTime = item.ReceiveDataLast != null && item.ReceiveDataLast.WorkTime != null ? item.ReceiveDataLast.WorkTime.ToString() : "",
+                            SleepTime = item.ReceiveDataLast != null && item.ReceiveDataLast.SleepTime != null ? item.ReceiveDataLast.SleepTime.ToString() : "",
+                            IntervalTime = item.ReceiveDataLast != null && item.ReceiveDataLast.IntervalTime != null ? item.ReceiveDataLast.IntervalTime.ToString() : "",
+                            TootalWorkTime = item.ReceiveDataLast != null && item.ReceiveDataLast.TootalWorkTime != null ? item.ReceiveDataLast.TootalWorkTime.ToString() : "",
+                            StartCount = item.ReceiveDataLast != null && item.ReceiveDataLast.StartCount != null ? item.ReceiveDataLast.StartCount.ToString() : "",
+
+
+                            Ptime = item.ReceiveDataLast != null ? DateUtils.GetTime(item.ReceiveDataLast.Ptime.ToString()).ToString("yyyy-MM-dd HH:mm:ss") : "",
+                            Rtime = item.ReceiveDataLast != null ? DateUtils.GetTime(item.ReceiveDataLast.Rtime.ToString()).ToString("yyyy-MM-dd HH:mm:ss") : "",
+
+                        }).ToArray()
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
         public async Task<ActionResult> GetSubGrid(JqGridSetting jqGridSetting)
         {
             int count = 0;
@@ -282,7 +428,7 @@ namespace SocialGoal.Controllers
                             TerminalEquipmentType = item.TerminalEquipmentType,
                             OrgEnterpriseId = !string.IsNullOrWhiteSpace(item.OrgEnterprise.ToString()) ? item.OrgEnterprise.OrgEnterpriseName : "",
                             PmFInterpreterId = item.PmFInterpreter.ProtocolName,
-                           // TerminalSimCardId = item.TerminalSimCard.TerminalSimCardNum,
+                            // TerminalSimCardId = item.TerminalSimCard.TerminalSimCardNum,
                             TerminalEquipmentCreateTime = item.TerminalEquipmentCreateTime,
                             TerminalEquipmentUpdateTime = item.TerminalEquipmentUpdateTime
                         }).ToArray()
@@ -308,13 +454,13 @@ namespace SocialGoal.Controllers
                               TerminalEquipmentCreateTime = item.TerminalEquipmentCreateTime,
                               TerminalEquipmentUpdateTime = item.TerminalEquipmentUpdateTime,
                               //最新信息
-                              GpsPos = item.ReceiveDataLast != null ? item.ReceiveDataLast.GpsPos.ToString() : "",
-                              GpsPlat = item.ReceiveDataLast != null ? item.ReceiveDataLast.GpsPlat.ToString() : "",
-                              GpsPlog = item.ReceiveDataLast != null ? item.ReceiveDataLast.GpsPlog.ToString() : "",
-                              GpsSpeed = item.ReceiveDataLast != null ? item.ReceiveDataLast.GpsSpeed.ToString() : "",
-                              GpsDirection = item.ReceiveDataLast != null ? item.ReceiveDataLast.GpsDirection.ToString() : "",
-                              GpsTime = item.ReceiveDataLast != null ? DateUtils.GetTime(item.ReceiveDataLast.GpsTime.ToString()).ToString("yyyy-MM-dd HH:mm:ss") : "",
-                              ReceiveTime = item.ReceiveDataLast != null ? DateUtils.GetTime(item.ReceiveDataLast.ReceiveTime.ToString()).ToString("yyyy-MM-dd HH:mm:ss") : "",
+                              GpsPos = item.ReceiveDataLast != null ? item.ReceiveDataLast.Pos.ToString() : "",
+                              GpsPlat = item.ReceiveDataLast != null ? item.ReceiveDataLast.Lat.ToString() : "",
+                              GpsPlog = item.ReceiveDataLast != null ? item.ReceiveDataLast.Lng.ToString() : "",
+                              GpsSpeed = item.ReceiveDataLast != null ? item.ReceiveDataLast.Gspeed.ToString() : "",
+                              GpsDirection = item.ReceiveDataLast != null ? item.ReceiveDataLast.GsDirection.ToString() : "",
+                              GpsTime = item.ReceiveDataLast != null ? DateUtils.GetTime(item.ReceiveDataLast.Ptime.ToString()).ToString("yyyy-MM-dd HH:mm:ss") : "",
+                              ReceiveTime = item.ReceiveDataLast != null ? DateUtils.GetTime(item.ReceiveDataLast.Rtime.ToString()).ToString("yyyy-MM-dd HH:mm:ss") : "",
                           }).ToArray()
             };
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -332,6 +478,12 @@ namespace SocialGoal.Controllers
         public string UpdateOrgEnterprise(string OrgEnterpriseId, string TerminalEquipmentIds)
         {
             _terminalEquipmentService.UpdateTerminalEquipmentOrgEnterpriseId(OrgEnterpriseId, TerminalEquipmentIds);
+            return "true";
+        }
+        [HttpPost]
+        public string UpdateterminalEquipmentByEquipmentId(string TerminalEquipmentId)
+        {
+            _terminalEquipmentService.UpdateEquipmentId(TerminalEquipmentId);
             return "true";
         }
         // POST api/<controller>

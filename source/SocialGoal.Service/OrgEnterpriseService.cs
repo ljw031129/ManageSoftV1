@@ -29,14 +29,17 @@ namespace SocialGoal.Service
 
         OrgEnterprise GetById(string id);
 
-        Task<Select2PagedResult> GetSelect2PagedResult(string searchTerm, int pageSize, int pageNum);
+        Task<Select2PagedResult> GetSelect2PagedResult(List<String> al, string searchTerm, int pageSize, int pageNum);
 
         Task<IEnumerable<OrgEnterprise>> GetAll();
 
         Task<List<ZtreeEntity>> GetOrgEnterpriseZtree(string userId);
         Task<string[]> GetOrgEnterpriseArraylist(string userId);
+        Task<List<OrgEnterprise>> GetOrgEnterprisesList(string userId);
 
         Task<string> GetAllTree();
+
+        OrgEnterprise GetOrgEnterpriseByUserId(string userId);
     }
     public class OrgEnterpriseService : IOrgEnterpriseService
     {
@@ -106,11 +109,10 @@ namespace SocialGoal.Service
         }
 
 
-        public Task<Select2PagedResult> GetSelect2PagedResult(string searchTerm, int pageSize, int pageNum)
+        public Task<Select2PagedResult> GetSelect2PagedResult(List<String> al, string searchTerm, int pageSize, int pageNum)
         {
             int reTotal = 0;
-            IEnumerable<OrgEnterprise> orgEnterprise = _orgEnterpriseRepository.GetSelect2(t => t.OrgEnterpriseName.Contains(searchTerm), "OrgEnterpriseUpdateTime", true, pageSize, pageNum, out reTotal);
-
+            IEnumerable<OrgEnterprise> orgEnterprise = _orgEnterpriseRepository.GetSelect2((t => al.Contains(t.OrgEnterpriseId) && t.OrgEnterpriseName.Contains(searchTerm)), "OrgEnterpriseUpdateTime", true, pageSize, pageNum, out reTotal);
             Select2PagedResult jsonAttendees = new Select2PagedResult();
             jsonAttendees.Results = new List<Select2Result>();
 
@@ -249,9 +251,85 @@ namespace SocialGoal.Service
 
 
 
+        public Task<List<OrgEnterprise>> GetOrgEnterprisesList(string userId)
+        {
+            string orgId = _applicationUserRepository.Get(m => m.Id == userId).OrgEnterpriseId;
+            //当前用户所在企业ID           
+            List<OrgEnterprise> orgList = _orgEnterpriseRepository.GetAll().ToList();
+            List<ZtreeEntity> dList = new List<ZtreeEntity>();
+            List<OrgEnterprise> al = new List<OrgEnterprise>();
+            OrgEnterpriseList(orgList, orgId, dList, orgId, al);
+            return Task.FromResult(al);
+        }
+        private void OrgEnterpriseList(List<OrgEnterprise> orgList, string parentId, List<ZtreeEntity> node, string corgStructureId, List<OrgEnterprise> al)
+        {
+            List<OrgEnterprise> rows;
+            if (string.IsNullOrEmpty(parentId))
+            {
+                rows = orgList.Where(t => t.OrgEnterprisePId == "null").ToList(); //过滤
+            }
+            else
+            {
+                rows = parentId == corgStructureId ? orgList.Where(t => t.OrgEnterpriseId == parentId).ToList() : orgList.Where(t => t.OrgEnterprisePId == parentId).ToList();
+            }
+            // rows = ds.Tables[0].Select("ID='" + parentId + "'"); //过滤
+            foreach (OrgEnterprise row in rows)
+            {
+                List<OrgEnterprise> childern = orgList.Where(t => t.OrgEnterpriseId == row.OrgEnterpriseId).ToList();//用于判断是否有子节点            
+
+                if (childern.Count != 0 || parentId == "")//是父节点            
+                {
+                    ZtreeEntity nodeList = new ZtreeEntity();
+                    nodeList.name = row.OrgEnterpriseName;
+                    nodeList.id = row.OrgEnterpriseId;
+                    nodeList.PID = row.OrgEnterprisePId;
+                    nodeList.OrgEnterpriseCreateTime = row.OrgEnterpriseCreateTime.ToString("yyyy-MM-dd HH:mm:ss");
+                    nodeList.OrgEnterpriseUpdateTime = row.OrgEnterpriseCreateTime.ToString("yyyy-MM-dd HH:mm:ss");
+                    nodeList.OrgEnterpriseNum = row.OrgEnterpriseNum;
+                    nodeList.OrgEnterpriseDescribe = row.OrgEnterpriseDescribe;
+                    nodeList.open = false;
+                    nodeList.title = row.OrgEnterpriseName;
+                    nodeList.children = new List<ZtreeEntity>();
+                    OrgEnterpriseList(orgList, row.OrgEnterpriseId, nodeList.children, "", al);
+                    node.Add(nodeList);
+                    OrgEnterprise org = new OrgEnterprise();
+                    org.OrgEnterpriseId = row.OrgEnterpriseId;
+                    org.OrgEnterpriseName = row.OrgEnterpriseName;
+                    org.OrgEnterpriseNum = row.OrgEnterpriseNum;
+                    al.Add(org);
+                }
+                else
+                {
+                    ZtreeEntity nodeCh = new ZtreeEntity();
+                    nodeCh.name = row.OrgEnterpriseName;
+                    nodeCh.id = row.OrgEnterpriseId;
+                    nodeCh.PID = row.OrgEnterprisePId;
+                    nodeCh.open = false;
+                    nodeCh.title = row.OrgEnterpriseName;
+                    node.Add(nodeCh);
+                    OrgEnterprise org = new OrgEnterprise();
+                    org.OrgEnterpriseId = row.OrgEnterpriseId;
+                    org.OrgEnterpriseName = row.OrgEnterpriseName;
+                    org.OrgEnterpriseNum = row.OrgEnterpriseNum;
+                    al.Add(org);
+                }
+                GC.Collect();
+            }
+        }
+
+
+
+
         public Task<string> GetAllTree()
         {
             throw new NotImplementedException();
+        }
+
+
+        public OrgEnterprise GetOrgEnterpriseByUserId(string userId)
+        {
+            string orgId = _applicationUserRepository.Get(m => m.Id == userId).OrgEnterpriseId;
+            return _orgEnterpriseRepository.Get(p => p.OrgEnterpriseId == orgId);
         }
     }
 }

@@ -27,16 +27,16 @@ namespace SocialGoal.Web.API.Controllers
         }
         [HttpGet]
         //[Route("api/ApiTerminalSimCard/{terminalEquipmentId}")]
-        public async Task<JsonpResult> GetOrgEnterprises(int pageSize, int pageNum, string searchTerm)
-        {
-            Select2PagedResult orgEnterprises = await _orgEnterpriseService.GetSelect2PagedResult(searchTerm, pageSize, pageNum);
-            //Return the data as a jsonp result
-            return new JsonpResult
-            {
-                Data = orgEnterprises,
-                JsonRequestBehavior = System.Web.Mvc.JsonRequestBehavior.AllowGet
-            };
-        }
+        //public async Task<JsonpResult> GetOrgEnterprises(int pageSize, int pageNum, string searchTerm)
+        //{
+        //    Select2PagedResult orgEnterprises = await _orgEnterpriseService.GetSelect2PagedResult(searchTerm, pageSize, pageNum);
+        //    //Return the data as a jsonp result
+        //    return new JsonpResult
+        //    {
+        //        Data = orgEnterprises,
+        //        JsonRequestBehavior = System.Web.Mvc.JsonRequestBehavior.AllowGet
+        //    };
+        //}
         [Route("api/ApiOrgEnterprise/GetAll")]
         public async Task<string> GetAll()
         {
@@ -60,14 +60,14 @@ namespace SocialGoal.Web.API.Controllers
         /// <param name="userId"></param>
         /// <returns></returns>
         [Route("api/ApiOrgEnterprise/GetOrgEnterprisesSelect")]
-        public async Task<Object> GetOrgEnterprisesSelect(int pageSize, int pageNum, string searchTerm, string userId)
-        {
-            if (string.IsNullOrWhiteSpace(searchTerm)) searchTerm = "";
-            Select2PagedResult orgEnterprises = await _orgEnterpriseService.GetSelect2PagedResult(searchTerm, pageSize, pageNum);
-            //Return the data as a jsonp result
+        //public async Task<Object> GetOrgEnterprisesSelect(int pageSize, int pageNum, string searchTerm, string userId)
+        //{
+        //    if (string.IsNullOrWhiteSpace(searchTerm)) searchTerm = "";
+        //    Select2PagedResult orgEnterprises = await _orgEnterpriseService.GetSelect2PagedResult(searchTerm, pageSize, pageNum);
+        //    //Return the data as a jsonp result
 
-            return orgEnterprises;
-        }
+        //    return orgEnterprises;
+        //}
         public async Task<Object> Get([FromUri]JqGridSetting jqGridSetting)
         {
             int count = 0;

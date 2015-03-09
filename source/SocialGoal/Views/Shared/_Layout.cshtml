@@ -33,7 +33,9 @@
     @{ Html.RenderPartial("_Header", RenderSection("topright", false)); }
     @{ Html.RenderPartialIf("_Aside", Request.IsAuthenticated); }
     <div id="main" role="main">
-        @{ Html.RenderPartialIf("_Ribbon", Request.IsAuthenticated); }
+        <!-- 面包屑导航暂时隐藏 -->
+        @*@{ Html.RenderPartialIf("_Ribbon", Request.IsAuthenticated); }*@
+
         @RenderBody()
     </div>
     @if (Request.IsAuthenticated)

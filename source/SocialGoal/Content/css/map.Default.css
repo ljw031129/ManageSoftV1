@@ -34,7 +34,7 @@
 /* map style */
 #iCenter{
 	width:100%;
-	height:400px;
+	height:585px;
 	border:1px solid #F6F6F6;
 }
 
@@ -118,3 +118,58 @@ div.info-bottom img{
 	z-index:104;
 }
 /*** -------------------------***/
+
+
+  #markerInfoLayer {
+            width: 128px;
+            height: 94px;
+            position: relative;
+            background: url("../../Content/img/marker-info-bg.png") no-repeat;
+            font-size: 12px;
+            color: #fff;
+        }
+
+            #markerInfoLayer p, #markerInfoLayer h5 {
+                white-space: nowrap;
+                margin: 0 0 0 15px;
+                padding: 0;
+            }
+
+            #markerInfoLayer .info-layer-title {
+                height: 26px;
+                line-height: 26px;
+                overflow: hidden;
+            }
+
+                #markerInfoLayer .info-layer-title h5 {
+                    line-height: 26px;
+                    font-size: 13px;
+                }
+
+            #markerInfoLayer .info-layer-content {
+                overflow: hidden;
+                padding: 10px 0 0;
+            }
+
+                #markerInfoLayer .info-layer-content p {
+                    line-height: 23px;
+                }
+
+                #markerInfoLayer .info-layer-content .info-layer-time {
+                    margin-top: 7px;
+                }
+
+                #markerInfoLayer .info-layer-content span {
+                    margin: 0 5px 0 0;
+                    color: #F9AC66;
+                }
+
+        #divPop a, #divPop a:visited {
+            color: #0077ff;
+            text-decoration: none;
+        }
+
+            #divPop a:hover, #divPop a:active {
+                color: #ff3300;
+                text-decoration: underline;
+            }

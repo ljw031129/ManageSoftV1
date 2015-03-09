@@ -60,6 +60,18 @@
                                         </section>
                                     </div>
                                 </fieldset>
+                                <header>绑定终端</header>
+                                <fieldset>
+
+                                    <div class="row">
+                                        <section class="col col-6">
+                                            <label class="input">
+                                                <i class="icon-append fa fa-search"></i>
+                                                <input type="text" placeholder="选择终端" id="TerminalEquipmentIdSelect2" name="TerminalEquipmentIdSelect2" class="form-control">
+                                            </label>
+                                        </section>
+                                    </div>
+                                </fieldset>
                                 <header>
                                     车辆信息
                                 </header>
@@ -79,6 +91,14 @@
                                                 <i class="icon-append fa fa-user"></i>
                                                 @Html.TextBoxFor(m => m.EquipmentName)
                                                 @Html.ValidationMessageFor(m => m.EquipmentName, "", new { @class = "text-danger" })
+                                            </label>
+                                        </section>
+                                        <section class="col col-6">
+                                            @Html.LabelFor(m => m.EngineNum, htmlAttributes: new { @class = "label" })
+                                            <label class="input">
+                                                <i class="icon-append fa fa-user"></i>
+                                                @Html.TextBoxFor(m => m.EngineNum)
+                                                @Html.ValidationMessageFor(m => m.EngineNum, "", new { @class = "text-danger" })
                                             </label>
                                         </section>
                                     </div>
@@ -185,6 +205,10 @@
         $(document).ready(function () {
             pageSetUp();
             $('#OrgEnterpriseIdSelect2').select2("data", { "id": "@Model.OrgEnterpriseId", "text": "@Model.OrgEnterpriseName" })
+            //  var defaultData = [{ id: "868120118779245", text: '868120118779245' }, { id: "868120118770434", text: '868120118770434' }];
+            var defaultData =@Html.Raw(ViewBag.TerminalEquipmentIdDefault);
+            $('#TerminalEquipmentIdSelect2').data().select2.updateSelection(defaultData);
+
         });
     </script>
 }

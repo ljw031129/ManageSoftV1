@@ -15,6 +15,8 @@ namespace SocialGoal.Model.Models
         //描述
         public string TerminalSimCardDescribe { get; set; }
         public string TerminalSimCardSerialNum { get; set; }
+        //开通时间
+        public DateTime TerminalSimCardUserTime { get; set; }
         public DateTime TerminalSimCardCreateTime { get; set; }
         public DateTime TerminalSimCardUpdateTime { get; set; }
     }

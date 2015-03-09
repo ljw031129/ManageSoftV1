@@ -54,39 +54,35 @@
                                 <ul class="list-unstyled list-inline">
                                     <li>
                                         <i class="  icon-map-marker"></i>
-                                        数据更新时间：@Model.ReceiveTime
+                                        数据更新时间：@Model.Rtime
+                                    </li>
+                                    <li class="text-success">
+                                        GPS定位时间：@Model.Ptime
                                     </li>
                                     <li>
                                         <i class="  icon-map-marker"></i>
-                                        ACC状态：@Model.AccStatus
-                                    </li>
-                                    <li>
-                                        <i class="  icon-map-marker"></i>
-                                        当前位置：@Model.GpsPos
+                                        当前位置：@Model.Pos
                                     </li>
                                     <li>
                                         <i class=" icon-ellipsis-horizontal"></i>
-                                        纬度：@Model.GpsPlat
+                                        纬度：@Model.Lat
                                     </li>
                                     <li>
                                         <i class=" icon-ellipsis-horizontal"></i>
-                                        经度：@Model.GpsPlog
+                                        经度：@Model.Lng
                                     </li>
                                     <li>
                                         <i class="icon-rocket"></i>
-                                        速度：@Model.GpsSpeed
+                                        速度：@Model.Gspeed
                                     </li>
                                     <li>
                                         <i class="icon-stackexchange"></i>
-                                        方向：@Model.GpsDirection
+                                        方向：@Model.GsDirection
                                     </li>
-                                    <li class="text-success">
-                                        <i class="icon-map-marker"></i>
-                                        GPS定位时间：@Model.GpsTime
-                                    </li>
+
                                 </ul>
                             </div>
-                            <div class="widget-body-toolbar">
+                            <div class="widget-body-toolbar" style="display:none">
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <div class="dropdown">
@@ -138,48 +134,50 @@
                     <!-- end widget div -->
                 </div>
                 <!-- end widget -->
+
             </article>
             <article class="col-sm-12 col-md-12 col-lg-6">
                 <!-- new widget -->
-                @*<div  class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-collapsed="true" data-widget-sortable="false">
-                        <!-- widget options:
-                        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                <div class="jarviswidget" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
 
-                        data-widget-colorbutton="false"
-                        data-widget-editbutton="false"
-                        data-widget-togglebutton="false"
-                        data-widget-deletebutton="false"
-                        data-widget-fullscreenbutton="false"
-                        data-widget-custombutton="false"
-                        data-widget-collapsed="true"
-                        data-widget-sortable="false"
-
-                        -->
-                        <header>
-                            <span class="widget-icon"> <i class="fa fa-comments"></i> </span>
-                            <h2>终端控制 </h2>
-                        </header>
-                        <!-- widget div-->
-                        <div>
-                            <!-- widget edit box -->
-                            <div class="jarviswidget-editbox">
-                                <div>
-                                    <label>Title:</label>
-                                    <input type="text" />
-                                </div>
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+                    -->
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-comments"></i> </span>
+                        <h2>终端控制 </h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <div>
+                                <label>Title:</label>
+                                <input type="text" />
                             </div>
-                            <!-- end widget edit box -->
-                            <div class="widget-body no-padding" id="Commonds" ng-controller="TabsCmdCtrl">
-                                <div class="well well-sm well-light">
-                                    <tabset>
-                                        <tab heading="无线智能终端v1.0">
-                                            <form class="smart-form">
-                                                <header>
-                                                    参数设置
-                                                </header>
+                        </div>
+                        <!-- end widget edit box -->
+                        <div class="widget-body no-padding" id="Commonds" ng-controller="TabsCmdCtrl">
+                            <div class="well well-sm well-light">
+                                <tabset>
+                                    <tab heading="无线智能终端v1.0">
+                                        <form class="smart-form">
+                                            <header>
+                                                参数设置
+                                            </header>
+                                            @if (User.IsInRole("SupperAdmin"))
+                                            {
                                                 <fieldset>
                                                     <section>
-                                                        <label class="label">地址类型：</label>
+                                                        <label class="label">服务器地址类型：</label>
                                                         <div class="inline-group">
                                                             <label class="radio">
                                                                 <input type="radio" ng-model="CommondParameters.AddressType" value="00">
@@ -196,12 +194,21 @@
                                                         </div>
                                                     </section>
                                                     <section>
-                                                        <label class="label">地址：</label>
+                                                        <label class="label">服务器地址：</label>
                                                         <label class="input">
                                                             <input type="text" ng-model="CommondParameters.IpOrDomain">
                                                         </label>
                                                         <div class="note">
-                                                            <strong>备注：</strong> 123.57.41.22:9001 ；www.xsgps.com:9001。
+                                                            <strong>备注：</strong>IP形式(123.57.41.22)，域名形式(wx.bdisy.com)
+                                                        </div>
+                                                    </section>
+                                                    <section>
+                                                        <label class="label">服务器端口号：</label>
+                                                        <label class="input">
+                                                            <input type="text" ng-model="CommondParameters.Port">
+                                                        </label>
+                                                        <div class="note">
+                                                            <strong>备注：</strong>默认为：0000(不改变当前设置)，服务器端口号取值范围为1024-65535
                                                         </div>
                                                     </section>
                                                     <section>
@@ -236,92 +243,97 @@
                                                     </section>
 
                                                 </fieldset>
-                                                <fieldset>
-                                                    <section>
-                                                        <label class="label">工作模式：</label>
-                                                        <div class="inline-group">
-                                                            <label class="radio">
-                                                                <input type="radio" ng-model="CommondParameters.WorkModel" value="00">
-                                                                <i></i>不改变
-                                                            </label>
-                                                            <label class="radio">
-                                                                <input type="radio" ng-model="CommondParameters.WorkModel" value="01">
-                                                                <i></i>标准模式
-                                                            </label>
-                                                            <label class="radio">
-                                                                <input type="radio" ng-model="CommondParameters.WorkModel" value="02">
-                                                                <i></i>精准模式
-                                                            </label>
-                                                            <label class="radio">
-                                                                <input type="radio" ng-model="CommondParameters.WorkModel" value="03">
-                                                                <i></i>追车模式
-                                                            </label>
-                                                        </div>
-                                                    </section>
-                                                    <section>
-                                                        <label class="label">定时时间：</label>
-                                                        <label class="select">
-                                                            <select ng-init="CommondParameters.Timing = TimingOptions[0]"
-                                                                    ng-model="CommondParameters.Timing"
-                                                                    ng-options="opt as opt.label for opt in TimingOptions"></select>
-                                                            <i></i>
+                                            }
+                                            <fieldset>
+                                                <section>
+                                                    <label class="label">工作模式：</label>
+                                                    <div class="inline-group">
+                                                        <label class="radio">
+                                                            <input type="radio" ng-model="CommondParameters.WorkModel" value="00">
+                                                            <i></i>不改变
                                                         </label>
-                                                        <div class="note">
-                                                            <strong>功能描述：</strong>终端每天第一次上报位置信息的时间。
-                                                        </div>
-                                                    </section>
-                                                    <section>
-                                                        <label class="label">定位次数</label>
-                                                        <label class="input">
-                                                            <input type="text" ng-model="CommondParameters.PostionCount">
+                                                        <label class="radio">
+                                                            <input type="radio" ng-model="CommondParameters.WorkModel" value="01">
+                                                            <i></i>标准模式
                                                         </label>
-                                                        <div class="note">
-                                                            <strong>功能描述：</strong> 终端数据上传定位数据的次数，以天为单位。
-                                                        </div>
-                                                    </section>
-                                                    <section>
-                                                        <label class="label">工作时间</label>
-                                                        <label class="input">
-                                                            <input type="text" ng-model="CommondParameters.WorkTime">
+                                                        <label class="radio">
+                                                            <input type="radio" ng-model="CommondParameters.WorkModel" value="02">
+                                                            <i></i>精准模式
                                                         </label>
-                                                        <div class="note">
-                                                            <strong>功能描述：</strong> 终端每次启动后工作时间。（终端只有在该时间段内处于工作状态，其他时间处在深度睡眠状态。
-                                                        </div>
-                                                    </section>
-                                                    <section>
-                                                        <label class="label">追车间隔时间</label>
-                                                        <label class="input">
-                                                            <input type="text" ng-model="CommondParameters.IntervalTime1">
+                                                        <label class="radio">
+                                                            <input type="radio" ng-model="CommondParameters.WorkModel" value="03">
+                                                            <i></i>追车模式
                                                         </label>
-                                                        <div class="note">
-                                                            <strong>功能描述：</strong> 追车模式数据上传间隔时间，单位为秒。
-                                                        </div>
-                                                    </section>
-                                                </fieldset>
-                                                <fieldset>
-                                                    <section>
-                                                        <ul class="list-unstyled">
-                                                            <li><i class="fa fa-warning text-warning"></i> 设备出厂时，默认上传位置信息的频率为 1次/天</li>
-                                                            <li class="text-success"><i class="fa fa fa-bell text-danger"></i><strong>为延长设备的使用寿命：标准模式、精准模式设置次数不得超过 24次/天（1次/小时）；追车模式下数据发送间隔最小60秒最大3600秒;0为不设置。</strong> </li>
-                                                            <li><i class="fa fa-warning text-warning"></i> 在下次信息回传前，向设备发送多条命令信息，只有最后一条命令有效。</li>
-                                                        </ul>
-                                                    </section>
-                                                </fieldset>
-                                                <div class="alert alert-success fade in">
-                                                    <i class="fa-fw fa fa-check"></i>
-                                                    <strong>准备设置参数</strong>
-                                                </div>
-                                                <ul class="list-inline">
+                                                    </div>
+                                                </section>
+                                                <section>
+                                                    <label class="label">定时时间：</label>
+                                                    <label class="select">
+                                                        <select ng-init="CommondParameters.Timing = TimingOptions[0]"
+                                                                ng-model="CommondParameters.Timing"
+                                                                ng-options="opt as opt.label for opt in TimingOptions"></select>
+                                                        <i></i>
+                                                    </label>
+                                                    <div class="note">
+                                                        <strong>功能描述：</strong>终端每天第一次上报位置信息的时间。
+                                                    </div>
+                                                </section>
+                                                <section>
+                                                    <label class="label">定位次数</label>
+                                                    <label class="input">
+                                                        <input type="text" ng-model="CommondParameters.PostionCount">
+                                                    </label>
+                                                    <div class="note">
+                                                        <strong>功能描述：</strong> 终端数据上传定位数据的次数，以天为单位；0为不改变当前设置。
+                                                    </div>
+                                                </section>
+                                                <section>
+                                                    <label class="label">工作时间</label>
+                                                    <label class="input">
+                                                        <input type="text" ng-model="CommondParameters.WorkTime">
+                                                    </label>
+                                                    <div class="note">
+                                                        <strong>功能描述：</strong> 终端每次启动后工作时间。（终端只有在该时间段内处于工作状态，其他时间处在深度睡眠状态。
+                                                    </div>
+                                                </section>
+                                                <section>
+                                                    <label class="label">追车间隔时间</label>
+                                                    <label class="input">
+                                                        <input type="text" ng-model="CommondParameters.IntervalTime">
+                                                    </label>
+                                                    <div class="note">
+                                                        <strong>功能描述：</strong> 追车模式数据上传间隔时间，单位为秒。
+                                                    </div>
+                                                </section>
+                                            </fieldset>
+                                            <fieldset>
+                                                <section>
+                                                    <ul class="list-unstyled">
+                                                        <li><i class="fa fa-warning text-warning"></i> 设备出厂时，默认上传位置信息的频率为 1次/天</li>
+                                                        <li class="text-success"><i class="fa fa fa-bell text-danger"></i><strong>为延长设备的使用寿命：标准模式、精准模式设置次数不得超过 24次/天（1次/小时）；追车模式下数据发送间隔最小60秒最大3600秒;0为不设置。</strong> </li>
+                                                        <li><i class="fa fa-warning text-warning"></i> 在下次信息回传前，向设备发送多条命令信息，只有最后一条命令有效。</li>
+                                                    </ul>
+                                                </section>
+                                            </fieldset>
+                                            <div class="alert alert-success fade in">
+                                                <i class="fa-fw fa fa-check"></i>
+                                                <strong>准备设置参数</strong>
+                                            </div>
+                                            <ul class="list-inline">
+                                                @if (User.IsInRole("SupperAdmin"))
+                                                {
                                                     <li class="text-primary" ng-switch on="CommondParameters.AddressType">
-                                                        <strong>地址类型：</strong>
+                                                        <strong>服务器地址类型：</strong>
                                                         <span ng-switch-when="00">不改变</span>
                                                         <span ng-switch-when="01">域名</span>
                                                         <span ng-switch-when="02">IP地址</span>
                                                     </li>
                                                     <li class="text-primary">
-                                                        <strong>地址：</strong><span>{{CommondParameters.IpOrDomain}}</span>
+                                                        <strong>服务器地址：</strong><span>{{CommondParameters.IpOrDomain}}</span>
                                                     </li>
-
+                                                    <li class="text-primary">
+                                                        <strong>服务器端口号：</strong><span>{{CommondParameters.Port}}</span>
+                                                    </li>
                                                     <li class="text-primary" ng-switch on="CommondParameters.WorkStatue">
                                                         <strong>终端工作状态：</strong>
                                                         <span ng-switch-when="00">不改变</span>
@@ -333,59 +345,58 @@
                                                         <strong>累计工作小时：</strong>
                                                         <span>{{CommondParameters.TootalWorkTime}}</span>
                                                     </li>
-                                                    <li class="text-primary" ng-switch on="CommondParameters.WorkModel">
-                                                        <strong>工作模式：</strong>
-                                                        <span ng-switch-when="00">不改变</span>
-                                                        <span ng-switch-when="01">标准模式 </span>
-                                                        <span ng-switch-when="02">精准模式</span>
-                                                        <span ng-switch-when="03">追车模式</span>
-                                                    </li>
-                                                    <li class="text-primary">
-                                                        <strong>定时启动时间：</strong>
-                                                        <span>{{CommondParameters.Timing.label}}</span>
-                                                    </li>
-                                                    <li class="text-primary">
-                                                        <strong>定位次数：</strong>
-                                                        <span>{{CommondParameters.PostionCount}}次/天</span>
-                                                    </li>
-                                                    <li class="text-primary">
-                                                        <strong>工作时间：</strong>
-                                                        <span>{{CommondParameters.WorkTime}}分钟</span>
-                                                    </li>
-                                                    <li class="text-primary">
-                                                        <strong>间隔时间时间：</strong>
-                                                        <span>{{1440/CommondParameters.PostionCount}}分钟</span>
-                                                    </li>
-                                                    <li class="text-primary">
-                                                        <strong>追车间隔时间：</strong>
-                                                        <span>{{CommondParameters.IntervalTime}}秒</span>
-                                                    </li>
-                                                </ul>
-                                                <footer>
-                                                    <button type="button" class="btn btn-primary" ng-click="setParameterSubmit()">
-                                                        设置参数
-                                                    </button>
-                                                    <button type="submit" class="btn btn-primary">
-                                                        激活
-                                                    </button>
-                                                </footer>
-                                            </form>
-                                        </tab>
-                                        <tab heading="有线智能终端v1.0">
+                                                }
+                                                <li class="text-primary" ng-switch on="CommondParameters.WorkModel">
+                                                    <strong>工作模式：</strong>
+                                                    <span ng-switch-when="00">不改变</span>
+                                                    <span ng-switch-when="01">标准模式 </span>
+                                                    <span ng-switch-when="02">精准模式</span>
+                                                    <span ng-switch-when="03">追车模式</span>
+                                                </li>
+                                                <li class="text-primary">
+                                                    <strong>定时启动时间：</strong>
+                                                    <span>{{CommondParameters.Timing.label}}</span>
+                                                </li>
+                                                <li class="text-primary">
+                                                    <strong>定位次数：</strong>
+                                                    <span>{{CommondParameters.PostionCount}}次/天（0为不改变当前设置）</span>
+                                                </li>
+                                                <li class="text-primary">
+                                                    <strong>工作时间：</strong>
+                                                    <span>{{CommondParameters.WorkTime}}分钟</span>
+                                                </li>
+                                                <li class="text-primary" ng-switch on="CommondParameters.PostionCount">
+                                                    <strong>间隔时间时间：</strong>
+                                                    <span ng-switch-when="0">不改变当前设置</span>
+                                                    <span ng-switch-default>{{1440/CommondParameters.PostionCount | number:0}}分钟</span>
+                                                </li>
+                                                <li class="text-primary">
+                                                    <strong>追车间隔时间：</strong>
+                                                    <span>{{CommondParameters.IntervalTime}}秒</span>
+                                                </li>
+                                            </ul>
+                                            <footer>
+                                                <button type="button" class="btn btn-primary" ng-click="setParameterSubmit()">
+                                                    设置参数
+                                                </button>
+                                            </footer>
+                                        </form>
+                                    </tab>
+                                    <tab heading="有线智能终端v1.0">
+                                    </tab>
 
-
-
-                                        </tab>
-
-                                    </tabset>
-                                </div>
+                                </tabset>
                             </div>
                         </div>
-                        <!-- end widget div -->
-                    </div>*@
+                    </div>
+                    <!-- end widget div -->
+                </div>
                 <!-- end widget -->
+            </article>
+            <article class="col-sm-12 col-md-12 col-lg-12">
+
                 <!-- new widget -->
-                <div class="jarviswidget" id="wid-id-3" data-widget-editbutton="false" data-widget-fullscreenbutton="false">
+                <div class="jarviswidget" id="wid-id-3" data-widget-colorbutton="false" data-widget-editbutton="false">
                     <!-- widget options:
                     usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
                     data-widget-colorbutton="false"
@@ -401,7 +412,6 @@
                         <span class="widget-icon"> <i class="fa fa-comments"></i> </span>
                         <h2> 运行记录 </h2>
                         <div class="widget-toolbar">
-                            <!-- add: non-hidden - to disable auto hide -->
 
                         </div>
                     </header>
@@ -416,7 +426,9 @@
                         </div>
                         <!-- end widget edit box -->
                         <div class="widget-body no-padding" id="Operates" ng-controller="TodoController">
-                            <div class="widget-body-toolbar"></div>
+                            <div class="widget-body-toolbar">
+                                已定位次数： {{totalItems}}次
+                            </div>
                             <div class="table-responsive">
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -440,25 +452,66 @@
                                                                         <span ng-switch-when="1">当前状态：<span class="btn btn-xs btn-danger"><i class="fa fa-comment-o "></i>命令等待发送中</span></span>
                                                                     </p>
                                                                     <p>命令设置时间：<strong> {{todo.OperateDateTime}}</strong> </p>
-                                                                    <p>定位次数：{{todo.CommandJsonData.PostionCount}}次/天,工作时间：{{todo.CommandJsonData.WorkTime}}分钟,间隔时间时间：{{1440/todo.CommandJsonData.PostionCount}}分钟</p>
+                                                                    <p>
+                                                                        定位次数：{{todo.CommandJsonData.PostionCount}}次/天（0为不改变当前设置）
+                                                                        ，
+                                                                        工作状态：<span ng-switch on="todo.CommandJsonData.WorkStatue">
+                                                                            <span ng-switch-when="00">不改变</span>
+                                                                            <span ng-switch-when="01">测试</span>
+                                                                            <span ng-switch-when="02">待激活</span>
+                                                                            <span ng-switch-when="03">已激活</span>
+                                                                            <span ng-switch-when="04">已拆除</span>
+                                                                        </span>，
+                                                                        工作模式：<span ng-switch on="todo.CommandJsonData.WorkModel">
+                                                                            <span ng-switch-when="00">不改变</span>
+                                                                            <span ng-switch-when="01">标准</span>
+                                                                            <span ng-switch-when="02">精准</span>
+                                                                            <span ng-switch-when="03">追车</span>
+                                                                        </span>，
+                                                                        工作时间：{{todo.CommandJsonData.WorkTime}}分钟
+                                                                        ，追车模式间隔时间：{{todo.CommandJsonData.IntervalTime}}秒
+                                                                    </p>
+                                                                    <p>定时启动时间：{{todo.CommandJsonData.Timing.label}}</p>
                                                                     <p>操作人：{{todo.UserName}}</p>
                                                                 </div>
                                                             </div>
                                                             <div ng-switch-when="2">
                                                                 <div class="well well-sm display-inline">
-                                                                    <p>ACC状态：{{todo.ReceiveTData.AccStatus}}</p>
-                                                                    <p>总工时：{{todo.ReceiveTData.TootalWorkTime/60}}小时</p>
-                                                                    <p>电池电压：{{todo.ReceiveTData.BatteryVoltage}}V</p>
-                                                                    <p>当前位置：{{todo.ReceiveTData.Pos}}</p>
+                                                                    <p>总工作小时：{{todo.ReceiveTData.TootalWorkTime/60/60 | number:2}}小时，电池电压：{{todo.ReceiveTData.BatteryVoltage}}V，信号强度：{{todo.ReceiveTData.GsmSignal}}</p>
+                                                                    <p>当前位置：<span class="btn bg-color-green txt-color-white " ng-click="ShowMap(todo.ReceiveTData.Lat,todo.ReceiveTData.Lng)">{{todo.ReceiveTData.Pos}}</span></p>
                                                                     <p>经度：{{todo.ReceiveTData.Lat}},纬度：{{todo.ReceiveTData.Lng}},速度：{{todo.ReceiveTData.Gspeed}},方向：{{todo.ReceiveTData.GsDirection}}</p>
-                                                                    <p>定位时间：<strong> {{todo.ReceiveTData.Ptime}}</strong> </p>
-                                                                    <p>是否定位：{{todo.ReceiveTData.IsPos =="A" ?"GPS定位":"基站定位"}}</p>
-                                                                    <p>基站信息：LAC({{todo.ReceiveTData.LAC}}),CID({{todo.ReceiveTData.CID}})</p>
-                                                                    <p>信号强度：{{todo.ReceiveTData.GsmSignal}}</p>
+                                                                    <p>
+                                                                        数据上传时间：<strong> {{todo.ReceiveTData.Rtime | date : 'yyyy-MM-dd HH:mm:ss'}}</strong>
+                                                                        ，定位时间：<strong> {{todo.ReceiveTData.Ptime | date : 'yyyy-MM-dd HH:mm:ss'}}</strong>
+                                                                    </p>
+                                                                    <p>
+                                                                        定位方式：{{todo.ReceiveTData.IsPos =="A" ?"精准定位":"标准定位"}}，
+                                                                        基站定位信息：LAC({{todo.ReceiveTData.LAC}}),CID({{todo.ReceiveTData.CID}})
+                                                                    </p>
+                                                                    <p>重启次数：{{todo.ReceiveTData.StartCount}}次，ACC状态：{{todo.ReceiveTData.AccStatus}}</p>
                                                                     <hr />
-                                                                    <p>盲区数据：{{todo.ReceiveTData.BlindSign}}，盲区数据条数：{{todo.ReceiveTData.BlindDataCount}}</p>
-                                                                    <p>工作状态：{{todo.ReceiveTData.WorkStatue}}，工作模式：{{todo.ReceiveTData.WorkModel}}，工作时间：{{todo.ReceiveTData.WorkTime}}分钟</p>
-                                                                    <p>休眠时间：{{todo.ReceiveTData.SleepTime}}分钟，追车模式间隔时间：{{todo.ReceiveTData.IntervalTime}}秒</p>
+                                                                    <p>
+                                                                        盲区数据：<span ng-switch on="todo.ReceiveTData.BlindSign">
+                                                                            <span ng-switch-when="1" class="btn bg-color-orange txt-color-white">盲区数据</span>
+                                                                            <span ng-switch-when="2" class="btn bg-color-green txt-color-white">正常数据</span>
+                                                                        </span>，
+                                                                        盲区数据条数：{{todo.ReceiveTData.BlindDataCount}}条
+                                                                    </p>
+                                                                    <p>
+                                                                        工作状态：<span ng-switch on="todo.ReceiveTData.WorkStatue">
+                                                                            <span ng-switch-when="1">测试</span>
+                                                                            <span ng-switch-when="2">待激活</span>
+                                                                            <span ng-switch-when="3">已激活</span>
+                                                                            <span ng-switch-when="4">已拆除</span>
+                                                                        </span>，
+                                                                        工作模式：<span ng-switch on="todo.ReceiveTData.WorkModel">
+                                                                            <span ng-switch-when="1">标准</span>
+                                                                            <span ng-switch-when="2">精准</span>
+                                                                            <span ng-switch-when="3">追车</span>
+                                                                        </span>，
+                                                                        工作时间：{{todo.ReceiveTData.WorkTime}}分钟，
+                                                                        休眠时间：{{todo.ReceiveTData.SleepTime}}分钟，追车模式间隔时间：{{todo.ReceiveTData.IntervalTime}}秒
+                                                                    </p>
                                                                 </div>
                                                             </div>
                                                             <div ng-switch-when="3">
@@ -466,7 +519,7 @@
 
                                                                     <p>当前状态：<span class="btn btn-xs btn-default"><i class="fa fa-comment-o "></i>命令已下发</span></p>
                                                                     <p>命令下发时间：<strong> {{todo.OperateDateTime}}</strong> </p>
-                                                                    <p>操作人：system</p>
+                                                                    <p>操作人：服务器</p>
                                                                 </div>
                                                             </div>
                                                             <div ng-switch-when="4">
@@ -490,7 +543,7 @@
                                 </div>
                             </div>
                             <div class="widget-footer">
-                                <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()"></pagination>
+                                <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()" previous-text="上一页" next-text="下一页"></pagination>
                             </div>
                         </div>
                     </div>
@@ -592,6 +645,7 @@
         }
         //添加点标记
         function addMarker(LngLatX, LngLatY) {
+            mapObj.clearMap();
             //var LngLatX = "116.405467"; //获取Lng值
             //var LngLatY = "39.907761"; //获取Lat值
             marker = new AMap.Marker({
@@ -599,7 +653,7 @@
                 position: new AMap.LngLat(LngLatX, LngLatY)
             });
             marker.setMap(mapObj);  //在地图上添加点
-            marker.setAnimation('AMAP_ANIMATION_BOUNCE'); //设置点标记的动画效果，此处为弹跳效果
+            //  marker.setAnimation('AMAP_ANIMATION_BOUNCE'); //设置点标记的动画效果，此处为弹跳效果
             mapObj.setFitView(); //调整到合理视野
         }
         function startRuler() {
@@ -607,7 +661,7 @@
         }
 
         //已知点坐标
-        var lnglatXY = new AMap.LngLat('@Model.GpsPlog', '@Model.GpsPlat');
+        var lnglatXY = new AMap.LngLat('@Model.Lng', '@Model.Lat');
         function geocoder() {
             var MGeocoder;
             //加载地理编码插件
@@ -676,7 +730,7 @@
             }
             poiinfo += "</table>";
             //返回结果拼接输出
-            resultStr = "<span class='text-info'>地址：" + address + "</span></br/><span class='text-info'>周边道路信息</span>" + roadinfo + "<span class='text-info'>周边兴趣点信息</span>" + poiinfo + "";
+            resultStr = "<span class='text-info'>地址：" + address + "</span></br/><span class='text-info'>周边道路信息</span>" + roadinfo;
             document.getElementById("result").innerHTML = resultStr;
         }
         //绘制圆形围栏
@@ -769,7 +823,7 @@
             ];
 
             //指令参数
-            $scope.CommondParameters = { AddressType: "00", IpOrDomain: "123.57.41.22:9001", WorkStatue: "00", TootalWorkTime: "00", WorkModel: "00", Timing: "0", PostionCount: "1", WorkTime: "2", IntervalTime1: "0" };
+            $scope.CommondParameters = { AddressType: "00", IpOrDomain: "wx.bdisy.com", Port: "0000", WorkStatue: "00", TootalWorkTime: "00", WorkModel: "00", Timing: "0", PostionCount: "0", WorkTime: "2", IntervalTime: "0" };
             $scope.IMEI = "";
             // timing
             $scope.TimingOptions = [
@@ -842,13 +896,14 @@
             };
             $scope.pageChanged = function () {
                 //  $window.alert($scope.currentPage);
-                $log.log('Page changed to: ' + $scope.currentPage);
+                // $log.log('Page changed to: ' + $scope.currentPage);
             };
             //每页显示记录数
-            $scope.numPerPage = 10,
+            $scope.numPerPage = 5;
+            $scope.maximum = 5;
             //最多显示分页数
-            $scope.maxSize = 5;
-            $scope.bigTotalItems = 175;
+            $scope.maxSize = 10;
+            $scope.bigTotalItems = 5;
             $scope.bigCurrentPage = 1;
             $scope.$watch('currentPage + numPerPage', function () {
                 $scope.GetData();
@@ -859,9 +914,8 @@
                   success(function (data, status, headers, config) {
                       // this callback will be called asynchronously
                       // when the response is available
-
                       $scope.totalItems = data.records;
-                      $scope.maxSize = data.total;
+                      // $scope.maxSize = data.total;
                       $scope.currentPage = data.page;
                       $scope.filteredTodos = data.rows;
 
@@ -870,6 +924,11 @@
                       // called asynchronously if an error occurs
                       // or server returns response with an error status.
                   });
+            }
+            //查看地图点击事件
+            $scope.ShowMap = function (lat, lng) {
+                $window.scrollTo(0, 0);
+                addMarker(lng, lat);
             }
 
         });

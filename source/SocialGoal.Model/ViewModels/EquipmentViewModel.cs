@@ -10,11 +10,15 @@ namespace SocialGoal.Model.ViewModels
     {
         public string EquipmentId { get; set; }
         //车牌号
-        [Display(Name = "车牌号")]
+        [Display(Name = "车号")]
+        [Required]
         public string EquipmentNum { get; set; }
         //机器系列号
-        [Display(Name = "机器系列号")]
+        [Display(Name = "车牌号")]
         public string EquipmentName { get; set; }
+        //发动机号
+        [Display(Name = "发动机号")]
+        public string EngineNum { get; set; }
         //机主/车主信息
         [Display(Name = "车主姓名")]
         public string OwnerName { get; set; }
@@ -38,9 +42,12 @@ namespace SocialGoal.Model.ViewModels
         public string InstallSite { get; set; }
         public string EquipmentTypeId { get; set; }
 
+        public string TerminalEquipmentCount { get; set; }
+
         //所属企业ID   
         public string OrgEnterpriseId { get; set; }
         public string OrgEnterpriseIdSelect2 { get; set; }
+        public string TerminalEquipmentIdSelect2 { get; set; }
         public string OrgEnterpriseName { get; set; }
         public DateTime EquipmentCreatTime { get; set; }
         public DateTime EquipmentUpDateTime { get; set; }

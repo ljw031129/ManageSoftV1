@@ -71,6 +71,8 @@ namespace SocialGoal.Controllers
                             TerminalSimCardNum = item.TerminalSimCardNum,
                             TerminalSimCardSerialNum = item.TerminalSimCardSerialNum,
                             TerminalSimCardState = item.TerminalSimCardState,
+                            TerminalSimCardDescribe = item.TerminalSimCardDescribe,
+                            TerminalSimCardUserTime = item.TerminalSimCardUserTime,
                             TerminalSimCardUpdateTime = item.TerminalSimCardUpdateTime,
                             TerminalSimCardCreateTime = item.TerminalSimCardCreateTime
                         }).ToArray()
@@ -113,10 +115,10 @@ namespace SocialGoal.Controllers
                     }
                 }
             }
-          
+
             // 定义错误代码;
-            HttpContext.Response.StatusCode = 400;           
-            return Json(new {success = false, errors = GetErrorsFromModelState() });
+            HttpContext.Response.StatusCode = 400;
+            return Json(new { success = false, errors = GetErrorsFromModelState() });
         }
 
         private IEnumerable<string> GetErrorsFromModelState()

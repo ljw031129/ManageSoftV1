@@ -32,10 +32,10 @@ namespace SocialGoal.Web.API.Controllers
                 rows = (from item in ReceiveDatas.ToList()
                         select new
                         {
-                            ReceiveTime = item.ReceiveTime,
-                            GpsPlat = item.GpsPlat,
-                            GpsPlog = item.GpsPlog,
-                            GpsPos = item.GpsPos
+                            ReceiveTime = item.Rtime,
+                            GpsPlat = item.Lat,
+                            GpsPlog = item.Lng,
+                            GpsPos = item.Pos
                         }).ToArray()
             };
             return result;

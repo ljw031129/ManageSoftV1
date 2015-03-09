@@ -87,8 +87,10 @@
     <Compile Include="ViewModels\OrgStructureViewModel.cs" />
     <Compile Include="ViewModels\ProtocolTestViewModel.cs" />
     <Compile Include="ViewModels\ReceiveDataLastViewModel.cs" />
+    <Compile Include="ViewModels\SelectIdText.cs" />
     <Compile Include="ViewModels\SelectKeyValue.cs" />
     <Compile Include="ViewModels\TerminalDataViewModel.cs" />
+    <Compile Include="ViewModels\TerminalEquipmentCommandCurrentViewModel.cs" />
     <Compile Include="ViewModels\TerminalEquipmentCommandViewModel.cs" />
     <Compile Include="ViewModels\TerminalEquipmentViewModel.cs" />
     <Compile Include="ViewModels\TerminalSimCardViewModel.cs" />

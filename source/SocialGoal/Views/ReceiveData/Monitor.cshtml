@@ -1,60 +1,5 @@
 ﻿@section styles{
-    <link href="~/Content/css/map.Default.css" rel="stylesheet" />
-    <style type="text/css">
-        #markerInfoLayer {
-            width: 128px;
-            height: 94px;
-            position: relative;
-            background: url("../../Content/img/marker-info-bg.png") no-repeat;
-            font-size: 12px;
-            color: #fff;
-        }
-
-            #markerInfoLayer p, #markerInfoLayer h5 {
-                white-space: nowrap;
-                margin: 0 0 0 15px;
-                padding: 0;
-            }
-
-            #markerInfoLayer .info-layer-title {
-                height: 26px;
-                line-height: 26px;
-                overflow: hidden;
-            }
-
-                #markerInfoLayer .info-layer-title h5 {
-                    line-height: 26px;
-                    font-size: 13px;
-                }
-
-            #markerInfoLayer .info-layer-content {
-                overflow: hidden;
-                padding: 10px 0 0;
-            }
-
-                #markerInfoLayer .info-layer-content p {
-                    line-height: 23px;
-                }
-
-                #markerInfoLayer .info-layer-content .info-layer-time {
-                    margin-top: 7px;
-                }
-
-                #markerInfoLayer .info-layer-content span {
-                    margin: 0 5px 0 0;
-                    color: #F9AC66;
-                }
-
-        #divPop a, #divPop a:visited {
-            color: #0077ff;
-            text-decoration: none;
-        }
-
-            #divPop a:hover, #divPop a:active {
-                color: #ff3300;
-                text-decoration: underline;
-            }
-    </style>
+    <link href="~/Content/css/map.Default.css" rel="stylesheet" />   
 }
 <div id="content">
     <!--
@@ -113,7 +58,7 @@
             </article>
             <article class="col-sm-12 col-md-12 col-lg-12">
                 <!-- new widget -->
-                <div class="jarviswidget" id="wid-id-2" data-widget-editbutton="false" data-widget-fullscreenbutton="false">
+                <div class="jarviswidget" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false">
                     <!-- widget options:
                     usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
 
@@ -145,7 +90,6 @@
                         </div>
                         <!-- end widget edit box -->
                         <div class="widget-body no-padding">
-                            <div class="widget-body-toolbar"></div>
                             <table id="jqgrid"></table>
                             <div id="pjqgrid"></div>
                             <div class="widget-footer">
@@ -204,7 +148,7 @@
                 });
                 mapObj.addControl(overView);
             });
-           // scale.show();
+            // scale.show();
             //添加自定义点标记
             // addMarker("123456", "", "116.397428", "39.90923");
         }
@@ -287,22 +231,24 @@
             $("#mapSetHeight").click(function () {
                 //alert($("#wid-id-1").height());
                 $("#vector-map").height($("#GetWidgetBodyHeight").height());
-            });           
+            });
             jQuery("#jqgrid").jqGrid(
                 {
-                    url: '@Url.Action("GetReceiveDataLasts", "ReceiveData")',
+                    url: '@Url.Action("GetEquipmentDataLasts", "ReceiveData")',
                     datatype: "json",
                     mtype: "get",
                     colNames:
-                        [ '终端编号', '经度', '纬度', '位置', 'ACC状态','充电状态', '信息最后更新时间'],
+                        ['车号', '车牌号', '终端号', '经度', '纬度', '位置', '信息最后更新时间'],
                     colModel: [
-                        { name: 'IMEI', index: 'IMEI', editable: false, formatter: LinkFmatter, unformat: imageUnFormat },
-                        { name: 'GpsPlat', index: 'AccStatus', editable: false },
-                        { name: 'GpsPlog', index: 'TotalWorkTime', editable: false },
-                        { name: 'GpsPos', index: 'GpsPos', editable: false },
-                        { name: 'AccStatus', index: 'AccStatus', editable: false, formatter: "select", editoptions: { value: "1:开启; 0:关闭" } },
-                        { name: 'AntennaStatus', index: 'AntennaStatus', editable: false, formatter: "select", editoptions: { value: "1:已接电源充电; 0:未接电源充电" } },
-                        { name: 'ReceiveTime', index: 'ReceiveTime', editable: false, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } }
+                        { name: 'EquipmentNum', index: 'Equipment.EquipmentNum', editable: false },
+                        { name: 'EquipmentName', index: 'Equipment.EquipmentName', editable: false },
+                        { name: 'TerminalEquipmentNum', index: 'TerminalEquipmentNum', editable: false, formatter: LinkFmatter, unformat: imageUnFormat },
+                        { name: 'GpsPlat', index: 'AccStatus', editable: false, sortable: false, search: false },
+                        { name: 'GpsPlog', index: 'TotalWorkTime', editable: false, sortable: false, search: false },
+                        { name: 'GpsPos', index: 'GpsPos', editable: false, sortable: false, search: false },
+                        //{ name: 'AccStatus', index: 'AccStatus', editable: false, formatter: "select", editoptions: { value: "1:开启; 0:关闭" } },
+                        //{ name: 'AntennaStatus', index: 'AntennaStatus', editable: false, formatter: "select", editoptions: { value: "1:已接电源充电; 0:未接电源充电" } },
+                        { name: 'ReceiveTime', index: 'ReceiveDataLast.Rtime', editable: false, formatter: 'date', formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } }
 
                     ],
                     //   multiselect: true,
@@ -310,10 +256,10 @@
                     //  altRows: true,//设置为交替行表格,默认为false
                     rowNum: 10,
                     height: 'auto',
-                    autowidth: true,
+                    //autowidth: true,
                     rowList: [10, 20, 30],
                     pager: '#pjqgrid',
-                    sortname: 'ReceiveTime',
+                    sortname: 'ReceiveDataLast.Rtime',
                     viewrecords: true,//定义是否要显示总记录数
                     sortorder: "desc",
                     jsonReader: {
@@ -326,13 +272,13 @@
                     },
                     // caption: "终端信息表",
                     // shrinkToFit: false,
-                    editurl: '/api/ApiTerminalEquipment', // this is dummy existing url
+                   // editurl: '/api/ApiTerminalEquipment', // this is dummy existing url
                     gridComplete: function () {
                         var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
                         mapObj.clearMap();
                         for (var i = 0; i < ids.length; i++) {
                             var row = $("#jqgrid").getRowData(ids[i]);  //根据ID拿到一行的数据
-                            addMarker(row.IMEI, row.ReceiveTime, row.GpsPos, "", row.GpsPlog, row.GpsPlat);
+                            addMarker(row.TerminalEquipmentNum, row.ReceiveTime, row.GpsPos, "", row.GpsPlog, row.GpsPlat);
                             //setMapCenter(row.GpsPlog, row.GpsPlat);
                         }
                         setMapFitView();
@@ -347,7 +293,7 @@
                 {},
                 {},
                 {},
-                { multipleSearch: true, multipleGroup: true });
+                { multipleSearch: true, multipleGroup: false, sopt: ['eq', 'ne', 'cn'] });
             jqgridStyle();
 
             $(window).on('resize.jqGrid', function () {

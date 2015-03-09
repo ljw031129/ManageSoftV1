@@ -121,12 +121,13 @@ namespace SocialGoal.Service
         {
             Equipment equipment;
             if (newEquipment.EquipmentId == "")
-                equipment = _equipmentRepository.Get(g => g.EquipmentName == newEquipment.EquipmentName);
+                equipment = _equipmentRepository.Get(g => g.EquipmentNum == newEquipment.EquipmentNum);
             else
-                equipment = _equipmentRepository.Get(g => g.EquipmentName == newEquipment.EquipmentName && g.EquipmentId != newEquipment.EquipmentId);
+                equipment = _equipmentRepository.Get(g => g.EquipmentNum == newEquipment.EquipmentNum && g.EquipmentId != newEquipment.EquipmentId);
             if (equipment != null)
             {
-                yield return new ValidationResult("EquipmentName", Resources.GroupExists);
+                yield return new ValidationResult("EquipmentNum", "车号已存在");
+                //yield return new ValidationResult("EquipmentName", Resources.GroupExists);
             }
         }
 
@@ -136,7 +137,7 @@ namespace SocialGoal.Service
         {
             var equipment = _equipmentRepository.GetById(id);
             _equipmentRepository.Delete(equipment);
-            _equipmentRepository.Delete(gu => gu.EquipmentId == id);
+           // _equipmentRepository.Delete(gu => gu.EquipmentId == id);
 
             //取消当前设备绑定信息
             _terminalEquipmentRepository.UpdateSetTerminalEquipment(id);

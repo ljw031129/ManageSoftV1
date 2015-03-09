@@ -1,56 +1,49 @@
 ﻿    <!-- HEADER -->
 <header id="header">
     <div id="logo-group">
-
         <!-- PLACE YOUR LOGO HERE -->
-        <span id="logo"> <img src="~/content/img/logo.png" alt="SmartAdmin"> </span>
+        <span id="logo"> <img src="~/content/img/logo.png" alt="智能定位系统"> </span>
         <!-- END LOGO PLACEHOLDER -->
         @if (Request.IsAuthenticated)
         {
             <!-- Note: The activity badge color changes when clicked and resets the number to 0
             Suggestion: You may want to set a flag when this happens to tick off all checked messages / notifications -->
-            <span id="activity" class="activity-dropdown"> <i class="fa fa-user"></i> <b class="badge"> 21 </b> </span>
+            <span style="display:none" id="activity" class="activity-dropdown"> <i class="fa fa-user"></i> <b class="badge"> 21 </b> </span>
 
         <!-- AJAX-DROPDOWN : control this dropdown height, look and feel from the LESS variable file -->
-            <div class="ajax-dropdown">
-
-                <!-- the ID links are fetched via AJAX to the ajax container "ajax-notifications" -->
+            <!--报警提醒信息-->
+            <div class="ajax-dropdown" style="display:none">
+                <!-- the ID links are fetched via AJAX to the ajax container "ajax-notifications"  id="~/content/ajax/notify/mail.html"-->
                 <div class="btn-group btn-group-justified" data-toggle="buttons">
                     <label class="btn btn-default">
-                        <input type="radio" name="activity" id="~/content/ajax/notify/mail.html">
-                        Msgs (14)
+                        <input type="radio" name="activity" id="~/Home/about">
+                        无通讯预警(14)
                     </label>
                     <label class="btn btn-default">
-                        <input type="radio" name="activity" id="~/content/ajax/notify/notifications.html">
-                        notify (3)
+                        <input type="radio" name="activity" id="~/Home/about">
+                        越界预警(3)
                     </label>
                     <label class="btn btn-default">
-                        <input type="radio" name="activity" id="~/content/ajax/notify/tasks.html">
-                        Tasks (4)
+                        <input type="radio" name="activity" id="~/Home/about">
+                        系统通知(4)
                     </label>
                 </div>
-
                 <!-- notification content -->
                 <div class="ajax-notifications custom-scroll">
-
                     <div class="alert alert-transparent">
-                        <h4>Click a button to show messages here</h4>
-                        This blank page message helps protect your privacy, or you can show the first message here automatically.
+                        <h4>  报警提醒功能，开发中...</h4>
                     </div>
-
                     <i class="fa fa-lock fa-4x fa-border"></i>
-
                 </div>
                 <!-- end notification content -->
                 <!-- footer: refresh area -->
                 <span>
-                    Last updated on: 12/12/2013 9:43AM
-                    <button type="button" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Loading..." class="btn btn-xs btn-default pull-right">
+                    信息更新时间:@DateTime.Now.ToShortDateString()
+                    <button type="button" data-loading-text="<i class='fa fa-refresh fa-spin'></i>加载..." class="btn btn-xs btn-default pull-right">
                     <i class="fa fa-refresh"></i>
                 </button>
                 </span>
                 <!-- end footer -->
-
             </div>
             <!-- END AJAX-DROPDOWN -->
         }
@@ -58,11 +51,9 @@
     @if (Request.IsAuthenticated)
     {
     <!-- projects dropdown -->
-        <div class="project-context hidden-xs">
-
+        <div class="project-context hidden-xs" style="display:none">
             <span class="label">提醒:</span>
             <span class="project-selector dropdown-toggle" data-toggle="dropdown">更新记录 <i class="fa fa-angle-down"></i></span>
-
             <!-- Suggestion: populate this list with fetch and push technique -->
             <ul class="dropdown-menu">
                 <li>
@@ -80,7 +71,6 @@
                 </li>
             </ul>
             <!-- end dropdown-menu-->
-
         </div>
     <!-- end projects dropdown -->
     }

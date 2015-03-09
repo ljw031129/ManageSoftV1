@@ -16,6 +16,8 @@ namespace SocialGoal.Service
         void Save();
 
         Task<IEnumerable<TerminalEquipmentCommand>> GetTerminalEquipmentCommands(string IMEI, int currentPage, int numPerPage, out int count);
+
+        Task<IEnumerable<TerminalEquipmentCommandCurrent>> GetTerminalEquipmentCurrentCommands( List<String> ls,int currentPage, int numPerPage, out int count);
     }
     public class TerminalEquipmentCommandService : ITerminalEquipmentCommandService
     {
@@ -84,6 +86,13 @@ namespace SocialGoal.Service
         public Task<IEnumerable<TerminalEquipmentCommand>> GetTerminalEquipmentCommands(string IMEI, int currentPage, int numPerPage, out int count)
         {
             IEnumerable<TerminalEquipmentCommand> re = _terminalEquipmentCommandRepository.GetTerminalEquipmentCommands(IMEI, currentPage, numPerPage, out count);
+            return Task.FromResult(re);
+        }
+
+
+        public Task<IEnumerable<TerminalEquipmentCommandCurrent>> GetTerminalEquipmentCurrentCommands( List<String> ls,int currentPage, int numPerPage, out int count)
+        {
+            IEnumerable<TerminalEquipmentCommandCurrent> re = _terminalEquipmentCommandCurrentRepository.GetTerminalEquipmenttCurrentCommands(ls,currentPage, numPerPage, out count);
             return Task.FromResult(re);
         }
     }
